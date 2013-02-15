@@ -66,7 +66,7 @@ public final class JacksonUtils
 
     /**
      * Return a preconfigured {@link JsonNodeFactory} to generate JSON data as
-     * {@link com.fasterxml.jackson.databind.JsonNode}s
+     * {@link JsonNode}s
      *
      * @return the factory
      */
