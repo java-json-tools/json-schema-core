@@ -1,0 +1,7 @@
+com.github.fge.jsonschema.exceptions
+com.github.fge.jsonschema.exceptions.unchecked
+com.github.fge.jsonschema.jsonpointer
+com.github.fge.jsonschema.messages
+com.github.fge.jsonschema.processing
+com.github.fge.jsonschema.report
+com.github.fge.jsonschema.util
