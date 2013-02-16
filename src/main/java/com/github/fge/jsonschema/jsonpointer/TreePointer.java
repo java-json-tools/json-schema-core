@@ -77,6 +77,11 @@ public abstract class TreePointer<T extends TreeNode>
         return ret == null ? missing : ret;
     }
 
+    public final boolean isEmpty()
+    {
+        return tokenResolvers.isEmpty();
+    }
+
     @Override
     public final Iterator<TokenResolver<T>> iterator()
     {

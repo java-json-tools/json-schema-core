@@ -3,6 +3,7 @@ package com.github.fge.jsonschema.jsonpointer;
 import com.fasterxml.jackson.core.TreeNode;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -118,6 +119,20 @@ public final class TreePointerTest
         verify(token2, never()).get(any(TreeNode.class));
 
         assertSame(ret, missing);
+    }
+
+    @Test
+    public void treePointerCanTellWhetherItIsEmpty()
+    {
+        final List<TokenResolver<TreeNode>> list = Lists.newArrayList();
+
+        assertTrue(new DummyPointer(null, list).isEmpty());
+
+        @SuppressWarnings("unchecked")
+        final TokenResolver<TreeNode> mock = mock(TokenResolver.class);
+
+        list.add(mock);
+        assertFalse(new DummyPointer(null, list).isEmpty());
     }
 
     private static final class DummyPointer
