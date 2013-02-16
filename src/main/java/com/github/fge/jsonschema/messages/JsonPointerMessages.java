@@ -21,6 +21,7 @@ public enum JsonPointerMessages
 {
     ILLEGAL_ESCAPE("bad escape seqeunce: '~' not followed by a valid token"),
     EMPTY_ESCAPE("bad escape sequence: '~' not followed by any token"),
+    NOT_SLASH("illegal pointer: expected a slash to separate tokens"),
     ;
     private final String message;
 
