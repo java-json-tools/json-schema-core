@@ -20,7 +20,7 @@ package) or the full chain.</p>
 
 <h2>Version</h2>
 
-<p>The current verson is <b>0.99.1</b>.</p>
+<p>The current verson is <b>0.99.1</b> ([ChangeLog](wiki/ChangeLog)).</p>
 
 <h2>Maven artifact</h2>
 
