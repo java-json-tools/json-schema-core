@@ -1,8 +1,10 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
+import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -10,6 +12,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -106,5 +109,17 @@ public final class JsonPointerTest
         final JsonPointer expected = new JsonPointer("/a/b/c/d");
 
         assertEquals(ptr.append(appended), expected);
+    }
+
+    @DataProvider
+    public Iterator<Object[]> allInstanceTypes()
+    {
+        return SampleNodeProvider.getSamples(EnumSet.allOf(NodeType.class));
+    }
+
+    @Test(dataProvider = "allInstanceTypes")
+    public void emptyPointerAlwaysReturnsTheSameInstance(final JsonNode node)
+    {
+        assertEquals(JsonPointer.empty().get(node), node);
     }
 }
