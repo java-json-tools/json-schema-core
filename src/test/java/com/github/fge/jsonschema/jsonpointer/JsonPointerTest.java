@@ -122,4 +122,27 @@ public final class JsonPointerTest
     {
         assertEquals(JsonPointer.empty().get(node), node);
     }
+
+    @Test
+    public void staticConstructionFromTokensWorks()
+        throws JsonPointerException
+    {
+        JsonPointer ptr1, ptr2;
+
+        ptr1 = JsonPointer.of("a", "b");
+        ptr2 = new JsonPointer("/a/b");
+        assertEquals(ptr1, ptr2);
+
+        ptr1 = JsonPointer.of("", "/", "~");
+        ptr2 = new JsonPointer("//~1/~0");
+        assertEquals(ptr1, ptr2);
+
+        ptr1 = JsonPointer.of(1, "xx", 0);
+        ptr2 = new JsonPointer("/1/xx/0");
+        assertEquals(ptr1, ptr2);
+
+        ptr1 = JsonPointer.of("");
+        ptr2 = new JsonPointer("/");
+        assertEquals(ptr1, ptr2);
+    }
 }

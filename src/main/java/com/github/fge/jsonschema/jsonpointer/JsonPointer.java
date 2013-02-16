@@ -18,6 +18,18 @@ public final class JsonPointer
         return EMPTY;
     }
 
+    public static JsonPointer of(final Object first, final Object... other)
+    {
+        final List<ReferenceToken> tokens = Lists.newArrayList();
+
+        tokens.add(ReferenceToken.fromRaw(first.toString()));
+
+        for (final Object o: other)
+            tokens.add(ReferenceToken.fromRaw(o.toString()));
+
+        return new JsonPointer(fromTokens(tokens));
+    }
+
     public JsonPointer(final String input)
         throws JsonPointerException
     {
@@ -60,6 +72,15 @@ public final class JsonPointer
         for (final ReferenceToken refToken: tokensFromInput(input))
             list.add(new JsonNodeResolver(refToken));
 
+        return list;
+    }
+
+    private static List<TokenResolver<JsonNode>> fromTokens(
+        final List<ReferenceToken> tokens)
+    {
+        final List<TokenResolver<JsonNode>> list = Lists.newArrayList();
+        for (final ReferenceToken token: tokens)
+            list.add(new JsonNodeResolver(token));
         return list;
     }
 }
