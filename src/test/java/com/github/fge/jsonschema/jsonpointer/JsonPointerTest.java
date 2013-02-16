@@ -74,4 +74,37 @@ public final class JsonPointerTest
 
         assertEquals(pointer.get(document), expected);
     }
+
+    @Test
+    public void appendingRawTokensToAPointerWorks()
+        throws JsonPointerException
+    {
+        final JsonPointer ptr = new JsonPointer("/foo/bar");
+        final String raw = "/0~";
+        final JsonPointer expected = new JsonPointer("/foo/bar/~10~0");
+
+        assertEquals(ptr.append(raw), expected);
+    }
+
+    @Test
+    public void appendingIndicesToAPointerWorks()
+        throws JsonPointerException
+    {
+        final JsonPointer ptr = new JsonPointer("/foo/bar/");
+        final int index = 33;
+        final JsonPointer expected = new JsonPointer("/foo/bar//33");
+
+        assertEquals(ptr.append(index), expected);
+    }
+
+    @Test
+    public void appendingOnePointerToAnotherWorks()
+        throws JsonPointerException
+    {
+        final JsonPointer ptr = new JsonPointer("/a/b");
+        final JsonPointer appended = new JsonPointer("/c/d");
+        final JsonPointer expected = new JsonPointer("/a/b/c/d");
+
+        assertEquals(ptr.append(appended), expected);
+    }
 }

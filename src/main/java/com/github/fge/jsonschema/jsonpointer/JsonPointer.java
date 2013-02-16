@@ -13,6 +13,11 @@ public final class JsonPointer
     private static final JsonPointer EMPTY
         = new JsonPointer(ImmutableList.<TokenResolver<JsonNode>>of());
 
+    public static JsonPointer empty()
+    {
+        return EMPTY;
+    }
+
     public JsonPointer(final String input)
         throws JsonPointerException
     {
@@ -22,6 +27,30 @@ public final class JsonPointer
     private JsonPointer(final List<TokenResolver<JsonNode>> tokenResolvers)
     {
         super(MissingNode.getInstance(), tokenResolvers);
+    }
+
+    public JsonPointer append(final String raw)
+    {
+        final ReferenceToken refToken = ReferenceToken.fromRaw(raw);
+        final JsonNodeResolver resolver = new JsonNodeResolver(refToken);
+        final List<TokenResolver<JsonNode>> newList
+            = ImmutableList.<TokenResolver<JsonNode>>builder()
+            .addAll(tokenResolvers).add(resolver).build();
+        return new JsonPointer(newList);
+    }
+
+    public JsonPointer append(final int index)
+    {
+        return append(Integer.toString(index));
+    }
+
+    public JsonPointer append(final JsonPointer other)
+    {
+        final List<TokenResolver<JsonNode>> newList
+            = ImmutableList.<TokenResolver<JsonNode>>builder()
+            .addAll(tokenResolvers)
+            .addAll(other.tokenResolvers).build();
+        return new JsonPointer(newList);
     }
 
     private static List<TokenResolver<JsonNode>> fromString(final String input)
