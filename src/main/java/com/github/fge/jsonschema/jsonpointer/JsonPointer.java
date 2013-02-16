@@ -33,10 +33,10 @@ public final class JsonPointer
     {
         final ReferenceToken refToken = ReferenceToken.fromRaw(raw);
         final JsonNodeResolver resolver = new JsonNodeResolver(refToken);
-        final List<TokenResolver<JsonNode>> newList
-            = ImmutableList.<TokenResolver<JsonNode>>builder()
-            .addAll(tokenResolvers).add(resolver).build();
-        return new JsonPointer(newList);
+        final List<TokenResolver<JsonNode>> list
+            = Lists.newArrayList(tokenResolvers);
+        list.add(resolver);
+        return new JsonPointer(list);
     }
 
     public JsonPointer append(final int index)
@@ -46,11 +46,10 @@ public final class JsonPointer
 
     public JsonPointer append(final JsonPointer other)
     {
-        final List<TokenResolver<JsonNode>> newList
-            = ImmutableList.<TokenResolver<JsonNode>>builder()
-            .addAll(tokenResolvers)
-            .addAll(other.tokenResolvers).build();
-        return new JsonPointer(newList);
+        final List<TokenResolver<JsonNode>> list
+            = Lists.newArrayList(tokenResolvers);
+        list.addAll(other.tokenResolvers);
+        return new JsonPointer(list);
     }
 
     private static List<TokenResolver<JsonNode>> fromString(final String input)
@@ -61,6 +60,6 @@ public final class JsonPointer
         for (final ReferenceToken refToken: tokensFromInput(input))
             list.add(new JsonNodeResolver(refToken));
 
-        return ImmutableList.copyOf(list);
+        return list;
     }
 }

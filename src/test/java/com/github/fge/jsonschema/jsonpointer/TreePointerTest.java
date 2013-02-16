@@ -135,6 +135,19 @@ public final class TreePointerTest
         assertFalse(new DummyPointer(null, list).isEmpty());
     }
 
+    @Test
+    public void treeIsUnalteredWhenOriginalListIsAltered()
+    {
+        final List<TokenResolver<TreeNode>> list = Lists.newArrayList();
+        final DummyPointer dummy = new DummyPointer(null, list);
+
+        @SuppressWarnings("unchecked")
+        final TokenResolver<TreeNode> mock = mock(TokenResolver.class);
+        list.add(mock);
+
+        assertTrue(dummy.isEmpty());
+    }
+
     private static final class DummyPointer
         extends TreePointer<TreeNode>
     {

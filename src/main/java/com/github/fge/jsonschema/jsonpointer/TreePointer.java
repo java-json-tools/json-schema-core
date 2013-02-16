@@ -3,6 +3,7 @@ package com.github.fge.jsonschema.jsonpointer;
 import com.fasterxml.jackson.core.TreeNode;
 import com.github.fge.jsonschema.messages.JsonPointerMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import java.util.Iterator;
@@ -21,9 +22,7 @@ public abstract class TreePointer<T extends TreeNode>
         final List<TokenResolver<T>> tokenResolvers)
     {
         this.missing = missing;
-        // WARNING: it is up to the actual constructor to ensure that the list
-        // is a copy of the original
-        this.tokenResolvers = tokenResolvers;
+        this.tokenResolvers = ImmutableList.copyOf(tokenResolvers);
     }
 
     protected TreePointer(final List<TokenResolver<T>> tokenResolvers)
