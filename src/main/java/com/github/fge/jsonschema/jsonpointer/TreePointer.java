@@ -5,6 +5,7 @@ import com.github.fge.jsonschema.messages.JsonPointerMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.Lists;
 
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class TreePointer<T extends TreeNode>
@@ -74,6 +75,12 @@ public abstract class TreePointer<T extends TreeNode>
     {
         final T ret = get(node);
         return ret == null ? missing : ret;
+    }
+
+    @Override
+    public final Iterator<TokenResolver<T>> iterator()
+    {
+        return tokenResolvers.iterator();
     }
 
     @Override
