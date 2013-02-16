@@ -57,6 +57,36 @@ public final class ReferenceToken
         return new ReferenceToken(s, s);
     }
 
+    public String getRaw()
+    {
+        return raw;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return raw.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+        if (getClass() != obj.getClass())
+            return false;
+        final ReferenceToken other = (ReferenceToken) obj;
+        return raw.equals(other.raw);
+    }
+
+    @Override
+    public String toString()
+    {
+        return cooked;
+    }
+
     private static String asRaw(final String cooked)
         throws JsonPointerException
     {
@@ -119,30 +149,5 @@ public final class ReferenceToken
         }
 
         return cooked.toString();
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return raw.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj)
-    {
-        if (obj == null)
-            return false;
-        if (this == obj)
-            return true;
-        if (getClass() != obj.getClass())
-            return false;
-        final ReferenceToken other = (ReferenceToken) obj;
-        return raw.equals(other.raw);
-    }
-
-    @Override
-    public String toString()
-    {
-        return cooked;
     }
 }
