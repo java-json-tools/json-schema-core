@@ -1,8 +1,12 @@
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.DictionaryBuildErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -25,8 +29,10 @@ public final class DictionaryBuilderTest
     {
         try {
             builder.addEntry(null, null);
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), "key must not be null");
+            fail("No exception thrown!!");
+        } catch (DictionaryBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_KEY);
         }
     }
 
@@ -35,8 +41,22 @@ public final class DictionaryBuilderTest
     {
         try {
             builder.addEntry(KEY, null);
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), "value must not be null");
+            fail("No exception thrown!!");
+        } catch (DictionaryBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_VALUE);
+        }
+    }
+
+    @Test
+    public void cannotImportFromNullDictionary()
+    {
+        try {
+            builder.addAll(null);
+            fail("No exception thrown!!");
+        } catch (DictionaryBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_DICT);
         }
     }
 

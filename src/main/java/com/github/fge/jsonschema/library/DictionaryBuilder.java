@@ -17,11 +17,14 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
+
+import static com.github.fge.jsonschema.messages.DictionaryBuildErrors.*;
 
 public final class DictionaryBuilder<T>
     implements Thawed<Dictionary<T>>
@@ -39,15 +42,21 @@ public final class DictionaryBuilder<T>
 
     public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
-        entries.put(
-            Preconditions.checkNotNull(key, "key must not be null"),
-            Preconditions.checkNotNull(value, "value must not be null")
-        );
+        if (key == null)
+            throw new DictionaryBuildError(new ProcessingMessage()
+                .message(NULL_KEY));
+        if (value == null)
+            throw new DictionaryBuildError(new ProcessingMessage()
+                .message(NULL_VALUE));
+        entries.put(key, value);
         return this;
     }
 
     public DictionaryBuilder<T> addAll(final Dictionary<T> other)
     {
+        if (other == null)
+            throw new DictionaryBuildError(new ProcessingMessage()
+                .message(NULL_DICT));
         entries.putAll(other.entries);
         return this;
     }
