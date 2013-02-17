@@ -18,7 +18,9 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
 import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
@@ -26,7 +28,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-import static com.github.fge.jsonschema.messages.ProcessingMessages.*;
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
 public final class ProcessorSelector<IN extends MessageProvider, OUT extends MessageProvider>
 {
@@ -55,6 +57,9 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
     public ProcessorSelectorPredicate<IN, OUT> when(
         final Predicate<IN> predicate)
     {
+        if (predicate == null)
+            throw new ProcessorBuildError(new ProcessingMessage()
+                .message(NULL_PREDICATE));
         return new ProcessorSelectorPredicate<IN, OUT>(this, predicate,
             byDefault);
     }
@@ -62,6 +67,9 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
     public ProcessorSelector<IN, OUT> otherwise(
         final Processor<IN, OUT> byDefault)
     {
+        if (byDefault == null)
+            throw new ProcessorBuildError(new ProcessingMessage()
+                .message(NULL_PROCESSOR));
         return new ProcessorSelector<IN, OUT>(choices, byDefault);
     }
 

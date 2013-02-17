@@ -10,7 +10,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-import static com.github.fge.jsonschema.messages.ProcessingMessages.*;
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
 public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends MessageProvider>
 {

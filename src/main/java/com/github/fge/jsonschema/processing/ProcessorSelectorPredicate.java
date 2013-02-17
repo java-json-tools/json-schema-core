@@ -17,11 +17,15 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
 import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
+
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
 public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT extends MessageProvider>
 {
@@ -39,6 +43,9 @@ public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT ex
 
     public ProcessorSelector<IN, OUT> then(final Processor<IN, OUT> processor)
     {
+        if (processor == null)
+            throw new ProcessorBuildError(new ProcessingMessage()
+                .message(NULL_PROCESSOR));
         choices.put(predicate, processor);
         return new ProcessorSelector<IN, OUT>(this);
     }

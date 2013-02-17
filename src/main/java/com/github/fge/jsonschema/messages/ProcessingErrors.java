@@ -17,13 +17,15 @@
 
 package com.github.fge.jsonschema.messages;
 
-public enum ProcessingMessages
+public enum ProcessingErrors
 {
     NO_SUITABLE_PROCESSOR("no suitable processor found"),
+    NULL_PREDICATE("predicate cannot be null"),
+    NULL_PROCESSOR("processor cannot be null"),
     ;
     private final String message;
 
-    ProcessingMessages(final String message)
+    ProcessingErrors(final String message)
     {
         this.message = message;
     }

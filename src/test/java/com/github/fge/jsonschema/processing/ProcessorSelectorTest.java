@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -30,7 +31,7 @@ import java.util.List;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ProcessingMessages.*;
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -95,6 +96,43 @@ public final class ProcessorSelectorTest
         input = mock(In.class);
         when(input.newMessage()).thenReturn(new ProcessingMessage());
         report = mock(ProcessingReport.class);
+    }
+
+    @Test
+    public void cannotInputNullPredicate()
+    {
+        try {
+            new ProcessorSelector<In, Out>().when(null).then(null);
+            fail("No exception thrown!!");
+        } catch (ProcessorBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_PREDICATE);
+        }
+    }
+
+    @Test
+    public void cannotInputNullProcessor()
+    {
+        try {
+            new ProcessorSelector<In, Out>().when(predicate1).then(null);
+            fail("No exception thrown!!");
+        } catch (ProcessorBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_PROCESSOR);
+        }
+    }
+
+    @Test
+    public void cannotInputNullDefaultProcessor()
+    {
+        try {
+            new ProcessorSelector<In, Out>().when(predicate1).then(processor1)
+                .otherwise(null);
+            fail("No exception thrown!!");
+        } catch (ProcessorBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_PROCESSOR);
+        }
     }
 
     @Test
