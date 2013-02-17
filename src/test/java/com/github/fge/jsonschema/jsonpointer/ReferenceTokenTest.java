@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import java.util.Iterator;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.JsonPointerMessages.*;
+import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 import static org.testng.Assert.*;
 
 public final class ReferenceTokenTest

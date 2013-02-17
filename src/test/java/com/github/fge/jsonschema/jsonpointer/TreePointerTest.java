@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.JsonPointerMessages.*;
+import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 

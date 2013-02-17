@@ -17,15 +17,16 @@
 
 package com.github.fge.jsonschema.messages;
 
-public enum JsonPointerMessages
+public enum JsonReferenceMessages
 {
+    INVALID_URI("input is not a valid URI"),
     ILLEGAL_ESCAPE("bad escape seqeunce: '~' not followed by a valid token"),
     EMPTY_ESCAPE("bad escape sequence: '~' not followed by any token"),
     NOT_SLASH("illegal pointer: expected a slash to separate tokens"),
     ;
     private final String message;
 
-    JsonPointerMessages(final String message)
+    JsonReferenceMessages(final String message)
     {
         this.message = message;
     }

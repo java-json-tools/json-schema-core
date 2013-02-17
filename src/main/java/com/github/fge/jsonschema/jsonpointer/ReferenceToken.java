@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 
-import static com.github.fge.jsonschema.messages.JsonPointerMessages.*;
+import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 
 public final class ReferenceToken
 {

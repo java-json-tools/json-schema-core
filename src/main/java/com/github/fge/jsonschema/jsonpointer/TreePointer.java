@@ -1,7 +1,7 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
-import com.github.fge.jsonschema.messages.JsonPointerMessages;
+import com.github.fge.jsonschema.messages.JsonReferenceMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -43,7 +43,7 @@ public abstract class TreePointer<T extends TreeNode>
             c = s.charAt(0);
             if (c != SLASH)
                 throw new JsonPointerException(new ProcessingMessage()
-                    .message(JsonPointerMessages.NOT_SLASH)
+                    .message(JsonReferenceMessages.NOT_SLASH)
                     .put("expected", Character.valueOf(SLASH))
                     .put("found", Character.valueOf(c)));
             s = s.substring(1);
