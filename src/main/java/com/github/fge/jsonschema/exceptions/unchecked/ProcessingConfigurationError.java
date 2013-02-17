@@ -25,16 +25,6 @@ public class ProcessingConfigurationError
 {
     private final ProcessingMessage processingMessage;
 
-    public ProcessingConfigurationError()
-    {
-        this(new ProcessingMessage());
-    }
-
-    public ProcessingConfigurationError(final String message)
-    {
-        this(new ProcessingMessage().message(message));
-    }
-
     public ProcessingConfigurationError(final ProcessingMessage message)
     {
         processingMessage = message.setLogLevel(LogLevel.FATAL);
