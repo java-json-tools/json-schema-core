@@ -1,6 +1,7 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -14,12 +15,18 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
 public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends MessageProvider>
 {
-    protected final Map<K, Processor<IN, OUT>> processors = Maps.newHashMap();
-    protected Processor<IN, OUT> defaultProcessor = null;
+    private final Map<K, Processor<IN, OUT>> processors = Maps.newHashMap();
+    private Processor<IN, OUT> defaultProcessor = null;
 
     public final ProcessorMap<K, IN, OUT> addEntry(final K key,
         final Processor<IN, OUT> processor)
     {
+        if (key == null)
+            throw new ProcessorBuildError(new ProcessingMessage()
+                .message(NULL_KEY));
+        if (processor == null)
+            throw new ProcessorBuildError(new ProcessingMessage()
+                .message(NULL_PROCESSOR));
         processors.put(key, processor);
         return this;
     }
@@ -27,6 +34,9 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
     public final ProcessorMap<K, IN, OUT> setDefaultProcessor(
         final Processor<IN, OUT> defaultProcessor)
     {
+        if (defaultProcessor == null)
+            throw new ProcessorBuildError(new ProcessingMessage()
+                .message(NULL_PROCESSOR));
         this.defaultProcessor = defaultProcessor;
         return this;
     }
@@ -48,6 +58,9 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
         Mapper(final Map<K, Processor<IN, OUT>> processors,
             final Function<IN, K> f, final Processor<IN, OUT> defaultProcessor)
         {
+            if (f == null)
+                throw new ProcessorBuildError(new ProcessingMessage()
+                    .message(NULL_FUNCTION));
             this.processors = ImmutableMap.copyOf(processors);
             this.f = f;
             this.defaultProcessor = defaultProcessor;

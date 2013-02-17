@@ -22,6 +22,8 @@ public enum ProcessingErrors
     NO_SUITABLE_PROCESSOR("no suitable processor found"),
     NULL_PREDICATE("predicate cannot be null"),
     NULL_PROCESSOR("processor cannot be null"),
+    NULL_KEY("map keys must not be null"),
+    NULL_FUNCTION("input-to-key function must not be null"),
     ;
     private final String message;
 
