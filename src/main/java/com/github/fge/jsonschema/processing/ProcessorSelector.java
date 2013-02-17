@@ -19,13 +19,14 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
+
+import static com.github.fge.jsonschema.messages.ProcessingMessages.*;
 
 public final class ProcessorSelector<IN extends MessageProvider, OUT extends MessageProvider>
 {
@@ -99,9 +100,8 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
             if (byDefault != null)
                 return byDefault.process(report, input);
 
-            final ProcessingMessage message = input.newMessage()
-                .message("no suitable processor found for input");
-            throw new ProcessingException(message);
+            throw new ProcessingException(input.newMessage()
+                .message(NO_SUITABLE_PROCESSOR));
         }
     }
 }

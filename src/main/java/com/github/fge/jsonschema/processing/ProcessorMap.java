@@ -10,6 +10,8 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
+import static com.github.fge.jsonschema.messages.ProcessingMessages.*;
+
 public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends MessageProvider>
 {
     protected final Map<K, Processor<IN, OUT>> processors = Maps.newHashMap();
@@ -63,7 +65,7 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
                 return defaultProcessor.process(report, input);
 
             throw new ProcessingException(new ProcessingMessage()
-                .message("no suitable processor found").put("key", key));
+                .message(NO_SUITABLE_PROCESSOR).put("key", key));
         }
     }
 }

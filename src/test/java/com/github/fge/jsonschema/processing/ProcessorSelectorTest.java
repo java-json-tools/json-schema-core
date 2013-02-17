@@ -30,6 +30,7 @@ import java.util.List;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.ProcessingMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -149,7 +150,7 @@ public final class ProcessorSelectorTest
             for (final Processor<In, Out> p: otherProcessors)
                 verifyZeroInteractions(p);
             assertMessage(e.getProcessingMessage())
-                .hasMessage("no suitable processor found for input");
+                .hasMessage(NO_SUITABLE_PROCESSOR);
         }
     }
 
