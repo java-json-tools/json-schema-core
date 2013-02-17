@@ -33,7 +33,7 @@ public final class JsonPointer
     public JsonPointer(final String input)
         throws JsonPointerException
     {
-        this(fromString(input));
+        this(fromTokens(tokensFromInput(input)));
     }
 
     private JsonPointer(final List<TokenResolver<JsonNode>> tokenResolvers)
@@ -62,17 +62,6 @@ public final class JsonPointer
             = Lists.newArrayList(tokenResolvers);
         list.addAll(other.tokenResolvers);
         return new JsonPointer(list);
-    }
-
-    private static List<TokenResolver<JsonNode>> fromString(final String input)
-        throws JsonPointerException
-    {
-        final List<TokenResolver<JsonNode>> list = Lists.newArrayList();
-
-        for (final ReferenceToken refToken: tokensFromInput(input))
-            list.add(new JsonNodeResolver(refToken));
-
-        return list;
     }
 
     private static List<TokenResolver<JsonNode>> fromTokens(
