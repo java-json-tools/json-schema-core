@@ -20,7 +20,7 @@
     <groupId>com.github.fge</groupId>
     <artifactId>json-schema-core</artifactId>
     <name>json-schema-core</name>
-    <version>0.99.3-SNAPSHOT</version>
+    <version>0.99.3</version>
     <packaging>jar</packaging>
     <description>Core processing architecture for json-schema-validator</description>
     <url>https://github.com/fge/json-schema-core</url>
