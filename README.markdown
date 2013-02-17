@@ -20,7 +20,7 @@ package) or the full chain.</p>
 
 <h2>Version</h2>
 
-<p>The current verson is <b>0.99.2</b> (<a
+<p>The current verson is <b>0.99.3</b> (<a
 href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>).</p>
 
 <h2>Maven artifact</h2>
