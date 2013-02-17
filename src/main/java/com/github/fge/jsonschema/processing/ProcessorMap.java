@@ -71,14 +71,16 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
             throws ProcessingException
         {
             final K key = f.apply(input);
-            if (processors.containsKey(key))
-                return processors.get(key).process(report, input);
+            Processor<IN, OUT> processor = processors.get(key);
 
-            if (defaultProcessor != null)
-                return defaultProcessor.process(report, input);
+            if (processor == null)
+                processor = defaultProcessor;
 
-            throw new ProcessingException(new ProcessingMessage()
-                .message(NO_SUITABLE_PROCESSOR).put("key", key));
+            if (processor == null) // Not even a default processor. Ouch.
+                throw new ProcessingException(new ProcessingMessage()
+                    .message(NO_SUITABLE_PROCESSOR).put("key", key));
+
+            return processor.process(report, input);
         }
     }
 }
