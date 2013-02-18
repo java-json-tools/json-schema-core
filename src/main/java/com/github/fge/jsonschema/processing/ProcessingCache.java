@@ -30,6 +30,7 @@ import net.jcip.annotations.ThreadSafe;
 import java.util.concurrent.ExecutionException;
 
 import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
+import static com.google.common.base.Equivalence.Wrapper;
 
 /**
  * A processing result cache usable in {@link Processor}s
@@ -63,7 +64,7 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
  *
  * @see LoadingCache
  * @see Equivalence
- * @see Equivalence.Wrapper
+ * @see Wrapper
  */
 @ThreadSafe
 public final class ProcessingCache<K, V>
@@ -87,7 +88,7 @@ public final class ProcessingCache<K, V>
      * is null
      */
     public ProcessingCache(final Equivalence<K> equivalence,
-        final CacheLoader<Equivalence.Wrapper<K>, V> cacheLoader)
+        final CacheLoader<Wrapper<K>, V> cacheLoader)
     {
         if (equivalence == null)
             throw new ProcessorBuildError(new ProcessingMessage()
