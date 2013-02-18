@@ -185,7 +185,15 @@ public final class ProcessingMessageTest
         throws ProcessingException
     {
         final ProcessingMessage testMessage = new ProcessingMessage();
-        testMessage.setExceptionProvider(ExceptionProvider.forClass(Foo.class));
+        testMessage.setExceptionProvider(new ExceptionProvider()
+        {
+            @Override
+            public ProcessingException doException(
+                final ProcessingMessage message)
+            {
+                return new Foo(message);
+            }
+        });
 
         try {
             throw testMessage.asException();
@@ -194,10 +202,10 @@ public final class ProcessingMessageTest
         }
     }
 
-    public static final class Foo
+    private static final class Foo
         extends ProcessingException
     {
-        public Foo(final ProcessingMessage message)
+        private Foo(final ProcessingMessage message)
         {
             super(message);
         }

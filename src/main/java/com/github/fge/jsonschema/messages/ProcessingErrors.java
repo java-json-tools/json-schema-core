@@ -86,9 +86,6 @@ public enum ProcessingErrors
      * @see ProcessorChain#failOnError()
      */
     CHAIN_STOPPED("processing chain stopped"),
-    NO_EXCEPTION_CONSTRUCTOR("no appropriate constructor for exception\n" +
-        "Please provide a constructor with a ProcessingMessage as argument"),
-    EXCEPTION_INSTANTIATION_ERROR("cannot instantiate exception class"),
     ;
 
     private final String message;

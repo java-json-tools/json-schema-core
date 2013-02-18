@@ -15,24 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions.unchecked;
+package com.github.fge.jsonschema.report;
 
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.exceptions.ExceptionProvider;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 
-/**
- * Base unchecked exception class for processor configuration anomalies
- *
- * <p>This exception is used to signify that a configuration error has occurred
- * and the processors could not be built as a result.</p>
- *
- * <p>Since a configuration error is nearly every time due to a programmer
- * error, this exception is unchecked.</p>
- */
-public class ProcessingConfigurationError
-    extends ProcessingError
+public final class SimpleExceptionProvider
+    implements ExceptionProvider
 {
-    public ProcessingConfigurationError(final ProcessingMessage message)
+    private static final ExceptionProvider INSTANCE
+        = new SimpleExceptionProvider();
+
+    public static ExceptionProvider getInstance()
     {
-        super(message);
+        return INSTANCE;
+    }
+
+    private SimpleExceptionProvider()
+    {
+    }
+
+    @Override
+    public ProcessingException doException(final ProcessingMessage message)
+    {
+        return new ProcessingException(message);
     }
 }

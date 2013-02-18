@@ -36,14 +36,6 @@ public class ProcessingError
         processingMessage = message.setLogLevel(LogLevel.FATAL);
     }
 
-    public ProcessingError(final ProcessingMessage message, final Throwable e)
-    {
-        super(message.getMessage(), e);
-        processingMessage = message.setLogLevel(LogLevel.FATAL)
-            .put("exceptionClass", e.getClass().getName())
-            .put("exceptionMessage", e.getMessage());
-    }
-
     @Override
     public final String getMessage()
     {

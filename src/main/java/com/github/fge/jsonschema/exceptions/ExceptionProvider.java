@@ -17,14 +17,9 @@
 
 package com.github.fge.jsonschema.exceptions;
 
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
+import com.github.fge.jsonschema.report.SimpleExceptionProvider;
 
 /**
  * An exception provider for a {@link ProcessingMessage}
@@ -35,57 +30,17 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
  * with that message. The latter method just returns the result of {@link
  * #doException(ProcessingMessage)} with {@code this} as an argument.</p>
  *
+ * @see SimpleExceptionProvider
  * @see ProcessingMessage
  * @see AbstractProcessingReport
  */
-public final class ExceptionProvider
+public interface ExceptionProvider
 {
-    private static final ProcessingMessage MESSAGE = new ProcessingMessage();
-
-    private static final ExceptionProvider DEFAULT_PROVIDER
-        = new ExceptionProvider(ProcessingException.class);
-
-    private final Constructor<? extends ProcessingException> constructor;
-
-    public static ExceptionProvider forClass(
-        final Class<? extends ProcessingException> c)
-    {
-        return c == ProcessingException.class
-            ? DEFAULT_PROVIDER
-            : new ExceptionProvider(c);
-    }
-
-    private ExceptionProvider(final Class<? extends ProcessingException> c)
-        throws ProcessingConfigurationError
-    {
-        try {
-            constructor = c.getConstructor(ProcessingMessage.class);
-            doException(MESSAGE);
-        } catch (NoSuchMethodException e) {
-            throw new ProcessingConfigurationError(new ProcessingMessage()
-                .message(NO_EXCEPTION_CONSTRUCTOR), e);
-        }
-    }
-
     /**
      * Return an exception associated with a message
      *
      * @param message the message
      * @return the appropriate exception
      */
-    public ProcessingException doException(final ProcessingMessage message)
-    {
-        try {
-            return constructor.newInstance(message);
-        } catch (InstantiationException e) {
-            throw new ProcessingConfigurationError(new ProcessingMessage()
-                .message(EXCEPTION_INSTANTIATION_ERROR), e);
-        } catch (IllegalAccessException e) {
-            throw new ProcessingConfigurationError(new ProcessingMessage()
-                .message(EXCEPTION_INSTANTIATION_ERROR), e);
-        } catch (InvocationTargetException e) {
-            throw new ProcessingConfigurationError(new ProcessingMessage()
-                .message(EXCEPTION_INSTANTIATION_ERROR), e);
-        }
-    }
+    ProcessingException doException(final ProcessingMessage message);
 }

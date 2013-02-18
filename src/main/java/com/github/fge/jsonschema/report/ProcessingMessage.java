@@ -38,7 +38,7 @@ public final class ProcessingMessage
     private final Map<String, JsonNode> map = Maps.newLinkedHashMap();
 
     private ExceptionProvider exceptionProvider
-        = ExceptionProvider.forClass(ProcessingException.class);
+        = SimpleExceptionProvider.getInstance();
 
     private LogLevel level;
 
