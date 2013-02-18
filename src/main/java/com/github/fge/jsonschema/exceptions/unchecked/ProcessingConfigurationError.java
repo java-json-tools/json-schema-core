@@ -35,4 +35,10 @@ public class ProcessingConfigurationError
     {
         super(message);
     }
+
+    public ProcessingConfigurationError(final ProcessingMessage message,
+        final Throwable e)
+    {
+        super(message, e);
+    }
 }

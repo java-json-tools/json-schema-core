@@ -21,23 +21,16 @@ import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 
 public final class SimpleExceptionProvider
-    implements ExceptionProvider
 {
     private static final ExceptionProvider INSTANCE
-        = new SimpleExceptionProvider();
-
-    public static ExceptionProvider getInstance()
-    {
-        return INSTANCE;
-    }
+        = ExceptionProvider.forClass(ProcessingException.class);
 
     private SimpleExceptionProvider()
     {
     }
 
-    @Override
-    public ProcessingException doException(final ProcessingMessage message)
+    public static ExceptionProvider getInstance()
     {
-        return new ProcessingException(message);
+        return INSTANCE;
     }
 }
