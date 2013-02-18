@@ -6,26 +6,26 @@ text.</p>
 <h2>What this is</h2>
 
 <p>This package contains the core processing architecture used by the <a
-href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>. While it is
-not complete yet, it already contains some fundamental pieces:</p>
+href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>, and which can
+be used by other packages as well:</p>
 
 
 * all the processing core interfaces: processor, processor chains, selectors;
 * all the logging and exception infrastructure;
-* JSON Pointer.
+* JSON Reference and JSON Pointer;
+* base classes for a JSON Schema and instance;
+* other various interfaces.
 
-<p>In the future, more processors will be written, the main goal of which is to plug this package
-into a JSON Schema validator -- either the syntax validator (which will eventually be part of this
-package) or the full chain.</p>
+<p>A new package will be created showing this package in action.</p>
 
 <h2>Version</h2>
 
-<p>The current verson is <b>0.99.4</b> (<a
+<p>The current verson is <b>0.99.5</b> (<a
 href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>).</p>
 
 <h2>Maven artifact</h2>
 
-<p>Replace `your-version-here` with the appropriate version:</p>
+<p>Replace <tt>your-version-here</tt> with the appropriate version:</p>
 
 ```xml
 <dependency>
