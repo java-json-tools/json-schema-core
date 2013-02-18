@@ -23,6 +23,8 @@ public enum JsonReferenceMessages
     ILLEGAL_ESCAPE("bad escape seqeunce: '~' not followed by a valid token"),
     EMPTY_ESCAPE("bad escape sequence: '~' not followed by any token"),
     NOT_SLASH("illegal pointer: expected a slash to separate tokens"),
+    NULL_URI("URI cannot be null"),
+    NULL_INPUT("string input cannot be null"),
     ;
     private final String message;
 

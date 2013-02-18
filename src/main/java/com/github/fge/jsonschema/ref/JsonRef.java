@@ -18,10 +18,11 @@
 package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.google.common.base.Preconditions;
+import net.jcip.annotations.Immutable;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,19 +46,18 @@ import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
  *     }
  * </pre>
  *
- * <p>This class differs from the JSON Reference draft in one important way:
- * normally, the fragment part of a JSON Reference must be a JSON Pointer;
- * however, this means you cannot use a reference for addressing inner schemas
- * when inline addressing mode is used. We therefore choose to accept all
- * possible fragment parts.</p>
+ * <p>This class differs from the JSON Reference draft in that it accepts to
+ * process illegal references, in the sense that they are URIs, but their
+ * fragment parts are not JSON Pointers (in which case {@link #isLegal()}
+ * returns {@code false}.</p>
  *
  * <p>The implementation is a wrapper over Java's {@link URI}, with the
- * following differences:</p>
+ * following characteristics:</p>
  *
  * <ul>
  *     <li>all URIs are normalized from the get go;</li>
  *     <li>an empty fragment is equivalent to no fragment at all, and stands for
- *     a root JSON Pointer;</li>
+ *     a root JSON Pointer, as required by the draft;</li>
  *     <li>a reference is taken to be absolute if the underlying URI is absolute
  *     <i>and</i> it has no fragment, or an empty fragment.</li>
  * </ul>
@@ -70,20 +70,22 @@ import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
  *     please note that this breaks URI resolution rules).</li>
  * </ul>
  *
- * <p>This class is thread safe and immutable.</p>
  */
-
+@Immutable
 public abstract class JsonRef
 {
+    /**
+     * The empty URI
+     */
     private static final URI EMPTY_URI = URI.create("");
 
+    /**
+     * A "hash only" URI -- used by {@link EmptyJsonRef}
+     */
     protected static final URI HASHONLY_URI = URI.create("#");
 
     /**
      * Whether this JSON Reference is legal
-     *
-     * <p>It is legal if and only if there is no fragment, or the fragment part
-     * is a JSON Pointer.</p>
      */
     protected final boolean legal;
 
@@ -103,6 +105,8 @@ public abstract class JsonRef
      * The pointer of this reference, if any
      *
      * <p>Initialized to null if the fragment part is not a JSON Pointer.</p>
+     *
+     * @see #isLegal()
      */
     protected final JsonPointer pointer;
 
@@ -127,39 +131,51 @@ public abstract class JsonRef
         final String ssp = uri.getSchemeSpecificPart();
         final String uriFragment = uri.getFragment();
 
+        /*
+         * Account for URIs with no fragment: substitute an empty one
+         */
         final String realFragment = uriFragment == null ? "" : uriFragment;
 
+        /*
+         * Compute the fragment
+         */
         boolean isLegal = true;
         JsonPointer ptr;
+        try {
+            ptr = realFragment.isEmpty() ? JsonPointer.empty()
+                : new JsonPointer(realFragment);
+        } catch (JsonPointerException ignored) {
+            ptr = null;
+            isLegal = false;
+        }
+        legal = isLegal;
+        pointer = ptr;
 
         try {
             this.uri = new URI(scheme, ssp, realFragment);
             locator = new URI(scheme, ssp, "");
-            try {
-                ptr = realFragment.isEmpty() ? JsonPointer.empty()
-                    : new JsonPointer(realFragment);
-            } catch (JsonPointerException ignored) {
-                ptr = null;
-                isLegal = false;
-            }
-            legal = isLegal;
-            pointer = ptr;
             asString = this.uri.toString();
             hashCode = asString.hashCode();
         } catch (URISyntaxException e) {
+            /*
+             * Can't happen: we did have a legal URI to start with
+             */
             throw new RuntimeException("WTF??", e);
         }
     }
+
     /**
      * Build a JSON Reference from a URI
      *
      * @param uri the provided URI
      * @return the JSON Reference
-     * @throws NullPointerException the provided URI is null
+     * @throws JsonReferenceError the provided URI is null
      */
     public static JsonRef fromURI(final URI uri)
     {
-        Preconditions.checkNotNull(uri, "URI must not be null");
+        if (uri == null)
+            throw new JsonReferenceError(new ProcessingMessage()
+                .message(NULL_URI));
 
         final URI normalized = uri.normalize();
 
@@ -177,18 +193,20 @@ public abstract class JsonRef
      * @param s the string
      * @return the reference
      * @throws JsonReferenceException string is not a valid URI
-     * @throws NullPointerException provided string is null
+     * @throws JsonReferenceError provided string is null
      */
     public static JsonRef fromString(final String s)
         throws JsonReferenceException
     {
-        Preconditions.checkNotNull(s, "string must not be null");
+        if (s == null)
+            throw new JsonReferenceError(new ProcessingMessage()
+                .message(NULL_INPUT));
 
         try {
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
             final ProcessingMessage message = new ProcessingMessage()
-                .message(INVALID_URI).put("uri", s);
+                .message(INVALID_URI).put("input", s);
             throw new JsonReferenceException(message, e);
         }
     }
@@ -199,7 +217,7 @@ public abstract class JsonRef
      * <p>An empty reference is a reference which only has an empty fragment.
      * </p>
      *
-     * @return see above
+     * @return the only instance of {@link EmptyJsonRef}
      */
     public static JsonRef emptyRef()
     {
@@ -219,15 +237,17 @@ public abstract class JsonRef
     /**
      * Tell whether this reference is an absolute reference
      *
-     * <p>A JSON Reference is considered absolute iif the underlying URI is
-     * itself absolute <b>and</b> it has an empty, or no, fragment part.</p>
+     * <p>See description.</p>
      *
-     * @return see above
+     * @return {@code true} if the JSON Reference is absolute
      */
     public abstract boolean isAbsolute();
 
     /**
      * Resolve this reference against another reference
+     *
+     * <p>Save for {@link JarJsonRef}, this follows the classical URI
+     * resolution rules.</p>
      *
      * @param other the reference to resolve
      * @return the resolved reference
@@ -246,11 +266,29 @@ public abstract class JsonRef
         return locator;
     }
 
+    /**
+     * Tell whether this JSON Reference is legal
+     *
+     * <p>Recall: it is legal if and only if its fragment part is a JSON
+     * pointer.</p>
+     *
+     * @return {@code true} if legal
+     * @see JsonPointer
+     */
     public final boolean isLegal()
     {
         return legal;
     }
 
+    /**
+     * Return the fragment part of this JSON Reference as a JSON Pointer
+     *
+     * <p>If the reference is not legal, this returns {@code null} <b>without
+     * further notice</b>, so beware!</p>
+     *
+     * @return a JSON Pointer
+     * @see JsonPointer
+     */
     public final JsonPointer getPointer()
     {
         return pointer;
