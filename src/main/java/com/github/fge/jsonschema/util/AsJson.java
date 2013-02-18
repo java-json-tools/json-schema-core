@@ -18,8 +18,21 @@
 package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
+/**
+ * Interface implemented by classes having a JSON representation
+ *
+ * <p>This representation needs not be complete. For instance, {@link
+ * SchemaTree} implements it to provide an object with the summary of its main
+ * characteristics (loading URI, current pointer).</p>
+ */
 public interface AsJson
 {
+    /**
+     * Return a JSON representation of this object
+     *
+     * @return a {@link JsonNode}
+     */
     JsonNode asJson();
 }

@@ -18,14 +18,31 @@
 package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
 import java.net.URI;
 
+/**
+ * JSON Schema versions
+ *
+ * <p>Members of this enum offer two informations about JSON Schemas:</p>
+ *
+ * <ul>
+ *     <li>their location (what is used in {@code $schema}),</li>
+ *     <li>the meta schema (as a {@link JsonNode}.</li>
+ * </ul>
+ */
 public enum SchemaVersion
 {
+    /**
+     * Draft v4 (default version)
+     */
     DRAFTV4("http://json-schema.org/draft-04/schema#", "/draftv4/schema"),
+    /**
+     * Draft v3
+     */
     DRAFTV3("http://json-schema.org/draft-03/schema#", "/draftv3/schema"),
     ;
 
@@ -42,11 +59,25 @@ public enum SchemaVersion
         }
     }
 
+    /**
+     * Return the value of {@code $schema} as a {@link JsonRef}
+     *
+     * @return the JSON Reference for that schema version
+     */
     public URI getLocation()
     {
         return location;
     }
 
+    /**
+     * Return the meta schema as JSON
+     *
+     * <p>Note: since {@link JsonNode} is mutable, this method returns a copy.
+     * </p>
+     *
+     * @return the meta schema
+     * @see JsonNode#deepCopy()
+     */
     public JsonNode getSchema()
     {
         return schema.deepCopy();

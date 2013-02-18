@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
 
 import java.math.BigDecimal;
@@ -36,10 +35,6 @@ import java.util.Map;
  * <p>This class provides a custom {@link JsonNodeFactory} and {@link
  * ObjectReader} which you should use preferably to your own (in particular,
  * the reader ensures that decimal values are read using {@link BigDecimal}.</p>
- *
- * <p>It also provides a method for returning an empty {@link ObjectNode}
- * (for all practical purposes, an empty schema), and one to convert a JSON
- * object into a {@link Map}.</p>
  */
 public final class JacksonUtils
 {

@@ -32,5 +32,8 @@
  * part of the code. Its ability to determine the type of a {@link
  * com.fasterxml.jackson.databind.JsonNode} is an essential part of the
  * validation process.</p>
+ *
+ * <p>There are other, various utility interfaces used elsewhere in the code.
+ * </p>
  */
 package com.github.fge.jsonschema.util;

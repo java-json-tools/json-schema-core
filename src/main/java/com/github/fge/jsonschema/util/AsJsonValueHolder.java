@@ -19,6 +19,11 @@ package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * A specialized {@link ValueHolder} for values implementing {@link AsJson}
+ *
+ * @param <T> the type of the value
+ */
 public abstract class AsJsonValueHolder<T extends AsJson>
     extends ValueHolder<T>
 {

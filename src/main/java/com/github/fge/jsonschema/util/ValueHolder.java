@@ -18,28 +18,63 @@
 package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import net.jcip.annotations.Immutable;
 
+/**
+ * A wrapper over an arbitrary type to be used by processors
+ *
+ * <p>Since all inputs and outputs of a {@link Processor} need to implement
+ * {@link MessageProvider}, this abstract class helps to wrap values and
+ * implement this interface at the same time.</p>
+ *
+ * <p>Implementations need only implement the {@link #valueAsJson()} method.</p>
+ *
+ * @param <T> the type of the value
+ */
+@Immutable
 public abstract class ValueHolder<T>
     implements MessageProvider
 {
     protected final String name;
     protected final T value;
 
+    /**
+     * Protected constructor
+     *
+     * @param name the name to prefix the value with
+     * @param value the value
+     */
     protected ValueHolder(final String name, final T value)
     {
         this.name = name;
         this.value = value;
     }
 
+    /**
+     * Return a JSON representation of the value
+     *
+     * @return a {@link JsonNode}
+     */
     protected abstract JsonNode valueAsJson();
 
+    /**
+     * Get the value wrapped in the instance
+     *
+     * @return the value
+     */
     public final T getValue()
     {
         return value;
     }
 
+    /**
+     * Create a new processing message template depending on the stored value
+     *
+     * @return a new {@link ProcessingMessage}
+     */
     @Override
     public final ProcessingMessage newMessage()
     {
