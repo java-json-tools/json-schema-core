@@ -216,7 +216,7 @@ public abstract class JsonRef
      * <p>An empty reference is a reference which only has an empty fragment.
      * </p>
      *
-     * @return the only instance of {@link EmptyJsonRef}
+     * @return a statically allocated empty reference
      */
     public static JsonRef emptyRef()
     {
@@ -245,9 +245,6 @@ public abstract class JsonRef
     /**
      * Resolve this reference against another reference
      *
-     * <p>Save for {@link JarJsonRef}, this follows the classical URI
-     * resolution rules.</p>
-     *
      * @param other the reference to resolve
      * @return the resolved reference
      */
@@ -256,7 +253,8 @@ public abstract class JsonRef
     /**
      * Return this JSON Reference's locator
      *
-     * <p>This returns the reference with an empty fragment.</p>
+     * <p>This returns the reference with an empty fragment, ie the URI of the
+     * document itself.</p>
      *
      * @return an URI
      */
