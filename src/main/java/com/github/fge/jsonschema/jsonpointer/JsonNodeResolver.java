@@ -44,7 +44,7 @@ public final class JsonNodeResolver
     @Override
     public JsonNode get(final JsonNode node)
     {
-        if (!node.isContainerNode())
+        if (node == null || !node.isContainerNode())
             return null;
         final String raw = token.getRaw();
         return node.isObject() ? node.get(raw) : node.get(arrayIndexFor(raw));

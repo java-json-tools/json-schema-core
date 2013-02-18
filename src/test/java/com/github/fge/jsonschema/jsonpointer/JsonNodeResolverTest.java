@@ -35,6 +35,15 @@ public final class JsonNodeResolverTest
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
+    @Test
+    public void resolvingNullReturnsNull()
+    {
+        final JsonNodeResolver resolver
+            = new JsonNodeResolver(ReferenceToken.fromRaw("whatever"));
+
+        assertNull(resolver.get(null));
+    }
+
     @DataProvider
     public Iterator<Object[]> nonContainers()
     {

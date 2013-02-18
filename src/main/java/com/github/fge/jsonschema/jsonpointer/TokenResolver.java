@@ -61,6 +61,8 @@ public abstract class TokenResolver<T extends TreeNode>
      * <p>Note: it is <b>required</b> that this method return null on
      * traversal failure.</p>
      *
+     * <p>Note 2: handling {@code null} itself is up to implementations.</p>
+     *
      * @param node the node to traverse
      * @return the other node, or {@code null} if no such node exists for that
      * token

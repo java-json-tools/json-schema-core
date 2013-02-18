@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import net.jcip.annotations.Immutable;
@@ -93,10 +94,14 @@ public final class ReferenceToken
      * @param cooked the input
      * @return a token
      * @throws JsonReferenceException illegal token (bad encode sequence)
+     * @throws JsonReferenceError null input
      */
     public static ReferenceToken fromCooked(final String cooked)
         throws JsonReferenceException
     {
+        if (cooked == null)
+            throw new JsonReferenceError(new ProcessingMessage()
+                .message(NULL_INPUT));
         return new ReferenceToken(cooked, asRaw(cooked));
     }
 
@@ -105,9 +110,13 @@ public final class ReferenceToken
      *
      * @param raw the input
      * @return a token
+     * @throws JsonReferenceError null input
      */
     public static ReferenceToken fromRaw(final String raw)
     {
+        if (raw == null)
+            throw new JsonReferenceError(new ProcessingMessage()
+                .message(NULL_INPUT));
         return new ReferenceToken(asCooked(raw), raw);
     }
 

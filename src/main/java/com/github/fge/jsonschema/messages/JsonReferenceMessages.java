@@ -25,6 +25,7 @@ public enum JsonReferenceMessages
     NOT_SLASH("illegal pointer: expected a slash to separate tokens"),
     NULL_URI("URI cannot be null"),
     NULL_INPUT("string input cannot be null"),
+    NULL_POINTER("attempt to append a null JSON Pointer"),
     ;
     private final String message;
 

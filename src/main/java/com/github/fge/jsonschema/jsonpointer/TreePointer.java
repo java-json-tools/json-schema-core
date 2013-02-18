@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.messages.JsonReferenceMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
@@ -29,6 +30,8 @@ import net.jcip.annotations.ThreadSafe;
 
 import java.util.Iterator;
 import java.util.List;
+
+import static com.github.fge.jsonschema.messages.JsonReferenceMessages.NULL_INPUT;
 
 /**
  * A pointer into a {@link TreeNode}
@@ -79,7 +82,7 @@ public abstract class TreePointer<T extends TreeNode>
      * <p>This constructor makes an immutable copy of the list it receives as
      * an argument.</p>
      *
-     * @param missing the representation of a missing node
+     * @param missing the representation of a missing node (may be null)
      * @param tokenResolvers the list of reference token resolvers
      */
     protected TreePointer(final T missing,
@@ -108,10 +111,15 @@ public abstract class TreePointer<T extends TreeNode>
      * @param input the input
      * @return the list of reference tokens
      * @throws JsonReferenceException input is not a valid JSON Pointer
+     * @throws JsonReferenceError input is null
      */
     protected static List<ReferenceToken> tokensFromInput(final String input)
         throws JsonReferenceException
     {
+        if (input == null)
+            throw new JsonReferenceError(new ProcessingMessage()
+                .message(NULL_INPUT));
+
         final List<ReferenceToken> ret = Lists.newArrayList();
         String s = input;
         String cooked;

@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -33,6 +34,19 @@ import static org.testng.Assert.*;
 
 public final class TreePointerTest
 {
+    @Test
+    public void attemptToBuildTokensFromNullRaisesAnError()
+        throws JsonReferenceException
+    {
+        try {
+            TreePointer.tokensFromInput(null);
+            fail("No exception thrown!!");
+        } catch (JsonReferenceError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_INPUT);
+        }
+    }
+
     @Test
     public void buildingTokenListYellsIfIllegalPointer()
     {

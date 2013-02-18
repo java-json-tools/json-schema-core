@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import org.testng.annotations.DataProvider;
@@ -31,6 +32,30 @@ import static org.testng.Assert.*;
 
 public final class ReferenceTokenTest
 {
+    @Test
+    public void nullCookedRaisesError()
+        throws JsonReferenceException
+    {
+        try {
+            ReferenceToken.fromCooked(null);
+            fail("No exception thrown!!");
+        } catch (JsonReferenceError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_INPUT);
+        }
+    }
+    @Test
+    public void nullRawRaisesError()
+    {
+        try {
+            ReferenceToken.fromRaw(null);
+            fail("No exception thrown!!");
+        } catch (JsonReferenceError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_INPUT);
+        }
+    }
+
     @Test
     public void emptyEscapeRaisesTheAppropriateException()
     {
