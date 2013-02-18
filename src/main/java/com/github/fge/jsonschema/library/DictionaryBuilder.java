@@ -21,25 +21,66 @@ import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
+import net.jcip.annotations.NotThreadSafe;
 
 import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.DictionaryBuildErrors.*;
 
+/**
+ * A dictionary builder
+ *
+ * <p>This is the "thawed", alterable form of a {@link Dictionary}.</p>
+ *
+ * <p>To build a dictionary out of this class, use {@link #freeze()}.</p>
+ *
+ * <p>All mutation methods return {@code this}, so you can chain
+ * additions/deletions:</p>
+ *
+ * <pre>
+ *     final Dictionary&lt;Foo&gt; dict = Dictionary.newBuilder()
+ *         .addEntry("foo1", foo1).addEntry("foo2", foo2).freeze();
+ * </pre>
+ *
+ * @param <T> the type of elements for this dictionary builder
+ */
+@NotThreadSafe
 public final class DictionaryBuilder<T>
     implements Thawed<Dictionary<T>>
 {
+    /**
+     * Entries for this builder (mutable!)
+     */
     final Map<String, T> entries = Maps.newHashMap();
 
+    /**
+     * Package local constructor returning an empty builder
+     *
+     * @see Dictionary#newBuilder()
+     */
     DictionaryBuilder()
     {
     }
 
+    /**
+     * Instantiate a builder with all entries from an existing dictionary
+     *
+     * @param dict the source dictionary
+     * @see Dictionary#thaw()
+     */
     DictionaryBuilder(final Dictionary<T> dict)
     {
         entries.putAll(dict.entries);
     }
 
+    /**
+     * Add one entry to this builder
+     *
+     * @param key the key
+     * @param value the value
+     * @return this
+     * @throws DictionaryBuildError either the key or the value is null
+     */
     public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
         if (key == null)
@@ -52,6 +93,13 @@ public final class DictionaryBuilder<T>
         return this;
     }
 
+    /**
+     * Add all entries from another dictionary
+     *
+     * @param other the other dictionary
+     * @return this
+     * @throws DictionaryBuildError the dictionary is null
+     */
     public DictionaryBuilder<T> addAll(final Dictionary<T> other)
     {
         if (other == null)
@@ -61,12 +109,23 @@ public final class DictionaryBuilder<T>
         return this;
     }
 
+    /**
+     * Remove one entry from this builder
+     *
+     * @param key the key to remove
+     * @return this
+     */
     public DictionaryBuilder<T> removeEntry(final String key)
     {
         entries.remove(key);
         return this;
     }
 
+    /**
+     * Build an immutable dictionary out of this builder
+     *
+     * @return a new {@link Dictionary} with all elements from this builder
+     */
     @Override
     public Dictionary<T> freeze()
     {

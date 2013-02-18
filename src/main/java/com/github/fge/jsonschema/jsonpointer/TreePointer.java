@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.messages.JsonReferenceMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import net.jcip.annotations.ThreadSafe;
 
 import java.util.Iterator;
 import java.util.List;
@@ -53,6 +54,7 @@ import java.util.List;
  *
  * @param <T> the type of the tree
  */
+@ThreadSafe
 public abstract class TreePointer<T extends TreeNode>
     implements Iterable<TokenResolver<T>>
 {

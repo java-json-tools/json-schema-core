@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.JsonNode;
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * Reference token traversal class
@@ -36,6 +37,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @see JsonNodeResolver
  */
+@ThreadSafe
 public abstract class TokenResolver<T extends TreeNode>
 {
     /**
