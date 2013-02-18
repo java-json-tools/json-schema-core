@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.jsonpointer;
 
-import com.github.fge.jsonschema.exceptions.JsonPointerException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import org.testng.annotations.DataProvider;
@@ -37,7 +37,7 @@ public final class ReferenceTokenTest
         try {
             ReferenceToken.fromCooked("whatever~");
             fail("No exception thrown!!");
-        } catch (JsonPointerException e) {
+        } catch (JsonReferenceException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(EMPTY_ESCAPE);
         }
@@ -49,7 +49,7 @@ public final class ReferenceTokenTest
         try {
             ReferenceToken.fromCooked("~a");
             fail("No exception thrown!!");
-        } catch (JsonPointerException e) {
+        } catch (JsonReferenceException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(ILLEGAL_ESCAPE)
                 .hasField("valid", ImmutableList.of('0', '1'))
@@ -73,7 +73,7 @@ public final class ReferenceTokenTest
     @Test(dataProvider = "cookedRaw")
     public void fromCookedOrFromRawYieldsSameResults(final String cooked,
         final String raw)
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final ReferenceToken token1 = ReferenceToken.fromCooked(cooked);
         final ReferenceToken token2 = ReferenceToken.fromRaw(raw);
@@ -95,7 +95,7 @@ public final class ReferenceTokenTest
     @Test(dataProvider = "indices")
     public void fromIndexOrStringYieldsSameResults(final int index,
         final String asString)
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final ReferenceToken fromInt = ReferenceToken.fromInt(index);
         final ReferenceToken cooked = ReferenceToken.fromCooked(asString);
@@ -110,7 +110,7 @@ public final class ReferenceTokenTest
 
     @Test
     public void zeroAndZeroZeroAreNotTheSame()
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final ReferenceToken zero = ReferenceToken.fromCooked("0");
         final ReferenceToken zerozero = ReferenceToken.fromCooked("00");

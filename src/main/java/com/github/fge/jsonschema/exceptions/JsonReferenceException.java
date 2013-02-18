@@ -25,10 +25,10 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 /**
  * Exception associated with all JSON Reference exceptions
  *
- * <p>This exception is used both by {@link JsonRef} and {@link JsonPointer} to
+ * <p>This exception is used by {@link JsonRef} and {@link JsonPointer} to
  * signify errors.</p>
  *
- * <p>Note however that this is not the exception thrown if the input is null:
+ * <p>Note however that this is not the exception thrown if inputs are null:
  * in this case a {@link JsonReferenceError} (unchecked) is thrown.</p>
  *
  * @see JsonRef
@@ -37,6 +37,11 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 public final class JsonReferenceException
     extends ProcessingException
 {
+    public JsonReferenceException(final ProcessingMessage message)
+    {
+        super(message);
+    }
+
     public JsonReferenceException(final ProcessingMessage message,
         final Throwable e)
     {

@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.jsonpointer;
 
-import com.github.fge.jsonschema.exceptions.JsonPointerException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import net.jcip.annotations.Immutable;
@@ -92,10 +92,10 @@ public final class ReferenceToken
      *
      * @param cooked the input
      * @return a token
-     * @throws com.github.fge.jsonschema.exceptions.JsonPointerException illegal token (bad encode sequence)
+     * @throws JsonReferenceException illegal token (bad encode sequence)
      */
     public static ReferenceToken fromCooked(final String cooked)
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         return new ReferenceToken(cooked, asRaw(cooked));
     }
@@ -163,10 +163,10 @@ public final class ReferenceToken
      *
      * @param cooked the encoded token
      * @return the decoded token
-     * @throws JsonPointerException bad encoded representation
+     * @throws JsonReferenceException bad encoded representation
      */
     private static String asRaw(final String cooked)
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final StringBuilder raw = new StringBuilder(cooked.length());
 
@@ -190,7 +190,7 @@ public final class ReferenceToken
         }
 
         if (inEscape)
-            throw new JsonPointerException(new ProcessingMessage()
+            throw new JsonReferenceException(new ProcessingMessage()
                 .message(EMPTY_ESCAPE));
 
         return raw.toString();
@@ -201,14 +201,14 @@ public final class ReferenceToken
      *
      * @param sb the string builder to append to
      * @param c the escaped character
-     * @throws JsonPointerException illegal escaped character
+     * @throws JsonReferenceException illegal escaped character
      */
     private static void appendEscaped(final StringBuilder sb, final char c)
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final int index = ENCODED.indexOf(c);
         if (index == -1)
-            throw new JsonPointerException(new ProcessingMessage()
+            throw new JsonReferenceException(new ProcessingMessage()
                 .message(ILLEGAL_ESCAPE).put("valid", ENCODED)
                 .put("found", Character.valueOf(c)));
 

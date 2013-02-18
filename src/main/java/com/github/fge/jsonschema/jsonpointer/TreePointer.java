@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.jsonpointer;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.exceptions.JsonPointerException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.messages.JsonReferenceMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
@@ -107,10 +107,10 @@ public abstract class TreePointer<T extends TreeNode>
      *
      * @param input the input
      * @return the list of reference tokens
-     * @throws JsonPointerException input is not a valid JSON Pointer
+     * @throws JsonReferenceException input is not a valid JSON Pointer
      */
     protected static List<ReferenceToken> tokensFromInput(final String input)
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final List<ReferenceToken> ret = Lists.newArrayList();
         String s = input;
@@ -121,7 +121,7 @@ public abstract class TreePointer<T extends TreeNode>
         while (!s.isEmpty()) {
             c = s.charAt(0);
             if (c != SLASH)
-                throw new JsonPointerException(new ProcessingMessage()
+                throw new JsonReferenceException(new ProcessingMessage()
                     .message(JsonReferenceMessages.NOT_SLASH)
                     .put("expected", Character.valueOf(SLASH))
                     .put("found", Character.valueOf(c)));

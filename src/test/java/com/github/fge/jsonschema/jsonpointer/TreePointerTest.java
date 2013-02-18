@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
-import com.github.fge.jsonschema.exceptions.JsonPointerException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -39,7 +39,7 @@ public final class TreePointerTest
         try {
             TreePointer.tokensFromInput("a/b");
             fail("No exception thrown!!");
-        } catch (JsonPointerException e) {
+        } catch (JsonReferenceException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NOT_SLASH)
                 .hasField("expected", '/').hasField("found", 'a');
@@ -48,7 +48,7 @@ public final class TreePointerTest
 
     @Test
     public void buildingTokenListIsUnfazedByAnEmptyInput()
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         assertEquals(TreePointer.tokensFromInput(""),
             ImmutableList.<ReferenceToken>of());
@@ -56,7 +56,7 @@ public final class TreePointerTest
 
     @Test
     public void buildingTokenListIsUnfazedByEmptyToken()
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final List<ReferenceToken> expected
             = ImmutableList.of(ReferenceToken.fromCooked(""));
@@ -67,7 +67,7 @@ public final class TreePointerTest
 
     @Test
     public void tokenListRespectsOrder()
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final List<ReferenceToken> expected = ImmutableList.of(
             ReferenceToken.fromRaw("/"),
@@ -82,7 +82,7 @@ public final class TreePointerTest
 
     @Test
     public void tokenListAccountsForEmptyTokens()
-        throws JsonPointerException
+        throws JsonReferenceException
     {
         final List<ReferenceToken> expected = ImmutableList.of(
             ReferenceToken.fromRaw("a"),
