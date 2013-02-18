@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.testng.Assert.*;
 
-public final class ProcessingConfigurationErrorTest
+public final class ProcessingErrorTest
 {
     private static final String FOO = "foo";
 
@@ -32,7 +32,7 @@ public final class ProcessingConfigurationErrorTest
     public void thrownProcessingMessagesHaveLevelFatal()
     {
         final ProcessingMessage message = new ProcessingMessage();
-        new ProcessingConfigurationError(message);
+        new ProcessingError(message);
         assertMessage(message).hasLevel(LogLevel.FATAL);
     }
 
@@ -41,8 +41,7 @@ public final class ProcessingConfigurationErrorTest
     {
         final ProcessingMessage message = new ProcessingMessage()
             .message(FOO);
-        final ProcessingConfigurationError exception
-            = new ProcessingConfigurationError(message);
+        final ProcessingError exception = new ProcessingError(message);
         assertEquals(exception.getMessage(), FOO);
     }
 }

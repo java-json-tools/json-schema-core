@@ -24,6 +24,9 @@ public enum ProcessingErrors
     NULL_PROCESSOR("processor cannot be null"),
     NULL_KEY("map keys must not be null"),
     NULL_FUNCTION("input-to-key function must not be null"),
+    NULL_EQUIVALENCE("equivalence must not be null"),
+    NULL_LOADER("cache loader must not be null"),
+    NULL_KEYS_FORBIDDEN("null keys are not allowed"),
     ;
     private final String message;
 

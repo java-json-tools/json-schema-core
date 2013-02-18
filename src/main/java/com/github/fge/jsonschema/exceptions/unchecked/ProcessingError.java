@@ -17,22 +17,33 @@
 
 package com.github.fge.jsonschema.exceptions.unchecked;
 
+import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 /**
- * Base unchecked exception class for processor configuration anomalies
+ * Base unchecked exception class for processing errors
  *
- * <p>This exception is used to signify that a configuration error has occurred
- * and the processors could not be built as a result.</p>
- *
- * <p>Since a configuration error is nearly every time due to a programmer
- * error, this exception is unchecked.</p>
+ * <p>This exception is used to signify that an anomalous processor usage has
+ * occurred.</p>
  */
-public class ProcessingConfigurationError
-    extends ProcessingError
+public class ProcessingError
+    extends RuntimeException
 {
-    public ProcessingConfigurationError(final ProcessingMessage message)
+    private final ProcessingMessage processingMessage;
+
+    public ProcessingError(final ProcessingMessage message)
     {
-        super(message);
+        processingMessage = message.setLogLevel(LogLevel.FATAL);
+    }
+
+    @Override
+    public final String getMessage()
+    {
+        return processingMessage.getMessage();
+    }
+
+    public final ProcessingMessage getProcessingMessage()
+    {
+        return processingMessage;
     }
 }

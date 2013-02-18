@@ -15,24 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions.unchecked;
-
-import com.github.fge.jsonschema.report.ProcessingMessage;
-
 /**
- * Base unchecked exception class for processor configuration anomalies
+ * Core processing interface and building utility classes
  *
- * <p>This exception is used to signify that a configuration error has occurred
- * and the processors could not be built as a result.</p>
+ * <p>The {@link com.github.fge.jsonschema.processing.Processor} interface is
+ * the reason this whole library was created in the first place. While its name
+ * has "json-schema" in it, the infrastructure provided by this package can be
+ * used for totally different purposes.</p>
  *
- * <p>Since a configuration error is nearly every time due to a programmer
- * error, this exception is unchecked.</p>
+ * <p>Apart from the core interface itself, there are also helpers for caching
+ * results and combining processors together to create your own, customized
+ * processing chains.</p>
  */
-public class ProcessingConfigurationError
-    extends ProcessingError
-{
-    public ProcessingConfigurationError(final ProcessingMessage message)
-    {
-        super(message);
-    }
-}
+package com.github.fge.jsonschema.processing;

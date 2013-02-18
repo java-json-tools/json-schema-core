@@ -17,13 +17,20 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheLoader;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.TestUtils.*;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 
 public final class ProcessingCacheTest
 {
@@ -36,6 +43,55 @@ public final class ProcessingCacheTest
         loader = spy(new TestLoader());
         processingCache = new ProcessingCache<String, Integer>(EQUIVALENCE,
             loader);
+    }
+
+    @Test
+    public void buildingYellsIfNullEquivalence()
+    {
+        try {
+            new ProcessingCache<Object, Object>(null, null);
+            fail("No exception thrown!!");
+        } catch (ProcessorBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_EQUIVALENCE);
+        }
+    }
+
+    @Test
+    public void buildingYellsIfLoaderIsNull()
+    {
+        try {
+            new ProcessingCache<Object, Object>(Equivalence.equals(), null);
+            fail("No exception thrown!!");
+        } catch (ProcessorBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_LOADER);
+        }
+    }
+
+    @Test
+    public void cannotGetNullKey()
+        throws ProcessingException
+    {
+        try {
+            processingCache.get(null);
+            fail("No exception thrown!!");
+        } catch (ProcessingError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_KEYS_FORBIDDEN);
+        }
+    }
+
+    @Test
+    public void cannotGetNullKeyEvenUnchecked()
+    {
+        try {
+            processingCache.getUnchecked(null);
+            fail("No exception thrown!!");
+        } catch (ProcessingError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_KEYS_FORBIDDEN);
+        }
     }
 
     @Test
