@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.messages;
 
 import com.github.fge.jsonschema.processing.ProcessingCache;
+import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processing.ProcessorSelector;
 
@@ -42,10 +43,11 @@ public enum ProcessingErrors
      */
     NULL_PREDICATE("predicate cannot be null"),
     /**
-     * Attempt to use a null processor in selection
+     * Attempt to use a null processor
      *
      * @see ProcessorSelector
      * @see ProcessorMap
+     * @see ProcessorChain
      */
     NULL_PROCESSOR("processor cannot be null"),
     /**
@@ -78,6 +80,12 @@ public enum ProcessingErrors
      * @see ProcessingCache
      */
     NULL_KEYS_FORBIDDEN("null keys are not allowed"),
+    /**
+     * Chain deliberately stopped
+     *
+     * @see ProcessorChain#failOnError()
+     */
+    CHAIN_STOPPED("processing chain stopped"),
     ;
 
     private final String message;

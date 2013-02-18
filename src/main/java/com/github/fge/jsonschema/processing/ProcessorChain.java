@@ -18,15 +18,23 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
 import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import net.jcip.annotations.Immutable;
+
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
 /**
  * A processor chain
  *
  * <p>This class allows to build a chain out of different {@link Processor}
- * instances. The result behaves like a processor itself, so it can be used in
- * other chains as well.</p>
+ * instances. Chaining two processors {@code p1} and {@code p2} only requires
+ * that the output of {@code p1} be compatible with the input of {@code p2}.</p>
+ *
+ * <p>The result behaves like a processor itself, so it can be used in other
+ * chains as well.</p>
  *
  * <p>Sample usage:</p>
  *
@@ -38,9 +46,19 @@ import com.github.fge.jsonschema.report.ProcessingReport;
  *     final Y ret = chain.process(report, X);
  * </pre>
  *
+ * <p>Note that <b>all instances are immutable</b>: each alteration of the chain
+ * returns a <b>new chain</b>. This, for example, will not work:</p>
+ *
+ * <pre>
+ *     final ProcessorChain&lt;X, Y&gt; chain = ProcessorChain.startWith(p1);
+ *     chain.failOnError(); // WRONG!
+ *     chain.getProcessor(); // Will return p1, not p1 with a stop condition
+ * </pre>
+ *
  * @param <IN> the input type for that chain
  * @param <OUT> the output type for that chain
  */
+@Immutable
 public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
 {
     /**
@@ -55,9 +73,13 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
      * @param <X> the input type
      * @param <Y> the output type
      * @return a single element processing chain
+     * @throws ProcessorBuildError processor is null
      */
     public static <X extends MessageProvider, Y extends MessageProvider> ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
     {
+        if (p == null)
+            throw new ProcessorBuildError(new ProcessingMessage()
+                .message(NULL_PROCESSOR));
         return new ProcessorChain<X, Y>(p);
     }
 
@@ -71,6 +93,15 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         this.processor = processor;
     }
 
+    /**
+     * Stop the processing chain on failure
+     *
+     * <p>Inserting this into a chain will stop the processing chain if the
+     * previous processor ended up with an error (ie, {@link
+     * ProcessingReport#isSuccess()} returns {@code false}).</p>
+     *
+     * @return a new chain
+     */
     public ProcessorChain<IN, OUT> failOnError()
     {
         final Processor<OUT, OUT> fail = new Processor<OUT, OUT>()
@@ -80,7 +111,8 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
                 throws ProcessingException
             {
                 if (!report.isSuccess())
-                    throw new ProcessingException("chain stopped");
+                    throw new ProcessingException(new ProcessingMessage()
+                        .message(CHAIN_STOPPED));
                 return input;
             }
         };
@@ -91,20 +123,22 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     }
 
     /**
-     * Add an existing processor to that chain
+     * Add a processor to the chain
      *
-     * <p>Note that this returns a <b>new</b> chain.</p>
-     *
-     * @param p2 the processor to add
+     * @param p the processor to add
      * @param <NEWOUT> the return type for that new processor
      * @return a new chain consisting of the previous chain with the new
      * processor appended
+     * @throws ProcessorBuildError processor to append is null
      */
     public <NEWOUT extends MessageProvider> ProcessorChain<IN, NEWOUT>
-        chainWith(final Processor<OUT, NEWOUT> p2)
+        chainWith(final Processor<OUT, NEWOUT> p)
     {
+        if (p == null)
+            throw new ProcessorBuildError(new ProcessingMessage()
+                .message(NULL_PROCESSOR));
         final Processor<IN, NEWOUT> merger
-            = new ProcessorMerger<IN, OUT, NEWOUT>(processor, p2);
+            = new ProcessorMerger<IN, OUT, NEWOUT>(processor, p);
         return new ProcessorChain<IN, NEWOUT>(merger);
     }
 

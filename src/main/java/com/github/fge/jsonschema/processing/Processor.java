@@ -22,13 +22,15 @@ import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
 /**
- * Interface for a processor in JSON Schema processing
+ * Main processing interface
  *
  * <p>Note that it is required that both inputs and outputs implement {@link
- * MessageProvider}: this allows the processor to grab a context-dependent
+ * MessageProvider}: this allows a processor to grab a context-dependent
  * message to include into the report should the need arise. A {@link
  * ProcessingReport} is passed as an argument so that the processor can add
  * debug/info/warning/error messages.</p>
+ *
+ * <p>Ideally, processors <b>should not</b> throw unchecked exceptions.</p>
  *
  * @param <IN> input type for that processor
  * @param <OUT> output type for that processor

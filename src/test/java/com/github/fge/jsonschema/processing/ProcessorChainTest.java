@@ -18,15 +18,45 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
 import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import org.testng.annotations.Test;
 
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class ProcessorChainTest
 {
+    @Test
+    public void cannotInitiateWithNullProcessor()
+    {
+        try {
+            ProcessorChain.startWith(null);
+            fail("No exception thrown!!");
+        } catch (ProcessorBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_PROCESSOR);
+        }
+    }
+
+    @Test
+    public void cannotChainWithNullProcessor()
+    {
+        @SuppressWarnings("unchecked")
+        final Processor<MessageProvider, MessageProvider> p
+            = mock(Processor.class);
+        try {
+            ProcessorChain.startWith(p).chainWith(null);
+            fail("No exception thrown!!");
+        } catch (ProcessorBuildError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_PROCESSOR);
+        }
+    }
     @Test
     public void failingOnErrorExitsEarly()
         throws ProcessingException
@@ -48,7 +78,9 @@ public final class ProcessorChainTest
         try {
             processor.process(report, input);
             fail("No exception thrown!!");
-        } catch (ProcessingException ignored) {
+        } catch (ProcessingException e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(CHAIN_STOPPED);
         }
 
         verify(p1).process(same(report), any(MessageProvider.class));
@@ -68,7 +100,8 @@ public final class ProcessorChainTest
             = mock(Processor.class);
 
         final Processor<MessageProvider, MessageProvider> processor
-            = ProcessorChain.startWith(p1).failOnError().chainWith(p2).getProcessor();
+            = ProcessorChain.startWith(p1).failOnError().chainWith(p2)
+                .getProcessor();
 
         final MessageProvider input = mock(MessageProvider.class);
         final ProcessingReport report = mock(ProcessingReport.class);
