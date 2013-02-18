@@ -20,9 +20,22 @@ package com.github.fge.jsonschema.exceptions;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
+/**
+ * Generic processing exception
+ *
+ * <p>Internally, this class always keeps its information in a {@link
+ * ProcessingMessage}. Note that all messages see their log level set to
+ * {@link LogLevel#FATAL}.</p>
+ *
+ * @see ProcessingMessage
+ * @see LogLevel
+ */
 public class ProcessingException
     extends Exception
 {
+    /**
+     * The internal message
+     */
     private final ProcessingMessage processingMessage;
 
     public ProcessingException()

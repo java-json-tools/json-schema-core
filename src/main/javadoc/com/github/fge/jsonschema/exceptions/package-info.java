@@ -15,25 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions.unchecked;
-
-import com.github.fge.jsonschema.processing.ProcessorChain;
-import com.github.fge.jsonschema.processing.ProcessorMap;
-import com.github.fge.jsonschema.processing.ProcessorSelector;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-
 /**
- * Exception thrown by processor builders on anomalous inputs
+ * Exceptions and exception provider
  *
- * @see ProcessorChain
- * @see ProcessorSelector
- * @see ProcessorMap
+ * <p>This package contains checked exceptions raised by the API core. The base
+ * exception is {@link com.github.fge.jsonschema.exceptions.ProcessingException}
+ * and all other exceptions, save for unchecked exceptions, inherit it.</p>
+ *
+ * <p>The {@link com.github.fge.jsonschema.exceptions.ExceptionProvider}
+ * interface can be used by your own custom processors to set custom
+ * exceptions in messages: {@link
+ * com.github.fge.jsonschema.report.ProcessingMessage} accepts such a provider
+ * and will then return the appropriate exception when its
+ * {@link com.github.fge.jsonschema.report.ProcessingMessage#asException()} is
+ * called.</p>
  */
-public final class ProcessorBuildError
-    extends ProcessingConfigurationError
-{
-    public ProcessorBuildError(final ProcessingMessage message)
-    {
-        super(message);
-    }
-}
+package com.github.fge.jsonschema.exceptions;

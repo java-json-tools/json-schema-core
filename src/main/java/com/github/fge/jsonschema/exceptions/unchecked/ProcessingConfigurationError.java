@@ -20,6 +20,15 @@ package com.github.fge.jsonschema.exceptions.unchecked;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
+/**
+ * Base unchecked exception class for processor configuration anomalies
+ *
+ * <p>This class is used to signify that a configuration error has occurred and
+ * the processors could not be built as a result.</p>
+ *
+ * <p>Since a configuration error is nearly every time due to a programmer
+ * error, this exception is unchecked.</p>
+ */
 public class ProcessingConfigurationError
     extends RuntimeException
 {

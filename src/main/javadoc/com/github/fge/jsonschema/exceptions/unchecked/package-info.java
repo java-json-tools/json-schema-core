@@ -15,25 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions.unchecked;
-
-import com.github.fge.jsonschema.processing.ProcessorChain;
-import com.github.fge.jsonschema.processing.ProcessorMap;
-import com.github.fge.jsonschema.processing.ProcessorSelector;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-
 /**
- * Exception thrown by processor builders on anomalous inputs
+ * Unchecked processing exceptions
  *
- * @see ProcessorChain
- * @see ProcessorSelector
- * @see ProcessorMap
+ * <p>This class of exceptions is thrown in case of programming errors. The
+ * most common situation is null inputs, but also malformed configuration
+ * parameters.</p>
+ *
+ * <p>In spite of their name (all end with {@code Error}), these exceptions
+ * do not extend {@link java.lang.Error} but {@link java.lang.RuntimeException}.
+ * </p>
  */
-public final class ProcessorBuildError
-    extends ProcessingConfigurationError
-{
-    public ProcessorBuildError(final ProcessingMessage message)
-    {
-        super(message);
-    }
-}
+package com.github.fge.jsonschema.exceptions.unchecked;

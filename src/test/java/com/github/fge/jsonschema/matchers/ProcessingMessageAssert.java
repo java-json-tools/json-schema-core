@@ -86,8 +86,8 @@ public class ProcessingMessageAssert
         final String input = msg.get(name).textValue();
         final String expected = value.toString();
         assertThat(input).isEqualTo(expected)
-            .overridingErrorMessage("Strings differ: wanted " + expected
-                + " but got " + input);
+            .overridingErrorMessage(
+                "Strings differ: wanted " + expected + " but got " + input);
         return this;
     }
 
