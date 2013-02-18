@@ -15,16 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * JSON Pointer related classes
+ *
+ * <p>This package, while primarily centered on {@link
+ * com.github.fge.jsonschema.jsonpointer.JsonPointer}, is a generalization of
+ * JSON Pointer to all implementations of Jackson's {@link
+ * com.fasterxml.jackson.core.TreeNode}.</p>
+ *
+ * <p>The fundamentals of JSON Pointer remain the same, however: a JSON pointer
+ * is a set of reference tokens separated by the {@code /} character. One
+ * reference token is materialized by the {@link
+ * com.github.fge.jsonschema.jsonpointer.ReferenceToken} class, and advancing
+ * one level into a tree is materialized by {@link
+ * com.github.fge.jsonschema.jsonpointer.TokenResolver}. A {@link
+ * com.github.fge.jsonschema.jsonpointer.TreePointer} is a collection of token
+ * resolvers.</p>
+ */
 package com.github.fge.jsonschema.jsonpointer;
-
-import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-
-public final class JsonPointerException
-    extends ProcessingException
-{
-    public JsonPointerException(final ProcessingMessage message)
-    {
-        super(message);
-    }
-}

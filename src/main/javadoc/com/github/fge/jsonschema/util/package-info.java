@@ -18,17 +18,17 @@
 /**
  * Various utility classes
  *
- * <p>{@link JsonLoader} contains various
+ * <p>{@link com.github.fge.jsonschema.util.JsonLoader} contains various
  * methods to load JSON documents as {@link
  * com.fasterxml.jackson.databind.JsonNode} (schemas as well as instances to
  * validate).</p>
  *
- * <p>{@link RhinoHelper} is in charge of all
+ * <p>{@link com.github.fge.jsonschema.util.RhinoHelper} is in charge of all
  * regex validation: as the standard dictates ECMA 262 regexes, using {@link
  * java.util.regex} is out of the question. See this class' description for more
  * details.</p>
  *
- * <p>The {@link NodeType} enum is a critical
+ * <p>The {@link com.github.fge.jsonschema.util.NodeType} enum is a critical
  * part of the code. Its ability to determine the type of a {@link
  * com.fasterxml.jackson.databind.JsonNode} is an essential part of the
  * validation process.</p>

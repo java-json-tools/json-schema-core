@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.github.fge.jsonschema.exceptions.JsonPointerException;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 

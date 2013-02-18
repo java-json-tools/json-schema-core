@@ -15,13 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package com.github.fge.jsonschema.exceptions;
+
+import com.github.fge.jsonschema.report.ProcessingMessage;
+
 /**
- * JSON Reference related classes
- *
- * <p>The main package which reprensents a JSON Reference is {@link
- * com.github.fge.jsonschema.ref.JsonRef}.</p>
- *
- * <p>Recall: a JSON Reference is legal if and only if its fragment part is a
- * JSON Pointer. Any other fragment part is illegal.</p>
+ * Exception thrown on anomalous inputs while building a JSON Pointer
  */
-package com.github.fge.jsonschema.ref;
+public final class JsonPointerException
+    extends ProcessingException
+{
+    public JsonPointerException(final ProcessingMessage message)
+    {
+        super(message);
+    }
+}

@@ -17,46 +17,117 @@
 
 package com.github.fge.jsonschema.jsonpointer;
 
+import com.github.fge.jsonschema.exceptions.JsonPointerException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
+import net.jcip.annotations.Immutable;
 
 import java.util.List;
 
 import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 
+/**
+ * One JSON Pointer reference token
+ *
+ * <p>This class represents one reference token. It has no publicly available
+ * constructor; instead, it has static factory methods used to generate tokens
+ * depending on whether the input is a decoded (raw) token or an encoded
+ * (cooked) one, or even an integer.</p>
+ *
+ * <p>The only characters to encode in a raw token are {@code /} (which becomes
+ * {@code ~1}) and {@code ~} (which becomes {@code ~0}).</p>
+ *
+ * <p>Note that a reference token <b>may</b> be empty (empty object member names
+ * are legal!).</p>
+ */
+@Immutable
 public final class ReferenceToken
 {
+    /**
+     * The escape character in a cooked token
+     */
     private static final char ESCAPE = '~';
 
+    /**
+     * List of encoding characters in a cooked token
+     */
     private static final List<Character> ENCODED = ImmutableList.of('0', '1');
+
+    /**
+     * List of sequences to encode in a raw token
+     *
+     * <p>This list and {@link #ENCODED} have matching indices on purpose.</p>
+     */
     private static final List<Character> DECODED = ImmutableList.of('~', '/');
 
+    /**
+     * The cooked representation of that token
+     *
+     * @see #toString()
+     */
     private final String cooked;
+
+    /**
+     * The raw representation of that token
+     *
+     * @see #hashCode()
+     * @see #equals(Object)
+     */
     private final String raw;
 
+    /**
+     * The only constructor, private by design
+     *
+     * @param cooked the cooked representation of that token
+     * @param raw the raw representation of that token
+     */
     private ReferenceToken(final String cooked, final String raw)
     {
         this.cooked = cooked;
         this.raw = raw;
     }
 
+    /**
+     * Generate a reference token from an encoded (cooked) representation
+     *
+     * @param cooked the input
+     * @return a token
+     * @throws com.github.fge.jsonschema.exceptions.JsonPointerException illegal token (bad encode sequence)
+     */
     public static ReferenceToken fromCooked(final String cooked)
         throws JsonPointerException
     {
         return new ReferenceToken(cooked, asRaw(cooked));
     }
 
+    /**
+     * Generate a reference token from a decoded (raw) representation
+     *
+     * @param raw the input
+     * @return a token
+     */
     public static ReferenceToken fromRaw(final String raw)
     {
         return new ReferenceToken(asCooked(raw), raw);
     }
 
+    /**
+     * Generate a reference token from an integer
+     *
+     * @param index the integer
+     * @return a token
+     */
     public static ReferenceToken fromInt(final int index)
     {
         final String s = Integer.toString(index);
         return new ReferenceToken(s, s);
     }
 
+    /**
+     * Get the raw representation of that token as a string
+     *
+     * @return the raw representation (for traversing purposes)
+     */
     public String getRaw()
     {
         return raw;
@@ -87,6 +158,13 @@ public final class ReferenceToken
         return cooked;
     }
 
+    /**
+     * Decode an encoded token
+     *
+     * @param cooked the encoded token
+     * @return the decoded token
+     * @throws JsonPointerException bad encoded representation
+     */
     private static String asRaw(final String cooked)
         throws JsonPointerException
     {
@@ -118,6 +196,13 @@ public final class ReferenceToken
         return raw.toString();
     }
 
+    /**
+     * Append a decoded sequence to a {@link StringBuilder}
+     *
+     * @param sb the string builder to append to
+     * @param c the escaped character
+     * @throws JsonPointerException illegal escaped character
+     */
     private static void appendEscaped(final StringBuilder sb, final char c)
         throws JsonPointerException
     {
@@ -130,6 +215,12 @@ public final class ReferenceToken
         sb.append(DECODED.get(index));
     }
 
+    /**
+     * Encode a raw token
+     *
+     * @param raw the raw representation
+     * @return the cooked, encoded representation
+     */
     private static String asCooked(final String raw)
     {
         final StringBuilder cooked = new StringBuilder(raw.length());

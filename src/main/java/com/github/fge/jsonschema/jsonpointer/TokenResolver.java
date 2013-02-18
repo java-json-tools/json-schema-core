@@ -18,16 +18,51 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * Reference token traversal class
+ *
+ * <p>This class is meant to be extended and implemented for all types of trees
+ * inheriting {@link TreeNode}.</p>
+ *
+ * <p>This package contains one implementation of this class for {@link
+ * JsonNode}.</p>
+ *
+ * <p>Note that its {@link #equals(Object)}, {@link #hashCode()} and {@link
+ * #toString()} are final.</p>
+ *
+ * @param <T> the type of tree to traverse
+ *
+ * @see JsonNodeResolver
+ */
 public abstract class TokenResolver<T extends TreeNode>
 {
+    /**
+     * The associated reference token
+     */
     protected final ReferenceToken token;
 
+    /**
+     * The only constructor
+     *
+     * @param token the reference token
+     */
     protected TokenResolver(final ReferenceToken token)
     {
         this.token = token;
     }
 
+    /**
+     * Advance one level into the tree
+     *
+     * <p>Note: it is <b>required</b> that this method return null on
+     * traversal failure.</p>
+     *
+     * @param node the node to traverse
+     * @return the other node, or {@code null} if no such node exists for that
+     * token
+     */
     public abstract T get(final T node);
 
     @Override

@@ -18,10 +18,22 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import net.jcip.annotations.Immutable;
 
+/**
+ * Implementation of {@link TokenResolver} for {@link JsonNode}
+ *
+ * <p>The JSON Pointer specification specifies that for arrays, indices must
+ * not have leading zeroes (save for {@code 0} itself). This class handles
+ * this.</p>
+ */
+@Immutable
 public final class JsonNodeResolver
     extends TokenResolver<JsonNode>
 {
+    /**
+     * Zero
+     */
     private static final char ZERO = '0';
 
     public JsonNodeResolver(final ReferenceToken token)

@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.jsonpointer;
 
+import com.github.fge.jsonschema.exceptions.JsonPointerException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import org.testng.annotations.DataProvider;

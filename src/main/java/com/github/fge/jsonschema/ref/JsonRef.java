@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.ref;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.jsonpointer.JsonPointerException;
+import com.github.fge.jsonschema.exceptions.JsonPointerException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import net.jcip.annotations.Immutable;
 

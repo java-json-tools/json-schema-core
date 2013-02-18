@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
+import com.github.fge.jsonschema.exceptions.JsonPointerException;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.util.NodeType;
