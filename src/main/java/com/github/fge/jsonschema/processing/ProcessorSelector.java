@@ -25,22 +25,74 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import net.jcip.annotations.Immutable;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
+/**
+ * A processor selector using predicates
+ *
+ * <p>This class allows you pair processors with a set of {@link Predicate}s.
+ * Internally, it uses a {@link LinkedHashMap} where keys are predicates on
+ * the input type {@code IN}, and values are processors to use if this
+ * predicate returns {@code true}.</p>
+ *
+ * <p>As it is a {@link LinkedHashMap}, order matters: the first added predicate
+ * will be evaluated first, etc. If no predicate evaluates to {@code true}, the
+ * default action takes place. Depending on whether you have set a default
+ * processor, this processor will be selected, or a {@link ProcessingException}
+ * will be thrown indicating that no appropriate selector could be found for the
+ * input.</p>
+ *
+ * <p>Sample usage:</p>
+ *
+ * <pre>
+ *     final Processor&lt;X, Y&gt; processor
+ *         = new ProcessorSelector&lt;X, Y&gt;()
+ *             .when(predicate1).then(processor1)
+ *             .when(predicate2).then(processor2)
+ *             .otherwise(byDefault)
+ *             .getProcessor();
+ * </pre>
+ *
+ * <p>The returned processor is immutable.</p>
+ *
+ * @param <IN> the input type of processors
+ * @param <OUT> the output type of processors
+ *
+ * @see ProcessorSelectorPredicate
+ */
+@Immutable
 public final class ProcessorSelector<IN extends MessageProvider, OUT extends MessageProvider>
 {
+    /**
+     * Map of predicates and their associated processors
+     */
     final Map<Predicate<IN>, Processor<IN, OUT>> choices;
-    private final Processor<IN, OUT> byDefault;
 
+    /**
+     * The default processor, if any
+     */
+    final Processor<IN, OUT> byDefault;
+
+    /**
+     * Constructor
+     */
     public ProcessorSelector()
     {
         choices = Maps.newLinkedHashMap();
         byDefault = null;
     }
 
+    /**
+     * Private constructor
+     *
+     * @param choices the list of choices
+     * @param byDefault the default processor (can be null)
+     */
     private ProcessorSelector(
         final Map<Predicate<IN>, Processor<IN, OUT>> choices,
         final Processor<IN, OUT> byDefault)
@@ -49,21 +101,40 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
         this.byDefault = byDefault;
     }
 
+    /**
+     * Package local constructor
+     *
+     * @param selector a {@link ProcessorSelectorPredicate}
+     * @see ProcessorSelectorPredicate#then(Processor)
+     */
     ProcessorSelector(final ProcessorSelectorPredicate<IN, OUT> selector)
     {
         this(selector.choices, selector.byDefault);
     }
 
+    /**
+     * Add a predicate
+     *
+     * @param predicate the predicate to add
+     * @return a {@link ProcessorSelectorPredicate}
+     * @throws ProcessorBuildError the predicate is null
+     */
     public ProcessorSelectorPredicate<IN, OUT> when(
         final Predicate<IN> predicate)
     {
         if (predicate == null)
             throw new ProcessorBuildError(new ProcessingMessage()
                 .message(NULL_PREDICATE));
-        return new ProcessorSelectorPredicate<IN, OUT>(this, predicate,
-            byDefault);
+        return new ProcessorSelectorPredicate<IN, OUT>(this, predicate);
     }
 
+    /**
+     * Set a default processor
+     *
+     * @param byDefault the default processor
+     * @return a <b>new</b> selector
+     * @throws ProcessorBuildError default processor is null
+     */
     public ProcessorSelector<IN, OUT> otherwise(
         final Processor<IN, OUT> byDefault)
     {
@@ -73,6 +144,13 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
         return new ProcessorSelector<IN, OUT>(choices, byDefault);
     }
 
+    /**
+     * Build the processor from this selector
+     *
+     * <p>The returned processor is immutable: reusing this selector will not
+     * affect the result of this method in any way.</p>
+     * @return the selector
+     */
     public Processor<IN, OUT> getProcessor()
     {
         return new Chooser<IN, OUT>(choices, byDefault);
