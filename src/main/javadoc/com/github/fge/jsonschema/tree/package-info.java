@@ -15,22 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.tree;
-
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-
 /**
- * A {@link SimpleTree} with a navigation operation
+ * Navigable JSON tree representations
+ *
+ * <p>Classes in this package are wrappers over {@link
+ * com.fasterxml.jackson.databind.JsonNode} instances with navigation
+ * capabilities (using {@link
+ * com.github.fge.jsonschema.jsonpointer.JsonPointer}).</p>
+ *
+ * <p>A JSON Schema is represented by a {@link
+ * com.github.fge.jsonschema.tree.SchemaTree} and, in addition to navigation
+ * capabilities, offers other information such as the current URI context
+ * defined by that schema and JSON Reference resolution.</p>
  */
-public interface JsonTree
-    extends SimpleTree
-{
-    /**
-     * Append a JSON pointer to that tree and return a new tree
-     *
-     * @param pointer the pointer
-     * @return a new tree, with the pointer appended to the current pointer
-     */
-    JsonTree append(final JsonPointer pointer);
-}
-
+package com.github.fge.jsonschema.tree;

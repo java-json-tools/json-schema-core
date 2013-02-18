@@ -20,6 +20,12 @@ package com.github.fge.jsonschema.tree;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 
+/**
+ * Tree representation of a JSON Schema
+ *
+ * <p>In addition to navigation capabilities and node retrieval, this tree
+ * returns URI context information and JSON Reference resolution.</p>
+ */
 public interface SchemaTree
     extends SimpleTree
 {

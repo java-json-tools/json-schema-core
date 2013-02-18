@@ -27,16 +27,8 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
 /**
- * A {@link JsonTree} carrying URI resolution context information
+ * Base implementation of a {@link SchemaTree}
  *
- * <p>In addition to what {@link JsonTree} does, this tree also modifies URI
- * resolution context information when changing paths, and adds methods in order
- * to query this resolution context.</p>
- *
- * <p>All context information is carried as JSON References, since this is what
- * is used for addressing in JSON Schema.</p>
- *
- * @see com.github.fge.jsonschema.ref.JsonRef
  * @see CanonicalSchemaTree
  * @see InlineSchemaTree
  */
@@ -143,7 +135,7 @@ public abstract class BaseSchemaTree
      *
      * @param other the JSON Reference to resolve
      * @return the resolved reference
-     * @see com.github.fge.jsonschema.ref.JsonRef#resolve(com.github.fge.jsonschema.ref.JsonRef)
+     * @see JsonRef#resolve(JsonRef)
      */
     @Override
     public final JsonRef resolve(final JsonRef other)
@@ -160,7 +152,7 @@ public abstract class BaseSchemaTree
     /**
      * Get the loading URI for that schema
      *
-     * @return the loading URI as a {@link com.github.fge.jsonschema.ref.JsonRef}
+     * @return the loading URI as a {@link JsonRef}
      */
     @Override
     public final JsonRef getLoadingRef()
@@ -171,7 +163,7 @@ public abstract class BaseSchemaTree
     /**
      * Get the current resolution context
      *
-     * @return the context as a {@link com.github.fge.jsonschema.ref.JsonRef}
+     * @return the context as a {@link JsonRef}
      */
     @Override
     public final JsonRef getContext()

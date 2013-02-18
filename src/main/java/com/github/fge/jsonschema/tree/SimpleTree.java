@@ -18,18 +18,19 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.util.AsJson;
 
 /**
  * A JSON value decorated with JSON Pointer information
  *
- * <p>This is a {@link com.fasterxml.jackson.databind.JsonNode} with an internal path represented as a {@link
- * com.github.fge.jsonschema.jsonpointer.JsonPointer}. The current path and node are retrievable. If the current
+ * <p>This is a {@link JsonNode} with an internal path represented as a {@link
+ * JsonPointer}. The current path and node are retrievable. If the current
  * pointer points to a non existent path in the document, the retrieved node is
- * a {@link com.fasterxml.jackson.databind.node.MissingNode}.</p>
+ * a {@link MissingNode}.</p>
  *
- * @see com.github.fge.jsonschema.jsonpointer.JsonPointer
+ * @see JsonPointer
  */
 public interface SimpleTree
     extends AsJson
@@ -54,7 +55,7 @@ public interface SimpleTree
     /**
      * Get the node at the current path
      *
-     * @return the matching node (a {@link com.fasterxml.jackson.databind.node.MissingNode} if there is no matching
+     * @return the matching node (a {@link MissingNode} if there is no matching
      * node at that pointer)
      */
     JsonNode getNode();

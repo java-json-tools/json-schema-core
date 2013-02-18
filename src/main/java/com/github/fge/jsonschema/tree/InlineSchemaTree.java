@@ -26,6 +26,25 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
+/**
+ * A {@link SchemaTree} using inline dereferencing
+ *
+ * <p>In inline dereferencing, implementations are expected to trust that the
+ * schema is the referrent document for all contexts declared by {@code id}.
+ * For instance, with this schema:</p>
+ *
+ * <pre>
+ *     {
+ *         "id": "x;//y/z",
+ *         "sub": {
+ *             "id": "t"
+ *         }
+ *     }
+ * </pre>
+ *
+ * <p>JSON Reference {@code x://y/t#} is this JSON document at JSON Pointer
+ * {@code /sub}.</p>
+ */
 public final class InlineSchemaTree
     extends BaseSchemaTree
 {

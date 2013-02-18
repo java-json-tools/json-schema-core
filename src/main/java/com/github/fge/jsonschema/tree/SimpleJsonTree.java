@@ -19,10 +19,12 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import net.jcip.annotations.Immutable;
 
 /**
  * A simple {@link JsonTree}
  */
+@Immutable
 public final class SimpleJsonTree
     extends BaseJsonTree
 {

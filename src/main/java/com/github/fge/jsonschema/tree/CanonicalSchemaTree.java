@@ -21,6 +21,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 
+/**
+ * A {@link SchemaTree} using canonical dereferencing
+ *
+ * <p>In canonical dereferencing mode, a JSON Reference resolves within a
+ * schema if and only if the URI of the document and the base URI of the
+ * JSON Reference match exactly.</p>
+ *
+ * <p>That is, {@code x://y/z#/foo/bar} resolves within the schema at URI
+ * {@code x://y/z#}, but {@code x://y/t#} does not.</p>
+ */
 public final class CanonicalSchemaTree
     extends BaseSchemaTree
 {
