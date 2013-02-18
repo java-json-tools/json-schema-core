@@ -17,10 +17,13 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.processing.ProcessingCache;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processing.ProcessorSelector;
+import com.github.fge.jsonschema.report.LogLevel;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 
 /**
  * Messages used by processing helper classes
@@ -86,6 +89,18 @@ public enum ProcessingErrors
      * @see ProcessorChain#failOnError()
      */
     CHAIN_STOPPED("processing chain stopped"),
+    /**
+     * Attempt to set a null log level to a message
+     *
+     * @see ProcessingMessage#setLogLevel(LogLevel)
+     */
+    NULL_LEVEL("log level must not be null"),
+    /**
+     * Attempt to set a null exception provider to a message
+     *
+     * @see ProcessingMessage#setExceptionProvider(ExceptionProvider)
+     */
+    NULL_EXCEPTION_PROVIDER("exception provider must not be null"),
     ;
 
     private final String message;

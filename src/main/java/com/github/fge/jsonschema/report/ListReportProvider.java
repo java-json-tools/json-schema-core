@@ -17,6 +17,9 @@
 
 package com.github.fge.jsonschema.report;
 
+/**
+ * A report provider providing {@link ListProcessingReport} instances
+ */
 public final class ListReportProvider
     extends AbstractReportProvider
 {

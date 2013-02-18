@@ -17,6 +17,18 @@
 
 package com.github.fge.jsonschema.report;
 
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+
+/**
+ * Message log levels
+ *
+ * <p>A special log level, {@link #NONE}, can be used by processors wishing to
+ * implement "unchecked" validation (ie, capture {@link ProcessingException}s
+ * and report them instead of throwing them).</p>
+ *
+ * <p>All messages within {@link ProcessingException}s have level {@link
+ * #FATAL}.</p>
+ */
 public enum LogLevel
 {
     DEBUG("debug"),

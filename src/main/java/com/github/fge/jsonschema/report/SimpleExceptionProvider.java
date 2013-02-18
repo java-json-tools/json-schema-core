@@ -20,6 +20,9 @@ package com.github.fge.jsonschema.report;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 
+/**
+ * An {@link ExceptionProvider} providing {@link ProcessingException} instances
+ */
 public final class SimpleExceptionProvider
     implements ExceptionProvider
 {

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
@@ -32,6 +33,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.testng.Assert.*;
 
 public final class ProcessingMessageTest
@@ -64,8 +66,9 @@ public final class ProcessingMessageTest
         try {
             msg.setLogLevel(null);
             fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), "log level cannot be null");
+        } catch (ProcessingError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_LEVEL);
         }
     }
 
@@ -199,6 +202,18 @@ public final class ProcessingMessageTest
             throw testMessage.asException();
         } catch (Foo ignored) {
             assertTrue(true);
+        }
+    }
+
+    @Test
+    public void cannotSetNullExceptionProvider()
+    {
+        try {
+            new ProcessingMessage().setExceptionProvider(null);
+            fail("No exception thrown!!");
+        } catch (ProcessingError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_EXCEPTION_PROVIDER);
         }
     }
 

@@ -26,6 +26,9 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
+/**
+ * {@link List}-based implementation of a {@link ProcessingReport}
+ */
 public class ListProcessingReport
     extends AbstractProcessingReport
     implements AsJson

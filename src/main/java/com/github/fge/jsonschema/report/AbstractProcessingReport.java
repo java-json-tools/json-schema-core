@@ -19,6 +19,14 @@ package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 
+/**
+ * Base abstract implementation of a {@link ProcessingReport}
+ *
+ * <p>This abstract class implements all the logic of a processing report. The
+ * only method you need to implement is {@link #doLog(ProcessingMessage)},
+ * which will implement the actual logging of the message. When entering this
+ * method, the message's log level will already have been set correctly.</p>
+ */
 public abstract class AbstractProcessingReport
     implements ProcessingReport
 {

@@ -18,17 +18,24 @@
 /**
  * Processing report infrastructure
  *
- * <p>The four main classes of this package are:</p>
+ * <p>The core components of reporting are these three classes:</p>
  *
  * <ul>
  *     <li>{@link com.github.fge.jsonschema.report.ProcessingMessage} (an
  *     individual message);</li>
  *     <li>{@link com.github.fge.jsonschema.report.LogLevel} (the log level of a
  *     message);</li>
- *     <li>{@link com.github.fge.jsonschema.report.MessageProvider} (processing
- *     inputs/outputs message providers);</li>
  *     <li>{@link com.github.fge.jsonschema.report.ProcessingReport} (interface
  *     to a processing report).</li>
  * </ul>
+ *
+ * <p>Some implementations of {@link
+ * com.github.fge.jsonschema.report.ProcessingReport} are also provided.</p>
+ *
+ * <p>The other important interface in this package is {@link
+ * com.github.fge.jsonschema.report.MessageProvider}: all inputs and outputs
+ * of processors are required to implement it; its goal is for processors to
+ * be able to grab a message template reflecting the current processing context.
+ * </p>
  */
 package com.github.fge.jsonschema.report;
