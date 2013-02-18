@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.exceptions;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.SimpleExceptionProvider;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -36,7 +35,6 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
  * with that message. The latter method just returns the result of {@link
  * #doException(ProcessingMessage)} with {@code this} as an argument.</p>
  *
- * @see SimpleExceptionProvider
  * @see ProcessingMessage
  * @see AbstractProcessingReport
  */
@@ -44,12 +42,17 @@ public final class ExceptionProvider
 {
     private static final ProcessingMessage MESSAGE = new ProcessingMessage();
 
+    private static final ExceptionProvider DEFAULT_PROVIDER
+        = new ExceptionProvider(ProcessingException.class);
+
     private final Constructor<? extends ProcessingException> constructor;
 
     public static ExceptionProvider forClass(
         final Class<? extends ProcessingException> c)
     {
-        return new ExceptionProvider(c);
+        return c == ProcessingException.class
+            ? DEFAULT_PROVIDER
+            : new ExceptionProvider(c);
     }
 
     private ExceptionProvider(final Class<? extends ProcessingException> c)
