@@ -17,10 +17,25 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.DictionaryBuilder;
+
+/**
+ * Messages thrown by {@link DictionaryBuilder}
+ */
 public enum DictionaryBuildErrors
 {
+    /**
+     * Attempt to insert a null key
+     */
     NULL_KEY("dictionary keys must not be null"),
+    /**
+     * Attempt to insert a null value
+     */
     NULL_VALUE("dictionary values must not be null"),
+    /**
+     * Attempt to merge with a null {@link Dictionary}
+     */
     NULL_DICT("dictionary must not be null"),
     ;
     private final String message;

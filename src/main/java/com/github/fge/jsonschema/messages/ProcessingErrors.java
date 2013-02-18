@@ -17,17 +17,69 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.processing.ProcessingCache;
+import com.github.fge.jsonschema.processing.ProcessorMap;
+import com.github.fge.jsonschema.processing.ProcessorSelector;
+
+/**
+ * Messages used by processing helper classes
+ *
+ * @see com.github.fge.jsonschema.processing
+ */
 public enum ProcessingErrors
 {
+    /**
+     * No suitable processor found by a selector
+     *
+     * @see ProcessorSelector
+     * @see ProcessorMap
+     */
     NO_SUITABLE_PROCESSOR("no suitable processor found"),
+    /**
+     * Attempt to use a null predicate
+     *
+     * @see ProcessorSelector
+     */
     NULL_PREDICATE("predicate cannot be null"),
+    /**
+     * Attempt to use a null processor in selection
+     *
+     * @see ProcessorSelector
+     * @see ProcessorMap
+     */
     NULL_PROCESSOR("processor cannot be null"),
+    /**
+     * Attempt to use a null key in a map selector
+     *
+     * @see ProcessorMap
+     */
     NULL_KEY("map keys must not be null"),
+    /**
+     * Attempt to use a null function in a map selector
+     *
+     * @see ProcessorMap
+     */
     NULL_FUNCTION("input-to-key function must not be null"),
+    /**
+     * Attempt to use a null equivalence in a cache
+     *
+     * @see ProcessingCache
+     */
     NULL_EQUIVALENCE("equivalence must not be null"),
+    /**
+     * Attempt to use a null cache loader in a processing cache
+     *
+     * @see ProcessingCache
+     */
     NULL_LOADER("cache loader must not be null"),
+    /**
+     * Attempt to load a null key from a processing cache
+     *
+     * @see ProcessingCache
+     */
     NULL_KEYS_FORBIDDEN("null keys are not allowed"),
     ;
+
     private final String message;
 
     ProcessingErrors(final String message)
