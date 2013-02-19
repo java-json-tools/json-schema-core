@@ -130,6 +130,11 @@ public final class ProcessingReportTest
         }
 
         @Override
+        public void log(final LogLevel level, final ProcessingMessage message)
+        {
+        }
+
+        @Override
         public List<ProcessingMessage> getMessages()
         {
             return Collections.emptyList();

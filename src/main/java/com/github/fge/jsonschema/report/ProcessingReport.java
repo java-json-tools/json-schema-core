@@ -89,6 +89,9 @@ public abstract class ProcessingReport
 
     public abstract void doLog(final ProcessingMessage message);
 
+    public abstract void log(final LogLevel level,
+        final ProcessingMessage message);
+
     public final void log(final ProcessingMessage message)
         throws ProcessingException
     {

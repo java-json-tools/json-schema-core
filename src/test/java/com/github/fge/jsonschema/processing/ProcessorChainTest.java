@@ -19,10 +19,13 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
@@ -69,11 +72,11 @@ public final class ProcessorChainTest
             = mock(Processor.class);
 
         final Processor<MessageProvider, MessageProvider> processor
-            = ProcessorChain.startWith(p1).failOnError().chainWith(p2).getProcessor();
+            = ProcessorChain.startWith(p1).failOnError().chainWith(p2)
+                .getProcessor();
 
         final MessageProvider input = mock(MessageProvider.class);
-        final ProcessingReport report = mock(ProcessingReport.class);
-        when(report.isSuccess()).thenReturn(false);
+        final ProcessingReport report = new DummyReport(LogLevel.ERROR);
 
         try {
             processor.process(report, input);
@@ -104,12 +107,37 @@ public final class ProcessorChainTest
                 .getProcessor();
 
         final MessageProvider input = mock(MessageProvider.class);
-        final ProcessingReport report = mock(ProcessingReport.class);
-        when(report.isSuccess()).thenReturn(true);
+        final ProcessingReport report = new DummyReport(LogLevel.DEBUG);
 
         processor.process(report, input);
 
         verify(p1).process(same(report), any(MessageProvider.class));
         verify(p2).process(same(report), any(MessageProvider.class));
+    }
+
+    private static final class DummyReport
+        extends ProcessingReport
+    {
+        private DummyReport(final LogLevel currentLevel)
+        {
+            this.currentLevel = currentLevel;
+        }
+
+        @Override
+        public void doLog(ProcessingMessage message)
+        {
+        }
+
+        @Override
+        public void log(LogLevel level, ProcessingMessage message)
+        {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public List<ProcessingMessage> getMessages()
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
     }
 }

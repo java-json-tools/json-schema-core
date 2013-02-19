@@ -60,6 +60,12 @@ public class ListProcessingReport
     }
 
     @Override
+    public final void log(final LogLevel level, final ProcessingMessage message)
+    {
+        messages.add(message);
+    }
+
+    @Override
     public final JsonNode asJson()
     {
         final ArrayNode ret = FACTORY.arrayNode();
