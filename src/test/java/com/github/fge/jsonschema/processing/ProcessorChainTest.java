@@ -124,20 +124,19 @@ public final class ProcessorChainTest
         }
 
         @Override
-        public void doLog(ProcessingMessage message)
+        public void doLog(final ProcessingMessage message)
         {
         }
 
         @Override
-        public void log(LogLevel level, ProcessingMessage message)
+        public void log(final LogLevel level, final ProcessingMessage message)
         {
-            //To change body of implemented methods use File | Settings | File Templates.
         }
 
         @Override
         public List<ProcessingMessage> getMessages()
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            return null;
         }
     }
 }
