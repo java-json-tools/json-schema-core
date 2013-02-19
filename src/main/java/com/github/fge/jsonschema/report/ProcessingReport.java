@@ -22,150 +22,90 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import java.util.List;
 
 /**
- * Interface for a processing report
  *
- * <p>This interface is what processors use when reporting messages. The base
- * abstract implementation, {@link AbstractProcessingReport}, provides the
- * necessary mechanics to obey the contract defined by all methods. If you
- * choose to implement it yourself, you <b>must</b> obey this contract as well,
- * otherwise processors may not behave correctly!</p>
- *
- * <p>You will note that this interface extends {@link MessageProvider}: this
- * is because it is perfectly possible for a report to be used as the output
- * of a processor.</p>
- *
- * @see AbstractProcessingReport
+ * <p>This abstract class implements all the logic of a processing report. The
+ * only method you need to implement is {@link #doLog(ProcessingMessage)},
+ * which will implement the actual logging of the message. When entering this
+ * method, the message's log level will already have been set correctly.</p>
  */
-public interface ProcessingReport
-    extends MessageProvider
+public abstract class ProcessingReport
 {
-    /**
-     * Set the minimum log level for this report
-     *
-     * <p>Only messages with a level greater than, or equal to, the level
-     * defined here will be processed.</p>
-     *
-     * @param level the wanted log level
-     */
-    void setLogLevel(LogLevel level);
+    protected LogLevel currentLevel = LogLevel.DEBUG;
+    private LogLevel logLevel = LogLevel.INFO;
+    private LogLevel exceptionThreshold = LogLevel.FATAL;
 
-    /**
-     * Set the exception threshold log level
-     *
-     * <p>Messages with a level greater than, or equal to, the level defined
-     * here will throw a {@link ProcessingException} instead of being logged.
-     * </p>
-     *
-     * @param level the wanted exception threshold
-     */
-    void setExceptionThreshold(LogLevel level);
+    protected ProcessingReport()
+    {
+    }
 
-    /**
-     * Get the current log level threshold of this report
-     *
-     * <p>This method, and {@link #getExceptionThreshold()}, can be used by
-     * other processing reports to reflect the log level and exception threshold
-     * of this report.</p>
-     *
-     * @return the current log level
-     */
-    LogLevel getLogLevel();
+    public final void setLogLevel(final LogLevel level)
+    {
+        logLevel = level;
+    }
 
-    /**
-     * Get the current exception threshold of this report
-     *
-     * @return the exception threshold
-     *
-     * @see #getLogLevel()
-     */
-    LogLevel getExceptionThreshold();
+    public final void setExceptionThreshold(final LogLevel level)
+    {
+        exceptionThreshold = level;
+    }
 
-    /**
-     * Log one "raw" message
-     *
-     * <p>In this case, implementations will probably want to inspect the
-     * message's log level to take appropriate action. This method is
-     * basically intended for log message "injection".</p>
-     *
-     * @param message the message
-     * @throws ProcessingException characteristics of this message grant that
-     * an exception be thrown
-     * @see ProcessingMessage#getLogLevel()
-     * @see ProcessingMessage#asException()
-     */
-    void log(ProcessingMessage message)
-        throws ProcessingException;
+    public final LogLevel getLogLevel()
+    {
+        return logLevel;
+    }
 
-    /**
-     * Log a debugging message
-     *
-     * <p>For this method, and all other similar methods, implementations
-     * <b>should</b> set the appropriate log level to the message.</p>
-     *
-     * @param message the message
-     * @throws ProcessingException exception threshold requires that an
-     * exception be thrown
-     * @see ProcessingMessage#setLogLevel(LogLevel)
-     */
-    void debug(ProcessingMessage message)
-        throws ProcessingException;
+    public final LogLevel getExceptionThreshold()
+    {
+        return exceptionThreshold;
+    }
 
-    /**
-     * Log an informational message
-     *
-     * <p>For this method, and all other similar methods, implementations
-     * <b>should</b> set the appropriate log level to the message.</p>
-     *
-     * @param message the message
-     * @throws ProcessingException exception threshold requires that an
-     * exception be thrown
-     * @see ProcessingMessage#setLogLevel(LogLevel)
-     */
-    void info(ProcessingMessage message)
-        throws ProcessingException;
+    public final void debug(final ProcessingMessage message)
+        throws ProcessingException
+    {
+        log(message.setLogLevel(LogLevel.DEBUG));
+    }
 
-    /**
-     * Log a warning message
-     *
-     * <p>For this method, and all other similar methods, implementations
-     * <b>should</b> set the appropriate log level to the message.</p>
-     *
-     * @param message the message
-     * @throws ProcessingException exception threshold requires that an
-     * exception be thrown
-     * @see ProcessingMessage#setLogLevel(LogLevel)
-     */
-    void warn(ProcessingMessage message)
-        throws ProcessingException;
+    public final void info(final ProcessingMessage message)
+        throws ProcessingException
+    {
+        log(message.setLogLevel(LogLevel.INFO));
+    }
 
-    /**
-     * Log an error message
-     *
-     * <p>For this method, and all other similar methods, implementations
-     * <b>should</b> set the appropriate log level to the message.</p>
-     *
-     * @param message the message
-     * @throws ProcessingException exception threshold requires that an
-     * exception be thrown
-     * @see ProcessingMessage#setLogLevel(LogLevel)
-     */
-    void error(ProcessingMessage message)
-        throws ProcessingException;
+    public final void warn(final ProcessingMessage message)
+        throws ProcessingException
+    {
+        log(message.setLogLevel(LogLevel.WARNING));
+    }
 
-    /**
-     * Tell whether this report is a success
-     *
-     * <p>More often than not, this will return true if all messages logged so
-     * far had a level of {@link LogLevel#WARNING} or less.</p>
-     *
-     * @return true if the processing is considered a success
-     */
-    boolean isSuccess();
+    public final void error(final ProcessingMessage message)
+        throws ProcessingException
+    {
+        log(message.setLogLevel(LogLevel.ERROR));
+    }
 
-    /**
-     * Get a list of collected messages (optional)
-     *
-     * @return a list of collected messages, if any (may be empty or null)
-     */
-    List<ProcessingMessage> getMessages();
+    public final boolean isSuccess()
+    {
+        return currentLevel.compareTo(LogLevel.ERROR) < 0;
+    }
+
+    public abstract void doLog(final ProcessingMessage message);
+
+    public final void log(final ProcessingMessage message)
+        throws ProcessingException
+    {
+        final LogLevel level = message.getLogLevel();
+
+        if (level.compareTo(exceptionThreshold) >= 0)
+            throw message.asException();
+        if (level.compareTo(currentLevel) > 0)
+            currentLevel = level;
+        if (level.compareTo(logLevel) >= 0)
+            doLog(message.setLogLevel(level));
+    }
+
+    public final ProcessingMessage newMessage()
+    {
+        return new ProcessingMessage();
+    }
+
+    public abstract List<ProcessingMessage> getMessages();
 }

@@ -17,22 +17,22 @@
 
 package com.github.fge.jsonschema.exceptions;
 
-import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.report.SimpleExceptionProvider;
 
 /**
  * An exception provider for a {@link ProcessingMessage}
  *
  * <p>The main use of this interface is in processing messages themselves:
- * {@link AbstractProcessingReport}, for instance, uses a message's {@link
+ * {@link ProcessingReport}, for instance, uses a message's {@link
  * ProcessingMessage#asException()} method to throw the exception associated
  * with that message. The latter method just returns the result of {@link
  * #doException(ProcessingMessage)} with {@code this} as an argument.</p>
  *
  * @see SimpleExceptionProvider
  * @see ProcessingMessage
- * @see AbstractProcessingReport
+ * @see ProcessingReport
  */
 public interface ExceptionProvider
 {

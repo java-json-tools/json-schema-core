@@ -30,7 +30,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public final class AbstractProcessingReportTest
+public final class ProcessingReportTest
 {
     /*
      * All levels except fatal
@@ -58,7 +58,7 @@ public final class AbstractProcessingReportTest
     {
         final ProcessingMessage msg = new ProcessingMessage();
         final int nrInvocations  = LEVELS.size() - wantedLevel.ordinal();
-        final AbstractProcessingReport ctx = spy(new TestProcessingReport());
+        final ProcessingReport ctx = spy(new TestProcessingReport());
 
         ctx.setLogLevel(wantedLevel);
 
@@ -72,7 +72,7 @@ public final class AbstractProcessingReportTest
     public void successIsCorrectlyReported(final LogLevel wantedLevel)
         throws ProcessingException
     {
-        final AbstractProcessingReport ctx = new TestProcessingReport();
+        final ProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
 
         final boolean expected = wantedLevel.compareTo(LogLevel.ERROR) < 0;
@@ -99,7 +99,7 @@ public final class AbstractProcessingReportTest
 
         final EnumSet<LogLevel> thrown = EnumSet.complementOf(notThrown);
 
-        final AbstractProcessingReport ctx = new TestProcessingReport();
+        final ProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
 
         ctx.setExceptionThreshold(wantedLevel);
@@ -122,7 +122,7 @@ public final class AbstractProcessingReportTest
     }
 
     private static class TestProcessingReport
-        extends AbstractProcessingReport
+        extends ProcessingReport
     {
         @Override
         public void doLog(final ProcessingMessage message)
