@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * {@link List}-based implementation of a {@link ProcessingReport}
  */
-public class ListProcessingReport
+public final class ListProcessingReport
     extends ProcessingReport
     implements AsJson
 {
