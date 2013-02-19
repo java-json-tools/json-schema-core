@@ -63,25 +63,25 @@ public abstract class ProcessingReport
     public final void debug(final ProcessingMessage message)
         throws ProcessingException
     {
-        log(message.setLogLevel(LogLevel.DEBUG));
+        dispatch(message.setLogLevel(LogLevel.DEBUG));
     }
 
     public final void info(final ProcessingMessage message)
         throws ProcessingException
     {
-        log(message.setLogLevel(LogLevel.INFO));
+        dispatch(message.setLogLevel(LogLevel.INFO));
     }
 
     public final void warn(final ProcessingMessage message)
         throws ProcessingException
     {
-        log(message.setLogLevel(LogLevel.WARNING));
+        dispatch(message.setLogLevel(LogLevel.WARNING));
     }
 
     public final void error(final ProcessingMessage message)
         throws ProcessingException
     {
-        log(message.setLogLevel(LogLevel.ERROR));
+        dispatch(message.setLogLevel(LogLevel.ERROR));
     }
 
     public final boolean isSuccess()
@@ -92,7 +92,7 @@ public abstract class ProcessingReport
     public abstract void log(final LogLevel level,
         final ProcessingMessage message);
 
-    private void log(final ProcessingMessage message)
+    private void dispatch(final ProcessingMessage message)
         throws ProcessingException
     {
         final LogLevel level = message.getLogLevel();
