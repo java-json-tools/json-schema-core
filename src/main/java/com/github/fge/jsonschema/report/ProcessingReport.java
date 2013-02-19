@@ -22,11 +22,13 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import java.util.List;
 
 /**
+ * Base implementation of a processing report
  *
  * <p>This abstract class implements all the logic of a processing report. The
- * only method you need to implement is {@link #doLog(ProcessingMessage)},
- * which will implement the actual logging of the message. When entering this
- * method, the message's log level will already have been set correctly.</p>
+ * only method you need to implement is {@link
+ * #log(LogLevel, ProcessingMessage)}, which will implement the actual logging
+ * of the message. When entering this method, the message's log level will
+ * already have been set correctly.</p>
  */
 public abstract class ProcessingReport
 {
@@ -87,12 +89,10 @@ public abstract class ProcessingReport
         return currentLevel.compareTo(LogLevel.ERROR) < 0;
     }
 
-    public abstract void doLog(final ProcessingMessage message);
-
     public abstract void log(final LogLevel level,
         final ProcessingMessage message);
 
-    public final void log(final ProcessingMessage message)
+    private void log(final ProcessingMessage message)
         throws ProcessingException
     {
         final LogLevel level = message.getLogLevel();
@@ -102,7 +102,7 @@ public abstract class ProcessingReport
         if (level.compareTo(currentLevel) > 0)
             currentLevel = level;
         if (level.compareTo(logLevel) >= 0)
-            doLog(message.setLogLevel(level));
+            log(level, message.setLogLevel(level));
     }
 
     public final ProcessingMessage newMessage()

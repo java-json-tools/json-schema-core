@@ -17,18 +17,13 @@
 
 package com.github.fge.jsonschema.report;
 
-import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public final class ProcessingReportTest
 {
@@ -50,94 +45,5 @@ public final class ProcessingReportTest
         Collections.shuffle(list);
 
         return list.iterator();
-    }
-
-    @Test(dataProvider = "getLogLevels")
-    public void logLevelIsObeyed(final LogLevel wantedLevel)
-        throws ProcessingException
-    {
-        final ProcessingMessage msg = new ProcessingMessage();
-        final int nrInvocations  = LEVELS.size() - wantedLevel.ordinal();
-        final ProcessingReport ctx = spy(new TestProcessingReport());
-
-        ctx.setLogLevel(wantedLevel);
-
-        for (final LogLevel level: LEVELS)
-            ctx.log(msg.setLogLevel(level));
-
-        verify(ctx, times(nrInvocations)).doLog(msg);
-    }
-
-    @Test(dataProvider = "getLogLevels")
-    public void successIsCorrectlyReported(final LogLevel wantedLevel)
-        throws ProcessingException
-    {
-        final ProcessingReport ctx = new TestProcessingReport();
-        final ProcessingMessage msg = new ProcessingMessage();
-
-        final boolean expected = wantedLevel.compareTo(LogLevel.ERROR) < 0;
-
-        ctx.log(msg.setLogLevel(wantedLevel));
-
-        final boolean actual = ctx.isSuccess();
-        final String errmsg = "incorrect status report for level "
-            + wantedLevel;
-
-        assertEquals(actual, expected, errmsg);
-    }
-
-    @Test(dataProvider = "getLogLevels")
-    public void exceptionThresholdIsObeyed(final LogLevel wantedLevel)
-    {
-        final EnumSet<LogLevel> notThrown = EnumSet.noneOf(LogLevel.class);
-
-        for (final LogLevel level: LEVELS) {
-            if (level.compareTo(wantedLevel) >= 0)
-                break;
-            notThrown.add(level);
-        }
-
-        final EnumSet<LogLevel> thrown = EnumSet.complementOf(notThrown);
-
-        final ProcessingReport ctx = new TestProcessingReport();
-        final ProcessingMessage msg = new ProcessingMessage();
-
-        ctx.setExceptionThreshold(wantedLevel);
-
-        for (final LogLevel safe: notThrown)
-            try {
-                ctx.log(msg.setLogLevel(safe));
-            } catch (ProcessingException ignored) {
-                fail("exception thrown at level " + safe
-                    + " whereas exception threshold is " + wantedLevel + '!');
-            }
-
-        for (final LogLevel oops: thrown)
-            try {
-                ctx.log(msg.setLogLevel(oops));
-                fail("exception not thrown at level " + oops
-                    + " whereas exception threshold is " + wantedLevel + '!');
-            } catch (ProcessingException ignored) {
-            }
-    }
-
-    private static class TestProcessingReport
-        extends ProcessingReport
-    {
-        @Override
-        public void doLog(final ProcessingMessage message)
-        {
-        }
-
-        @Override
-        public void log(final LogLevel level, final ProcessingMessage message)
-        {
-        }
-
-        @Override
-        public List<ProcessingMessage> getMessages()
-        {
-            return Collections.emptyList();
-        }
     }
 }
