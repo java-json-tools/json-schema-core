@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ import java.util.List;
  */
 public abstract class ProcessingReport
 {
+    @VisibleForTesting
     protected LogLevel currentLevel = LogLevel.DEBUG;
     private LogLevel logLevel = LogLevel.INFO;
     private LogLevel exceptionThreshold = LogLevel.FATAL;
