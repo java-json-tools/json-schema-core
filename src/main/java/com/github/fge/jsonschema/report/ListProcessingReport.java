@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Lists;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -54,13 +55,13 @@ public final class ListProcessingReport
     }
 
     @Override
-    public final void log(final LogLevel level, final ProcessingMessage message)
+    public void log(final LogLevel level, final ProcessingMessage message)
     {
         messages.add(message);
     }
 
     @Override
-    public final JsonNode asJson()
+    public JsonNode asJson()
     {
         final ArrayNode ret = FACTORY.arrayNode();
         for (final ProcessingMessage message: messages)
@@ -69,8 +70,9 @@ public final class ListProcessingReport
     }
 
     @Override
-    public final List<ProcessingMessage> getMessages()
+    public Iterator<ProcessingMessage> iterator()
     {
-        return Lists.newArrayList(messages);
+        return Lists.newArrayList(messages).iterator();
     }
+
 }

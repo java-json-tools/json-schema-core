@@ -20,8 +20,6 @@ package com.github.fge.jsonschema.report;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.google.common.annotations.VisibleForTesting;
 
-import java.util.List;
-
 /**
  * Base implementation of a processing report
  *
@@ -32,7 +30,7 @@ import java.util.List;
  * already have been set correctly.</p>
  */
 public abstract class ProcessingReport
-    implements MessageProvider
+    implements MessageProvider, Iterable<ProcessingMessage>
 {
     @VisibleForTesting
     protected LogLevel currentLevel = LogLevel.DEBUG;
@@ -108,10 +106,9 @@ public abstract class ProcessingReport
             log(level, message.setLogLevel(level));
     }
 
+    @Override
     public final ProcessingMessage newMessage()
     {
         return new ProcessingMessage();
     }
-
-    public abstract List<ProcessingMessage> getMessages();
 }

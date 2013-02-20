@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -27,9 +28,9 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class ProcessingReportTest
 {
@@ -134,9 +135,9 @@ public final class ProcessingReportTest
         }
 
         @Override
-        public final List<ProcessingMessage> getMessages()
+        public final Iterator<ProcessingMessage> iterator()
         {
-            return null;
+            return Iterators.emptyIterator();
         }
     }
 }
