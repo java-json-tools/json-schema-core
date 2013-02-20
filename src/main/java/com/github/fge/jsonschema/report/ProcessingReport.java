@@ -32,6 +32,7 @@ import java.util.List;
  * already have been set correctly.</p>
  */
 public abstract class ProcessingReport
+    implements MessageProvider
 {
     @VisibleForTesting
     protected LogLevel currentLevel = LogLevel.DEBUG;
