@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterators;
 
 import java.util.Iterator;
@@ -27,19 +26,35 @@ import java.util.Iterator;
  * Base implementation of a processing report
  *
  * <p>This abstract class implements all the logic of a processing report. The
- * only method you need to implement is {@link
- * #log(LogLevel, ProcessingMessage)}, which will implement the actual logging
- * of the message. When entering this method, the message's log level will
- * already have been set correctly.</p>
+ * only method you need to implement is {@link #log(LogLevel,
+ * ProcessingMessage)}, which will implement the actual logging of the message.
+ * When entering this method, the message's log level will already have been set
+ * correctly.</p>
  */
 public abstract class AbstractProcessingReport
     implements ProcessingReport
 {
-    @VisibleForTesting
-    protected LogLevel currentLevel = LogLevel.DEBUG;
+    /**
+     * The highest log level seen so far
+     */
+    private LogLevel currentLevel = LogLevel.DEBUG;
+
+    /**
+     * The log threshold
+     */
     private final LogLevel logLevel;
+
+    /**
+     * The exception threshold
+     */
     private final LogLevel exceptionThreshold;
 
+    /**
+     * Main constructor
+     *
+     * @param logLevel the log threshold for this report
+     * @param exceptionThreshold the exception threshold for this report
+     */
     protected AbstractProcessingReport(final LogLevel logLevel,
         final LogLevel exceptionThreshold)
     {
@@ -47,11 +62,26 @@ public abstract class AbstractProcessingReport
         this.exceptionThreshold = exceptionThreshold;
     }
 
+    /**
+     * Alternate constructor
+     *
+     * <p>This constructor calls {@link #AbstractProcessingReport(LogLevel,
+     * LogLevel)} with {@link LogLevel#FATAL} as the second argument.</p>
+     *
+     * @param logLevel the log threshold
+     */
     protected AbstractProcessingReport(final LogLevel logLevel)
     {
         this(logLevel, LogLevel.FATAL);
     }
 
+    /**
+     * Alternate constructor
+     *
+     * <p>This constructor calls {@link #AbstractProcessingReport(LogLevel,
+     * LogLevel)} with {@link LogLevel#INFO} as the first argument and {@link
+     * LogLevel#FATAL} as the second argument.</p>
+     */
     protected AbstractProcessingReport()
     {
         this(LogLevel.INFO, LogLevel.FATAL);
@@ -103,10 +133,30 @@ public abstract class AbstractProcessingReport
         return currentLevel.compareTo(LogLevel.ERROR) < 0;
     }
 
+    /**
+     * The only method to be implemented when extending this class
+     *
+     * <p>Note that the message's log level will have been correctly set. The
+     * log level is passed as an argument for convenience.</p>
+     *
+     * @param level the level of the message
+     * @param message the message itself
+     */
     public abstract void log(final LogLevel level,
         final ProcessingMessage message);
 
-    private void dispatch(final ProcessingMessage message)
+    /**
+     * Main dispatch method
+     *
+     * <p>All messages logged go through this method. According to the report
+     * configuration, the message will either be ignored, logged or raise an
+     * exception.</p>
+     *
+     * @param message the message to log
+     * @throws ProcessingException the message's level and report configuration
+     * require that an exception be thrown
+     */
+    protected final void dispatch(final ProcessingMessage message)
         throws ProcessingException
     {
         final LogLevel level = message.getLogLevel();

@@ -118,8 +118,9 @@ public final class ProcessorChainTest
         extends AbstractProcessingReport
     {
         private DummyReport(final LogLevel currentLevel)
+            throws ProcessingException
         {
-            this.currentLevel = currentLevel;
+            dispatch(new ProcessingMessage().setLogLevel(currentLevel));
         }
 
         @Override
