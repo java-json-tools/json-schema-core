@@ -19,6 +19,9 @@ package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Iterators;
+
+import java.util.Iterator;
 
 /**
  * Base implementation of a processing report
@@ -104,6 +107,12 @@ public abstract class ProcessingReport
             currentLevel = level;
         if (level.compareTo(logLevel) >= 0)
             log(level, message.setLogLevel(level));
+    }
+
+    @Override
+    public Iterator<ProcessingMessage> iterator()
+    {
+        return Iterators.emptyIterator();
     }
 
     @Override

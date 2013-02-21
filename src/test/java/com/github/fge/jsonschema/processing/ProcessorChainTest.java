@@ -23,10 +23,7 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.Iterators;
 import org.testng.annotations.Test;
-
-import java.util.Iterator;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
@@ -127,12 +124,6 @@ public final class ProcessorChainTest
         @Override
         public void log(final LogLevel level, final ProcessingMessage message)
         {
-        }
-
-        @Override
-        public Iterator<ProcessingMessage> iterator()
-        {
-            return Iterators.emptyIterator();
         }
     }
 }
