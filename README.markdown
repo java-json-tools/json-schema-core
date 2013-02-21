@@ -20,8 +20,9 @@ be used by other packages as well:</p>
 
 <h2>Version</h2>
 
-<p>The current verson is <b>0.99.5</b> (<a
-href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>).</p>
+<p>The current verson is <b>0.99.6</b> (<a
+href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>, <a
+href="http://fge.github.com/json-schema-core/devel/index.html">Javadoc</a>).</p>
 
 <h2>Maven artifact</h2>
 
