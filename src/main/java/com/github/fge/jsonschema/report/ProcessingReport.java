@@ -120,4 +120,11 @@ public abstract class ProcessingReport
     {
         return new ProcessingMessage();
     }
+
+    public final void mergeWith(final ProcessingReport other)
+        throws ProcessingException
+    {
+        for (final ProcessingMessage message: other)
+            dispatch(message);
+    }
 }
