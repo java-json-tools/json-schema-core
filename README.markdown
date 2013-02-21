@@ -17,7 +17,7 @@ be used by other packages as well:</p>
 * other various interfaces.
 
 <p>For more details on these components, see <a
-href="https://github.com/fge/json-schema-core/wiki/ChangeLog">here</a>.
+href="https://github.com/fge/json-schema-core/wiki/Architecture">here</a>.
 
 <p>A new package will be created showing this package in action.</p>
 
