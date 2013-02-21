@@ -37,21 +37,24 @@ public abstract class ProcessingReport
 {
     @VisibleForTesting
     protected LogLevel currentLevel = LogLevel.DEBUG;
-    private LogLevel logLevel = LogLevel.INFO;
-    private LogLevel exceptionThreshold = LogLevel.FATAL;
+    private final LogLevel logLevel;
+    private final LogLevel exceptionThreshold;
+
+    protected ProcessingReport(final LogLevel logLevel,
+        final LogLevel exceptionThreshold)
+    {
+        this.logLevel = logLevel;
+        this.exceptionThreshold = exceptionThreshold;
+    }
+
+    protected ProcessingReport(final LogLevel logLevel)
+    {
+        this(logLevel, LogLevel.FATAL);
+    }
 
     protected ProcessingReport()
     {
-    }
-
-    public final void setLogLevel(final LogLevel level)
-    {
-        logLevel = level;
-    }
-
-    public final void setExceptionThreshold(final LogLevel level)
-    {
-        exceptionThreshold = level;
+        this(LogLevel.INFO, LogLevel.FATAL);
     }
 
     public final LogLevel getLogLevel()

@@ -41,20 +41,4 @@ public abstract class AbstractReportProvider
         this.logLevel = logLevel;
         this.exceptionThreshold = exceptionThreshold;
     }
-
-    @Override
-    public final ProcessingReport newReport()
-    {
-        final ProcessingReport report = doNewReport();
-        report.setLogLevel(logLevel);
-        report.setExceptionThreshold(exceptionThreshold);
-        return report;
-    }
-
-    /**
-     * Generate a bare-bones report
-     *
-     * @return a report
-     */
-    protected abstract ProcessingReport doNewReport();
 }

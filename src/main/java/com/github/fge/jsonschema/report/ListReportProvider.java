@@ -30,8 +30,8 @@ public final class ListReportProvider
     }
 
     @Override
-    protected ProcessingReport doNewReport()
+    public ProcessingReport newReport()
     {
-        return new ListProcessingReport();
+        return new ListProcessingReport(logLevel, exceptionThreshold);
     }
 }

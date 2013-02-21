@@ -90,8 +90,8 @@ public final class ProcessingReportTest
     @Test(dataProvider = "getLogLevels")
     public void exceptionThresholdIsRespected(final LogLevel logLevel)
     {
-        final ProcessingReport report = new LogThreshold(LogLevel.DEBUG);
-        report.setExceptionThreshold(logLevel);
+        final ProcessingReport report
+            = new LogThreshold(LogLevel.DEBUG, logLevel);
         final ProcessingMessage message = new ProcessingMessage();
         final int expected = LogLevel.FATAL.ordinal() - logLevel.ordinal();
         int actual = 0;
@@ -123,9 +123,15 @@ public final class ProcessingReportTest
     private static class LogThreshold
         extends ProcessingReport
     {
+        private LogThreshold(final LogLevel logLevel,
+            final LogLevel exceptionThreshold)
+        {
+            super(logLevel, exceptionThreshold);
+        }
+
         private LogThreshold(final LogLevel logThreshold)
         {
-            setLogLevel(logThreshold);
+            super(logThreshold);
         }
 
         @Override

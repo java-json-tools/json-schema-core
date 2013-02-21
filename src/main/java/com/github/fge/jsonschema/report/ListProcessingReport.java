@@ -39,20 +39,24 @@ public final class ListProcessingReport
 
     private final List<ProcessingMessage> messages = Lists.newArrayList();
 
+    public ListProcessingReport(final LogLevel logLevel,
+        final LogLevel exceptionThreshold)
+    {
+        super(logLevel, exceptionThreshold);
+    }
+
+    public ListProcessingReport(final LogLevel logLevel)
+    {
+        super(logLevel);
+    }
+
     public ListProcessingReport()
     {
     }
 
     public ListProcessingReport(final ProcessingReport other)
     {
-        // FIXME: necessary, otherwise mocks don't work
-        LogLevel level;
-        level = other.getLogLevel();
-        if (level != null)
-            setLogLevel(level);
-        level = other.getExceptionThreshold();
-        if (level != null)
-            setExceptionThreshold(level);
+        this(other.getLogLevel(), other.getExceptionThreshold());
     }
 
     @Override
