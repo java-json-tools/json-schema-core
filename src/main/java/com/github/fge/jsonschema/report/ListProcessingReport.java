@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
 import java.util.Iterator;
@@ -72,7 +73,7 @@ public final class ListProcessingReport
     @Override
     public Iterator<ProcessingMessage> iterator()
     {
-        return Lists.newArrayList(messages).iterator();
+        return Iterators.unmodifiableIterator(messages.iterator());
     }
 
 }
