@@ -29,9 +29,6 @@
  *     to a processing report).</li>
  * </ul>
  *
- * <p>Some implementations of {@link
- * com.github.fge.jsonschema.report.ProcessingReport} are also provided.</p>
- *
  * <p>The other important interface in this package is {@link
  * com.github.fge.jsonschema.report.MessageProvider}: all inputs and outputs
  * of processors are required to implement it; its goal is for processors to

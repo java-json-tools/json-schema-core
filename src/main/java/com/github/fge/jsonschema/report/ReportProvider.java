@@ -38,8 +38,22 @@ public interface ReportProvider
      */
     ProcessingReport newReport();
 
+    /**
+     * Generate a new report with an adapted log level and the same exception
+     * threshold
+     *
+     * @param logLevel the new log level
+     * @return a new report
+     */
     ProcessingReport newReport(final LogLevel logLevel);
 
+    /**
+     * Generate a new report with an adapted log level and exception threshold
+     *
+     * @param logLevel the new log level
+     * @param exceptionThreshold the new exception threshold
+     * @return a new report
+     */
     ProcessingReport newReport(final LogLevel logLevel,
         final LogLevel exceptionThreshold);
 }
