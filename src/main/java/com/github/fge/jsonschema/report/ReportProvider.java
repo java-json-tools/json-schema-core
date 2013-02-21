@@ -37,4 +37,9 @@ public interface ReportProvider
      * @return a new report
      */
     ProcessingReport newReport();
+
+    ProcessingReport newReport(final LogLevel logLevel);
+
+    ProcessingReport newReport(final LogLevel logLevel,
+        final LogLevel exceptionThreshold);
 }

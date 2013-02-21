@@ -34,4 +34,17 @@ public final class ListReportProvider
     {
         return new ListProcessingReport(logLevel, exceptionThreshold);
     }
+
+    @Override
+    public ProcessingReport newReport(final LogLevel logLevel)
+    {
+        return new ListProcessingReport(logLevel);
+    }
+
+    @Override
+    public ProcessingReport newReport(final LogLevel logLevel,
+        final LogLevel exceptionThreshold)
+    {
+        return new ListProcessingReport(logLevel, exceptionThreshold);
+    }
 }
