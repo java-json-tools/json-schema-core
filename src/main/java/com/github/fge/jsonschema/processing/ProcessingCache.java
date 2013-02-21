@@ -62,11 +62,14 @@ import static com.google.common.base.Equivalence.Wrapper;
  * @param <K> the type of (wrapped) keys for this cache
  * @param <V> the type of values retrieved by this cache
  *
+ * @deprecated use {@link CachingProcessor} instead
+ *
  * @see LoadingCache
  * @see Equivalence
  * @see Wrapper
  */
 @ThreadSafe
+@Deprecated
 public final class ProcessingCache<K, V>
 {
     /**
