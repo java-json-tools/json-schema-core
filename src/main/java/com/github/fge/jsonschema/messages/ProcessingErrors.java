@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.messages;
 
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
-import com.github.fge.jsonschema.processing.ProcessingCache;
+import com.github.fge.jsonschema.processing.CachingProcessor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processing.ProcessorSelector;
@@ -68,21 +68,9 @@ public enum ProcessingErrors
     /**
      * Attempt to use a null equivalence in a cache
      *
-     * @see ProcessingCache
+     * @see CachingProcessor
      */
     NULL_EQUIVALENCE("equivalence must not be null"),
-    /**
-     * Attempt to use a null cache loader in a processing cache
-     *
-     * @see ProcessingCache
-     */
-    NULL_LOADER("cache loader must not be null"),
-    /**
-     * Attempt to load a null key from a processing cache
-     *
-     * @see ProcessingCache
-     */
-    NULL_KEYS_FORBIDDEN("null keys are not allowed"),
     /**
      * Chain deliberately stopped
      *
