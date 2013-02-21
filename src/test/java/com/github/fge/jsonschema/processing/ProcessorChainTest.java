@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -114,7 +115,7 @@ public final class ProcessorChainTest
     }
 
     private static final class DummyReport
-        extends ProcessingReport
+        extends AbstractProcessingReport
     {
         private DummyReport(final LogLevel currentLevel)
         {

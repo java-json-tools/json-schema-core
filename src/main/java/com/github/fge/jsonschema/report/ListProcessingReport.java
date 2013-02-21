@@ -32,7 +32,7 @@ import java.util.List;
  * {@link List}-based implementation of a {@link ProcessingReport}
  */
 public final class ListProcessingReport
-    extends ProcessingReport
+    extends AbstractProcessingReport
     implements AsJson
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();

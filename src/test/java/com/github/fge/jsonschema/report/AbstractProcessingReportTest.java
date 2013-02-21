@@ -31,7 +31,7 @@ import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public final class ProcessingReportTest
+public final class AbstractProcessingReportTest
 {
     /*
      * All levels except fatal
@@ -57,7 +57,8 @@ public final class ProcessingReportTest
     public void logThresholdIsRespected(final LogLevel logLevel)
         throws ProcessingException
     {
-        final ProcessingReport report = spy(new LogThreshold(logLevel));
+        final AbstractProcessingReport report
+            = spy(new LogThreshold(logLevel));
         final ProcessingMessage message = new ProcessingMessage();
         // OK, that's ugly, but it works...
         final int count = LogLevel.FATAL.ordinal() - logLevel.ordinal();
@@ -121,7 +122,7 @@ public final class ProcessingReportTest
     }
 
     private static class LogThreshold
-        extends ProcessingReport
+        extends AbstractProcessingReport
     {
         private LogThreshold(final LogLevel logLevel,
             final LogLevel exceptionThreshold)
