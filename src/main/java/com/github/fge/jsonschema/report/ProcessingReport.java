@@ -9,7 +9,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
  * you extend {@link AbstractProcessingReport} instead.</p>
  */
 public interface ProcessingReport
-    extends MessageProvider, Iterable<ProcessingMessage>
+    extends Iterable<ProcessingMessage>
 {
     /**
      * Get the log level of this report

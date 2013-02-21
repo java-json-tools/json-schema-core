@@ -176,12 +176,6 @@ public abstract class AbstractProcessingReport
     }
 
     @Override
-    public final ProcessingMessage newMessage()
-    {
-        return new ProcessingMessage();
-    }
-
-    @Override
     public final void mergeWith(final ProcessingReport other)
         throws ProcessingException
     {
