@@ -5,18 +5,18 @@ text.</p>
 
 <h2>What this is</h2>
 
-<p>This package contains a core architecture originally lifted off the <a
+<p>This package contains the core architecture use by the <a
 href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>.</p>
 
-<p>For more details on these components, see <a
-href="https://github.com/fge/json-schema-core/wiki/Architecture">here</a>.
+<p>For more details on this library, see <a
+href="https://github.com/fge/json-schema-core/wiki/Architecture">this page</a>.
 
-<p>You can see this library in action <a
-href="https://github.com/fge/json-schema-processor-examples">here</a>.</p>
+<p>You can see sample usages of this library in a <a
+href="https://github.com/fge/json-schema-processor-examples">separate project</a>.</p>
 
 <h2>Version</h2>
 
-<p>The current verson is <b>0.99.6</b> (<a
+<p>The current verson is <b>0.99.8</b> (<a
 href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>, <a
 href="http://fge.github.com/json-schema-core/devel/index.html">Javadoc</a>).</p>
 
