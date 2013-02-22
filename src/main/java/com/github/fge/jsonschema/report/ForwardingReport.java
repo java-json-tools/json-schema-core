@@ -81,7 +81,7 @@ public final class ForwardingReport
     public void mergeWith(final ProcessingReport other)
         throws ProcessingException
     {
-        success = other.isSuccess();
+        success = success && other.isSuccess();
     }
 
     @Override
