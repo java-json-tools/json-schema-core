@@ -60,7 +60,7 @@ public interface ProcessingReport
      * @see ProcessingMessage#setLogLevel(LogLevel)
      */
     void info(ProcessingMessage message)
-            throws ProcessingException;
+        throws ProcessingException;
 
     /**
      * Log a message with a level of {@link LogLevel#WARNING}
@@ -75,7 +75,7 @@ public interface ProcessingReport
      * @see ProcessingMessage#setLogLevel(LogLevel)
      */
     void warn(ProcessingMessage message)
-                throws ProcessingException;
+        throws ProcessingException;
 
     /**
      * Log a message with a level of {@link LogLevel#ERROR}
@@ -90,7 +90,7 @@ public interface ProcessingReport
      * @see ProcessingMessage#setLogLevel(LogLevel)
      */
     void error(ProcessingMessage message)
-                    throws ProcessingException;
+        throws ProcessingException;
 
     /**
      * Tell whether the report is a success
@@ -110,5 +110,5 @@ public interface ProcessingReport
      * granting that an exception be thrown
      */
     void mergeWith(ProcessingReport other)
-                        throws ProcessingException;
+        throws ProcessingException;
 }

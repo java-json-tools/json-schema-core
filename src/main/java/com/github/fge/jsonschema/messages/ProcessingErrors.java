@@ -51,6 +51,7 @@ public enum ProcessingErrors
      * @see ProcessorSelector
      * @see ProcessorMap
      * @see ProcessorChain
+     * @see CachingProcessor
      */
     NULL_PROCESSOR("processor cannot be null"),
     /**
