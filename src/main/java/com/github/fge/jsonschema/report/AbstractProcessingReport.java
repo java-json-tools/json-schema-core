@@ -180,6 +180,12 @@ public abstract class AbstractProcessingReport
     public final void mergeWith(final ProcessingReport other)
         throws ProcessingException
     {
+        /*
+         * The other report may have no messages, and as such the successful
+         * status won't be overriden: we have to do that instead
+         */
+        if (!other.isSuccess() && currentLevel.compareTo(LogLevel.ERROR) < 0)
+            currentLevel = LogLevel.ERROR;
         for (final ProcessingMessage message: other)
             dispatch(message);
     }
