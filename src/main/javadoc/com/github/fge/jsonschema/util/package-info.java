@@ -21,7 +21,9 @@
  * <p>{@link com.github.fge.jsonschema.util.JsonLoader} contains various
  * methods to load JSON documents as {@link
  * com.fasterxml.jackson.databind.JsonNode} (schemas as well as instances to
- * validate).</p>
+ * validate). You will also use to want {@link
+ * com.github.fge.jsonschema.util.JacksonUtils} to grab a node factory, reader
+ * and pretty printer for anything JSON.</p>
  *
  * <p>{@link com.github.fge.jsonschema.util.RhinoHelper} is in charge of all
  * regex validation: as the standard dictates ECMA 262 regexes, using {@link

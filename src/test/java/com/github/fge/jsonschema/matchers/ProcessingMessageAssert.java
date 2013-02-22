@@ -35,7 +35,7 @@ import static org.testng.Assert.*;
 public class ProcessingMessageAssert
     extends GenericAssert<ProcessingMessageAssert, ProcessingMessage>
 {
-    final JsonNode msg;
+    private final JsonNode msg;
 
     public static ProcessingMessageAssert assertMessage(
         final ProcessingMessage message)

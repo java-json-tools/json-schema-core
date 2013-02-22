@@ -38,7 +38,7 @@ import net.jcip.annotations.Immutable;
 public abstract class ValueHolder<T>
     implements MessageProvider
 {
-    protected final String name;
+    private final String name;
     protected final T value;
 
     /**

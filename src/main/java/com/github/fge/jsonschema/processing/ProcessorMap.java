@@ -141,7 +141,7 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
         private final Function<IN, K> f;
         private final Processor<IN, OUT> defaultProcessor;
 
-        Mapper(final Map<K, Processor<IN, OUT>> processors,
+        private Mapper(final Map<K, Processor<IN, OUT>> processors,
             final Function<IN, K> f, final Processor<IN, OUT> defaultProcessor)
         {
             if (f == null)

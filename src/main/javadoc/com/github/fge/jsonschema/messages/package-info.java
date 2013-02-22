@@ -18,7 +18,7 @@
 /**
  * Messages used for {@link
  * com.github.fge.jsonschema.exceptions.ProcessingException} and {@link
- * com.github.fge.jsonschema.exceptions.unchecked.ProcessingError} throws
+ * com.github.fge.jsonschema.exceptions.unchecked.ProcessingError} messages
  */
 
 package com.github.fge.jsonschema.messages;

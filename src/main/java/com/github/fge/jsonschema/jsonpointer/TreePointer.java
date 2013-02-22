@@ -64,12 +64,12 @@ public abstract class TreePointer<T extends TreeNode>
     /**
      * The reference token separator
      */
-    protected static final char SLASH = '/';
+    private static final char SLASH = '/';
 
     /**
      * What this tree can see as a missing node (may be {@code null})
      */
-    protected final T missing;
+    private final T missing;
 
     /**
      * The list of token resolvers

@@ -42,7 +42,7 @@ public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT ex
     /**
      * The predicate
      */
-    final Predicate<IN> predicate;
+    private final Predicate<IN> predicate;
 
     /**
      * The existing choices

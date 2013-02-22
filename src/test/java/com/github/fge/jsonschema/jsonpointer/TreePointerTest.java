@@ -183,7 +183,7 @@ public final class TreePointerTest
     private static final class DummyPointer
         extends TreePointer<TreeNode>
     {
-        DummyPointer(final TreeNode missing,
+        private DummyPointer(final TreeNode missing,
             final List<TokenResolver<TreeNode>> tokenResolvers)
         {
             super(missing, tokenResolvers);
