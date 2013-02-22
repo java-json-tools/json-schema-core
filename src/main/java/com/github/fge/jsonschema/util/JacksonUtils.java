@@ -21,9 +21,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.Maps;
+import com.google.common.io.Closeables;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Iterator;
@@ -41,9 +45,15 @@ public final class JacksonUtils
     private static final JsonNodeFactory FACTORY
         = JsonNodeFactory.withExactBigDecimals(false);
 
-    private static final ObjectReader READER = new ObjectMapper()
-        .setNodeFactory(FACTORY)
-        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS).reader();
+    private static final ObjectReader READER;
+    private static final ObjectWriter WRITER;
+
+    static {
+        final ObjectMapper mapper = new ObjectMapper().setNodeFactory(FACTORY)
+            .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+        READER = mapper.reader();
+        WRITER = mapper.writerWithDefaultPrettyPrinter();
+    }
 
     private JacksonUtils()
     {
@@ -95,5 +105,27 @@ public final class JacksonUtils
         }
 
         return ret;
+    }
+
+    /**
+     * Pretty print a JSON value
+     *
+     * @param node the JSON value to print
+     * @return the pretty printed value as a string
+     */
+    public static String prettyPrint(final JsonNode node)
+    {
+        final StringWriter writer = new StringWriter();
+
+        try {
+            WRITER.writeValue(writer, node);
+            writer.flush();
+        } catch (IOException ignored) {
+            // cannot happen
+        } finally {
+            Closeables.closeQuietly(writer);
+        }
+
+        return writer.toString();
     }
 }
