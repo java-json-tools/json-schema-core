@@ -5,21 +5,14 @@ text.</p>
 
 <h2>What this is</h2>
 
-<p>This package contains the core processing architecture used by the <a
-href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>, and which can
-be used by other packages as well:</p>
-
-
-* all the processing core interfaces: processor, processor chains, selectors;
-* all the logging and exception infrastructure;
-* JSON Reference and JSON Pointer;
-* base classes for a JSON Schema and instance;
-* other various interfaces.
+<p>This package contains a core architecture originally lifted off the <a
+href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>.</p>
 
 <p>For more details on these components, see <a
 href="https://github.com/fge/json-schema-core/wiki/Architecture">here</a>.
 
-<p>A new package will be created showing this package in action.</p>
+<p>You can see this library in action <a
+href="https://github.com/fge/json-schema-processor-examples">here</a>.</p>
 
 <h2>Version</h2>
 
