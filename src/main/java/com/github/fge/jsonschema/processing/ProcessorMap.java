@@ -168,6 +168,16 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
 
             return processor.process(report, input);
         }
+
+        @Override
+        public String toString()
+        {
+            final StringBuilder sb = new StringBuilder("map[")
+                .append(processors.size()).append(" entries with ");
+            if (defaultProcessor == null)
+                sb.append("no ");
+            return sb.append("default]").toString();
+        }
     }
 }
 

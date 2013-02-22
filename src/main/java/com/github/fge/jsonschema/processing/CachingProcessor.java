@@ -123,4 +123,10 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
             this.value = value;
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return "CACHED[" + processor + ']';
+    }
 }

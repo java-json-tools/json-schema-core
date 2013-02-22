@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 
 import java.util.Iterator;
@@ -181,5 +182,15 @@ public abstract class AbstractProcessingReport
     {
         for (final ProcessingMessage message: other)
             dispatch(message);
+    }
+
+    @Override
+    public final String toString()
+    {
+        return Objects.toStringHelper(this)
+            .add("log level", logLevel)
+            .add("exception threshold", exceptionThreshold)
+            .add("current", currentLevel)
+            .toString();
     }
 }

@@ -189,5 +189,15 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
             throw new ProcessingException(input.newMessage()
                 .message(NO_SUITABLE_PROCESSOR));
         }
+
+        @Override
+        public String toString()
+        {
+            final StringBuilder sb = new StringBuilder("selector[")
+                .append(map.size()).append(" choices with ");
+            if (byDefault == null)
+                sb.append("no ");
+            return sb.append("default]").toString();
+        }
     }
 }
