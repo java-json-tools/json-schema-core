@@ -30,6 +30,7 @@ import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import net.jcip.annotations.NotThreadSafe;
 
 import java.util.Map;
 
@@ -48,6 +49,7 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.NULL_EXCEPTION
  *
  * <p>All mutation methods of a message return {@code this}.</p>
  */
+@NotThreadSafe
 public final class ProcessingMessage
     implements AsJson
 {

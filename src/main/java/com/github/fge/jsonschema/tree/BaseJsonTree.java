@@ -49,8 +49,8 @@ public abstract class BaseJsonTree
      * Protected constructor
      *
      * <p>This is equivalent to calling {@link
-     * BaseJsonTree#BaseJsonTree(com.fasterxml.jackson.databind.JsonNode, com.github.fge.jsonschema.jsonpointer.JsonPointer)} with an empty
-     * pointer.</p>
+     * BaseJsonTree#BaseJsonTree(JsonNode, JsonPointer)} with an empty pointer.
+     * </p>
      *
      * @param baseNode the base node
      */

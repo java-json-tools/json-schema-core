@@ -157,7 +157,7 @@ public final class InlineSchemaTree
      *
      * <p>Unlike what happens with a canonical schema tree, we <i>must</i> walk
      * the whole tree in advance here. This is necessary for {@link
-     * #containsRef(com.github.fge.jsonschema.ref.JsonRef)} and {@link #matchingPointer(com.github.fge.jsonschema.ref.JsonRef)} to work.</p>
+     * #containsRef(JsonRef)} and {@link #matchingPointer(JsonRef)} to work.</p>
      *
      * <p>This method is called recursively. Its furst invocation is from the
      * constructor, with {@link #loadingRef} as a reference, {@link #baseNode}
@@ -169,7 +169,7 @@ public final class InlineSchemaTree
      * @param absMap map for absolute JSON References
      * @param otherMap map for non absolute and/or illegal JSON References
      *
-     * @see #idFromNode(com.fasterxml.jackson.databind.JsonNode)
+     * @see #idFromNode(JsonNode)
      */
     private static void walk(final JsonRef baseRef, final JsonNode node,
         final JsonPointer ptr, final Map<JsonRef, JsonPointer> absMap,

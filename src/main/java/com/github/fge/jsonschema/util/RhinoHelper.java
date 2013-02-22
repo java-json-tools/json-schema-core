@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.util;
 
+import net.jcip.annotations.ThreadSafe;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -41,6 +42,7 @@ import java.util.regex.Pattern;
  * the full story. And if you don't yet have Jeffrey Friedl's "Mastering regular
  * expressions", just <a href="http://regex.info">buy it</a> :p</p>
  */
+@ThreadSafe
 public final class RhinoHelper
 {
     /**

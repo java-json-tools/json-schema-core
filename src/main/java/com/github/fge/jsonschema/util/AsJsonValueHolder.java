@@ -18,12 +18,14 @@
 package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import net.jcip.annotations.Immutable;
 
 /**
  * A specialized {@link ValueHolder} for values implementing {@link AsJson}
  *
  * @param <T> the type of the value
  */
+@Immutable
 public abstract class AsJsonValueHolder<T extends AsJson>
     extends ValueHolder<T>
 {

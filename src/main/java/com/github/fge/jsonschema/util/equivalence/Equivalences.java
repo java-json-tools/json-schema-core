@@ -14,12 +14,24 @@ public final class Equivalences
     {
     }
 
+    /**
+     * Return a parameterized {@link Equivalence#equals()}
+     *
+     * @param <T> the parameter type
+     * @return the parameterized equivalence
+     */
     @SuppressWarnings("unchecked")
     public static <T> Equivalence<T> equals()
     {
         return (Equivalence<T>) Equivalence.equals();
     }
 
+    /**
+     * Return a parameterized {@link Equivalence#identity()}
+     *
+     * @param <T> the parameter type
+     * @return the parameterized equivalence
+     */
     @SuppressWarnings("unchecked")
     public static <T> Equivalence<T> identity()
     {

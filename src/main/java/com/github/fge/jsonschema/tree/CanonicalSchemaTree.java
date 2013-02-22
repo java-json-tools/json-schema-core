@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
+import net.jcip.annotations.Immutable;
 
 /**
  * A {@link SchemaTree} using canonical dereferencing
@@ -31,6 +32,7 @@ import com.github.fge.jsonschema.ref.JsonRef;
  * <p>That is, {@code x://y/z#/foo/bar} resolves within the schema at URI
  * {@code x://y/z#}, but {@code x://y/t#} does not.</p>
  */
+@Immutable
 public final class CanonicalSchemaTree
     extends BaseSchemaTree
 {

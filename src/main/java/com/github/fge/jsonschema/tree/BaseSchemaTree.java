@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import net.jcip.annotations.Immutable;
 
 /**
  * Base implementation of a {@link SchemaTree}
@@ -32,6 +33,7 @@ import com.github.fge.jsonschema.util.JacksonUtils;
  * @see CanonicalSchemaTree
  * @see InlineSchemaTree
  */
+@Immutable
 public abstract class BaseSchemaTree
     implements SchemaTree
 {
