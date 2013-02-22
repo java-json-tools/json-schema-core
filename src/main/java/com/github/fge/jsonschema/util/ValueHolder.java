@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -38,6 +39,8 @@ import net.jcip.annotations.Immutable;
 public abstract class ValueHolder<T>
     implements MessageProvider
 {
+    protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
+
     private final String name;
     protected final T value;
 
