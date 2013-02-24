@@ -45,7 +45,8 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     /**
      * The cache
      */
-    private final LoadingCache<Equivalence.Wrapper<IN>, Output<OUT>> cache;
+    private final LoadingCache<Equivalence.Wrapper<IN>, ProcessingResult<OUT>>
+        cache;
 
     /**
      * Constructor
@@ -85,43 +86,30 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     public OUT process(final ProcessingReport report, final IN input)
         throws ProcessingException
     {
-        final Output<OUT> cached;
+        final ProcessingResult<OUT> result;
         try {
-            cached = cache.get(equivalence.wrap(input));
+            result = cache.get(equivalence.wrap(input));
         } catch (ExecutionException e) {
             throw (ProcessingException) e.getCause();
         }
-        report.mergeWith(cached.report);
-        return cached.value;
+        report.mergeWith(result.getReport());
+        return result.getResult();
     }
 
-    private CacheLoader<Equivalence.Wrapper<IN>, Output<OUT>> loader()
+    private CacheLoader<Equivalence.Wrapper<IN>, ProcessingResult<OUT>> loader()
     {
-        return new CacheLoader<Equivalence.Wrapper<IN>, Output<OUT>>()
+        return new CacheLoader<Equivalence.Wrapper<IN>, ProcessingResult<OUT>>()
         {
             @Override
-            public Output<OUT> load(final Equivalence.Wrapper<IN> key)
+            public ProcessingResult<OUT> load(final Equivalence.Wrapper<IN> key)
                 throws ProcessingException
             {
                 final IN input = key.get();
                 final ListProcessingReport report
                     = new ListProcessingReport(LogLevel.DEBUG, LogLevel.NONE);
-                final OUT value = processor.process(report, input);
-                return new Output<OUT>(report, value);
+                return ProcessingResult.of(processor, report, input);
             }
         };
-    }
-
-    private static final class Output<T>
-    {
-        private final ListProcessingReport report;
-        private final T value;
-
-        private Output(final ListProcessingReport report, final T value)
-        {
-            this.report = report;
-            this.value = value;
-        }
     }
 
     @Override
