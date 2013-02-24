@@ -14,11 +14,11 @@ href="https://github.com/fge/json-schema-core/wiki/Architecture">this page</a>.
 <p>You can see sample usages of this library in a <a
 href="https://github.com/fge/json-schema-processor-examples">separate project</a>.</p>
 
-<h2>Version</h2>
+<h2>Versions</h2>
 
-<p>The current verson is <b>0.99.8</b> (<a
+<p>The current stable verson is <b>1.0</b> (<a
 href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>, <a
-href="http://fge.github.com/json-schema-core/devel/index.html">Javadoc</a>).</p>
+href="http://fge.github.com/json-schema-core/stable/index.html">Javadoc</a>).</p>
 
 <h2>Maven artifact</h2>
 
@@ -31,4 +31,13 @@ href="http://fge.github.com/json-schema-core/devel/index.html">Javadoc</a>).</p>
     <version>your-version-here</version>
 </dependency>
 ```
+
+<h2>Versioning scheme policy</h2>
+
+<p>The versioning scheme is defined by the <b>middle digit</b> of the version number:</p>
+
+* if this number is <b>even</b>, then this is the <b>stable</b> version; no new features will be
+  added to such versions, and the user API will not change (save for some additions if requested).
+* if this number is <b>odd</b>, then this is the <b>development</b> version; new features will be
+  added to those versions only, <b>and the user API may change</b>.
 
