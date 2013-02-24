@@ -19,11 +19,15 @@ package com.github.fge.jsonschema.messages;
 
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.processing.CachingProcessor;
+import com.github.fge.jsonschema.processing.ProcessingResult;
+import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processing.ProcessorSelector;
 import com.github.fge.jsonschema.report.LogLevel;
+import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 /**
  * Messages used by processing helper classes
@@ -52,6 +56,7 @@ public enum ProcessingErrors
      * @see ProcessorMap
      * @see ProcessorChain
      * @see CachingProcessor
+     * @see ProcessingResult
      */
     NULL_PROCESSOR("processor cannot be null"),
     /**
@@ -90,6 +95,14 @@ public enum ProcessingErrors
      * @see ProcessingMessage#setExceptionProvider(ExceptionProvider)
      */
     NULL_EXCEPTION_PROVIDER("exception provider must not be null"),
+    /**
+     * Attempt to submit a null processing report
+     *
+     * @see ProcessingResult#of(Processor, ProcessingReport, MessageProvider)
+     * @see ProcessingResult#uncheckedResult(Processor, ProcessingReport,
+     * MessageProvider)
+     */
+    NULL_REPORT("report cannot be null"),
     ;
 
     private final String message;
