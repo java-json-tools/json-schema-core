@@ -93,6 +93,21 @@ public interface ProcessingReport
         throws ProcessingException;
 
     /**
+     * Log a message with a level of {@link LogLevel#FATAL}
+     *
+     * <p>It is the responsibility of the implementation to set the log level
+     * of the message appropriately.</p>
+     *
+     * @param message the message
+     * @throws ProcessingException the level of this message grants that an
+     * exception is thrown instead
+     * @see #getExceptionThreshold()
+     * @see ProcessingMessage#setLogLevel(LogLevel)
+     */
+    void fatal(ProcessingMessage message)
+        throws ProcessingException;
+
+    /**
      * Tell whether the report is a success
      *
      * <p>A report is considered successful if no messages with a level of

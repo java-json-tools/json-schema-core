@@ -72,6 +72,14 @@ public final class ForwardingReport
     }
 
     @Override
+    public void fatal(final ProcessingMessage message)
+        throws ProcessingException
+    {
+        success = false;
+        report.fatal(message);
+    }
+
+    @Override
     public boolean isSuccess()
     {
         return success;

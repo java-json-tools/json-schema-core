@@ -37,7 +37,7 @@ public final class AbstractProcessingReportTest
      * All levels except fatal
      */
     private static final EnumSet<LogLevel> LEVELS
-        = EnumSet.complementOf(EnumSet.of(LogLevel.FATAL, LogLevel.NONE));
+        = EnumSet.complementOf(EnumSet.of(LogLevel.NONE));
 
     @DataProvider
     public Iterator<Object[]> getLogLevels()
@@ -61,12 +61,13 @@ public final class AbstractProcessingReportTest
             = spy(new LogThreshold(logLevel));
         final ProcessingMessage message = new ProcessingMessage();
         // OK, that's ugly, but it works...
-        final int count = LogLevel.FATAL.ordinal() - logLevel.ordinal();
+        final int count = LogLevel.NONE.ordinal() - logLevel.ordinal();
 
         report.debug(message);
         report.info(message);
         report.warn(message);
         report.error(message);
+        report.fatal(message);
 
         verify(report, times(count)).log(any(LogLevel.class), same(message));
     }
@@ -75,7 +76,7 @@ public final class AbstractProcessingReportTest
     public void logLevelIsCorrectlySetInMessages()
         throws ProcessingException
     {
-        final ProcessingReport report = new LogThreshold(LogLevel.FATAL);
+        final ProcessingReport report = new LogThreshold(LogLevel.NONE);
         final ProcessingMessage message = new ProcessingMessage();
 
         report.debug(message);
@@ -86,6 +87,8 @@ public final class AbstractProcessingReportTest
         assertMessage(message).hasLevel(LogLevel.WARNING);
         report.error(message);
         assertMessage(message).hasLevel(LogLevel.ERROR);
+        report.fatal(message);
+        assertMessage(message).hasLevel(LogLevel.FATAL);
     }
 
     @Test(dataProvider = "getLogLevels")
@@ -94,7 +97,7 @@ public final class AbstractProcessingReportTest
         final ProcessingReport report
             = new LogThreshold(LogLevel.DEBUG, logLevel);
         final ProcessingMessage message = new ProcessingMessage();
-        final int expected = LogLevel.FATAL.ordinal() - logLevel.ordinal();
+        final int expected = LogLevel.NONE.ordinal() - logLevel.ordinal();
         int actual = 0;
 
         try {
@@ -118,6 +121,12 @@ public final class AbstractProcessingReportTest
             actual++;
         }
 
+        try {
+            report.fatal(message);
+        } catch (ProcessingException ignored) {
+            actual++;
+        }
+
         assertEquals(actual, expected);
     }
 
@@ -132,7 +141,7 @@ public final class AbstractProcessingReportTest
 
         private LogThreshold(final LogLevel logThreshold)
         {
-            super(logThreshold);
+            super(logThreshold, LogLevel.NONE);
         }
 
         @Override
