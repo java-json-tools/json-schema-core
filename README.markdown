@@ -16,7 +16,7 @@ href="https://github.com/fge/json-schema-processor-examples">separate project</a
 
 <h2>Versions</h2>
 
-<p>The current stable verson is <b>1.0</b> (<a
+<p>The current stable verson is <b>1.0.1</b> (<a
 href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>, <a
 href="http://fge.github.com/json-schema-core/stable/index.html">Javadoc</a>).</p>
 
