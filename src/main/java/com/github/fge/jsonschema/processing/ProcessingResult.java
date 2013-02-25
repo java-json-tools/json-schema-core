@@ -142,9 +142,9 @@ public final class ProcessingResult<R extends MessageProvider>
     {
         final ListProcessingReport ret
             = new ListProcessingReport(LogLevel.DEBUG, LogLevel.NONE);
-        ret.log(LogLevel.FATAL, e.getProcessingMessage()
-            .put("info", "other messages follow (if any)"));
         try {
+            ret.fatal(e.getProcessingMessage()
+                .put("info", "other messages follow (if any)"));
             ret.mergeWith(report);
         } catch (ProcessingException ignored) {
             // can't happen
