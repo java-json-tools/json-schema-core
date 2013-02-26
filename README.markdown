@@ -9,7 +9,9 @@ text.</p>
 href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>.</p>
 
 <p>For more details on this library, see <a
-href="https://github.com/fge/json-schema-core/wiki/Architecture">this page</a>.
+href="https://github.com/fge/json-schema-core/wiki/Architecture">this page</a>. The roadmap for this
+library can be seen <a
+href="https://github.com/fge/json-schema-core/wiki/Roadmap">hee</a>.
 
 <p>You can see sample usages of this library in a <a
 href="https://github.com/fge/json-schema-processor-examples">separate project</a>.</p>
