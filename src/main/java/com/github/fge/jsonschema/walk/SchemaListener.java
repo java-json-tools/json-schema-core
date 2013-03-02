@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-public interface SchemaListener
+public interface SchemaListener<T>
 {
     void onInit(final SchemaTree tree)
         throws ProcessingException;
@@ -40,4 +40,6 @@ public interface SchemaListener
 
     void onExit()
         throws ProcessingException;
+
+    T getValue();
 }
