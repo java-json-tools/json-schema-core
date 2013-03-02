@@ -22,12 +22,12 @@
  * schemas.</p>
  *
  * <p>The main loading class is {@link
- * SchemaLoader}. It relies on downloaders
- * configured in a {@link URIManager} to load
+ * com.github.fge.jsonschema.load.SchemaLoader}. It relies on downloaders
+ * configured in a {@link com.github.fge.jsonschema.load.URIManager} to load
  * schemas it does not already know of.</p>
  *
  * <p>Note that you can configure the latter to support an arbitrary set of URI
  * schemes. The default supported set is defined in {@link
- * DefaultDownloadersDictionary}.</p>
+ * com.github.fge.jsonschema.load.DefaultDownloadersDictionary}.</p>
  */
 package com.github.fge.jsonschema.load;
