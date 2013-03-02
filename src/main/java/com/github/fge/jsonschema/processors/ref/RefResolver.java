@@ -44,9 +44,10 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  * reached. It will throw an exception if a JSON Reference loop is detected, or
  * if a JSON Reference does not resolve.</p>
  *
- * <p>It relies on a {@link com.github.fge.jsonschema.load.SchemaLoader} to load JSON References which are not
+ * <p>It relies on a {@link SchemaLoader} to load JSON References which are not
  * resolvable within the current schema itself.</p>
  */
+// TODO move to load/
 public final class RefResolver
     implements Processor<SchemaHolder, SchemaHolder>
 {

@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.util.AsJsonValueHolder;
 /**
  * A simple {@link SchemaTree} container
  */
+// TODO move elsewhere, or completely scrap
 public final class SchemaHolder
     extends AsJsonValueHolder<SchemaTree>
 {
