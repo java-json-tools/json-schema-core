@@ -15,18 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions.unchecked;
-
-import com.github.fge.jsonschema.report.ProcessingMessage;
+package com.github.fge.jsonschema.messages;
 
 /**
- * Class used in the event of JSON Reference input errors (null arguments, etc)
+ * Messages used by the configuration process
  */
-public final class JsonReferenceError
-    extends ProcessingConfigurationError
+//TODO: reorganize
+public enum JsonReferenceErrors
 {
-    public JsonReferenceError(final ProcessingMessage message)
+    NULL_URI("provided URI cannot be null"),
+    INVALID_URI("input is not a valid URI"),
+    REF_NOT_ABSOLUTE("input is not an absolute JSON Reference"),
+    NULL_JSON_POINTER("JSON Pointer is null"),
+    ;
+
+    private final String message;
+
+    JsonReferenceErrors(final String message)
     {
-        super(message);
+        this.message = message;
+    }
+
+    @Override
+    public String toString()
+    {
+        return message;
     }
 }
