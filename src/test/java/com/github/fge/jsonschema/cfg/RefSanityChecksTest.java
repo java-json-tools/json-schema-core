@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.cfg;
 
-import com.github.fge.jsonschema.exceptions.cfg.RefSanityChecks;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
