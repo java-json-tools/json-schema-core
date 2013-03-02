@@ -43,7 +43,7 @@
  * <b>not</b> valid; syntax checking will detect this since it takes place
  * right after JSON Reference processing. If there were no syntax checking, the
  * matching digester for the {@code type} keyword would throw a {@link
- * NullPointerException}.</p>
+ * java.lang.NullPointerException}.</p>
  */
 
 package com.github.fge.jsonschema.keyword.syntax;
