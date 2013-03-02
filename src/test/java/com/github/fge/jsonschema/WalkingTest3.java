@@ -56,18 +56,18 @@ public final class WalkingTest3
         final ProcessingReport report = new ConsoleProcessingReport(
             LogLevel.DEBUG, LogLevel.FATAL);
         final MutableTree tree = new MutableTree();
-        final SchemaListener listener = new SchemaExpander(tree);
+        final SchemaListener<JsonNode> listener = new SchemaExpander(tree);
         final Dictionary<PointerCollector> dict
             = DraftV4PointerCollectorDictionary.get();
         final SchemaWalker walker = new RecursiveSchemaWalker(dict,
             new CanonicalSchemaTree(schema), cfg);
 
         walker.walk(listener, report);
-        System.out.println(JacksonUtils.prettyPrint(tree.getBaseNode()));
+        System.out.println(JacksonUtils.prettyPrint(listener.getValue()));
     }
 
     private static final class SchemaExpander
-        implements SchemaListener
+        implements SchemaListener<JsonNode>
     {
         private final MutableTree mutableTree;
 
@@ -79,7 +79,7 @@ public final class WalkingTest3
         @Override
         public void onInit(final SchemaTree tree)
         {
-            mutableTree.setCurrentNode(tree.getNode());
+            mutableTree.setCurrentNode(tree.getNode().deepCopy());
         }
 
         @Override
@@ -97,7 +97,7 @@ public final class WalkingTest3
         public void onNewTree(final SchemaTree oldTree,
             final SchemaTree newTree)
         {
-            mutableTree.setCurrentNode(newTree.getNode());
+            mutableTree.setCurrentNode(newTree.getNode().deepCopy());
         }
 
         @Override
@@ -111,9 +111,10 @@ public final class WalkingTest3
         {
         }
 
-        public JsonNode getNode()
+        @Override
+        public JsonNode getValue()
         {
-            return mutableTree.getBaseNode();
+            return mutableTree.getBaseNode().deepCopy();
         }
     }
 }
