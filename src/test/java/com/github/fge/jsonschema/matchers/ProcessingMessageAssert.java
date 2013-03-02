@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import org.fest.assertions.GenericAssert;
@@ -32,7 +33,7 @@ import java.util.Map;
 import static org.fest.assertions.Assertions.*;
 import static org.testng.Assert.*;
 
-public class ProcessingMessageAssert
+public final class ProcessingMessageAssert
     extends GenericAssert<ProcessingMessageAssert, ProcessingMessage>
 {
     private final JsonNode msg;
@@ -52,7 +53,7 @@ public class ProcessingMessageAssert
     /*
      * Simple asserts
      */
-    public final ProcessingMessageAssert hasField(final String name,
+    public ProcessingMessageAssert hasField(final String name,
         final JsonNode value)
     {
         assertThat(msg.has(name)).isTrue();
@@ -62,14 +63,14 @@ public class ProcessingMessageAssert
         return this;
     }
 
-    public final ProcessingMessageAssert hasField(final String name,
+    public ProcessingMessageAssert hasField(final String name,
         final AsJson asJson)
     {
         return hasField(name, asJson.asJson());
     }
 
     // FIXME: for some reason, I have to declare an Integer here, int won't work
-    public final ProcessingMessageAssert hasField(final String name,
+    public ProcessingMessageAssert hasField(final String name,
         final Integer value)
     {
         assertThat(msg.has(name)).isTrue();
@@ -79,19 +80,19 @@ public class ProcessingMessageAssert
         return this;
     }
 
-    public final <T> ProcessingMessageAssert hasField(final String name,
+    public <T> ProcessingMessageAssert hasField(final String name,
         final T value)
     {
         assertThat(msg.has(name)).isTrue();
         final String input = msg.get(name).textValue();
         final String expected = value.toString();
         assertThat(input).isEqualTo(expected)
-            .overridingErrorMessage(
-                "Strings differ: wanted " + expected + " but got " + input);
+            .overridingErrorMessage("Strings differ: wanted " + expected
+                + " but got " + input);
         return this;
     }
 
-    public final <T> ProcessingMessageAssert hasField(final String name,
+    public <T> ProcessingMessageAssert hasField(final String name,
         final Collection<T> value)
     {
         assertThat(msg.has(name)).isTrue();
@@ -104,13 +105,13 @@ public class ProcessingMessageAssert
         return this;
     }
 
-    public final ProcessingMessageAssert hasTextField(final String name)
+    public ProcessingMessageAssert hasTextField(final String name)
     {
         assertTrue(msg.path(name).isTextual());
         return this;
     }
 
-    public final ProcessingMessageAssert hasNullField(final String name)
+    public ProcessingMessageAssert hasNullField(final String name)
     {
         assertThat(msg.has(name)).isTrue();
         assertEquals(msg.get(name), JacksonUtils.nodeFactory().nullNode());
@@ -120,25 +121,53 @@ public class ProcessingMessageAssert
     /*
      * Simple dedicated matchers
      */
-    public final ProcessingMessageAssert hasLevel(final LogLevel level)
+    public ProcessingMessageAssert hasLevel(final LogLevel level)
     {
         assertThat(level).isEqualTo(actual.getLogLevel());
         return hasField("level", level);
     }
 
-    public final <T> ProcessingMessageAssert hasMessage(final T value)
+    public <T> ProcessingMessageAssert hasMessage(final T value)
     {
         return hasField("message", value);
     }
 
-    public final ProcessingMessageAssert hasMessage(final String expected)
+    public ProcessingMessageAssert hasMessage(final String expected)
     {
         final String message = msg.get("message").textValue();
         assertThat(message).isEqualTo(expected);
         return this;
     }
 
-    public final ProcessingMessageAssert hasContents(final ObjectNode node)
+    /*
+     * More complicated matchers
+     */
+    public <T> ProcessingMessageAssert isSyntaxError(final String keyword,
+        final T msg, final SchemaTree tree)
+    {
+        // FIXME: .hasLevel() is not always set
+        return hasField("keyword", keyword).hasMessage(msg)
+            .hasField("schema", tree).hasField("domain", "syntax");
+    }
+
+    /*
+     * More complicated matchers
+     */
+    public <T> ProcessingMessageAssert isValidationError(final String keyword,
+        final T msg)
+    {
+        return hasField("keyword", keyword).hasMessage(msg)
+            .hasField("domain", "validation");
+    }
+
+    public <T> ProcessingMessageAssert isFormatMessage(final String fmt,
+        final T msg)
+    {
+        return hasField("keyword", "format").hasField("attribute", fmt)
+            .hasMessage(msg).hasField("domain", "validation");
+    }
+
+    public ProcessingMessageAssert hasContents(final ObjectNode node)
     {
         /*
          * No need to check if the map is empty
