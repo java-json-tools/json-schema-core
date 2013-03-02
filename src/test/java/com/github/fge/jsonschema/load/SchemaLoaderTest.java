@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.ref;
+package com.github.fge.jsonschema.load;
 
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;

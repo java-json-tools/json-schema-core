@@ -15,13 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.ref;
+package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.load.URIDownloader;
-import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.util.JacksonUtils;
