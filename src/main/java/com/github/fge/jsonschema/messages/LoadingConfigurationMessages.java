@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.messages;
 /**
  * Messages used by the configuration process
  */
-//TODO: reorganize
 public enum LoadingConfigurationMessages
 {
     NULL_SCHEME("scheme cannot be null"),
