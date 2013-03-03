@@ -44,6 +44,27 @@ public abstract class ValueHolder<T>
     private final String name;
     protected final T value;
 
+    public static <V> ValueHolder<V> hold(final V value)
+    {
+        return new SimpleValueHolder<V>("value", value);
+    }
+
+    public static <V> ValueHolder<V> hold(final String name, final V value)
+    {
+        return new SimpleValueHolder<V>(name, value);
+    }
+
+    public static <V extends AsJson> ValueHolder<V> hold(final V value)
+    {
+        return new AsJsonValueHolder<V>("value", value);
+    }
+
+    public static <V extends AsJson> ValueHolder<V> hold(final String name,
+        final V value)
+    {
+        return new AsJsonValueHolder<V>(name, value);
+    }
+
     /**
      * Protected constructor
      *
