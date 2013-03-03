@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
 import com.github.fge.jsonschema.report.MessageProvider;
@@ -108,6 +109,18 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         return failOnError(new ProcessingMessage().message(CHAIN_STOPPED));
     }
 
+    /**
+     * Stop the processing chain on failure
+     *
+     * <p>Inserting this into a chain will stop the processing chain if the
+     * previous processor ended up with an error (ie, {@link
+     * ProcessingReport#isSuccess()} returns {@code false}).</p>
+     *
+     * @param message the processing message to use
+     * @return a new chain
+     * @see ProcessingMessage#asException()
+     * @see ProcessingMessage#setExceptionProvider(ExceptionProvider)
+     */
     public ProcessorChain<IN, OUT> failOnError(final ProcessingMessage message)
     {
         final Processor<OUT, OUT> fail = new Processor<OUT, OUT>()
