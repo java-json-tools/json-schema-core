@@ -25,11 +25,10 @@
  *
  * <p>You can also use a walker as a processor, namely {@link
  * com.github.fge.jsonschema.walk.SchemaWalkerProcessor}, in which case you must
- * provide a {@link com.github.fge.jsonschema.walk.SchemaListenerProvider} as
- * well, which will generate a new listener for each processed value, and return
- * a {@link com.github.fge.jsonschema.util.ValueHolder} holding the product of
- * the created listener.</p>
- *
- * <p>Important node: <b>it is supposed that the schema is valid.</b></p>
+ * provide both a {@link com.github.fge.jsonschema.walk.SchemaWalkerProvider}
+ * and a {@link com.github.fge.jsonschema.walk.SchemaListenerProvider}. A new
+ * walker and listener will be created for each call to {@code .process()}, and
+ * the product of the listener will be returned wrappted into a {@link
+ * com.github.fge.jsonschema.util.ValueHolder}.</p>
  */
-package com.github.fge.jsonschema.load;
+package com.github.fge.jsonschema.walk;
