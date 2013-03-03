@@ -18,16 +18,23 @@
 package com.github.fge.jsonschema.walk;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Collection;
+
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.assertEquals;
 
 public final class SimpleSchemaWalkerTest
 {
@@ -63,9 +70,70 @@ public final class SimpleSchemaWalkerTest
         final SchemaWalker walker = new SimpleSchemaWalker(dict, tree);
 
         walker.walk(listener, report);
-        verify(listener).onInit(same(tree));
-        verify(listener).onWalk(same(tree));
-        verify(listener).onExit();
+        final InOrder order = inOrder(listener);
+        order.verify(listener).onInit(same(tree));
+        order.verify(listener).onWalk(same(tree));
+        order.verify(listener).onExit();
+    }
+
+    @Test
+    public void collectorsAreCalledWhenAppropriate()
+        throws ProcessingException
+    {
+        final Dictionary<PointerCollector> dict
+            = Dictionary.<PointerCollector>newBuilder().addEntry(K1, collector1)
+            .addEntry(K2, collector2).freeze();
+
+        final ObjectNode schema = FACTORY.objectNode().put(K1, K1);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaWalker walker = new SimpleSchemaWalker(dict, tree);
+
+        walker.walk(listener, report);
+        verify(collector1).collect(anyCollectionOf(JsonPointer.class),
+            same(tree));
+        verify(collector2, never()).collect(anyCollectionOf(JsonPointer.class),
+            any(SchemaTree.class));
+    }
+
+    @Test
+    public void listenerIsCalledWhenChangingPointers()
+        throws ProcessingException
+    {
+        final JsonPointer pointer = JsonPointer.of(K1);
+
+        final PointerCollector collector = new PointerCollector()
+        {
+            @Override
+            public void collect(final Collection<JsonPointer> pointers,
+                final SchemaTree tree)
+            {
+                pointers.add(pointer);
+            }
+        };
+
+        final ObjectNode subNode = FACTORY.objectNode();
+        final ObjectNode schema = FACTORY.objectNode();
+        schema.put(K1, subNode);
+
+        final Dictionary<PointerCollector> dict
+            = Dictionary.<PointerCollector>newBuilder()
+            .addEntry(K1, collector).freeze();
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaWalker walker = new SimpleSchemaWalker(dict, tree);
+
+        final ArgumentCaptor<SchemaTree> captor
+            = ArgumentCaptor.forClass(SchemaTree.class);
+
+        walker.walk(listener, report);
+
+        final InOrder order = inOrder(listener);
+        order.verify(listener).onPushd(same(pointer));
+        order.verify(listener).onWalk(captor.capture());
+        order.verify(listener).onPopd();
+
+        final SchemaTree subTree = captor.getValue();
+        assertEquals(subTree.getNode(), subNode);
+        assertEquals(subTree.getPointer(), pointer);
     }
 }
 
