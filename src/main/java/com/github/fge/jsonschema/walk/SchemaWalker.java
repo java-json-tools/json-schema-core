@@ -64,7 +64,7 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException;
 
-    private void doWalk(final SchemaListener listener,
+    private <T> void doWalk(final SchemaListener<T> listener,
         final ProcessingReport report)
         throws ProcessingException
     {
