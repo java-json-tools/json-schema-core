@@ -43,6 +43,12 @@ public final class SchemaWalkerProcessor<T>
     private final SchemaWalkerProvider walkerProvider;
     private final SchemaListenerProvider<T> listenerProvider;
 
+    /**
+     * Constructor
+     *
+     * @param walkerProvider a {@link SchemaWalker} provider
+     * @param listenerProvider a {@link SchemaListener} provider
+     */
     public SchemaWalkerProcessor(final SchemaWalkerProvider walkerProvider,
         final SchemaListenerProvider<T> listenerProvider)
     {

@@ -15,16 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.walk;
-
-import com.github.fge.jsonschema.tree.SchemaTree;
-
 /**
- * Interface for a schema walker provider
- *
- * @see SchemaWalkerProcessor
+ * Pointer collectors for schema walking: dictionaries and interfaces
  */
-public interface SchemaWalkerProvider
-{
-    SchemaWalker newWalker(final SchemaTree tree);
-}
+package com.github.fge.jsonschema.walk.collectors;
