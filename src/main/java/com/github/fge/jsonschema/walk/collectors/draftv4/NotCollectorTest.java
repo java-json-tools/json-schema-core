@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Kelvin Pho <pho.kelvin@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -15,19 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.walk.draftv3;
-
-import com.github.fge.jsonschema.walk.collectors.AbstractPointerCollectorTest;
-import com.github.fge.jsonschema.walk.collectors.DraftV3PointerCollectorDictionary;
+package com.github.fge.jsonschema.walk.collectors.draftv4;
 
 import java.io.IOException;
 
-public abstract class DraftV3PointerCollectorTest
-    extends AbstractPointerCollectorTest
+public final class NotCollectorTest
+    extends DraftV4PointerCollectorTest
 {
-    protected DraftV3PointerCollectorTest(final String keyword)
+    public NotCollectorTest()
         throws IOException
     {
-        super(DraftV3PointerCollectorDictionary.get(), "draftv3", keyword);
+        super("not");
     }
 }

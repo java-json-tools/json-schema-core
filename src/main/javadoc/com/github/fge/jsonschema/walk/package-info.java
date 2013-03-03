@@ -15,19 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.walk.draftv3;
-
-import com.github.fge.jsonschema.walk.collectors.AbstractPointerCollectorTest;
-import com.github.fge.jsonschema.walk.collectors.DraftV3PointerCollectorDictionary;
-
-import java.io.IOException;
-
-public abstract class DraftV3PointerCollectorTest
-    extends AbstractPointerCollectorTest
-{
-    protected DraftV3PointerCollectorTest(final String keyword)
-        throws IOException
-    {
-        super(DraftV3PointerCollectorDictionary.get(), "draftv3", keyword);
-    }
-}
+/**
+ * Schema walker and listener
+ *
+ * <p>Using classes in this package</p>
+ */
+package com.github.fge.jsonschema.load;

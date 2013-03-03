@@ -15,19 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.walk.draftv3;
-
-import com.github.fge.jsonschema.walk.collectors.AbstractPointerCollectorTest;
-import com.github.fge.jsonschema.walk.collectors.DraftV3PointerCollectorDictionary;
+package com.github.fge.jsonschema.walk.collectors.common;
 
 import java.io.IOException;
 
-public abstract class DraftV3PointerCollectorTest
-    extends AbstractPointerCollectorTest
+public final class DependenciesCollectorTest
+    extends CommonPointerCollectorTest
 {
-    protected DraftV3PointerCollectorTest(final String keyword)
+    public DependenciesCollectorTest()
         throws IOException
     {
-        super(DraftV3PointerCollectorDictionary.get(), "draftv3", keyword);
+        super("dependencies");
     }
 }

@@ -41,6 +41,7 @@ import com.github.fge.jsonschema.processors.validation.SchemaTreeEquivalence;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 
