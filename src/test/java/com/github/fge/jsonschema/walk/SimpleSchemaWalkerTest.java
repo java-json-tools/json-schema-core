@@ -67,7 +67,7 @@ public final class SimpleSchemaWalkerTest
             = Dictionary.<PointerCollector>newBuilder().freeze();
 
         final SchemaTree tree = new CanonicalSchemaTree(FACTORY.objectNode());
-        final SchemaWalker walker = new SimpleSchemaWalker(dict, tree);
+        final SchemaWalker walker = new SimpleSchemaWalker(tree, dict);
 
         walker.walk(listener, report);
         final InOrder order = inOrder(listener);
@@ -86,7 +86,7 @@ public final class SimpleSchemaWalkerTest
 
         final ObjectNode schema = FACTORY.objectNode().put(K1, K1);
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final SchemaWalker walker = new SimpleSchemaWalker(dict, tree);
+        final SchemaWalker walker = new SimpleSchemaWalker(tree, dict);
 
         walker.walk(listener, report);
         verify(collector1).collect(anyCollectionOf(JsonPointer.class),
@@ -119,7 +119,7 @@ public final class SimpleSchemaWalkerTest
             = Dictionary.<PointerCollector>newBuilder()
             .addEntry(K1, collector).freeze();
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final SchemaWalker walker = new SimpleSchemaWalker(dict, tree);
+        final SchemaWalker walker = new SimpleSchemaWalker(tree, dict);
 
         final ArgumentCaptor<SchemaTree> captor
             = ArgumentCaptor.forClass(SchemaTree.class);

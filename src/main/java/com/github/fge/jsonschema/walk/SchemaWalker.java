@@ -40,7 +40,7 @@ public abstract class SchemaWalker
 
     private final Map<String, PointerCollector> collectors;
 
-    protected SchemaWalker(final SchemaVersion version, final SchemaTree tree)
+    protected SchemaWalker(final SchemaTree tree, final SchemaVersion version)
     {
         collectors = version == SchemaVersion.DRAFTV4
             ? DraftV4PointerCollectorDictionary.get().entries()
@@ -48,8 +48,8 @@ public abstract class SchemaWalker
         this.tree = tree;
     }
 
-    protected SchemaWalker(final Dictionary<PointerCollector> dict,
-        final SchemaTree tree)
+    protected SchemaWalker(final SchemaTree tree,
+        final Dictionary<PointerCollector> dict)
     {
         collectors = dict.entries();
         this.tree = tree;

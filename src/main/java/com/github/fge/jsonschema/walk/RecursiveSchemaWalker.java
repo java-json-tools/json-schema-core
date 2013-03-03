@@ -24,8 +24,10 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.jsonpointer.TokenResolver;
+import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.SchemaLoader;
+import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.processors.ref.RefResolver;
 import com.github.fge.jsonschema.processors.validation.SchemaTreeEquivalence;
@@ -46,30 +48,32 @@ public final class RecursiveSchemaWalker
     private static final Equivalence<SchemaTree> EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();
 
-    private final RefResolver resolver;
+    private final Processor<SchemaHolder, SchemaHolder> resolver;
 
-    public RecursiveSchemaWalker(final SchemaVersion version,
-        final SchemaTree tree, final LoadingConfiguration cfg)
+    public RecursiveSchemaWalker(final SchemaTree tree,
+        final SchemaVersion version, final LoadingConfiguration cfg)
     {
-        super(version, tree);
+        super(tree, version);
         resolver = new RefResolver(new SchemaLoader(cfg));
     }
 
-    public RecursiveSchemaWalker(final SchemaVersion version,
-        final SchemaTree tree)
+    public RecursiveSchemaWalker(final SchemaTree tree,
+        final SchemaVersion version)
     {
-        this(version, tree, LoadingConfiguration.byDefault());
+        this(tree, version, LoadingConfiguration.byDefault());
     }
 
-    public RecursiveSchemaWalker(final Dictionary<PointerCollector> dict,
-        final SchemaTree tree, final LoadingConfiguration cfg)
+    public RecursiveSchemaWalker(final SchemaTree tree,
+        final Dictionary<PointerCollector> collectors,
+        final Dictionary<SyntaxChecker> checkers,
+        final LoadingConfiguration cfg)
     {
         /*
          * TODO:
          * - check versions
          * - check syntax on resolution
          */
-        super(dict, tree);
+        super(tree, collectors);
         resolver = new RefResolver(new SchemaLoader(cfg));
     }
 
