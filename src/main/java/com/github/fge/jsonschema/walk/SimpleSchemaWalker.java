@@ -26,16 +26,16 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 public final class SimpleSchemaWalker
     extends SchemaWalker
 {
-    public SimpleSchemaWalker(final SchemaVersion version,
-        final SchemaTree tree)
+    public SimpleSchemaWalker(final SchemaTree tree,
+        final SchemaVersion version)
     {
-        super(version, tree);
+        super(tree, version);
     }
 
-    public SimpleSchemaWalker(final Dictionary<PointerCollector> dict,
-        final SchemaTree tree)
+    public SimpleSchemaWalker(final SchemaTree tree,
+        final Dictionary<PointerCollector> dict)
     {
-        super(dict, tree);
+        super(tree, dict);
     }
 
     @Override

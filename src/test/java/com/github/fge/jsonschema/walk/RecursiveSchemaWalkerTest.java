@@ -56,7 +56,7 @@ public final class RecursiveSchemaWalkerTest
             .preloadSchema(uri1, schema1).preloadSchema(uri2, schema2).freeze();
 
         final SchemaWalker walker
-            = new RecursiveSchemaWalker(SchemaVersion.DRAFTV4, tree, cfg);
+            = new RecursiveSchemaWalker(tree, SchemaVersion.DRAFTV4, cfg);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -89,7 +89,7 @@ public final class RecursiveSchemaWalkerTest
         final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
 
         final SchemaWalker walker
-            = new RecursiveSchemaWalker(SchemaVersion.DRAFTV4, tree);
+            = new RecursiveSchemaWalker(tree, SchemaVersion.DRAFTV4);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -118,7 +118,7 @@ public final class RecursiveSchemaWalkerTest
         final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
 
         final SchemaWalker walker
-            = new RecursiveSchemaWalker(SchemaVersion.DRAFTV4, tree);
+            = new RecursiveSchemaWalker(tree, SchemaVersion.DRAFTV4);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
