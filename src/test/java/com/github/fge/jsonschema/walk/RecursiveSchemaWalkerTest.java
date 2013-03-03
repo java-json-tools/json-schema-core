@@ -81,8 +81,10 @@ public final class RecursiveSchemaWalkerTest
     public void walkerRefusesToExpandToChildTree()
         throws ProcessingException
     {
+        final ObjectNode subSchema = JacksonUtils.nodeFactory().objectNode();
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode()
-            .put("$ref", "#/a").put("a", "b");
+            .put("$ref", "#/a");
+        schema.put("a", subSchema);
         final JsonRef ref = JsonRef.fromString("x://y/z#");
         final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
 
