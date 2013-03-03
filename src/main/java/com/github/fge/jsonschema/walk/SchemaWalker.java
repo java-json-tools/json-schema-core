@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.walk;
 
+import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -39,6 +40,14 @@ public abstract class SchemaWalker
 
     private final Map<String, PointerCollector> collectors;
 
+    protected SchemaWalker(final SchemaVersion version, final SchemaTree tree)
+    {
+        collectors = version == SchemaVersion.DRAFTV4
+            ? DraftV4PointerCollectorDictionary.get().entries()
+            : DraftV3PointerCollectorDictionary.get().entries();
+        this.tree = tree;
+    }
+
     protected SchemaWalker(final Dictionary<PointerCollector> dict,
         final SchemaTree tree)
     {
@@ -50,12 +59,12 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        report.debug(
-            new ProcessingMessage().message("entering tree").put("tree", tree));
+        report.debug(new ProcessingMessage().message("entering tree")
+            .put("tree", tree));
         listener.onInit(tree);
         doWalk(listener, report);
-        report.debug(
-            new ProcessingMessage().message("exiting tree").put("tree", tree));
+        report.debug(new ProcessingMessage().message("exiting tree")
+            .put("tree", tree));
         listener.onExit();
     }
 
