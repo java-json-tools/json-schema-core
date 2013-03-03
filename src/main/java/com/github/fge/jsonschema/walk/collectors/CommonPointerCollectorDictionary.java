@@ -25,6 +25,9 @@ import com.github.fge.jsonschema.walk.collectors.common.DependenciesPointerColle
 import com.github.fge.jsonschema.walk.collectors.helpers.SchemaMapPointerCollector;
 import com.github.fge.jsonschema.walk.collectors.helpers.SchemaOrSchemaArrayPointerCollector;
 
+/**
+ * Dictionary of pointer collectors common to both draft v4 and draft v3
+ */
 public final class CommonPointerCollectorDictionary
 {
     private static final Dictionary<PointerCollector> DICTIONARY;

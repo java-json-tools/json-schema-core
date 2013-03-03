@@ -24,6 +24,9 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 
+/**
+ * A simple schema walker, which does not change trees when walking
+ */
 public final class SimpleSchemaWalker
     extends SchemaWalker
 {

@@ -15,29 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.walk.collectors;
+package com.github.fge.jsonschema.walk;
 
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.walk.SchemaWalker;
 
-import java.util.Collection;
-
-/**
- * Interface for a pointer collector
- *
- * <p>This interface is the core piece of a {@link SchemaWalker}. One such
- * collector exists for each schema keyword which has subschemas, and
- * implementations add pointers to the collection passed as an argument if any.
- * </p>
- */
-public interface PointerCollector
+public interface SchemaWalkerProvider
 {
-    /**
-     * Collect pointers for the current schema node
-     *
-     * @param pointers the pointer collection to add to
-     * @param tree the current schema node
-     */
-    void collect(final Collection<JsonPointer> pointers, final SchemaTree tree);
+    SchemaWalker newWalker(final SchemaTree tree);
 }

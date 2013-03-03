@@ -17,7 +17,17 @@
 
 package com.github.fge.jsonschema.walk;
 
+/**
+ * Interface to provide a {@link SchemaListener} for processing
+ *
+ * @param <T> the value type produced by provided listeners
+ */
 public interface SchemaListenerProvider<T>
 {
+    /**
+     * Instantiate, and return, a new schema walker listener
+     *
+     * @return a new schema listener
+     */
     SchemaListener<T> newListener();
 }

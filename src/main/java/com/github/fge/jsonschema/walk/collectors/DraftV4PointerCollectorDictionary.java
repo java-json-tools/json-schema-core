@@ -23,6 +23,9 @@ import com.github.fge.jsonschema.walk.collectors.draftv4.NotPointerCollector;
 import com.github.fge.jsonschema.walk.collectors.helpers.SchemaArrayPointerCollector;
 import com.github.fge.jsonschema.walk.collectors.helpers.SchemaMapPointerCollector;
 
+/**
+ * Dictionary of pointer collectors specific to draft v3
+ */
 public final class DraftV4PointerCollectorDictionary
 {
     private static final Dictionary<PointerCollector> DICTIONARY;

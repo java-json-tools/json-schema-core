@@ -21,25 +21,78 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
+/**
+ * A schema walker listener
+ *
+ * <p>This is the main working part of a walking process. A {@link SchemaWalker}
+ * will invoke a listener at various points in time when it walks the schema.
+ * </p>
+ *
+ * <p>All methods can throw a {@link ProcessingException} if you choose to
+ * abort processing due to an anomalous condition.</p>
+ *
+ * @param <T> the value type produced by this listener
+ */
 public interface SchemaListener<T>
 {
+    /**
+     * Method called before schema walking commences
+     *
+     * @param tree the walked schema tree
+     * @throws ProcessingException processing failure
+     */
     void onInit(final SchemaTree tree)
         throws ProcessingException;
 
+    /**
+     *  Method called when the walking process changes trees
+     *
+     * @param oldTree the old tree
+     * @param newTree the new tree
+     * @throws ProcessingException processing failure
+     * @see ResolvingSchemaWalker
+     */
     void onNewTree(final SchemaTree oldTree, final SchemaTree newTree)
         throws ProcessingException;
 
+    /**
+     * Method called when the walker changes pointer into the current tree
+     *
+     * @param pointer the <b>relative</b> pointer into the tree
+     * @throws ProcessingException processing failure
+     */
     void onPushd(final JsonPointer pointer)
         throws ProcessingException;
 
+    /**
+     * Method called when the current tree node is walked
+     *
+     * @param tree the current tree
+     * @throws ProcessingException processing failure
+     */
     void onWalk(final SchemaTree tree)
         throws ProcessingException;
 
+    /**
+     * Method called when the walking process exits a subtree
+     *
+     * @throws ProcessingException processing failure
+     */
     void onPopd()
         throws ProcessingException;
 
+    /**
+     * Method called when the walking process is done walking the tree
+     *
+     * @throws ProcessingException processing failure
+     */
     void onExit()
         throws ProcessingException;
 
+    /**
+     * Return the value produced by this listener
+     *
+     * @return the value
+     */
     T getValue();
 }

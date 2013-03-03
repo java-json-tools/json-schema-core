@@ -16,8 +16,20 @@
  */
 
 /**
- * Schema walker and listener
+ * Schema walker, listener and processor
  *
- * <p>Using classes in this package</p>
+ * <p>Using classes in this package, you can create a {@link
+ * com.github.fge.jsonschema.walk.SchemaListener} instance, attach it to a
+ * {@link com.github.fge.jsonschema.walk.SchemaWalker} and generate a custom
+ * product out of this listening process.</p>
+ *
+ * <p>You can also use a walker as a processor, namely {@link
+ * com.github.fge.jsonschema.walk.SchemaWalkerProcessor}, in which case you must
+ * provide a {@link com.github.fge.jsonschema.walk.SchemaListenerProvider} as
+ * well, which will generate a new listener for each processed value, and return
+ * a {@link com.github.fge.jsonschema.util.ValueHolder} holding the product of
+ * the created listener.</p>
+ *
+ * <p>Important node: <b>it is supposed that the schema is valid.</b></p>
  */
 package com.github.fge.jsonschema.load;
