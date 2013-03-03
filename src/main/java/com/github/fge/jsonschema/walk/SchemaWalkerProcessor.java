@@ -24,13 +24,13 @@ import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.ValueHolder;
 
-public final class SchemaListenerProcessor<T extends MessageProvider>
+public final class SchemaWalkerProcessor<T extends MessageProvider>
     implements Processor<SchemaHolder, ValueHolder<T>>
 {
     private final SchemaWalker walker;
     private final SchemaListenerProvider<T> listenerProvider;
 
-    public SchemaListenerProcessor(final SchemaWalker walker,
+    public SchemaWalkerProcessor(final SchemaWalker walker,
         final SchemaListenerProvider<T> listenerProvider)
     {
         this.walker = walker;
