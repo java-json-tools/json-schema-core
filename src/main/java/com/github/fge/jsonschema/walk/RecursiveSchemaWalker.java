@@ -20,16 +20,23 @@ package com.github.fge.jsonschema.walk;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.exceptions.ExceptionProvider;
+import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.syntax.DraftV3SyntaxCheckerDictionary;
+import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.load.SchemaLoader;
+import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.processors.ref.RefResolver;
+import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.processors.validation.SchemaTreeEquivalence;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -45,16 +52,36 @@ import static com.github.fge.jsonschema.messages.SchemaWalkerMessages.*;
 public final class RecursiveSchemaWalker
     extends SchemaWalker
 {
+    private static final ProcessingMessage MESSAGE = new ProcessingMessage()
+        .message(SyntaxMessages.INVALID_SCHEMA)
+        .setExceptionProvider(new ExceptionProvider()
+        {
+            @Override
+            public ProcessingException doException(
+                final ProcessingMessage message)
+            {
+                return new InvalidSchemaException(message);
+            }
+        });
+
     private static final Equivalence<SchemaTree> EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();
 
-    private final Processor<SchemaHolder, SchemaHolder> resolver;
+    private final Processor<SchemaHolder, SchemaHolder> processor;
 
     public RecursiveSchemaWalker(final SchemaTree tree,
         final SchemaVersion version, final LoadingConfiguration cfg)
     {
         super(tree, version);
-        resolver = new RefResolver(new SchemaLoader(cfg));
+        final Dictionary<SyntaxChecker> checkers
+            = version == SchemaVersion.DRAFTV4
+                ? DraftV4SyntaxCheckerDictionary.get()
+                : DraftV3SyntaxCheckerDictionary.get();
+
+        final RefResolver refResolver = new RefResolver(new SchemaLoader(cfg));
+        processor = ProcessorChain.startWith(refResolver)
+            .chainWith(new SyntaxProcessor(checkers))
+            .failOnError(MESSAGE).getProcessor();
     }
 
     public RecursiveSchemaWalker(final SchemaTree tree,
@@ -68,13 +95,11 @@ public final class RecursiveSchemaWalker
         final Dictionary<SyntaxChecker> checkers,
         final LoadingConfiguration cfg)
     {
-        /*
-         * TODO:
-         * - check versions
-         * - check syntax on resolution
-         */
         super(tree, collectors);
-        resolver = new RefResolver(new SchemaLoader(cfg));
+        final RefResolver refResolver = new RefResolver(new SchemaLoader(cfg));
+        processor = ProcessorChain.startWith(refResolver)
+            .chainWith(new SyntaxProcessor(checkers))
+            .failOnError(MESSAGE).getProcessor();
     }
 
     @Override
@@ -82,7 +107,7 @@ public final class RecursiveSchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        final SchemaTree newTree = resolver.process(report,
+        final SchemaTree newTree = processor.process(report,
             new SchemaHolder(tree)).getValue();
         if (EQUIVALENCE.equivalent(tree, newTree))
             return;
