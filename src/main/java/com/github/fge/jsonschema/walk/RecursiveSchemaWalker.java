@@ -112,8 +112,6 @@ public final class RecursiveSchemaWalker
         if (EQUIVALENCE.equivalent(tree, newTree))
             return;
         checkTrees(tree, newTree);
-        report.debug(new ProcessingMessage().message("tree change")
-            .put("old", tree).put("new", newTree));
         listener.onNewTree(tree, newTree);
         tree = newTree;
     }

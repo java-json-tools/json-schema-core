@@ -21,7 +21,6 @@ import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.Lists;
@@ -59,12 +58,8 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        report.debug(new ProcessingMessage().message("entering tree")
-            .put("tree", tree));
         listener.onInit(tree);
         doWalk(listener, report);
-        report.debug(new ProcessingMessage().message("exiting tree")
-            .put("tree", tree));
         listener.onExit();
     }
 
@@ -76,8 +71,6 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        report.debug(new ProcessingMessage().message("walking tree")
-            .put("tree", tree));
         listener.onWalk(tree);
         resolveTree(listener, report);
 
