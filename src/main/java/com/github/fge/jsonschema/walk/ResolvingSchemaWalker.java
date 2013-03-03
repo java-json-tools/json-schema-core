@@ -50,7 +50,19 @@ import java.util.List;
 
 import static com.github.fge.jsonschema.messages.SchemaWalkerMessages.*;
 
-public final class RecursiveSchemaWalker
+/**
+ * A schema walker performing JSON Reference resolution
+ *
+ * <p>Unlike {@link SimpleSchemaWalker}, this schema walker will attempt to
+ * resolve a JSON Reference when it sees one; it also performs syntax checking
+ * on new trees.</p>
+ *
+ * <p>It also prevents information loss or infinite walking. The first event
+ * can happen if a JSON Reference resolves to an immediate child of the current
+ * tree (in which case all other children would be ignored), the second can
+ * happen if the reference resolves to a parent of the current tree.</p>
+ */
+public final class ResolvingSchemaWalker
     extends SchemaWalker
 {
     private static final ProcessingMessage MESSAGE = new ProcessingMessage()
@@ -70,7 +82,14 @@ public final class RecursiveSchemaWalker
 
     private final Processor<SchemaHolder, SchemaHolder> processor;
 
-    public RecursiveSchemaWalker(final SchemaTree tree,
+    /**
+     * Constructor for a given schema version
+     *
+     * @param tree the starting schema tree
+     * @param version the schema version
+     * @param cfg the listening configuration
+     */
+    public ResolvingSchemaWalker(final SchemaTree tree,
         final SchemaVersion version, final LoadingConfiguration cfg)
     {
         super(tree, version);
@@ -85,13 +104,28 @@ public final class RecursiveSchemaWalker
             .failOnError(MESSAGE).getProcessor();
     }
 
-    public RecursiveSchemaWalker(final SchemaTree tree,
+    /**
+     * Schema walker for a given version and with a default loading
+     * configuration
+     *
+     * @param tree the schema tree
+     * @param version the schema version
+     */
+    public ResolvingSchemaWalker(final SchemaTree tree,
         final SchemaVersion version)
     {
         this(tree, version, LoadingConfiguration.byDefault());
     }
 
-    public RecursiveSchemaWalker(final SchemaTree tree,
+    /**
+     * Fully customized schema walker
+     *
+     * @param tree the schema tree
+     * @param collectors the pointer collectors dictionary
+     * @param checkers the syntax checkers dictionary
+     * @param cfg the loading configuration
+     */
+    public ResolvingSchemaWalker(final SchemaTree tree,
         final Dictionary<PointerCollector> collectors,
         final Dictionary<SyntaxChecker> checkers,
         final LoadingConfiguration cfg)

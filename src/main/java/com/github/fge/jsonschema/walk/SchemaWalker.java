@@ -33,15 +33,41 @@ import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Map;
 
-/*
- * NOTE NOTE NOTE: the schema MUST be valid at this point
+/**
+ * Main schema walker class
+ *
+ * <p>This class walks a JSON Schema (in the shape of a {@link SchemaTree}
+ * recursively. In order to visit subschemas, it relies on a series of {@link
+ * PointerCollector} instances (provided by a dictionary) to get the knowledge
+ * of what schemas to visit next.</p>
+ *
+ * <p>Only subschemas are visited: unknown keywords, or keywords not having any
+ * subschemas, are ignored.</p>
+ *
+ * <p><b>Important</b>: the initial schema <b>must</b> be syntactically valid.
+ * </p>
+ *
+ * @see SimpleSchemaWalker
+ * @see ResolvingSchemaWalker
  */
 public abstract class SchemaWalker
 {
+    /**
+     * The current schema tree being walked
+     */
     protected SchemaTree tree;
 
+    /**
+     * The list of pointer collectors
+     */
     private final Map<String, PointerCollector> collectors;
 
+    /**
+     * Protected constructor for a given version
+     *
+     * @param tree the schema tree
+     * @param version the schema version
+     */
     protected SchemaWalker(final SchemaTree tree, final SchemaVersion version)
     {
         collectors = version == SchemaVersion.DRAFTV4
@@ -50,6 +76,12 @@ public abstract class SchemaWalker
         this.tree = tree;
     }
 
+    /**
+     * Protected constructor with a custom pointer collector dictionary
+     *
+     * @param tree the schema tree
+     * @param dict the dictionary of pointer collectors
+     */
     protected SchemaWalker(final SchemaTree tree,
         final Dictionary<PointerCollector> dict)
     {
@@ -57,6 +89,14 @@ public abstract class SchemaWalker
         this.tree = tree;
     }
 
+    /**
+     * Walk a tree with a listener
+     *
+     * @param listener the listener
+     * @param report the processing report to use
+     * @param <T> the value type produced by the listener
+     * @throws ProcessingException processing failure
+     */
     public final <T> void walk(final SchemaListener<T> listener,
         final ProcessingReport report)
         throws ProcessingException
@@ -66,6 +106,15 @@ public abstract class SchemaWalker
         listener.onExit();
     }
 
+    /**
+     * Change the current tree to another tree, if any
+     *
+     * @param listener the listener
+     * @param report the report
+     * @param <T> type of value produced by the listener
+     * @throws ProcessingException processing failure
+     * @see ResolvingSchemaWalker
+     */
     public abstract <T> void resolveTree(final SchemaListener<T> listener,
         final ProcessingReport report)
         throws ProcessingException;

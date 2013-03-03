@@ -22,6 +22,9 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.walk.collectors.helpers.DraftV3TypeKeywordPointerCollector;
 import com.github.fge.jsonschema.walk.collectors.helpers.SchemaOrSchemaArrayPointerCollector;
 
+/**
+ * Dictionary of pointer collectors specific to draft v3
+ */
 public final class DraftV3PointerCollectorDictionary
 {
     private static final Dictionary<PointerCollector> DICTIONARY;

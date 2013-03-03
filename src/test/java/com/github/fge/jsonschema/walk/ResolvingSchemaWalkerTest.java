@@ -41,7 +41,7 @@ import static com.github.fge.jsonschema.messages.SchemaWalkerMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public final class RecursiveSchemaWalkerTest
+public final class ResolvingSchemaWalkerTest
 {
     @Test
     public void listenerIsCalledAppropriatelyOnTreeChange()
@@ -59,7 +59,7 @@ public final class RecursiveSchemaWalkerTest
             .preloadSchema(uri1, schema1).preloadSchema(uri2, schema2).freeze();
 
         final SchemaWalker walker
-            = new RecursiveSchemaWalker(tree, SchemaVersion.DRAFTV4, cfg);
+            = new ResolvingSchemaWalker(tree, SchemaVersion.DRAFTV4, cfg);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -92,7 +92,7 @@ public final class RecursiveSchemaWalkerTest
         final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
 
         final SchemaWalker walker
-            = new RecursiveSchemaWalker(tree, SchemaVersion.DRAFTV4);
+            = new ResolvingSchemaWalker(tree, SchemaVersion.DRAFTV4);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -122,7 +122,7 @@ public final class RecursiveSchemaWalkerTest
         final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
 
         final SchemaWalker walker
-            = new RecursiveSchemaWalker(tree, SchemaVersion.DRAFTV4);
+            = new ResolvingSchemaWalker(tree, SchemaVersion.DRAFTV4);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -155,7 +155,7 @@ public final class RecursiveSchemaWalkerTest
             .preloadSchema(uri, schema2).freeze();
 
         final SchemaWalker walker
-            = new RecursiveSchemaWalker(tree, SchemaVersion.DRAFTV4, cfg);
+            = new ResolvingSchemaWalker(tree, SchemaVersion.DRAFTV4, cfg);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);

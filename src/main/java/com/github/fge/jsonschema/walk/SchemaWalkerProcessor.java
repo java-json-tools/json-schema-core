@@ -20,20 +20,33 @@ package com.github.fge.jsonschema.walk;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
-import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
 
-public final class SchemaWalkerProcessor<T extends MessageProvider>
+/**
+ * Schema walking processor
+ *
+ * <p>This processor requires that you provide both a {@link
+ * SchemaWalkerProvider}, to build a schema walker out of a {@link SchemaTree},
+ * and a {@link SchemaListenerProvider}, to build a schema listener.</p>
+ *
+ * <p>When processing an input, a new walker and a new listener will be built,
+ * and the schema will be processed. The return value of the listener will then
+ * be wrapped into a {@link ValueHolder}.</p>
+ *
+ * @param <T> the value type produced by the listeners
+ */
+public final class SchemaWalkerProcessor<T>
     implements Processor<SchemaHolder, ValueHolder<T>>
 {
-    private final SchemaWalker walker;
+    private final SchemaWalkerProvider walkerProvider;
     private final SchemaListenerProvider<T> listenerProvider;
 
-    public SchemaWalkerProcessor(final SchemaWalker walker,
+    public SchemaWalkerProcessor(final SchemaWalkerProvider walkerProvider,
         final SchemaListenerProvider<T> listenerProvider)
     {
-        this.walker = walker;
+        this.walkerProvider = walkerProvider;
         this.listenerProvider = listenerProvider;
     }
 
@@ -42,6 +55,7 @@ public final class SchemaWalkerProcessor<T extends MessageProvider>
         final SchemaHolder input)
         throws ProcessingException
     {
+        final SchemaWalker walker = walkerProvider.newWalker(input.getValue());
         final SchemaListener<T> listener = listenerProvider.newListener();
         walker.walk(listener, report);
         return ValueHolder.hold(listener.getValue());
