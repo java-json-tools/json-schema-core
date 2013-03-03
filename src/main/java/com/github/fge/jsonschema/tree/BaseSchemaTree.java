@@ -188,8 +188,8 @@ public abstract class BaseSchemaTree
     public final String toString()
     {
         return "loading URI: " + loadingRef
-            + "; current pointer: " + pointer
-            + "; resolution context: " + currentRef;
+            + "; current pointer: \"" + pointer
+            + "\"; resolution context: " + currentRef;
     }
 
     /**

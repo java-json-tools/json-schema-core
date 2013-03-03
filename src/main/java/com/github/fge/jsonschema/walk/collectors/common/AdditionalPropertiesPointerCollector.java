@@ -15,40 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.walk;
+package com.github.fge.jsonschema.walk.collectors.common;
 
-import com.github.fge.jsonschema.SchemaVersion;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
+import com.github.fge.jsonschema.walk.collectors.helpers.AbstractPointerCollector;
 
-public final class SimpleSchemaWalker
-    extends SchemaWalker
+import java.util.Collection;
+
+public final class AdditionalPropertiesPointerCollector
+    extends AbstractPointerCollector
 {
-    public SimpleSchemaWalker(final SchemaTree tree,
-        final SchemaVersion version)
+    private static final PointerCollector INSTANCE
+        = new AdditionalPropertiesPointerCollector();
+
+    private AdditionalPropertiesPointerCollector()
     {
-        super(tree, version);
+        super("additionalProperties");
     }
 
-    public SimpleSchemaWalker(final SchemaTree tree,
-        final Dictionary<PointerCollector> dict)
+    public static PointerCollector getInstance()
     {
-        super(tree, dict);
-    }
-
-    @Override
-    public <T> void resolveTree(final SchemaListener<T> listener,
-        final ProcessingReport report)
-        throws ProcessingException
-    {
+        return INSTANCE;
     }
 
     @Override
-    public String toString()
+    public void collect(final Collection<JsonPointer> pointers,
+        final SchemaTree tree)
     {
-        return "simple schema walker";
+        if (getNode(tree).isObject())
+            pointers.add(basePointer);
     }
 }

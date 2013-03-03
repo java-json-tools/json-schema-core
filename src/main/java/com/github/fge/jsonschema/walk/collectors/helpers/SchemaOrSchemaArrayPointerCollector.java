@@ -15,45 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.tree;
+package com.github.fge.jsonschema.walk.collectors.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import net.jcip.annotations.Immutable;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
-/**
- * A simple {@link JsonTree}
- */
-@Immutable
-public final class SimpleJsonTree
-    extends BaseJsonTree
+import java.util.Collection;
+
+public final class SchemaOrSchemaArrayPointerCollector
+    extends AbstractPointerCollector
 {
-    public SimpleJsonTree(final JsonNode baseNode)
+    public SchemaOrSchemaArrayPointerCollector(final String keyword)
     {
-        super(baseNode);
-    }
-
-    private SimpleJsonTree(final JsonNode baseNode, final JsonPointer pointer)
-    {
-        super(baseNode, pointer);
+        super(keyword);
     }
 
     @Override
-    public SimpleJsonTree append(final JsonPointer pointer)
+    public void collect(final Collection<JsonPointer> pointers,
+        final SchemaTree tree)
     {
-        return new SimpleJsonTree(baseNode, this.pointer.append(pointer));
-    }
-
-    @Override
-    public JsonNode asJson()
-    {
-        return FACTORY.objectNode()
-            .set("pointer", FACTORY.textNode(pointer.toString()));
-    }
-
-    @Override
-    public String toString()
-    {
-        return "current pointer: \"" + pointer + '"';
+        final JsonNode node = getNode(tree);
+        if (node.isObject()) {
+            pointers.add(basePointer);
+            return;
+        }
+        final int size = node.size();
+        for (int index = 0; index < size; index++)
+            pointers.add(basePointer.append(index));
     }
 }

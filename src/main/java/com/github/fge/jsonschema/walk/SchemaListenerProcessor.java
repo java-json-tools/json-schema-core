@@ -17,38 +17,33 @@
 
 package com.github.fge.jsonschema.walk;
 
-import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processors.data.SchemaHolder;
+import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.walk.collectors.PointerCollector;
+import com.github.fge.jsonschema.util.ValueHolder;
 
-public final class SimpleSchemaWalker
-    extends SchemaWalker
+public final class SchemaListenerProcessor<T extends MessageProvider>
+    implements Processor<SchemaHolder, ValueHolder<T>>
 {
-    public SimpleSchemaWalker(final SchemaTree tree,
-        final SchemaVersion version)
-    {
-        super(tree, version);
-    }
+    private final SchemaWalker walker;
+    private final SchemaListenerProvider<T> listenerProvider;
 
-    public SimpleSchemaWalker(final SchemaTree tree,
-        final Dictionary<PointerCollector> dict)
+    public SchemaListenerProcessor(final SchemaWalker walker,
+        final SchemaListenerProvider<T> listenerProvider)
     {
-        super(tree, dict);
+        this.walker = walker;
+        this.listenerProvider = listenerProvider;
     }
 
     @Override
-    public <T> void resolveTree(final SchemaListener<T> listener,
-        final ProcessingReport report)
+    public ValueHolder<T> process(final ProcessingReport report,
+        final SchemaHolder input)
         throws ProcessingException
     {
-    }
-
-    @Override
-    public String toString()
-    {
-        return "simple schema walker";
+        final SchemaListener<T> listener = listenerProvider.newListener();
+        walker.walk(listener, report);
+        return ValueHolder.hold(listener.getValue());
     }
 }

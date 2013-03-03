@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.testng.annotations.BeforeMethod;
