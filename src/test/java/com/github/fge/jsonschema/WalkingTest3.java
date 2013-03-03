@@ -29,7 +29,6 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
-import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.walk.DraftV4PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.PointerCollector;
 import com.github.fge.jsonschema.walk.RecursiveSchemaWalker;
@@ -48,11 +47,8 @@ public final class WalkingTest3
     public static void main(final String... args)
         throws ProcessingException, IOException
     {
-        final JsonNode schema = JsonLoader.fromResource("/main.json");
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .preloadSchema(schema)
-            .preloadSchema(JsonLoader.fromResource("/sub1.json"))
-            .preloadSchema(JsonLoader.fromResource("/sub2.json")).freeze();
+            .setNamespace("resource:/").freeze();
         final SchemaLoader loader = new SchemaLoader(cfg);
         final ProcessingReport report = new ConsoleProcessingReport(
             LogLevel.DEBUG, LogLevel.FATAL);
@@ -63,7 +59,12 @@ public final class WalkingTest3
         final SchemaWalker walker = new RecursiveSchemaWalker(dict,
             loader.get(SchemaVersion.DRAFTV4.getLocation()), cfg);
 
-        walker.walk(listener, report);
+        try {
+            walker.walk(listener, report);
+        } catch (ProcessingException e) {
+            System.out.println(JacksonUtils.prettyPrint(e
+                .getProcessingMessage().asJson()));
+        }
         System.out.println(JacksonUtils.prettyPrint(listener.getValue()));
     }
 

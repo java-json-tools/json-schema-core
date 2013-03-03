@@ -1,0 +1,110 @@
+{
+    "definitions" : {
+        "record:org.apache.avro.Interop" : {
+            "type" : "object",
+            "required" : [ "intField", "longField", "stringField", "boolField", "floatField", "doubleField", "bytesField", "nullField", "arrayField", "mapField", "unionField", "enumField", "fixedField", "recordField" ],
+            "additionalProperties" : false,
+            "properties" : {
+                "intField" : {
+                    "type" : "integer",
+                    "minimum" : -2147483648,
+                    "maximum" : 2147483647
+                },
+                "longField" : {
+                    "type" : "integer",
+                    "minimum" : -9223372036854775808,
+                    "maximum" : 9223372036854775807
+                },
+                "stringField" : {
+                    "type" : "string"
+                },
+                "boolField" : {
+                    "type" : "boolean"
+                },
+                "floatField" : {
+                    "type" : "number"
+                },
+                "doubleField" : {
+                    "type" : "number"
+                },
+                "bytesField" : {
+                    "type" : "string",
+                    "pattern" : "^[\u0000-ÿ]*$"
+                },
+                "nullField" : {
+                    "type" : "null"
+                },
+                "arrayField" : {
+                    "type" : "array",
+                    "items" : {
+                        "type" : "number"
+                    }
+                },
+                "mapField" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                        "$ref" : "#/definitions/record:org.apache.avro.Foo"
+                    }
+                },
+                "unionField" : {
+                    "oneOf" : [ {
+                        "type" : "boolean"
+                    }, {
+                        "type" : "number"
+                    }, {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "string",
+                            "pattern" : "^[\u0000-ÿ]*$"
+                        }
+                    } ]
+                },
+                "enumField" : {
+                    "$ref" : "#/definitions/enum:org.apache.avro.Kind"
+                },
+                "fixedField" : {
+                    "$ref" : "#/definitions/fixed:org.apache.avro.MD5"
+                },
+                "recordField" : {
+                    "$ref" : "#/definitions/record:org.apache.avro.Node"
+                }
+            }
+        },
+        "record:org.apache.avro.Foo" : {
+            "type" : "object",
+            "required" : [ "label" ],
+            "additionalProperties" : false,
+            "properties" : {
+                "label" : {
+                    "type" : "string"
+                }
+            }
+        },
+        "enum:org.apache.avro.Kind" : {
+            "enum" : [ "A", "B", "C" ]
+        },
+        "fixed:org.apache.avro.MD5" : {
+            "type" : "string",
+            "pattern" : "^[\u0000-ÿ]*$",
+            "minLength" : 16,
+            "maxLength" : 16
+        },
+        "record:org.apache.avro.Node" : {
+            "type" : "object",
+            "required" : [ "label", "children" ],
+            "additionalProperties" : false,
+            "properties" : {
+                "label" : {
+                    "type" : "string"
+                },
+                "children" : {
+                    "type" : "array",
+                    "items" : {
+                        "$ref" : "#/definitions/record:org.apache.avro.Node"
+                    }
+                }
+            }
+        }
+    },
+    "$ref" : "#/definitions/record:org.apache.avro.Interop"
+}
