@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.walk;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -72,12 +71,11 @@ public abstract class SchemaWalker
             .put("tree", tree));
         listener.onWalk(tree);
         resolveTree(listener, report);
-        final JsonNode node = tree.getNode();
 
         final Map<String, PointerCollector> map = Maps.newTreeMap();
         map.putAll(collectors);
 
-        map.keySet().retainAll(Sets.newHashSet(node.fieldNames()));
+        map.keySet().retainAll(Sets.newHashSet(tree.getNode().fieldNames()));
 
         /*
          * Collect pointers for further processing.
