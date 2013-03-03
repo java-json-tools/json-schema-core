@@ -17,8 +17,10 @@
 
 package com.github.fge.jsonschema.walk;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
@@ -28,6 +30,10 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
+import com.google.common.collect.Lists;
+
+import java.util.Collections;
+import java.util.List;
 
 public final class RecursiveSchemaWalker
     extends SchemaWalker
@@ -43,7 +49,6 @@ public final class RecursiveSchemaWalker
         /*
          * TODO:
          * - check versions
-         * - check infinite loops
          * - check syntax on resolution
          */
         super(dict, tree);
@@ -59,6 +64,8 @@ public final class RecursiveSchemaWalker
             new SchemaHolder(tree)).getValue();
         if (EQUIVALENCE.equivalent(tree, newTree))
             return;
+        if (siblings(tree, newTree))
+            throw new ProcessingException("meh");
         report.debug(new ProcessingMessage().message("tree change")
             .put("old", tree).put("new", newTree));
         listener.onNewTree(tree, newTree);
@@ -69,5 +76,30 @@ public final class RecursiveSchemaWalker
     public String toString()
     {
         return "recursive tree walker ($ref resolution)";
+    }
+
+    private static boolean siblings(final SchemaTree tree,
+        final SchemaTree newTree)
+    {
+        /*
+         * We can rely on URIs here: at worst the starting URI was empty, but if
+         * we actually fetched another schema, it will never be the empty URI. A
+         * simple equality check on URIs can immediately tell us whether the
+         * schema is the same.
+         */
+        if (!tree.getLoadingRef().equals(newTree.getLoadingRef()))
+            return false;
+        /*
+         * If it is, we just need to check that their pointers are disjoint. If
+         * they are not, it means one is a prefix for the other one. Test this
+         * by collecting the two trees' token resolvers and see if they share a
+         * common subset at index 0.
+         */
+        final List<TokenResolver<JsonNode>> oldPtr
+            = Lists.newArrayList(tree.getPointer());
+        final List<TokenResolver<JsonNode>> newPtr
+            = Lists.newArrayList(newTree.getPointer());
+        return Collections.indexOfSubList(oldPtr, newPtr) == 0
+            || Collections.indexOfSubList(newPtr, oldPtr) == 0;
     }
 }
