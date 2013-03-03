@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
@@ -38,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 import static org.testng.Assert.*;
 
 public final class JsonPointerTest
@@ -62,7 +62,8 @@ public final class JsonPointerTest
             fail("No exception thrown!!");
         } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_POINTER);
+            assertMessage(message)
+                .hasMessage(JsonReferenceErrors.NULL_JSON_POINTER);
         }
     }
 

@@ -17,8 +17,6 @@
 
 package com.github.fge.jsonschema.messages;
 
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-
 /**
  * Messages used for JSON Reference and JSON Pointer anomalous conditions
  *
@@ -43,20 +41,8 @@ public enum JsonReferenceMessages
      * Malformed JSON Pointer: {@code /} not found when expected
      */
     NOT_SLASH("illegal pointer: expected a slash to separate tokens"),
-    /**
-     * Attempt to construct a reference from a null URI
-     */
-    NULL_URI("URI cannot be null"),
-    /**
-     * Attempt to build a reference token/JSON Pointer/JSON Reference out of a
-     * null input string
-     */
-    NULL_INPUT("string input cannot be null"),
-    /**
-     * Attempt to merge a {@link JsonPointer} with a null pointer
-     */
-    NULL_POINTER("attempt to append a null JSON Pointer"),
     ;
+
     private final String message;
 
     JsonReferenceMessages(final String message)

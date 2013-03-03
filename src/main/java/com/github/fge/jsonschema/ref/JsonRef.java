@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.ref;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import net.jcip.annotations.Immutable;
 
@@ -174,7 +175,7 @@ public abstract class JsonRef
     {
         if (uri == null)
             throw new JsonReferenceError(new ProcessingMessage()
-                .message(NULL_URI));
+                .message(JsonReferenceErrors.NULL_URI));
 
         final URI normalized = uri.normalize();
 
@@ -199,7 +200,7 @@ public abstract class JsonRef
     {
         if (s == null)
             throw new JsonReferenceError(new ProcessingMessage()
-                .message(NULL_INPUT));
+                .message(JsonReferenceErrors.NULL_INPUT));
 
         try {
             return fromURI(new URI(s));

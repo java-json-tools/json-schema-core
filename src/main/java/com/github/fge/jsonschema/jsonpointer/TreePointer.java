@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.messages.JsonReferenceMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
@@ -30,8 +31,6 @@ import net.jcip.annotations.ThreadSafe;
 
 import java.util.Iterator;
 import java.util.List;
-
-import static com.github.fge.jsonschema.messages.JsonReferenceMessages.NULL_INPUT;
 
 /**
  * A pointer into a {@link TreeNode}
@@ -118,7 +117,7 @@ public abstract class TreePointer<T extends TreeNode>
     {
         if (input == null)
             throw new JsonReferenceError(new ProcessingMessage()
-                .message(NULL_INPUT));
+                .message(JsonReferenceErrors.NULL_INPUT));
 
         final List<ReferenceToken> ret = Lists.newArrayList();
         String s = input;

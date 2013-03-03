@@ -20,13 +20,13 @@ package com.github.fge.jsonschema.messages;
 /**
  * Messages used by the configuration process
  */
-//TODO: reorganize
 public enum JsonReferenceErrors
 {
     NULL_URI("provided URI cannot be null"),
     INVALID_URI("input is not a valid URI"),
     REF_NOT_ABSOLUTE("input is not an absolute JSON Reference"),
     NULL_JSON_POINTER("JSON Pointer is null"),
+    NULL_INPUT("string input cannot be null"),
     ;
 
     private final String message;
