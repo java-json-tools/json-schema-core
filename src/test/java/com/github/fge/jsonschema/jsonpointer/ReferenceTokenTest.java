@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.jsonpointer;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import org.testng.annotations.DataProvider;
@@ -41,7 +42,7 @@ public final class ReferenceTokenTest
             fail("No exception thrown!!");
         } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_INPUT);
+            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_INPUT);
         }
     }
     @Test
@@ -52,7 +53,7 @@ public final class ReferenceTokenTest
             fail("No exception thrown!!");
         } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_INPUT);
+            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_INPUT);
         }
     }
 

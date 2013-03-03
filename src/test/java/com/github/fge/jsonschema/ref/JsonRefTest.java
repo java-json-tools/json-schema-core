@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
 
@@ -38,7 +39,7 @@ public final class JsonRefTest
             fail("No exception thrown!!");
         } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_URI);
+            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_URI);
         }
     }
 
@@ -51,7 +52,7 @@ public final class JsonRefTest
             fail("No exception thrown!!");
         } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_INPUT);
+            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_INPUT);
         }
     }
 

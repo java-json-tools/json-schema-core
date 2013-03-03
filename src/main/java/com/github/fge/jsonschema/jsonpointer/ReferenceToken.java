@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.jsonpointer;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import net.jcip.annotations.Immutable;
@@ -101,7 +102,7 @@ public final class ReferenceToken
     {
         if (cooked == null)
             throw new JsonReferenceError(new ProcessingMessage()
-                .message(NULL_INPUT));
+                .message(JsonReferenceErrors.NULL_INPUT));
         return new ReferenceToken(cooked, asRaw(cooked));
     }
 
@@ -116,7 +117,7 @@ public final class ReferenceToken
     {
         if (raw == null)
             throw new JsonReferenceError(new ProcessingMessage()
-                .message(NULL_INPUT));
+                .message(JsonReferenceErrors.NULL_INPUT));
         return new ReferenceToken(asCooked(raw), raw);
     }
 
