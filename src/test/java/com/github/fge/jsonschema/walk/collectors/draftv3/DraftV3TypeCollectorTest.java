@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.walk.draftv3;
+package com.github.fge.jsonschema.walk.collectors.draftv3;
 
 import java.io.IOException;
 
-public final class ExtendsCollectorTest
+public final class DraftV3TypeCollectorTest
     extends DraftV3PointerCollectorTest
 {
-    public ExtendsCollectorTest()
+    public DraftV3TypeCollectorTest()
         throws IOException
     {
-        super("extends");
+        super("type");
     }
 }
