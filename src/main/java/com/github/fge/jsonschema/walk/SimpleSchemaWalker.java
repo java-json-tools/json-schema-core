@@ -32,7 +32,7 @@ public final class SimpleSchemaWalker
     }
 
     @Override
-    public void resolveTree(final SchemaListener listener,
+    public <T> void resolveTree(final SchemaListener<T> listener,
         final ProcessingReport report)
         throws ProcessingException
     {

@@ -47,7 +47,7 @@ public abstract class SchemaWalker
         this.tree = tree;
     }
 
-    public final void walk(final SchemaListener listener,
+    public final <T> void walk(final SchemaListener<T> listener,
         final ProcessingReport report)
         throws ProcessingException
     {
@@ -60,7 +60,7 @@ public abstract class SchemaWalker
         listener.onExit();
     }
 
-    public abstract void resolveTree(final SchemaListener listener,
+    public abstract <T> void resolveTree(final SchemaListener<T> listener,
         final ProcessingReport report)
         throws ProcessingException;
 
