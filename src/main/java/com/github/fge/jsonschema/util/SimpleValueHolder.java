@@ -18,25 +18,18 @@
 package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import net.jcip.annotations.Immutable;
 
-/**
- * A specialized {@link ValueHolder} for values implementing {@link AsJson}
- *
- * @param <T> the type of the value
- */
-@Immutable
-public class AsJsonValueHolder<T extends AsJson>
+public final class SimpleValueHolder<T>
     extends ValueHolder<T>
 {
-    protected AsJsonValueHolder(final String name, final T value)
+    public SimpleValueHolder(final String name, final T value)
     {
         super(name, value);
     }
 
     @Override
-    protected final JsonNode valueAsJson()
+    protected JsonNode valueAsJson()
     {
-        return value.asJson();
+        return FACTORY.textNode(value.getClass().getCanonicalName());
     }
 }
