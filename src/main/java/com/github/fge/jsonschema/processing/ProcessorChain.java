@@ -75,7 +75,8 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
      * @return a single element processing chain
      * @throws ProcessorBuildError processor is null
      */
-    public static <X extends MessageProvider, Y extends MessageProvider> ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
+    public static <X extends MessageProvider, Y extends MessageProvider>
+        ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
     {
         if (p == null)
             throw new ProcessorBuildError(new ProcessingMessage()
@@ -104,6 +105,11 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
      */
     public ProcessorChain<IN, OUT> failOnError()
     {
+        return failOnError(new ProcessingMessage().message(CHAIN_STOPPED));
+    }
+
+    public ProcessorChain<IN, OUT> failOnError(final ProcessingMessage message)
+    {
         final Processor<OUT, OUT> fail = new Processor<OUT, OUT>()
         {
             @Override
@@ -111,8 +117,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
                 throws ProcessingException
             {
                 if (!report.isSuccess())
-                    throw new ProcessingException(new ProcessingMessage()
-                        .message(CHAIN_STOPPED));
+                    throw message.asException();
                 return input;
             }
         };
