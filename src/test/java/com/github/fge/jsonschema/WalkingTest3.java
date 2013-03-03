@@ -22,11 +22,11 @@ import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.refexpand.MutableTree;
 import com.github.fge.jsonschema.report.ConsoleProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
@@ -53,6 +53,7 @@ public final class WalkingTest3
             .preloadSchema(schema)
             .preloadSchema(JsonLoader.fromResource("/sub1.json"))
             .preloadSchema(JsonLoader.fromResource("/sub2.json")).freeze();
+        final SchemaLoader loader = new SchemaLoader(cfg);
         final ProcessingReport report = new ConsoleProcessingReport(
             LogLevel.DEBUG, LogLevel.FATAL);
         final MutableTree tree = new MutableTree();
@@ -60,7 +61,7 @@ public final class WalkingTest3
         final Dictionary<PointerCollector> dict
             = DraftV4PointerCollectorDictionary.get();
         final SchemaWalker walker = new RecursiveSchemaWalker(dict,
-            new CanonicalSchemaTree(schema), cfg);
+            loader.get(SchemaVersion.DRAFTV4.getLocation()), cfg);
 
         walker.walk(listener, report);
         System.out.println(JacksonUtils.prettyPrint(listener.getValue()));
