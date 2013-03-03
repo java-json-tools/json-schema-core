@@ -1,0 +1,135 @@
+/*
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Lesser GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * Lesser GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.github.fge.jsonschema.walk;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.SchemaVersion;
+import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.util.JacksonUtils;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
+import org.testng.annotations.Test;
+
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.SchemaWalkerMessages.*;
+import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
+
+public final class RecursiveSchemaWalkerTest
+{
+    @Test
+    public void listenerIsCalledAppropriatelyOnTreeChange()
+        throws ProcessingException
+    {
+        final String uri1 = "x://y/s1#";
+        final String uri2 = "x://y/s2#";
+        final ObjectNode schema1 = JacksonUtils.nodeFactory().objectNode()
+            .put("$ref", uri2);
+        final ObjectNode schema2 = JacksonUtils.nodeFactory().objectNode();
+
+        final SchemaTree tree = new CanonicalSchemaTree(schema1);
+
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .preloadSchema(uri1, schema1).preloadSchema(uri2, schema2).freeze();
+
+        final SchemaWalker walker
+            = new RecursiveSchemaWalker(SchemaVersion.DRAFTV4, tree, cfg);
+
+        @SuppressWarnings("unchecked")
+        final SchemaListener<Object> listener = mock(SchemaListener.class);
+        final ProcessingReport report = mock(ProcessingReport.class);
+
+        final InOrder order = inOrder(listener);
+        final ArgumentCaptor<SchemaTree> captor
+            = ArgumentCaptor.forClass(SchemaTree.class);
+
+        walker.walk(listener, report);
+
+        order.verify(listener).onInit(same(tree));
+        order.verify(listener).onWalk(same(tree));
+        order.verify(listener).onNewTree(same(tree), captor.capture());
+        order.verify(listener).onExit();
+
+        final SchemaTree subTree = captor.getValue();
+        assertEquals(subTree.getNode(), schema2);
+    }
+
+    @Test
+    public void walkerRefusesToExpandToChildTree()
+        throws ProcessingException
+    {
+        final ObjectNode schema = JacksonUtils.nodeFactory().objectNode()
+            .put("$ref", "#/a").put("a", "b");
+        final JsonRef ref = JsonRef.fromString("x://y/z#");
+        final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
+
+        final SchemaWalker walker
+            = new RecursiveSchemaWalker(SchemaVersion.DRAFTV4, tree);
+
+        @SuppressWarnings("unchecked")
+        final SchemaListener<Object> listener = mock(SchemaListener.class);
+        final ProcessingReport report = mock(ProcessingReport.class);
+
+        try {
+            walker.walk(listener, report);
+        } catch (SchemaWalkingException e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(SUBTREE_EXPAND)
+                .hasField("schemaURI", ref)
+                .hasField("source", JsonPointer.empty())
+                .hasField("target", JsonPointer.of("a"));
+        }
+    }
+
+    @Test
+    public void walkerRefusesToExpandToParentTree()
+        throws ProcessingException
+    {
+        final ObjectNode subSchema = JacksonUtils.nodeFactory().objectNode()
+            .put("$ref", "#");
+        final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
+        schema.put("not", subSchema);
+        final JsonRef ref = JsonRef.fromString("x://y/z#");
+        final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
+
+        final SchemaWalker walker
+            = new RecursiveSchemaWalker(SchemaVersion.DRAFTV4, tree);
+
+        @SuppressWarnings("unchecked")
+        final SchemaListener<Object> listener = mock(SchemaListener.class);
+        final ProcessingReport report = mock(ProcessingReport.class);
+
+        try {
+            walker.walk(listener, report);
+        } catch (SchemaWalkingException e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(PARENT_EXPAND)
+                .hasField("schemaURI", ref)
+                .hasField("source", JsonPointer.of("not"))
+                .hasField("target", JsonPointer.empty());
+        }
+    }
+}

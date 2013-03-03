@@ -18,8 +18,10 @@
 package com.github.fge.jsonschema.walk;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -36,17 +38,28 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 
+import static com.github.fge.jsonschema.messages.SchemaWalkerMessages.*;
+
 public final class RecursiveSchemaWalker
     extends SchemaWalker
 {
-    private static final String EXPANSION_SUBTREE
-        = "attempt to expand to child of self, would lose information";
-    private static final String EXPANSION_SUPERTREE
-        = "attempt to expand to parent of self, would lead to recursion";
     private static final Equivalence<SchemaTree> EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();
 
     private final RefResolver resolver;
+
+    public RecursiveSchemaWalker(final SchemaVersion version,
+        final SchemaTree tree, final LoadingConfiguration cfg)
+    {
+        super(version, tree);
+        resolver = new RefResolver(new SchemaLoader(cfg));
+    }
+
+    public RecursiveSchemaWalker(final SchemaVersion version,
+        final SchemaTree tree)
+    {
+        this(version, tree, LoadingConfiguration.byDefault());
+    }
 
     public RecursiveSchemaWalker(final Dictionary<PointerCollector> dict,
         final SchemaTree tree, final LoadingConfiguration cfg)
@@ -82,30 +95,6 @@ public final class RecursiveSchemaWalker
         return "recursive tree walker ($ref resolution)";
     }
 
-    private static boolean siblings(final SchemaTree tree,
-        final SchemaTree newTree)
-    {
-        /*
-         * We can rely on URIs here: at worst the starting URI was empty, but if
-         * we actually fetched another schema, it will never be the empty URI. A
-         * simple equality check on URIs can immediately tell us whether the
-         * schema is the same.
-         */
-        if (!tree.getLoadingRef().equals(newTree.getLoadingRef()))
-            return false;
-        /*
-         * If it is, we just need to check that their pointers are disjoint. If
-         * they are not, it means one is a prefix for the other one. Test this
-         * by collecting the two trees' token resolvers and see if they share a
-         * common subset at index 0.
-         */
-        final List<TokenResolver<JsonNode>> oldPtr
-            = Lists.newArrayList(tree.getPointer());
-        final List<TokenResolver<JsonNode>> newPtr
-            = Lists.newArrayList(newTree.getPointer());
-        return Collections.indexOfSubList(oldPtr, newPtr) == 0
-            || Collections.indexOfSubList(newPtr, oldPtr) == 0;
-    }
     private static void checkTrees(final SchemaTree tree,
         final SchemaTree newTree)
         throws ProcessingException
@@ -128,23 +117,26 @@ public final class RecursiveSchemaWalker
          * been caught by the ref resolver.
          */
         final JsonPointer sourcePointer = tree.getPointer();
+        final JsonPointer targetPointer = newTree.getPointer();
+
         final List<TokenResolver<JsonNode>> sourceTokens
             = Lists.newArrayList(sourcePointer);
-        final JsonPointer targetPointer = newTree.getPointer();
         final List<TokenResolver<JsonNode>> targetTokens
             = Lists.newArrayList(targetPointer);
+
         final ProcessingMessage message = new ProcessingMessage().message("")
+            .put("schemaURI", tree.getLoadingRef())
             .put("source", sourcePointer.toString())
             .put("target", targetPointer.toString());
         /*
          * Check if there is an attempt to expand to a parent tree
          */
         if (Collections.indexOfSubList(sourceTokens, targetTokens) == 0)
-            throw new ProcessingException(message.message(EXPANSION_SUPERTREE));
+            throw new SchemaWalkingException(message.message(PARENT_EXPAND));
         /*
          * Check if there is an attempt to expand to a subtree
          */
         if (Collections.indexOfSubList(targetTokens, sourceTokens) == 0)
-            throw new ProcessingException(message.message(EXPANSION_SUBTREE));
+            throw new SchemaWalkingException(message.message(SUBTREE_EXPAND));
     }
 }
