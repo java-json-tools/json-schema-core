@@ -20,10 +20,13 @@ package com.github.fge.jsonschema.walk;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.DevNullProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -60,7 +63,7 @@ public final class RecursiveSchemaWalkerTest
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
-        final ProcessingReport report = mock(ProcessingReport.class);
+        final ProcessingReport report = new DevNullProcessingReport();
 
         final InOrder order = inOrder(listener);
         final ArgumentCaptor<SchemaTree> captor
@@ -93,10 +96,11 @@ public final class RecursiveSchemaWalkerTest
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
-        final ProcessingReport report = mock(ProcessingReport.class);
+        final ProcessingReport report = new DevNullProcessingReport();
 
         try {
             walker.walk(listener, report);
+            fail("No exception thrown!!");
         } catch (SchemaWalkingException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(SUBTREE_EXPAND)
@@ -122,16 +126,47 @@ public final class RecursiveSchemaWalkerTest
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
-        final ProcessingReport report = mock(ProcessingReport.class);
+        final ProcessingReport report = new DevNullProcessingReport();
 
         try {
             walker.walk(listener, report);
+            fail("No exception thrown!!");
         } catch (SchemaWalkingException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(PARENT_EXPAND)
                 .hasField("schemaURI", ref)
                 .hasField("source", JsonPointer.of("not"))
                 .hasField("target", JsonPointer.empty());
+        }
+    }
+
+    @Test
+    public void newTreesAreCheckedForSyntax()
+        throws ProcessingException
+    {
+        final String uri = "x://y/z#";
+        final ObjectNode schema1 = JacksonUtils.nodeFactory().objectNode()
+            .put("$ref", uri);
+        final ObjectNode schema2 = JacksonUtils.nodeFactory().objectNode();
+        schema2.put("not", "inMyLife");
+        final SchemaTree tree = new CanonicalSchemaTree(schema1);
+
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .preloadSchema(uri, schema2).freeze();
+
+        final SchemaWalker walker
+            = new RecursiveSchemaWalker(tree, SchemaVersion.DRAFTV4, cfg);
+
+        @SuppressWarnings("unchecked")
+        final SchemaListener<Object> listener = mock(SchemaListener.class);
+        final ProcessingReport report = new DevNullProcessingReport();
+
+        try {
+            walker.walk(listener, report);
+            fail("No exception thrown!!");
+        } catch (InvalidSchemaException e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(SyntaxMessages.INVALID_SCHEMA);
         }
     }
 }
