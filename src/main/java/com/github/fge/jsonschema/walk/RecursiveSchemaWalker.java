@@ -39,8 +39,6 @@ import java.util.List;
 public final class RecursiveSchemaWalker
     extends SchemaWalker
 {
-    private static final String EXPANSION_RECURSION
-        = "trying to expand subtree or supertree of self";
     private static final String EXPANSION_SUBTREE
         = "attempt to expand to child of self, would lose information";
     private static final String EXPANSION_SUPERTREE
