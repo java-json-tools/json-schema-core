@@ -34,7 +34,7 @@ import net.jcip.annotations.NotThreadSafe;
 
 import java.util.Map;
 
-import static com.github.fge.jsonschema.messages.ProcessingErrors.NULL_EXCEPTION_PROVIDER;
+import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
 /**
  * One processing message

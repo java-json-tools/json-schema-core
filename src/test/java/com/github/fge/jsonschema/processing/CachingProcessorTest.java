@@ -9,7 +9,7 @@ import com.github.fge.jsonschema.util.equivalence.Equivalences;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.TestUtils.anyReport;
+import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
