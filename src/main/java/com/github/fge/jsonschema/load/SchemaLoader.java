@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.cfg.LoadingConfiguration;
-import com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;

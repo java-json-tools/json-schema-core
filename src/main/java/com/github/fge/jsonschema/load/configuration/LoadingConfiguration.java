@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.cfg;
+package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.library.Dictionary;
