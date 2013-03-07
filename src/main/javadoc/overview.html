@@ -15,29 +15,22 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>JSON Schema core utilities</title>
+</head>
 <body>
-JSON Schema core utilities
 
 <h1>What this is</h1>
 
-<h2>General presentation</h2>
+<p>This package provides an infrastructure to chain individual units of work
+(processors) together in order to produce arbitrarily complex processing chains.
+The provided infrastructure is complete with processing messages, reports and
+dedicated exceptions.</p>
 
-<p>This package originated as a split from <a
-href="https://github.com/fge/json-schema-validator">json-schema-validator</a>.
-Elements provided by this package can be used to plug the validation
-capabilities of json-schema-validator with other JSON Schema related tasks.</p>
-
-<p>The following elements are provided:</p>
-
-<ul>
-    <li>a processor system, complete with chaining, selecting, caching;</li>
-    <li>a fully customizable reporting/logging system;</li>
-    <li>full JSON Reference and JSON Pointer support;</li>
-    <li>JSON (as {@link com.fasterxml.jackson.databind.JsonNode}) utilities:
-    parsing (with arbitrary large scale/precision for numbers), writing,
-    generating;</li>
-    <li>other various JSON Schema base classes.</li>
-</ul>
+<p>In addition, it also provides a basic set of structures to work with JSON in
+general, and JSON Schema in particular: trees and schema trees, JSON Reference
+and JSON Pointer, schema syntax validation and schema walking (with associated
+listeners and processors), schema loading.</p>
 
 <h1>Processors</h1>
 
@@ -109,9 +102,9 @@ com.github.fge.jsonschema.report.AbstractProcessingReport} instead.</p>
 <p>This package comes with three implementations built in: {@link
 com.github.fge.jsonschema.report.ConsoleProcessingReport} (which logs to the
 standard output), {@link com.github.fge.jsonschema.report.ListProcessingReport}
-(which accumulates messages in a list, which you can retrieve later} and {@link
-com.github.fge.jsonschema.report.ForwardingReport} (which forwards all messages
-to another report but keeps its own success status).</p>
+(which accumulates messages in a list} and {@link
+com.github.fge.jsonschema.report.DevNullProcessingReport} (which discards all
+messages but keeps track of the processing status).</p>
 
 <h2>Messages</h2>
 
@@ -158,6 +151,20 @@ examples of how JSON Pointer is used.</p>
 
 <p>All JSON Pointer related classes are in the following package: {@link
 com.github.fge.jsonschema.jsonpointer}.</p>
+
+<h2>Schema loading</h2>
+
+<p>Classes in the {@link com.github.fge.jsonschema.load} package serve several
+purposes:</p>
+
+<ul>
+    <li>preloading schemas;</li>
+    <li>adding and/or removing support for various URI schemes;</li>
+    <li>JSON Reference resolving.</li>
+</ul>
+
+<p>All aspects of schema loading are controlled via a {@link
+com.github.fge.jsonschema.load.configuration.LoadingConfiguration} instance.</p>
 
 <h1>Other utilities</h1>
 
