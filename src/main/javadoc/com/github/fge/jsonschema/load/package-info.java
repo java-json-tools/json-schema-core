@@ -16,10 +16,11 @@
  */
 
 /**
- * Schema loading and preloading classes
+ * Schema loading and JSON Reference resolving
  *
  * <p>This package contains all components necessary to load and preload JSON
- * schemas.</p>
+ * schemas, along with the processor in charge of JSON Reference resolving
+ * ({@link com.github.fge.jsonschema.load.RefResolver}).</p>
  *
  * <p>The main loading class is {@link
  * com.github.fge.jsonschema.load.SchemaLoader}. It relies on downloaders
