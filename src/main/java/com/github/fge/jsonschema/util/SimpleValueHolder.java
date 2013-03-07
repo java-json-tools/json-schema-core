@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public final class SimpleValueHolder<T>
+final class SimpleValueHolder<T>
     extends ValueHolder<T>
 {
     public SimpleValueHolder(final String name, final T value)
