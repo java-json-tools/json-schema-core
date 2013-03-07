@@ -147,7 +147,7 @@ public final class ResolvingSchemaWalker
         if (EQUIVALENCE.equivalent(tree, newTree))
             return;
         checkTrees(tree, newTree);
-        listener.onNewTree(tree, newTree);
+        listener.onTreeChange(tree, newTree);
         tree = newTree;
     }
 

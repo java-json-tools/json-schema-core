@@ -25,25 +25,44 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  * A schema walker listener
  *
  * <p>This is the main working part of a walking process. A {@link SchemaWalker}
- * will invoke a listener at various points in time when it walks the schema.
+ * will invoke a listener at various points in time when it walks a schema tree.
  * </p>
  *
  * <p>All methods can throw a {@link ProcessingException} if you choose to
  * abort processing due to an anomalous condition.</p>
  *
+ * <p>For one subtree, the order in which events are called are:</p>
+ *
+ * <ul>
+ *     <li>{@link #onTreeChange(SchemaTree, SchemaTree)} (only if {@link
+ *     ResolvingSchemaWalker} is used);</li>
+ *     <li>{@link #onWalk(SchemaTree)};</li>
+ *     <li>{@link #onEnter(JsonPointer)} (visiting a subtree);</li>
+ *     <li>{@link #onExit()} (exiting a subtree).</li>
+ * </ul>
+ *
+ * <p>For instance, if we consider this schema:</p>
+ *
+ * <pre>
+ *     {
+ *         "type": "array",
+ *         "items": { "type": "string" }
+ *     }
+ * </pre>
+ *
+ * <p>the order of events will be:</p>
+ *
+ * <ul>
+ *     <li>{@code onWalk()}, with the tree being the root schema;</li>
+ *     <li>{@code onEnter()} with the pointer being {@code /items};</li>
+ *     <li>{@code onWalk()}, with the items subschema;</li>
+ *     <li>{@code onExit()}.</li>
+ * </ul>
+ *
  * @param <T> the value type produced by this listener
  */
 public interface SchemaListener<T>
 {
-    /**
-     * Method called before schema walking commences
-     *
-     * @param tree the walked schema tree
-     * @throws ProcessingException processing failure
-     */
-    void onInit(final SchemaTree tree)
-        throws ProcessingException;
-
     /**
      *  Method called when the walking process changes trees
      *
@@ -52,16 +71,7 @@ public interface SchemaListener<T>
      * @throws ProcessingException processing failure
      * @see ResolvingSchemaWalker
      */
-    void onNewTree(final SchemaTree oldTree, final SchemaTree newTree)
-        throws ProcessingException;
-
-    /**
-     * Method called when the walker changes pointer into the current tree
-     *
-     * @param pointer the <b>relative</b> pointer into the tree
-     * @throws ProcessingException processing failure
-     */
-    void onPushd(final JsonPointer pointer)
+    void onTreeChange(final SchemaTree oldTree, final SchemaTree newTree)
         throws ProcessingException;
 
     /**
@@ -74,15 +84,17 @@ public interface SchemaListener<T>
         throws ProcessingException;
 
     /**
-     * Method called when the walking process exits a subtree
+     * Method called when the walker changes pointer into the currently walked
+     * tree
      *
+     * @param pointer the <b>relative</b> pointer into the tree
      * @throws ProcessingException processing failure
      */
-    void onPopd()
+    void onEnter(final JsonPointer pointer)
         throws ProcessingException;
 
     /**
-     * Method called when the walking process is done walking the tree
+     * Method called when the walking process exits a subtree
      *
      * @throws ProcessingException processing failure
      */

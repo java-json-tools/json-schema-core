@@ -101,9 +101,7 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        listener.onInit(tree);
         doWalk(listener, report);
-        listener.onExit();
     }
 
     /**
@@ -123,8 +121,8 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        listener.onWalk(tree);
         resolveTree(listener, report);
+        listener.onWalk(tree);
 
         final Map<String, PointerCollector> map = Maps.newTreeMap();
         map.putAll(collectors);
@@ -145,9 +143,9 @@ public abstract class SchemaWalker
         for (final JsonPointer pointer: pointers) {
             current = tree;
             tree = tree.append(pointer);
-            listener.onPushd(pointer);
+            listener.onEnter(pointer);
             doWalk(listener, report);
-            listener.onPopd();
+            listener.onExit();
             tree = current;
         }
     }

@@ -68,16 +68,18 @@ public final class ResolvingSchemaWalkerTest
         final InOrder order = inOrder(listener);
         final ArgumentCaptor<SchemaTree> captor
             = ArgumentCaptor.forClass(SchemaTree.class);
+        final ArgumentCaptor<SchemaTree> captor2
+            = ArgumentCaptor.forClass(SchemaTree.class);
 
         walker.walk(listener, report);
 
-        order.verify(listener).onInit(same(tree));
-        order.verify(listener).onWalk(same(tree));
-        order.verify(listener).onNewTree(same(tree), captor.capture());
-        order.verify(listener).onExit();
+        order.verify(listener).onTreeChange(same(tree), captor.capture());
+        order.verify(listener).onWalk(captor2.capture());
 
         final SchemaTree subTree = captor.getValue();
+        final SchemaTree subTree2 = captor2.getValue();
         assertEquals(subTree.getNode(), schema2);
+        assertSame(subTree, subTree2);
     }
 
     @Test

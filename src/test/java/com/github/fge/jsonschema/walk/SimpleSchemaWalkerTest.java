@@ -72,9 +72,7 @@ public final class SimpleSchemaWalkerTest
 
         walker.walk(listener, report);
         final InOrder order = inOrder(listener);
-        order.verify(listener).onInit(same(tree));
         order.verify(listener).onWalk(same(tree));
-        order.verify(listener).onExit();
     }
 
     @Test
@@ -128,9 +126,9 @@ public final class SimpleSchemaWalkerTest
         walker.walk(listener, report);
 
         final InOrder order = inOrder(listener);
-        order.verify(listener).onPushd(same(pointer));
+        order.verify(listener).onEnter(same(pointer));
         order.verify(listener).onWalk(captor.capture());
-        order.verify(listener).onPopd();
+        order.verify(listener).onExit();
 
         final SchemaTree subTree = captor.getValue();
         assertEquals(subTree.getNode(), subNode);
