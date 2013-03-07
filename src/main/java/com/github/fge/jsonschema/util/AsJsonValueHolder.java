@@ -26,16 +26,16 @@ import net.jcip.annotations.Immutable;
  * @param <T> the type of the value
  */
 @Immutable
-public class AsJsonValueHolder<T extends AsJson>
+final class AsJsonValueHolder<T extends AsJson>
     extends ValueHolder<T>
 {
-    protected AsJsonValueHolder(final String name, final T value)
+    AsJsonValueHolder(final String name, final T value)
     {
         super(name, value);
     }
 
     @Override
-    protected final JsonNode valueAsJson()
+    protected JsonNode valueAsJson()
     {
         return value.asJson();
     }

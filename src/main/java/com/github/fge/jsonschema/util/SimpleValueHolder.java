@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 final class SimpleValueHolder<T>
     extends ValueHolder<T>
 {
-    public SimpleValueHolder(final String name, final T value)
+    SimpleValueHolder(final String name, final T value)
     {
         super(name, value);
     }
