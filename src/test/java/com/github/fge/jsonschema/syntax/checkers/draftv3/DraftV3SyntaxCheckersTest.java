@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.syntax.checkers.draftv3;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxCheckersTest;
-import com.github.fge.jsonschema.library.syntax.DraftV3SyntaxCheckerDictionary;
+import com.github.fge.jsonschema.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;
 
 public abstract class DraftV3SyntaxCheckersTest
     extends SyntaxCheckersTest

@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.syntax.checkers;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
+import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;

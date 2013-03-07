@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.library.syntax;
+package com.github.fge.jsonschema.syntax.dictionaries;
 
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3DependenciesSyntaxChecker;

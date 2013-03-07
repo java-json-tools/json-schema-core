@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.syntax.checkers.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxCheckersTest;
-import com.github.fge.jsonschema.library.syntax.CommonSyntaxCheckerDictionary;
+import com.github.fge.jsonschema.syntax.dictionaries.CommonSyntaxCheckerDictionary;
 
 public abstract class CommonSyntaxCheckersTest
     extends SyntaxCheckersTest
