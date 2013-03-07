@@ -17,16 +17,16 @@
 
 package com.github.fge.jsonschema.library.syntax;
 
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.common.AdditionalSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.common.EnumSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.common.ExclusiveMaximumSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.common.ExclusiveMinimumSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.common.PatternPropertiesSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.common.PatternSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.PositiveIntegerSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.TypeOnlySyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.URISyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.common.AdditionalSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.common.EnumSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.common.ExclusiveMaximumSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.common.ExclusiveMinimumSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.common.PatternPropertiesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.common.PatternSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.PositiveIntegerSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.TypeOnlySyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.URISyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 

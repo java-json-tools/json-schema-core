@@ -17,17 +17,17 @@
 
 package com.github.fge.jsonschema.library.syntax;
 
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv4.DefinitionsSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv4.DraftV4DependenciesSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv4.DraftV4ItemsSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv4.DraftV4PropertiesSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv4.DraftV4TypeSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv4.NotSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv4.RequiredSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.DivisorSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.PositiveIntegerSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaArraySyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv4.DefinitionsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv4.DraftV4DependenciesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv4.DraftV4ItemsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv4.DraftV4PropertiesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv4.DraftV4TypeSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv4.NotSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv4.RequiredSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.DivisorSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.PositiveIntegerSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.SchemaArraySyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 

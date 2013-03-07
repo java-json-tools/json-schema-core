@@ -17,13 +17,13 @@
 
 package com.github.fge.jsonschema.library.syntax;
 
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv3.DraftV3DependenciesSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv3.DraftV3ItemsSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.draftv3.ExtendsSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.DivisorSyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.DraftV3TypeKeywordSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3DependenciesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3ItemsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3PropertiesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv3.ExtendsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.DivisorSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.DraftV3TypeKeywordSyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
