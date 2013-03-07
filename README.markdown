@@ -22,6 +22,10 @@ href="https://github.com/fge/json-schema-processor-examples">separate project</a
 href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>, <a
 href="http://fge.github.com/json-schema-core/stable/index.html">Javadoc</a>).</p>
 
+<p>The current development verson is <b>1.1.0</b> (<a
+href="https://github.com/fge/json-schema-core/wiki/ChangeLog.devel">ChangeLog</a>, <a
+href="http://fge.github.com/json-schema-core/devel/index.html">Javadoc</a>).</p>
+
 <h2>Maven artifact</h2>
 
 <p>Replace <tt>your-version-here</tt> with the appropriate version:</p>
