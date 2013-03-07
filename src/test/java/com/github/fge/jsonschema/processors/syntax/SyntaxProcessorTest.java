@@ -27,7 +27,6 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -36,6 +35,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
+import com.github.fge.jsonschema.util.ValueHolder;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -103,7 +103,8 @@ public final class SyntaxProcessorTest
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
-        final SchemaHolder holder = schemaToData(node);
+        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         processor.process(report, holder);
 
@@ -122,7 +123,8 @@ public final class SyntaxProcessorTest
         node.put("foo", "");
         node.put("bar", "");
 
-        final SchemaHolder holder = schemaToData(node);
+        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         final ArrayNode ignored = FACTORY.arrayNode();
         // They appear in alphabetical order in the report!
@@ -151,7 +153,8 @@ public final class SyntaxProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(K2, "");
 
-        final SchemaHolder holder = schemaToData(schema);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         processor.process(report, holder);
 
@@ -169,17 +172,12 @@ public final class SyntaxProcessorTest
         node.put(K1, K1);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("foo", node);
-        final SchemaHolder holder = schemaToData(schema);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         processor.process(report, holder);
         verify(checker, never()).checkSyntax(anyCollectionOf(JsonPointer.class),
             anyReport(), anySchema());
-    }
-
-    private static SchemaHolder schemaToData(final JsonNode schema)
-    {
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
-        return new SchemaHolder(tree);
     }
 
     private static class TestProcessingReport

@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
@@ -38,7 +37,7 @@ import com.github.fge.jsonschema.util.ValueHolder;
  * @param <T> the value type produced by the listeners
  */
 public final class SchemaWalkerProcessor<T>
-    implements Processor<SchemaHolder, ValueHolder<T>>
+    implements Processor<ValueHolder<SchemaTree>, ValueHolder<T>>
 {
     private final SchemaWalkerProvider walkerProvider;
     private final SchemaListenerProvider<T> listenerProvider;
@@ -58,7 +57,7 @@ public final class SchemaWalkerProcessor<T>
 
     @Override
     public ValueHolder<T> process(final ProcessingReport report,
-        final SchemaHolder input)
+        final ValueHolder<SchemaTree> input)
         throws ProcessingException
     {
         final SchemaWalker walker = walkerProvider.newWalker(input.getValue());

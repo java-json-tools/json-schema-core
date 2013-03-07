@@ -34,13 +34,13 @@ import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.processors.ref.RefResolver;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.processors.validation.SchemaTreeEquivalence;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
@@ -80,7 +80,8 @@ public final class ResolvingSchemaWalker
     private static final Equivalence<SchemaTree> EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();
 
-    private final Processor<SchemaHolder, SchemaHolder> processor;
+    private final Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
+        processor;
 
     /**
      * Constructor for a given schema version
@@ -143,7 +144,7 @@ public final class ResolvingSchemaWalker
         throws ProcessingException
     {
         final SchemaTree newTree = processor.process(report,
-            new SchemaHolder(tree)).getValue();
+            ValueHolder.hold("schema", tree)).getValue();
         if (EQUIVALENCE.equivalent(tree, newTree))
             return;
         checkTrees(tree, newTree);

@@ -19,11 +19,11 @@ package com.github.fge.jsonschema.processors.ref;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import com.github.fge.jsonschema.util.ValueHolder;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
@@ -43,8 +43,7 @@ public final class RefResolverTest
         node.put("$ref", "#");
 
         final SchemaTree tree = new CanonicalSchemaTree(node);
-
-        final SchemaHolder holder = new SchemaHolder(tree);
+        final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         try {
             processor.process(report, holder);
@@ -61,8 +60,7 @@ public final class RefResolverTest
         node.put("$ref", "#/a");
 
         final SchemaTree tree = new CanonicalSchemaTree(node);
-
-        final SchemaHolder holder = new SchemaHolder(tree);
+        final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         try {
             processor.process(report, holder);

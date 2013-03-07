@@ -23,11 +23,11 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.util.ValueHolder;
 import com.google.common.collect.Sets;
 
 import java.util.Set;
@@ -49,7 +49,7 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  */
 // TODO move to load/
 public final class RefResolver
-    implements Processor<SchemaHolder, SchemaHolder>
+    implements Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
 {
     private final SchemaLoader loader;
 
@@ -59,11 +59,12 @@ public final class RefResolver
     }
 
     @Override
-    public SchemaHolder process(final ProcessingReport report,
-        final SchemaHolder input)
+    public ValueHolder<SchemaTree> process(final ProcessingReport report,
+        final ValueHolder<SchemaTree> input)
         throws ProcessingException
     {
-        return new SchemaHolder(loadRef(input.getValue()));
+        final SchemaTree value = loadRef(input.getValue());
+        return ValueHolder.hold("schema", value);
     }
 
     private static JsonRef nodeAsRef(final JsonNode node)

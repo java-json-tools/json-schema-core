@@ -23,11 +23,11 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
+import com.github.fge.jsonschema.util.ValueHolder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -43,7 +43,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
  * Syntax processor
  */
 public final class SyntaxProcessor
-    implements Processor<SchemaHolder, SchemaHolder>
+    implements Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
 {
     private final Map<String, SyntaxChecker> checkers;
 
@@ -53,8 +53,8 @@ public final class SyntaxProcessor
     }
 
     @Override
-    public SchemaHolder process(final ProcessingReport report,
-        final SchemaHolder input)
+    public ValueHolder<SchemaTree> process(final ProcessingReport report,
+        final ValueHolder<SchemaTree> input)
         throws ProcessingException
     {
         validate(report, input.getValue());
