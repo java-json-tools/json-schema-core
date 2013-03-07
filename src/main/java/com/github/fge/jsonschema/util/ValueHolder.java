@@ -85,6 +85,16 @@ public abstract class ValueHolder<T>
     protected abstract JsonNode valueAsJson();
 
     /**
+     * Return the declared name for this value
+     *
+     * @return the declared name
+     */
+    public final String getName()
+    {
+        return name;
+    }
+
+    /**
      * Get the value wrapped in the instance
      *
      * @return the value
