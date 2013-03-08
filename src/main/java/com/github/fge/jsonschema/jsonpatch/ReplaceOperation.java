@@ -41,6 +41,19 @@ public final class ReplaceOperation
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
+        /*
+         * FIXME cannot quite be replaced by a remove + add because of arrays.
+         * For instance:
+         *
+         * { "op": "replace", "path": "/0", "value": 1 }
+         *
+         * with
+         *
+         * [ "x" ]
+         *
+         * If remove is done first, the array is empty and add rightly complains
+         * that there is no such index in the array.
+         */
         if (path.path(node).isMissingNode())
             throw new JsonPatchException(NO_SUCH_PATH.newMessage()
                 .put("node", node).put("path", path.toString()));

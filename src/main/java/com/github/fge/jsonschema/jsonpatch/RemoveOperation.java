@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
@@ -41,7 +42,7 @@ public final class RemoveOperation
         throws JsonPatchException
     {
         if (path.isEmpty())
-            throw new JsonPatchException(CANNOT_REMOVE_ROOT.newMessage());
+            return MissingNode.getInstance();
         if (path.path(node).isMissingNode())
             throw new JsonPatchException(NO_SUCH_PATH.newMessage()
                 .put("node", node).put("path", path.toString()));

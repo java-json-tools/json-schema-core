@@ -17,32 +17,14 @@
 
 package com.github.fge.jsonschema.jsonpatch;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.exceptions.JsonPatchException;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.util.JacksonUtils;
-import org.testng.annotations.Test;
-
 import java.io.IOException;
 
-import static org.testng.Assert.assertTrue;
-
-public final class RemoveOperationTest
+public final class MoveOperationTest
     extends JsonPatchOperationTest
 {
-    public RemoveOperationTest()
+    public MoveOperationTest()
         throws IOException
     {
-        super("remove", RemoveOperation.class);
-    }
-
-    @Test
-    public void removingRootReturnsMissingNode()
-        throws JsonPatchException
-    {
-        final JsonNode node = JacksonUtils.nodeFactory().nullNode();
-        final JsonPatchOperation op = new RemoveOperation(JsonPointer.empty());
-        final JsonNode ret = op.apply(node);
-        assertTrue(ret.isMissingNode());
+        super("move", MoveOperation.class);
     }
 }

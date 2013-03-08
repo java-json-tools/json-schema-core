@@ -8,12 +8,6 @@
                 "node": { "x": {} },
                 "path": "/x/y"
             }
-        },
-        {
-            "patch": { "op": "remove", "path": "" },
-            "node": null,
-            "message": "CANNOT_REMOVE_ROOT",
-            "msgData": {}
         }
     ],
     "ops": [
