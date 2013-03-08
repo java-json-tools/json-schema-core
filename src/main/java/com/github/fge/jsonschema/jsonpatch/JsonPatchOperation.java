@@ -50,7 +50,7 @@ public abstract class JsonPatchOperation
         this.path = path;
     }
 
-    public abstract JsonNode apply(final JsonNode source)
+    public abstract JsonNode apply(final JsonNode node)
         throws JsonPatchException;
 
     @Override

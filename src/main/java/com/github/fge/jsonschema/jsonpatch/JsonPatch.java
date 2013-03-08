@@ -49,10 +49,10 @@ public final class JsonPatch
             throw new JsonPatchException(NOT_JSON_PATCH.newMessage(), e);
         }
     }
-    public JsonNode apply(final JsonNode source)
+    public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        JsonNode ret = source;
+        JsonNode ret = node;
         for (final JsonPatchOperation operation: operations)
             ret = operation.apply(ret);
 

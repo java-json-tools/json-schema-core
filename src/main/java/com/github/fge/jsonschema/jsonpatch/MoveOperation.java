@@ -34,10 +34,10 @@ public final class MoveOperation
     }
 
     @Override
-    public JsonNode apply(final JsonNode source)
+    public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        return source;
+        return node;
     }
 
     @Override

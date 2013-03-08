@@ -33,10 +33,10 @@ public final class RemoveOperation
     }
 
     @Override
-    public JsonNode apply(final JsonNode source)
+    public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        return source;
+        return node;
     }
 
     @Override
