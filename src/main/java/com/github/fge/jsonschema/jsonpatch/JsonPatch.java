@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 
 import java.io.IOException;
@@ -33,7 +34,8 @@ public final class JsonPatch
     private final List<JsonPatchOperation> operations;
 
     @JsonCreator
-    private JsonPatch(final List<JsonPatchOperation> operations)
+    @VisibleForTesting
+    JsonPatch(final List<JsonPatchOperation> operations)
     {
         this.operations = ImmutableList.copyOf(operations);
     }
@@ -52,6 +54,7 @@ public final class JsonPatch
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
+        NULL_INPUT.checkThat(node != null);
         JsonNode ret = node;
         for (final JsonPatchOperation operation: operations)
             ret = operation.apply(ret);

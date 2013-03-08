@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonPatchError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import com.google.common.collect.ImmutableList;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -49,6 +50,21 @@ public final class JsonPatchTest
     {
         try {
             JsonPatch.fromJson(null);
+            fail("No exception thrown!!");
+        } catch (JsonPatchError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_INPUT);
+        }
+    }
+
+    @Test
+    public void cannotPatchNull()
+        throws JsonPatchException
+    {
+        final JsonPatch patch = new JsonPatch(ImmutableList.of(op1, op2));
+
+        try {
+            patch.apply(null);
             fail("No exception thrown!!");
         } catch (JsonPatchError e) {
             final ProcessingMessage message = e.getProcessingMessage();
