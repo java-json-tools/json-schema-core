@@ -18,24 +18,15 @@
 package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.fasterxml.jackson.databind.deser.std.JsonNodeDeserializer;
+import com.fasterxml.jackson.databind.node.NullNode;
 
-public abstract class PathValueOperation
-    extends JsonPatchOperation
+public final class JsonNullAwareDeserializer
+    extends JsonNodeDeserializer
 {
-    @JsonDeserialize(using = JsonNullAwareDeserializer.class)
-    protected final JsonNode value;
-
-    protected PathValueOperation(final JsonPointer path, final JsonNode value)
-    {
-        super(path);
-        this.value = value.deepCopy();
-    }
-
     @Override
-    public String toString()
+    public JsonNode getNullValue()
     {
-        return super.toString() + ", value = " + value;
+        return NullNode.getInstance();
     }
 }
