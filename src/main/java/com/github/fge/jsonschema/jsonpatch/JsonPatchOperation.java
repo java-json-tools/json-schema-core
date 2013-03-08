@@ -17,11 +17,53 @@
 
 package com.github.fge.jsonschema.jsonpatch;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
-public interface JsonPatchOperation
+import java.io.IOException;
+
+import static com.fasterxml.jackson.annotation.JsonSubTypes.*;
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.*;
+
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "op")
+
+@JsonSubTypes({
+    @Type(name = "add", value = AddOperation.class),
+    @Type(name = "copy", value = CopyOperation.class),
+    @Type(name = "move", value = MoveOperation.class),
+    @Type(name = "remove", value = RemoveOperation.class),
+    @Type(name = "replace", value = ReplaceOperation.class),
+    @Type(name = "test", value = TestOperation.class)
+})
+
+public abstract class JsonPatchOperation
 {
-    JsonNode apply(final JsonNode source)
+    /*
+     * Note: no need for a custom deserializer, Jackson will try and find a
+     * constructor with a single string argument and use it
+     */
+    protected final JsonPointer path;
+
+    protected JsonPatchOperation(final JsonPointer path)
+    {
+        this.path = path;
+    }
+
+    public abstract JsonNode apply(final JsonNode source)
         throws JsonPatchException;
+
+    public static void main(final String... args)
+        throws IOException
+    {
+        final String input = "[{\"op\": \"test\", \"path\": \"\"," +
+            "\"value\":2}]";
+
+        final JsonPatch operation = new ObjectMapper()
+            .readValue(input, JsonPatch.class);
+        System.exit(0);
+    }
 }
