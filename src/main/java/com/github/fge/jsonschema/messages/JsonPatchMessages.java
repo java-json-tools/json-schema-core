@@ -24,12 +24,6 @@ import com.github.fge.jsonschema.exceptions.unchecked.JsonPatchError;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
-/**
- * Messages used for JSON Reference and JSON Pointer anomalous conditions
- *
- * @see com.github.fge.jsonschema.jsonpointer
- * @see com.github.fge.jsonschema.ref
- */
 public enum JsonPatchMessages
     implements MessageProvider
 {
