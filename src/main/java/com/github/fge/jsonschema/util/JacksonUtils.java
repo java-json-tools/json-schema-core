@@ -50,7 +50,9 @@ public final class JacksonUtils
 
     static {
         final ObjectMapper mapper = new ObjectMapper().setNodeFactory(FACTORY)
-            .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+            .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
         READER = mapper.reader();
         WRITER = mapper.writerWithDefaultPrettyPrinter();
     }
