@@ -20,14 +20,21 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.ReferenceToken;
+import com.github.fge.jsonschema.jsonpointer.TokenResolver;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
 public final class AddOperation
     extends PathValueOperation
 {
+    private static final ReferenceToken LAST_ARRAY_ELEMENT
+        = ReferenceToken.fromRaw("-");
+
     @JsonCreator
     public AddOperation(@JsonProperty("path") final JsonPointer path,
         @JsonProperty("value") final JsonNode value)
@@ -51,18 +58,47 @@ public final class AddOperation
         if (parentNode.isMissingNode())
             throw new JsonPatchException(NO_SUCH_PARENT.newMessage()
                 .put("node", node).put("path", path.toString()));
-        return doAdd(split, node);
+        return parentNode.isArray()
+            ? addToArray(split, node)
+            : addToObject(split, node);
     }
 
-    private JsonNode doAdd(final SplitPointer split, final JsonNode node)
+    private JsonNode addToArray(final SplitPointer split, final JsonNode node)
         throws JsonPatchException
     {
-        final JsonNode targetNode = path.path(node);
-        if (targetNode.isValueNode())
-            throw new JsonPatchException(CANNOT_ADD_TO_VALUE.newMessage()
-                .put("node", node).put("path", path.toString())
-                .put("resolved", targetNode));
-        return node;
+        final JsonNode ret = node.deepCopy();
+        final ArrayNode target = (ArrayNode) split.parent.get(ret);
+        final TokenResolver<JsonNode> token = split.lastToken;
+
+        if (token.getToken().equals(LAST_ARRAY_ELEMENT)) {
+            target.add(value);
+            return ret;
+        }
+
+        final int size = target.size();
+        final int index;
+        try {
+            index = Integer.parseInt(token.toString());
+        } catch (NumberFormatException ignored) {
+            throw new JsonPatchException(NOT_AN_INDEX.newMessage()
+                .put("token", token.getToken().getRaw()));
+        }
+
+        if (index < 0 || index >= size)
+            throw new JsonPatchException(NO_SUCH_INDEX.newMessage()
+                .put("reminder", "array indices start at 0")
+                .put("arraySize", size).put("index", index));
+
+        target.insert(index, value);
+        return ret;
+    }
+
+    private JsonNode addToObject(final SplitPointer split, final JsonNode node)
+    {
+        final JsonNode ret = node.deepCopy();
+        final ObjectNode target = (ObjectNode) split.parent.get(ret);
+        target.put(split.lastToken.getToken().getRaw(), value);
+        return ret;
     }
 
     @Override

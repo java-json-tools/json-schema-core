@@ -29,9 +29,9 @@ public enum JsonPatchMessages
 {
     NULL_INPUT("null inputs are not accepted"),
     NOT_JSON_PATCH("input is not a valid JSON Patch"),
-    CANNOT_ADD_ROOT("cannot add an element to document root"),
     NO_SUCH_PARENT("parent of node to add does not exist"),
-    CANNOT_ADD_TO_VALUE("cannot perform add operation on a value node")
+    NOT_AN_INDEX("reference token is not an array index"),
+    NO_SUCH_INDEX("no such index in target array"),
     ;
 
     private final String message;

@@ -10,13 +10,31 @@
             }
         },
         {
-            "patch": { "op": "add", "path": "/a", "value": 1},
-            "node": { "a": "b" },
-            "message": "CANNOT_ADD_TO_VALUE",
+            "patch": { "op": "add", "path": "/~1", "value": 1 },
+            "node": [],
+            "message": "NOT_AN_INDEX",
             "msgData": {
-                "node": { "a": "b" },
-                "path": "/a",
-                "resolved": "b"
+                "token": "/"
+            }
+        },
+        {
+            "patch": { "op": "add", "path": "/3", "value": 1 },
+            "node": [ 1, 2 ],
+            "message": "NO_SUCH_INDEX",
+            "msgData": {
+                "reminder": "array indices start at 0",
+                "arraySize": 2,
+                "index": 3
+            }
+        },
+        {
+            "patch": { "op": "add", "path": "/-2", "value": 1 },
+            "node": [ 1, 2 ],
+            "message": "NO_SUCH_INDEX",
+            "msgData": {
+                "reminder": "array indices start at 0",
+                "arraySize": 2,
+                "index": -2
             }
         }
     ],
@@ -30,6 +48,21 @@
             "patch": { "op": "add", "path": "/a", "value": "b" },
             "node": {},
             "expected": { "a": "b" }
+        },
+        {
+            "patch": { "op": "add", "path": "/a", "value": 1 },
+            "node": { "a": "b" },
+            "expected": { "a": 1 }
+        },
+        {
+            "patch": { "op": "add", "path": "/array/-", "value": 1 },
+            "node": { "array": [ 2, null, {}, 1 ] },
+            "expected": { "array": [ 2, null, {}, 1, 1 ] }
+        },
+        {
+            "patch": { "op": "add", "path": "/array/2", "value": "hello" },
+            "node": { "array": [ 2, null, {}, 1] },
+            "expected": { "array": [ 2, null, "hello", {}, 1 ] }
         }
     ]
 }
