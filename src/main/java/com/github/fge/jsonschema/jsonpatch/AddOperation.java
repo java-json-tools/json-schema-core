@@ -40,7 +40,28 @@ public final class AddOperation
         throws JsonPatchException
     {
         if (path.isEmpty())
-            throw new JsonPatchException(CANNOT_ADD_ROOT.newMessage());
+            return value;
+
+        /*
+         * Check the parent node: it must at the very least exist for the add
+         * operation to work
+         */
+        final SplitPointer split = new SplitPointer(path);
+        final JsonNode parentNode = split.parent.path(node);
+        if (parentNode.isMissingNode())
+            throw new JsonPatchException(NO_SUCH_PARENT.newMessage()
+                .put("node", node).put("path", path.toString()));
+        return doAdd(split, node);
+    }
+
+    private JsonNode doAdd(final SplitPointer split, final JsonNode node)
+        throws JsonPatchException
+    {
+        final JsonNode targetNode = path.path(node);
+        if (targetNode.isValueNode())
+            throw new JsonPatchException(CANNOT_ADD_TO_VALUE.newMessage()
+                .put("node", node).put("path", path.toString())
+                .put("resolved", targetNode));
         return node;
     }
 

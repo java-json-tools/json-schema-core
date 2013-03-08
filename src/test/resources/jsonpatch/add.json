@@ -1,13 +1,31 @@
 {
     "errors": [
         {
-            "patch": { "op": "add", "path": "", "value": null },
-            "node": null,
-            "message": "CANNOT_ADD_ROOT",
-            "msgData": {}
+            "patch": { "op": "add", "path": "/a/b/c", "value": 1 },
+            "node": { "a": "b" },
+            "message": "NO_SUCH_PARENT",
+            "msgData": {
+                "node": { "a": "b" },
+                "path": "/a/b/c"
+            }
+        },
+        {
+            "patch": { "op": "add", "path": "/a", "value": 1},
+            "node": { "a": "b" },
+            "message": "CANNOT_ADD_TO_VALUE",
+            "msgData": {
+                "node": { "a": "b" },
+                "path": "/a",
+                "resolved": "b"
+            }
         }
     ],
     "ops": [
+        {
+            "patch": { "op": "add", "path": "", "value": null },
+            "node": {},
+            "expected": null
+        },
         {
             "patch": { "op": "add", "path": "/a", "value": "b" },
             "node": {},
