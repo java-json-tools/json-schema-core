@@ -29,6 +29,7 @@ public enum JsonPatchMessages
 {
     NULL_INPUT("null inputs are not accepted"),
     NOT_JSON_PATCH("input is not a valid JSON Patch"),
+    CANNOT_ADD_ROOT("cannot add an element to document root"),
     ;
 
     private final String message;

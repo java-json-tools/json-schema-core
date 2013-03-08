@@ -1,0 +1,17 @@
+{
+    "errors": [
+        {
+            "patch": { "op": "add", "path": "", "value": null },
+            "node": null,
+            "message": "CANNOT_ADD_ROOT",
+            "msgData": {}
+        }
+    ],
+    "ops": [
+        {
+            "patch": { "op": "add", "path": "/a", "value": "b" },
+            "node": {},
+            "expected": { "a": "b" }
+        }
+    ]
+}

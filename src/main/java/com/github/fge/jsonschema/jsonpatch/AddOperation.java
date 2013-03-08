@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
+import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
+
 public final class AddOperation
     extends PathValueOperation
 {
@@ -37,6 +39,8 @@ public final class AddOperation
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
+        if (path.isEmpty())
+            throw new JsonPatchException(CANNOT_ADD_ROOT.newMessage());
         return node;
     }
 

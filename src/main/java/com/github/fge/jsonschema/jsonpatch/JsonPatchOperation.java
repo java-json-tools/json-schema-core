@@ -22,6 +22,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.TokenResolver;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonSubTypes.*;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.*;
@@ -57,5 +61,19 @@ public abstract class JsonPatchOperation
     public String toString()
     {
         return "path = \"" + path + '"';
+    }
+
+    protected static final class SplitPointer
+    {
+        final JsonPointer parent;
+        final TokenResolver<JsonNode> lastToken;
+
+        SplitPointer(final JsonPointer pointer)
+        {
+            final List<TokenResolver<JsonNode>> tokens
+                = Lists.newArrayList(pointer);
+            lastToken = tokens.remove(tokens.size() - 1);
+            parent = new JsonPointer(tokens);
+        }
     }
 }
