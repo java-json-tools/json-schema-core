@@ -22,10 +22,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
+import com.google.common.base.Equivalence;
+
+import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
 public final class TestOperation
     extends PathValueOperation
 {
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonSchemaEquivalence.getInstance();
+
     @JsonCreator
     public TestOperation(@JsonProperty("path") final JsonPointer path,
         @JsonProperty("value") final JsonNode value)
@@ -37,7 +44,15 @@ public final class TestOperation
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        return node;
+        final JsonNode tested = path.path(node);
+        if (tested.isMissingNode())
+            throw new JsonPatchException(NO_SUCH_PATH.newMessage()
+                .put("node", node).put("path", path.toString()));
+        if (!EQUIVALENCE.equivalent(tested, value))
+            throw new JsonPatchException(VALUE_TEST_FAILURE.newMessage()
+                .put("node", node).put("path", path.toString())
+                .put("expected", value).put("found", tested));
+        return node.deepCopy();
     }
 
     @Override

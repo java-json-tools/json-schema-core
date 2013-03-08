@@ -34,6 +34,11 @@
             "patch": { "op": "copy", "from": "/0", "path": "/-" },
             "node": [ 1, 2, 3, 4 ],
             "expected": [ 1, 2, 3, 4, 1 ]
+        },
+        {
+            "patch": { "op": "copy", "from": "/0", "path": "/0" },
+            "node": [ true ],
+            "expected": [ true, true ]
         }
     ]
 }

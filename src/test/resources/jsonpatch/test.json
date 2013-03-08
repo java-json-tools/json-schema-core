@@ -1,0 +1,47 @@
+{
+    "errors": [
+        {
+            "patch": { "op": "test", "path": "/x", "value": {} },
+            "node": [ 1, 2 ],
+            "message": "NO_SUCH_PATH",
+            "msgData": {
+                "node": [ 1, 2 ],
+                "path": "/x"
+            }
+        },
+        {
+            "patch": { "op": "test", "path": "", "value": true },
+            "node": [ 1, 2 ],
+            "message": "VALUE_TEST_FAILURE",
+            "msgData": {
+                "node": [ 1, 2 ],
+                "path": "",
+                "expected": true,
+                "found": [ 1, 2 ]
+            }
+        },
+        {
+            "patch": { "op": "test", "path": "/x", "value": -30.000 },
+            "node": { "x": -29.020 },
+            "message": "VALUE_TEST_FAILURE",
+            "msgData": {
+                "node": { "x": -29.020 },
+                "path": "/x",
+                "expected": -30.000,
+                "found": -29.020
+            }
+        }
+    ],
+    "ops": [
+        {
+            "patch": { "op": "test", "path": "", "value": 1 },
+            "node": 1.00,
+            "expected": 1.00
+        },
+        {
+            "patch": { "op": "test", "path": "/a/1", "value": "hello" },
+            "node": { "a": [ null, "hello", "world" ] },
+            "expected": { "a": [ null, "hello", "world" ] }
+        }
+    ]
+}

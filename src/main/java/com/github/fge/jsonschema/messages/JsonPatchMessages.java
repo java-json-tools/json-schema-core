@@ -33,6 +33,7 @@ public enum JsonPatchMessages
     NOT_AN_INDEX("reference token is not an array index"),
     NO_SUCH_INDEX("no such index in target array"),
     NO_SUCH_PATH("no such path in target JSON document"),
+    VALUE_TEST_FAILURE("value differs from expectations"),
     ;
 
     private final String message;

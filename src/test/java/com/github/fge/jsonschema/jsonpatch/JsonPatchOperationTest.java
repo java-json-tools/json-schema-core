@@ -121,6 +121,9 @@ public abstract class JsonPatchOperationTest
         assertTrue(EQUIVALENCE.equivalent(actual, expected),
             "patched node differs from expectations: expected " + expected
             + " but found " + actual);
+        if (EQUIVALENCE.equivalent(node, actual) && node.isContainerNode())
+            assertNotSame(node, actual,
+                "operation didn't make a copy of the input node");
     }
 }
 
