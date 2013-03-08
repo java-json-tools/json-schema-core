@@ -41,6 +41,7 @@ public final class JsonPatch
     public static JsonPatch fromJson(final JsonNode node)
         throws JsonPatchException
     {
+        NULL_INPUT.checkThat(node != null);
         try {
             return JacksonUtils.getReader().withType(JsonPatch.class)
                 .readValue(node);
