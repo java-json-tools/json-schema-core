@@ -118,9 +118,9 @@ public abstract class JsonPatchOperationTest
         final JsonPatchOperation op = reader.readValue(patch);
         final JsonNode actual = op.apply(node);
 
-        assertNotSame(actual, expected, "operation did not copy the node");
         assertTrue(EQUIVALENCE.equivalent(actual, expected),
-            "unexpected output for operation");
+            "patched node differs from expectations: expected " + expected
+            + " but found " + actual);
     }
 }
 
