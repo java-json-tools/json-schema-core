@@ -17,12 +17,14 @@
 
 package com.github.fge.jsonschema.jsonpatch;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonPatchError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.ImmutableList;
+import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -70,5 +72,47 @@ public final class JsonPatchTest
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_INPUT);
         }
+    }
+
+    @Test
+    public void operationsAreCalledInOrder()
+        throws JsonPatchException
+    {
+        final JsonNode node1 = FACTORY.textNode("hello");
+        final JsonNode node2 = FACTORY.textNode("world");
+
+        when(op1.apply(node1)).thenReturn(node2);
+
+        final JsonPatch patch = new JsonPatch(ImmutableList.of(op1, op2));
+
+        final ArgumentCaptor<JsonNode> captor
+            = ArgumentCaptor.forClass(JsonNode.class);
+
+        patch.apply(node1);
+        verify(op1, only()).apply(same(node1));
+        verify(op2, only()).apply(captor.capture());
+
+        assertSame(captor.getValue(), node2);
+    }
+
+    @Test
+    public void whenOneOperationFailsNextOperationIsNotCalled()
+        throws JsonPatchException
+    {
+        final ProcessingMessage message = new ProcessingMessage()
+            .message("foo");
+        when(op1.apply(any(JsonNode.class)))
+            .thenThrow(new JsonPatchException(message));
+
+        final JsonPatch patch = new JsonPatch(ImmutableList.of(op1, op2));
+
+        try {
+            patch.apply(FACTORY.nullNode());
+            fail("No exception thrown!!");
+        } catch (JsonPatchException e) {
+            assertSame(e.getProcessingMessage(), message);
+        }
+
+        verifyZeroInteractions(op2);
     }
 }
