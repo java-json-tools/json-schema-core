@@ -39,4 +39,10 @@ public final class CopyOperation
     {
         return source;
     }
+
+    @Override
+    public String toString()
+    {
+        return "copy: " + super.toString();
+    }
 }

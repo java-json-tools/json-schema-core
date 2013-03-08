@@ -43,4 +43,10 @@ public final class JsonPatch
 
         return ret;
     }
+
+    @Override
+    public String toString()
+    {
+        return operations.toString();
+    }
 }

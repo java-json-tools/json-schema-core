@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
-abstract class PathValueOperation
+public abstract class PathValueOperation
     extends JsonPatchOperation
 {
     protected final JsonNode value;
@@ -29,5 +29,11 @@ abstract class PathValueOperation
     {
         super(path);
         this.value = value.deepCopy();
+    }
+
+    @Override
+    public String toString()
+    {
+        return super.toString() + ", value = " + value;
     }
 }

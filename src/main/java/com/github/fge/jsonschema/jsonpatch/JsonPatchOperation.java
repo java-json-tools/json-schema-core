@@ -20,11 +20,8 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-
-import java.io.IOException;
 
 import static com.fasterxml.jackson.annotation.JsonSubTypes.*;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.*;
@@ -56,14 +53,9 @@ public abstract class JsonPatchOperation
     public abstract JsonNode apply(final JsonNode source)
         throws JsonPatchException;
 
-    public static void main(final String... args)
-        throws IOException
+    @Override
+    public String toString()
     {
-        final String input = "[{\"op\": \"test\", \"path\": \"\"," +
-            "\"value\":2}]";
-
-        final JsonPatch operation = new ObjectMapper()
-            .readValue(input, JsonPatch.class);
-        System.exit(0);
+        return "path = \"" + path + '"';
     }
 }

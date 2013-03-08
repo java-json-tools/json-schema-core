@@ -39,4 +39,10 @@ public final class MoveOperation
     {
         return source;
     }
+
+    @Override
+    public String toString()
+    {
+        return "move: " + super.toString();
+    }
 }

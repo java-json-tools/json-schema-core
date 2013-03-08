@@ -39,4 +39,10 @@ public final class ReplaceOperation
     {
         return source;
     }
+
+    @Override
+    public String toString()
+    {
+        return "replace: " + super.toString();
+    }
 }

@@ -38,4 +38,10 @@ public final class RemoveOperation
     {
         return source;
     }
+
+    @Override
+    public String toString()
+    {
+        return "remove: " + super.toString();
+    }
 }

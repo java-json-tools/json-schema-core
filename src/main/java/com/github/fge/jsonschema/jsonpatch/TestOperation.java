@@ -39,4 +39,10 @@ public final class TestOperation
     {
         return source;
     }
+
+    @Override
+    public String toString()
+    {
+        return "test: " + super.toString();
+    }
 }

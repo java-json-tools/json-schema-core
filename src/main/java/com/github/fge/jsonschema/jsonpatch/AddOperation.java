@@ -39,4 +39,10 @@ public final class AddOperation
     {
         return source;
     }
+
+    @Override
+    public String toString()
+    {
+        return "add: " + super.toString();
+    }
 }

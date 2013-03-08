@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.jsonpatch;
 
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
-abstract class DualPathOperation
+public abstract class DualPathOperation
     extends JsonPatchOperation
 {
     protected final JsonPointer from;
@@ -29,5 +29,11 @@ abstract class DualPathOperation
     {
         super(path);
         this.from = from;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "from = \"" + from + "', " + super.toString();
     }
 }
