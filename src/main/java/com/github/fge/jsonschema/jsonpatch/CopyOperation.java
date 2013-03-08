@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
+import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
+
 public final class CopyOperation
     extends DualPathOperation
 {
@@ -37,7 +39,11 @@ public final class CopyOperation
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        return node;
+        final JsonNode dupData = from.path(node).deepCopy();
+        if (dupData.isMissingNode())
+            throw new JsonPatchException(NO_SUCH_PATH.newMessage()
+                .put("node", node).put("path", from.toString()));
+        return new AddOperation(path, dupData).apply(node);
     }
 
     @Override
