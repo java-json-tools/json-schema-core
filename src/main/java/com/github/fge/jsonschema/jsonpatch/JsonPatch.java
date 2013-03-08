@@ -20,9 +20,13 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.ImmutableList;
 
+import java.io.IOException;
 import java.util.List;
+
+import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
 public final class JsonPatch
 {
@@ -34,6 +38,16 @@ public final class JsonPatch
         this.operations = ImmutableList.copyOf(operations);
     }
 
+    public static JsonPatch fromJson(final JsonNode node)
+        throws JsonPatchException
+    {
+        try {
+            return JacksonUtils.getReader().withType(JsonPatch.class)
+                .readValue(node);
+        } catch (IOException e) {
+            throw new JsonPatchException(NOT_JSON_PATCH.newMessage(), e);
+        }
+    }
     public JsonNode apply(final JsonNode source)
         throws JsonPatchException
     {
