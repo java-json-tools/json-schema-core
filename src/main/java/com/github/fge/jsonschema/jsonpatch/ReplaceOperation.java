@@ -20,8 +20,12 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+
+import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
 public final class ReplaceOperation
     extends PathValueOperation
@@ -37,7 +41,21 @@ public final class ReplaceOperation
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        return node;
+        if (path.path(node).isMissingNode())
+            throw new JsonPatchException(NO_SUCH_PATH.newMessage()
+                .put("node", node).put("path", path.toString()));
+        final JsonNode replacement = value.deepCopy();
+        if (path.isEmpty())
+            return replacement;
+        final SplitPointer split = new SplitPointer(path);
+        final JsonNode ret = node.deepCopy();
+        final JsonNode parent = split.parent.get(ret);
+        final String rawToken = split.lastToken.getToken().getRaw();
+        if (parent.isObject())
+            ((ObjectNode) parent).put(rawToken, replacement);
+        else
+            ((ArrayNode) parent).set(Integer.parseInt(rawToken), replacement);
+        return ret;
     }
 
     @Override
