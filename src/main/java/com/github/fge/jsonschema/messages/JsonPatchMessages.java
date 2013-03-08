@@ -32,6 +32,8 @@ public enum JsonPatchMessages
     NO_SUCH_PARENT("parent of node to add does not exist"),
     NOT_AN_INDEX("reference token is not an array index"),
     NO_SUCH_INDEX("no such index in target array"),
+    NO_SUCH_PATH("no such path in target JSON document"),
+    CANNOT_REMOVE_ROOT("cannot remove the document itself"),
     ;
 
     private final String message;

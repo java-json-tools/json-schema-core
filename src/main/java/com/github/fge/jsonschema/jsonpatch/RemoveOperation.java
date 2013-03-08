@@ -20,8 +20,12 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+
+import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
 public final class RemoveOperation
     extends JsonPatchOperation
@@ -36,7 +40,20 @@ public final class RemoveOperation
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        return node;
+        if (path.isEmpty())
+            throw new JsonPatchException(CANNOT_REMOVE_ROOT.newMessage());
+        if (path.path(node).isMissingNode())
+            throw new JsonPatchException(NO_SUCH_PATH.newMessage()
+                .put("node", node).put("path", path.toString()));
+        final SplitPointer split = new SplitPointer(path);
+        final JsonNode ret = node.deepCopy();
+        final JsonNode parentNode = split.parent.get(ret);
+        final String raw = split.lastToken.getToken().getRaw();
+        if (parentNode.isObject())
+            ((ObjectNode) parentNode).remove(raw);
+        else
+            ((ArrayNode) parentNode).remove(Integer.parseInt(raw));
+        return ret;
     }
 
     @Override
