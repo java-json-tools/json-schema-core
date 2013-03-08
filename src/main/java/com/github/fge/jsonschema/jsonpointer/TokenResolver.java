@@ -69,6 +69,11 @@ public abstract class TokenResolver<T extends TreeNode>
      */
     public abstract T get(final T node);
 
+    public final ReferenceToken getToken()
+    {
+        return token;
+    }
+
     @Override
     public final int hashCode()
     {

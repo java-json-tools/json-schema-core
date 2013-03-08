@@ -98,14 +98,14 @@ public final class JsonPointer
     }
 
     /**
-     * Private constructor
+     * Alternate constructor
      *
      * <p>This calls {@link TreePointer#TreePointer(TreeNode, List)} with a
      * {@link MissingNode} as the missing tree node.</p>
      *
      * @param tokenResolvers the list of token resolvers
      */
-    private JsonPointer(final List<TokenResolver<JsonNode>> tokenResolvers)
+    public JsonPointer(final List<TokenResolver<JsonNode>> tokenResolvers)
     {
         super(MissingNode.getInstance(), tokenResolvers);
     }
