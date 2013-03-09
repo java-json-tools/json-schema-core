@@ -33,7 +33,7 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 /**
  * Implementation of JSON Patch
  *
- * <p><a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-patch-10>JSON
+ * <p><a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-patch-10">JSON
  * Patch</a>, as its name implies, is an IETF draft describing a mechanism to
  * apply a patch to any JSON value. This implementation covers all operations
  * according to the specification; however, there are some subtle differences

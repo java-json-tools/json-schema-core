@@ -152,7 +152,7 @@ examples of how JSON Pointer is used.</p>
 <p>All JSON Pointer related classes are in the following package: {@link
 com.github.fge.jsonschema.jsonpointer}.</p>
 
-<h2>Schema loading</h2>
+<h1>Schema loading</h1>
 
 <p>Classes in the {@link com.github.fge.jsonschema.load} package serve several
 purposes:</p>
@@ -165,6 +165,27 @@ purposes:</p>
 
 <p>All aspects of schema loading are controlled via a {@link
 com.github.fge.jsonschema.load.configuration.LoadingConfiguration} instance.</p>
+
+<h1>JSON Patch</h1>
+
+<p>This library also has an implementation of the <a
+href="http://tools.ietf.org/html/draft-ietf-appsawg-json-patch-10">JSON Patch
+internet draft</a>. As its name implies, a JSON Patch applies to one JSON value
+and outputs another JSON value. This is an example of a JSON Patch:</p>
+
+<pre>
+    [
+        { "op": "test", "path": "/name", "value": "John Doe" },
+        { "op": "replace", "path": "/age", "value": 23 }
+    ]
+</pre>
+
+<p>The existing implementation parses a JSON Patch out of a {@link
+com.fasterxml.jackson.databind.JsonNode} and can be applied to any number of
+inputs.</p>
+
+<p>The implementation, and more information, can be found in package {@link
+com.github.fge.jsonschema.jsonpatch}.</p>
 
 <h1>Other utilities</h1>
 
