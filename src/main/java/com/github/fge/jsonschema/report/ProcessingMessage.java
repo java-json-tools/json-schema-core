@@ -295,6 +295,13 @@ public final class ProcessingMessage
     @Override
     public String toString()
     {
-        return map.toString();
+        final Map<String, JsonNode> tmp = Maps.newLinkedHashMap(map);
+        final String message = tmp.remove("message").textValue();
+        final StringBuilder sb = new StringBuilder().append(level).append(": ");
+        sb.append(message == null ? "(no message)" : message);
+        for (final Map.Entry<String, JsonNode> entry: tmp.entrySet())
+            sb.append("\n    ").append(entry.getKey()).append(": ")
+                .append(entry.getValue());
+        return sb.append('\n').toString();
     }
 }
