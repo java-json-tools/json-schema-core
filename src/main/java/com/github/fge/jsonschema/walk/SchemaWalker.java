@@ -101,7 +101,7 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        doWalk(listener, report);
+        doWalk(JsonPointer.empty(), listener, report);
     }
 
     /**
@@ -117,10 +117,11 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException;
 
-    private <T> void doWalk(final SchemaListener<T> listener,
-        final ProcessingReport report)
+    private <T> void doWalk(final JsonPointer pwd,
+        final SchemaListener<T> listener, final ProcessingReport report)
         throws ProcessingException
     {
+        listener.onEnter(pwd);
         resolveTree(listener, report);
         listener.onWalk(tree);
 
@@ -143,11 +144,10 @@ public abstract class SchemaWalker
         for (final JsonPointer pointer: pointers) {
             current = tree;
             tree = tree.append(pointer);
-            listener.onEnter(pointer);
-            doWalk(listener, report);
-            listener.onExit();
+            doWalk(pointer, listener, report);
             tree = current;
         }
+        listener.onExit();
     }
 
     @Override
