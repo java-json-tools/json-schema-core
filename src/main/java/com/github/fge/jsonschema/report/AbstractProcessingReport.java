@@ -18,10 +18,11 @@
 package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Base implementation of a processing report
@@ -200,10 +201,16 @@ public abstract class AbstractProcessingReport
     @Override
     public final String toString()
     {
-        return Objects.toStringHelper(this)
-            .add("log level", logLevel)
-            .add("exception threshold", exceptionThreshold)
-            .add("current", currentLevel)
-            .toString();
+        final StringBuilder sb
+            = new StringBuilder(getClass().getCanonicalName()).append(": ")
+                .append(isSuccess() ? "success" : "failure");
+        final List<ProcessingMessage> messages = Lists.newArrayList(this);
+        if (!messages.isEmpty()) {
+            sb.append("--- BEGIN MESSAGES ---\n");
+            for (final ProcessingMessage message: messages)
+                sb.append(message);
+            sb.append("---  END MESSAGES  ---\n");
+        }
+        return sb.toString();
     }
 }
