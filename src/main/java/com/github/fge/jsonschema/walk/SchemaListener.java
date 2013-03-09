@@ -34,10 +34,10 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  * <p>For one subtree, the order in which events are called are:</p>
  *
  * <ul>
+ *     <li>{@link #onEnter(JsonPointer)} (visiting a subtree);</li>
  *     <li>{@link #onTreeChange(SchemaTree, SchemaTree)} (only if {@link
  *     ResolvingSchemaWalker} is used);</li>
  *     <li>{@link #onWalk(SchemaTree)};</li>
- *     <li>{@link #onEnter(JsonPointer)} (visiting a subtree);</li>
  *     <li>{@link #onExit()} (exiting a subtree).</li>
  * </ul>
  *
@@ -50,14 +50,17 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  *     }
  * </pre>
  *
- * <p>the order of events will be:</p>
+ * <p>for a listener {@code listener}, the order of events will be:</p>
  *
- * <ul>
- *     <li>{@code onWalk()}, with the tree being the root schema;</li>
- *     <li>{@code onEnter()} with the pointer being {@code /items};</li>
- *     <li>{@code onWalk()}, with the items subschema;</li>
- *     <li>{@code onExit()}.</li>
- * </ul>
+ * <pre>
+ *     // Note: JSON Pointers used for both pointers and trees
+ *     listener.onEnter("");
+ *     listener.onWalk("");
+ *     listener.onEnter("/items");
+ *     listener.onWalk("/items");
+ *     listener.onExit();
+ *     listener.onExit();
+ * </pre>
  *
  * @param <T> the value type produced by this listener
  */
