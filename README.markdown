@@ -5,13 +5,28 @@ text.</p>
 
 <h2>What this is</h2>
 
-<p>This package contains the core architecture use by the <a
-href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>.</p>
+<p>This package was first extracted from <a
+href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>. Since then,
+however, it has become its own beast.</p>
 
-<p>For more details on this library, see <a
-href="https://github.com/fge/json-schema-core/wiki/Architecture">this page</a>. The roadmap for this
-library can be seen <a
-href="https://github.com/fge/json-schema-core/wiki/Roadmap">hee</a>.
+<p>The goal of this package is to provide a sufficiently comprehensive infrastructure to build
+processing chains for anything JSON related, and JSON Schema related in particular. To this effect,
+this package can be used, for instance, to perform the following:</p>
+
+<ul>
+    <li>check the syntax of a JSON Schema;</li>
+    <li>walk a JSON Schema and plug a listener into the walking process.</li>
+</ul>
+
+<p>But this does not stop there. This package also provides a complete, tested <a
+href="http://tools.ietf.org/html/draft-ietf-appsawg-json-patch-10">JSON Patch</a>
+implementation.</p>
+
+<p>More details on this library can be found <a
+href="https://github.com/fge/json-schema-core/wiki/Architecture">here</a>. Future plans can be
+viewed <a
+href="https://github.com/fge/json-schema-core/wiki/Roadmap">here</a>. As always, ideas/contributions
+are welcome!</p>
 
 <p>You can see sample usages of this library in a <a
 href="https://github.com/fge/json-schema-processor-examples">separate project</a>.</p>
