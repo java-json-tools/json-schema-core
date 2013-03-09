@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -40,6 +41,7 @@ public final class ReplaceOperation
     extends PathValueOperation
 {
     @JsonCreator
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public ReplaceOperation(@JsonProperty("path") final JsonPointer path,
         @JsonProperty("value") final JsonNode value)
     {

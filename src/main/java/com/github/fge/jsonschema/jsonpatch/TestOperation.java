@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
@@ -47,6 +48,7 @@ public final class TestOperation
         = JsonSchemaEquivalence.getInstance();
 
     @JsonCreator
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public TestOperation(@JsonProperty("path") final JsonPointer path,
         @JsonProperty("value") final JsonNode value)
     {

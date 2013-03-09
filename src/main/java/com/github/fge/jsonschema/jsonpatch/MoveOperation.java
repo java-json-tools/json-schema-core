@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
@@ -67,6 +68,7 @@ public final class MoveOperation
     extends DualPathOperation
 {
     @JsonCreator
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public MoveOperation(@JsonProperty("from") final JsonPointer from,
         @JsonProperty("path") final JsonPointer path)
     {
