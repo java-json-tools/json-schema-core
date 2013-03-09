@@ -5,7 +5,7 @@ text.</p>
 
 <h2>What this is</h2>
 
-<p>This package was first extracted from <a
+<p>This package was first extracted from the <a
 href="https://github.com/fge/json-schema-validator">json-schema-validator library</a>. Since then,
 however, it has become its own beast.</p>
 
