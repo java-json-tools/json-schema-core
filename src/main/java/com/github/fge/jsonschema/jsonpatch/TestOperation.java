@@ -27,6 +27,19 @@ import com.google.common.base.Equivalence;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
+/**
+ * JSON Patch {@code test} operation
+ *
+ * <p>The two arguments for this operation are the pointer containing the value
+ * to test ({@code path}) and the value to test equality against ({@code
+ * value}).</p>
+ *
+ * <p>It is an error if no value exists at the given path.</p>
+ *
+ * <p>Also note that equality as defined by JSON Patch is exactly the same as it
+ * is defined by JSON Schema itself. As such, this operation reuses {@link
+ * JsonSchemaEquivalence} for testing equality.</p>
+ */
 public final class TestOperation
     extends PathValueOperation
 {

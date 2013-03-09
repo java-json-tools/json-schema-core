@@ -27,6 +27,15 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
+/**
+ * JSON Patch {@code replace} operation
+ *
+ * <p>For this operation, {@code path} points to the value to replace, and
+ * {@code value} is the replacement value.</p>
+ *
+ * <p>It is an error condition if {@code path} does not point to an actual JSON
+ * value.</p>
+ */
 public final class ReplaceOperation
     extends PathValueOperation
 {

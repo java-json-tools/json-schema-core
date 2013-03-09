@@ -28,6 +28,12 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
+/**
+ * JSON Path {@code remove} operation
+ *
+ * <p>This operation only takes one pointer ({@code path}) as an argument. It
+ * is an error condition if no JSON value exists at that pointer.</p>
+ */
 public final class RemoveOperation
     extends JsonPatchOperation
 {

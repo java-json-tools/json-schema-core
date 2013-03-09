@@ -39,6 +39,9 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
  *     <li>{@code -} appends at the end of an array.</li>
  * </ul>
  *
+ * <p>It is an error condition if {@code from} does not point to a JSON value.
+ * </p>
+ *
  * <p>The specification adds another rule that the {@code from} path must not be
  * an immediate parent of {@code path}. Unfortunately, that doesn't really work.
  * Consider this patch:</p>
