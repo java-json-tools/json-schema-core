@@ -1,6 +1,7 @@
 com.github.fge.jsonschema
 com.github.fge.jsonschema.exceptions
 com.github.fge.jsonschema.exceptions.unchecked
+com.github.fge.jsonschema.jsonpatch
 com.github.fge.jsonschema.jsonpointer
 com.github.fge.jsonschema.library
 com.github.fge.jsonschema.load
