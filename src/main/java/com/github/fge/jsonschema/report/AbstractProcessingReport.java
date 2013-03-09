@@ -203,7 +203,7 @@ public abstract class AbstractProcessingReport
     {
         final StringBuilder sb
             = new StringBuilder(getClass().getCanonicalName()).append(": ")
-                .append(isSuccess() ? "success" : "failure");
+                .append(isSuccess() ? "success" : "failure").append('\n');
         final List<ProcessingMessage> messages = Lists.newArrayList(this);
         if (!messages.isEmpty()) {
             sb.append("--- BEGIN MESSAGES ---\n");
