@@ -73,8 +73,10 @@ public final class ResolvingSchemaWalkerTest
 
         walker.walk(listener, report);
 
+        order.verify(listener).onEnter(JsonPointer.empty());
         order.verify(listener).onTreeChange(same(tree), captor.capture());
         order.verify(listener).onWalk(captor2.capture());
+        order.verify(listener).onExit();
 
         final SchemaTree subTree = captor.getValue();
         final SchemaTree subTree2 = captor2.getValue();
