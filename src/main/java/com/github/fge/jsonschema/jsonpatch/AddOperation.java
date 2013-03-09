@@ -29,6 +29,40 @@ import com.github.fge.jsonschema.jsonpointer.TokenResolver;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
+/**
+ * JSON Patch {@code add} operation
+ *
+ * <p>For this operation, {@code path} is the JSON Pointer where the value
+ * should be added, and {@code value} is the value to add.</p>
+ *
+ * <p>Note that if the target value pointed to by {@code path} already exists,
+ * it is replaced. In this case, {@code add} is equivalent to {@code replace}.
+ * </p>
+ *
+ * <p>Note also that a value will be created at the target path <b>if and only
+ * if</b> the immediate parent of that value exists (and is of the correct
+ * type).</p>
+ *
+ * <p>Finally, if the last reference token of the JSON Pointer is {@code -} and
+ * the immediate parent is an array, the given value is added at the end of the
+ * array. For instance, applying:</p>
+ *
+ * <pre>
+ *     { "op": "add", "path": "/-", "value": 3 }
+ * </pre>
+ *
+ * <p>to:</p>
+ *
+ * <pre>
+ *     [ 1, 2 ]
+ * </pre>
+ *
+ * <p>will give:</p>
+ *
+ * <pre>
+ *     [ 1, 2, 3 ]
+ * </pre>
+ */
 public final class AddOperation
     extends PathValueOperation
 {

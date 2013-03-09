@@ -25,6 +25,22 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
+/**
+ * JSON Patch {@code copy} operation
+ *
+ * <p>For this operation, {@code from} is the JSON Pointer of the value to copy,
+ * and {@code path} is the destination where the value should be copied.</p>
+ *
+ * <p>As for {@code add}:</p>
+ *
+ * <ul>
+ *     <li>the value at the destination path is either created or replaced;</li>
+ *     <li>it is created only if the immediate parent exists;</li>
+ *     <li>{@code -} appends at the end of an array.</li>
+ * </ul>
+ *
+ * <p>It is an error if {@code from} fails to resolve to a JSON value.</p>
+ */
 public final class CopyOperation
     extends DualPathOperation
 {

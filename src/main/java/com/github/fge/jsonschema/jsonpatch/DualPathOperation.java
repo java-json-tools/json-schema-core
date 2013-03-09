@@ -19,6 +19,9 @@ package com.github.fge.jsonschema.jsonpatch;
 
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 
+/**
+ * Base class for JSON Patch operations taking two JSON Pointers as arguments
+ */
 public abstract class DualPathOperation
     extends JsonPatchOperation
 {

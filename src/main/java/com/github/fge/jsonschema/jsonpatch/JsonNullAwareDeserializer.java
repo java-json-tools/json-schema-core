@@ -21,6 +21,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.JsonNodeDeserializer;
 import com.fasterxml.jackson.databind.node.NullNode;
 
+/**
+ * Custom deserializer for {@link JsonNode}
+ *
+ * <p>Up to, and including, versions 2.1.4, Jackson's {@link
+ * JsonNodeDeserializer} deserializes a JSON null value as {@code null}. This
+ * custom deserializer deserializes it as a {@link NullNode} instead.</p>
+ *
+ * <p>See also <a
+ * href="https://github.com/FasterXML/jackson-databind/issues/186">here</a>.</p>
+ */
 public final class JsonNullAwareDeserializer
     extends JsonNodeDeserializer
 {

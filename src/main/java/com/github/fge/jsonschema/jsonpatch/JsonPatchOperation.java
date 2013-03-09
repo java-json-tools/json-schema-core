@@ -41,6 +41,19 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.*;
     @Type(name = "test", value = TestOperation.class)
 })
 
+/**
+ * Base abstract class for one patch operation
+ *
+ * <p>Two more abstract classes extend this one according to the arguments of
+ * the operation:</p>
+ *
+ * <ul>
+ *     <li>{@link DualPathOperation} for operations taking a second pointer as
+ *     an argument ({@code copy} and {@code move});</li>
+ *     <li>{@link PathValueOperation} for operations taking a value as an
+ *     argument ({@code add}, {@code replace} and {@code test}).</li>
+ * </ul>
+ */
 public abstract class JsonPatchOperation
 {
     /*
@@ -49,11 +62,23 @@ public abstract class JsonPatchOperation
      */
     protected final JsonPointer path;
 
+    /**
+     * Constructor
+     *
+     * @param path the JSON Pointer for this operation
+     */
     protected JsonPatchOperation(final JsonPointer path)
     {
         this.path = path;
     }
 
+    /**
+     * Apply this operation to a JSON value
+     *
+     * @param node the value to patch
+     * @return the patched value
+     * @throws JsonPatchException operation failed to apply to this value
+     */
     public abstract JsonNode apply(final JsonNode node)
         throws JsonPatchException;
 
@@ -63,6 +88,16 @@ public abstract class JsonPatchOperation
         return "path = \"" + path + '"';
     }
 
+    /**
+     * Utility class used by some operations to split a JSON Pointer in two
+     *
+     * <p>The two elements are:</p>
+     *
+     * <ul>
+     *     <p>the immediate parent pointer;</p>
+     *     <p>the {@link TokenResolver} for the last reference token.</p>
+     * </ul>
+     */
     protected static final class SplitPointer
     {
         final JsonPointer parent;

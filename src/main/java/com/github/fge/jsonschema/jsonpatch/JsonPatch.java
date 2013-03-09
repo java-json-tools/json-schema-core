@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonPatchError;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -29,10 +30,77 @@ import java.util.List;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
+/**
+ * Implementation of JSON Patch
+ *
+ * <p><a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-patch-10>JSON
+ * Patch</a>, as its name implies, is an IETF draft describing a mechanism to
+ * apply a patch to any JSON value. This implementation covers all operations
+ * according to the specification; however, there are some subtle differences
+ * with regards to some operations which are covered in these operations'
+ * respective documentation.</p>
+ *
+ * <p>An example of a JSON Patch is as follows:</p>
+ *
+ * <pre>
+ *     [
+ *         {
+ *             "op": "add",
+ *             "path": "/-",
+ *             "value": {
+ *                 "productId": 19,
+ *                 "name": "Duvel",
+ *                 "type": "beer"
+ *             }
+ *         }
+ *     ]
+ * </pre>
+ *
+ * <p>This patch contains a single operation which adds an item at the end of
+ * an array. A JSON Patch can contain more than one operation; in this case, all
+ * operations are applied to the input JSON value in their order of appearance,
+ * until all operations are applied or an error condition is encountered.</p>
+ *
+ * <p>The main point where this implementation differs from the specification
+ * is initial JSON parsing. The draft says:</p>
+ *
+ * <pre>
+ *     Operation objects MUST have exactly one "op" member
+ * </pre>
+ *
+ * <p>and:</p>
+ *
+ * <pre>
+ *     Additionally, operation objects MUST have exactly one "path" member.
+ * </pre>
+ *
+ * <p>However, obeying these to the letter forces constraints on the JSON
+ * <b>parser</b>. Here, these constraints are not enforced, which means:</p>
+ *
+ * <pre>
+ *     [ { "op": "add", "op": "remove", "path": "/x" } ]
+ * </pre>
+ *
+ * <p>is parsed (as a {@code remove} operation, since it appears last).</p>
+ *
+ * <p><b>IMPORTANT NOTE:</b> the JSON Patch is supposed to be VALID when the
+ * constructor for this class ({@link JsonPatch#fromJson(JsonNode)} is used.</p>
+ */
 public final class JsonPatch
 {
+    /**
+     * List of operations
+     */
     private final List<JsonPatchOperation> operations;
 
+    /**
+     * Package-visible constructor
+     *
+     * <p>Visible only for testing purposes. Also used for deserialization.</p>
+     *
+     * @param operations the list of operations for this patch
+     * @see JsonPatchOperation
+     */
     @JsonCreator
     @VisibleForTesting
     JsonPatch(final List<JsonPatchOperation> operations)
@@ -40,6 +108,14 @@ public final class JsonPatch
         this.operations = ImmutableList.copyOf(operations);
     }
 
+    /**
+     * Static factory method to build a JSON Patch out of a JSON representation
+     *
+     * @param node the JSON representation of the generated JSON Patch
+     * @return a JSON Patch
+     * @throws JsonPatchException input is not a valid JSON patch
+     * @throws JsonPatchError input is null
+     */
     public static JsonPatch fromJson(final JsonNode node)
         throws JsonPatchException
     {
@@ -51,6 +127,15 @@ public final class JsonPatch
             throw new JsonPatchException(NOT_JSON_PATCH.newMessage(), e);
         }
     }
+
+    /**
+     * Apply this patch to a JSON value
+     *
+     * @param node the value to apply the patch to
+     * @return the patched JSON value
+     * @throws JsonPatchException failed to apply patch
+     * @throws JsonPatchError input is null
+     */
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
