@@ -41,6 +41,7 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
  * is defined by JSON Schema itself. As such, this operation reuses {@link
  * JsonSchemaEquivalence} for testing equality.</p>
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class TestOperation
     extends PathValueOperation
 {

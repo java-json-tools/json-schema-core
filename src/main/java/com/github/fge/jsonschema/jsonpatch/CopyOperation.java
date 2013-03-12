@@ -42,6 +42,7 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
  *
  * <p>It is an error if {@code from} fails to resolve to a JSON value.</p>
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class CopyOperation
     extends DualPathOperation
 {

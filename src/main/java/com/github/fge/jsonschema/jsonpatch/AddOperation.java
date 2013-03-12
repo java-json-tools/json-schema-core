@@ -64,6 +64,7 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
  *     [ 1, 2, 3 ]
  * </pre>
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class AddOperation
     extends PathValueOperation
 {
@@ -71,7 +72,6 @@ public final class AddOperation
         = ReferenceToken.fromRaw("-");
 
     @JsonCreator
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public AddOperation(@JsonProperty("path") final JsonPointer path,
         @JsonProperty("value") final JsonNode value)
     {
@@ -120,7 +120,7 @@ public final class AddOperation
                 .put("token", token.getToken().getRaw()));
         }
 
-        if (index < 0 || index >= size)
+        if (index < 0 || index > size)
             throw new JsonPatchException(NO_SUCH_INDEX.newMessage()
                 .put("reminder", "array indices start at 0")
                 .put("arraySize", size).put("index", index));

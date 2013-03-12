@@ -64,6 +64,7 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
  *     [ { "x": "victim" } ]
  * </pre>
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class MoveOperation
     extends DualPathOperation
 {
