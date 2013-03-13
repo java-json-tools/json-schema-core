@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.load.configuration;
 
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,19 +44,17 @@ public final class RefSanityChecks
      */
     public static JsonRef absoluteRef(final String input)
     {
-        final ProcessingMessage message = new ProcessingMessage();
-        if (input == null)
-            throw new JsonReferenceError(message.message(NULL_URI));
+        NULL_URI.checkThat(input != null);
         final URI uri;
         try {
             uri = new URI(input);
         } catch (URISyntaxException ignored) {
-            throw new JsonReferenceError(message.message(INVALID_URI)
+            throw new JsonReferenceError(INVALID_URI.asMessage()
                 .put("input", input));
         }
         final JsonRef ref = JsonRef.fromURI(uri);
         if (!ref.isAbsolute())
-            throw new JsonReferenceError(message.message(REF_NOT_ABSOLUTE)
+            throw new JsonReferenceError(REF_NOT_ABSOLUTE.asMessage()
                 .put("input", ref));
         return ref;
     }

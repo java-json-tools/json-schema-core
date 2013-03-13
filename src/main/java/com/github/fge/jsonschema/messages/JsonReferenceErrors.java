@@ -17,6 +17,9 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.report.ProcessingMessage;
+
 /**
  * Messages used by the configuration process
  */
@@ -34,6 +37,17 @@ public enum JsonReferenceErrors
     JsonReferenceErrors(final String message)
     {
         this.message = message;
+    }
+
+    public void checkThat(final boolean condition)
+    {
+        if (!condition)
+            throw new JsonReferenceError(asMessage());
+    }
+
+    public ProcessingMessage asMessage()
+    {
+        return new ProcessingMessage().message(this);
     }
 
     @Override

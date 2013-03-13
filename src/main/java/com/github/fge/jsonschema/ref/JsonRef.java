@@ -173,9 +173,7 @@ public abstract class JsonRef
      */
     public static JsonRef fromURI(final URI uri)
     {
-        if (uri == null)
-            throw new JsonReferenceError(new ProcessingMessage()
-                .message(JsonReferenceErrors.NULL_URI));
+        JsonReferenceErrors.NULL_URI.checkThat(uri != null);
 
         final URI normalized = uri.normalize();
 
@@ -198,9 +196,7 @@ public abstract class JsonRef
     public static JsonRef fromString(final String s)
         throws JsonReferenceException
     {
-        if (s == null)
-            throw new JsonReferenceError(new ProcessingMessage()
-                .message(JsonReferenceErrors.NULL_INPUT));
+        JsonReferenceErrors.NULL_INPUT.checkThat(s != null);
 
         try {
             return fromURI(new URI(s));

@@ -100,9 +100,7 @@ public final class ReferenceToken
     public static ReferenceToken fromCooked(final String cooked)
         throws JsonReferenceException
     {
-        if (cooked == null)
-            throw new JsonReferenceError(new ProcessingMessage()
-                .message(JsonReferenceErrors.NULL_INPUT));
+        JsonReferenceErrors.NULL_INPUT.checkThat(cooked != null);
         return new ReferenceToken(cooked, asRaw(cooked));
     }
 
@@ -115,9 +113,7 @@ public final class ReferenceToken
      */
     public static ReferenceToken fromRaw(final String raw)
     {
-        if (raw == null)
-            throw new JsonReferenceError(new ProcessingMessage()
-                .message(JsonReferenceErrors.NULL_INPUT));
+        JsonReferenceErrors.NULL_INPUT.checkThat(raw != null);
         return new ReferenceToken(asCooked(raw), raw);
     }
 

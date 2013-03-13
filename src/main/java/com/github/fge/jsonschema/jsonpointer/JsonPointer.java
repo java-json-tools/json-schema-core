@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.messages.JsonReferenceErrors;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.jcip.annotations.Immutable;
@@ -147,9 +146,7 @@ public final class JsonPointer
      */
     public JsonPointer append(final JsonPointer other)
     {
-        if (other == null)
-            throw new JsonReferenceError(new ProcessingMessage()
-                .message(JsonReferenceErrors.NULL_JSON_POINTER));
+        JsonReferenceErrors.NULL_JSON_POINTER.checkThat(other != null);
         final List<TokenResolver<JsonNode>> list
             = Lists.newArrayList(tokenResolvers);
         list.addAll(other.tokenResolvers);

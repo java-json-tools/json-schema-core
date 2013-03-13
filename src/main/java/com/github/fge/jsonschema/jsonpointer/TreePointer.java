@@ -115,9 +115,7 @@ public abstract class TreePointer<T extends TreeNode>
     protected static List<ReferenceToken> tokensFromInput(final String input)
         throws JsonReferenceException
     {
-        if (input == null)
-            throw new JsonReferenceError(new ProcessingMessage()
-                .message(JsonReferenceErrors.NULL_INPUT));
+        JsonReferenceErrors.NULL_INPUT.checkThat(input != null);
 
         final List<ReferenceToken> ret = Lists.newArrayList();
         String s = input;
