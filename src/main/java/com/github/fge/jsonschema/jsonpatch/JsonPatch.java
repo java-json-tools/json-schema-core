@@ -124,7 +124,7 @@ public final class JsonPatch
             return JacksonUtils.getReader().withType(JsonPatch.class)
                 .readValue(node);
         } catch (IOException e) {
-            throw new JsonPatchException(NOT_JSON_PATCH.newMessage(), e);
+            throw new JsonPatchException(NOT_JSON_PATCH.asMessage(), e);
         }
     }
 

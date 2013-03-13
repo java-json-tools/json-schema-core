@@ -83,7 +83,7 @@ public final class MoveOperation
             return node.deepCopy();
         final JsonNode movedNode = from.path(node);
         if (movedNode.isMissingNode())
-            throw new JsonPatchException(NO_SUCH_PATH.newMessage()
+            throw new JsonPatchException(NO_SUCH_PATH.asMessage()
                 .put("node", node).put("path", from.toString()));
         final JsonPatchOperation remove = new RemoveOperation(from);
         final JsonPatchOperation add = new AddOperation(path, movedNode);

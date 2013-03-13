@@ -61,10 +61,10 @@ public final class TestOperation
     {
         final JsonNode tested = path.path(node);
         if (tested.isMissingNode())
-            throw new JsonPatchException(NO_SUCH_PATH.newMessage()
+            throw new JsonPatchException(NO_SUCH_PATH.asMessage()
                 .put("node", node).put("path", path.toString()));
         if (!EQUIVALENCE.equivalent(tested, value))
-            throw new JsonPatchException(VALUE_TEST_FAILURE.newMessage()
+            throw new JsonPatchException(VALUE_TEST_FAILURE.asMessage()
                 .put("node", node).put("path", path.toString())
                 .put("expected", value).put("found", tested));
         return node.deepCopy();

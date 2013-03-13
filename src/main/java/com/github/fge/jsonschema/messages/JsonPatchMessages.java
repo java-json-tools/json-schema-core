@@ -21,11 +21,9 @@ import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonPatchError;
-import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 public enum JsonPatchMessages
-    implements MessageProvider
 {
     NULL_INPUT("null inputs are not accepted"),
     NOT_JSON_PATCH("input is not a valid JSON Patch"),
@@ -43,8 +41,7 @@ public enum JsonPatchMessages
         this.message = message;
     }
 
-    @Override
-    public ProcessingMessage newMessage()
+    public ProcessingMessage asMessage()
     {
         return new ProcessingMessage().message(this)
             .setExceptionProvider(new ExceptionProvider()
@@ -61,7 +58,7 @@ public enum JsonPatchMessages
     public void checkThat(final boolean condition)
     {
         if (!condition)
-            throw new JsonPatchError(newMessage());
+            throw new JsonPatchError(asMessage());
     }
 
     @Override
