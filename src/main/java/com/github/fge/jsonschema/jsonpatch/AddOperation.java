@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -64,7 +63,6 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
  *     [ 1, 2, 3 ]
  * </pre>
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public final class AddOperation
     extends PathValueOperation
 {

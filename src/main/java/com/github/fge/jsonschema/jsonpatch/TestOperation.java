@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
@@ -41,7 +40,6 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
  * is defined by JSON Schema itself. As such, this operation reuses {@link
  * JsonSchemaEquivalence} for testing equality.</p>
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public final class TestOperation
     extends PathValueOperation
 {
