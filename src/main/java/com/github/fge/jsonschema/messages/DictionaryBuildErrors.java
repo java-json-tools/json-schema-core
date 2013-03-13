@@ -17,8 +17,10 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 
 /**
  * Messages thrown by {@link DictionaryBuilder}
@@ -43,6 +45,13 @@ public enum DictionaryBuildErrors
     DictionaryBuildErrors(final String message)
     {
         this.message = message;
+    }
+
+    public void checkThat(final boolean condition)
+    {
+        if (!condition)
+            throw new DictionaryBuildError(new ProcessingMessage()
+                .message(this));
     }
 
     @Override

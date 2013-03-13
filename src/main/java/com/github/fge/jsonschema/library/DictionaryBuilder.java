@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 import net.jcip.annotations.NotThreadSafe;
@@ -83,12 +82,8 @@ public final class DictionaryBuilder<T>
      */
     public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
-        if (key == null)
-            throw new DictionaryBuildError(new ProcessingMessage()
-                .message(NULL_KEY));
-        if (value == null)
-            throw new DictionaryBuildError(new ProcessingMessage()
-                .message(NULL_VALUE));
+        NULL_KEY.checkThat(key != null);
+        NULL_VALUE.checkThat(value != null);
         entries.put(key, value);
         return this;
     }
@@ -102,9 +97,7 @@ public final class DictionaryBuilder<T>
      */
     public DictionaryBuilder<T> addAll(final Dictionary<T> other)
     {
-        if (other == null)
-            throw new DictionaryBuildError(new ProcessingMessage()
-                .message(NULL_DICT));
+        NULL_DICT.checkThat(other != null);
         entries.putAll(other.entries);
         return this;
     }
