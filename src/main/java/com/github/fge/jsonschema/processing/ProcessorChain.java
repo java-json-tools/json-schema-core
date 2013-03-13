@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -74,14 +74,12 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
      * @param <X> the input type
      * @param <Y> the output type
      * @return a single element processing chain
-     * @throws ProcessorBuildError processor is null
+     * @throws ProcessingConfigurationError processor is null
      */
     public static <X extends MessageProvider, Y extends MessageProvider>
         ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
     {
-        if (p == null)
-            throw new ProcessorBuildError(new ProcessingMessage()
-                .message(NULL_PROCESSOR));
+        NULL_PROCESSOR.checkThat(p != null);
         return new ProcessorChain<X, Y>(p);
     }
 
@@ -147,14 +145,12 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
      * @param <NEWOUT> the return type for that new processor
      * @return a new chain consisting of the previous chain with the new
      * processor appended
-     * @throws ProcessorBuildError processor to append is null
+     * @throws ProcessingConfigurationError processor to append is null
      */
     public <NEWOUT extends MessageProvider> ProcessorChain<IN, NEWOUT>
         chainWith(final Processor<OUT, NEWOUT> p)
     {
-        if (p == null)
-            throw new ProcessorBuildError(new ProcessingMessage()
-                .message(NULL_PROCESSOR));
+        NULL_PROCESSOR.checkThat(p != null);
         final Processor<IN, NEWOUT> merger
             = new ProcessorMerger<IN, OUT, NEWOUT>(processor, p);
         return new ProcessorChain<IN, NEWOUT>(merger);

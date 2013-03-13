@@ -6,7 +6,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
  * Exception thrown on loading configuration errors
  */
 public final class LoadingConfigurationError
-    extends ProcessingConfigurationError
+    extends ProcessingError
 {
     public LoadingConfigurationError(final ProcessingMessage message)
     {

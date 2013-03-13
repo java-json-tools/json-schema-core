@@ -22,7 +22,6 @@ import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
 import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
@@ -50,8 +49,7 @@ public final class ProcessingResult<R extends MessageProvider>
     private ProcessingResult(final ProcessingReport report, final R result)
     {
         if (report == null)
-            throw new ProcessingError(new ProcessingMessage()
-                .message(NULL_REPORT));
+            throw new ProcessingError(NULL_REPORT.asMessage());
         this.report = report;
         this.result = result;
     }
@@ -73,9 +71,7 @@ public final class ProcessingResult<R extends MessageProvider>
         final ProcessingReport report, final IN input)
         throws ProcessingException
     {
-        if (processor == null)
-            throw new ProcessingError(new ProcessingMessage()
-                .message(NULL_PROCESSOR));
+        NULL_PROCESSOR.checkThat(processor != null);
         final OUT out = processor.process(report, input);
         return new ProcessingResult<OUT>(report, out);
     }

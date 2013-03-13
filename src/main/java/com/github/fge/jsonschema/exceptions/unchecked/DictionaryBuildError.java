@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
  * Exception thrown on {@link Dictionary} build errors
  */
 public final class DictionaryBuildError
-    extends ProcessingConfigurationError
+    extends ProcessingError
 {
     public DictionaryBuildError(final ProcessingMessage message)
     {

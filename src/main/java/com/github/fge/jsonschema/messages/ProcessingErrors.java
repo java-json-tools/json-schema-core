@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.messages;
 
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.processing.CachingProcessor;
 import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processing.Processor;
@@ -42,7 +43,7 @@ public enum ProcessingErrors
      * @see ProcessorSelector
      * @see ProcessorMap
      */
-    NO_SUITABLE_PROCESSOR("no suitable processor found"),
+    NO_PROCESSOR("no suitable processor found"),
     /**
      * Attempt to use a null predicate
      *
@@ -112,6 +113,16 @@ public enum ProcessingErrors
         this.message = message;
     }
 
+    public ProcessingMessage asMessage()
+    {
+        return new ProcessingMessage().message(this);
+    }
+
+    public void checkThat(final boolean condition)
+    {
+        if (!condition)
+            throw new ProcessingConfigurationError(asMessage());
+    }
     @Override
     public String toString()
     {

@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
  * Class used in the event of JSON Reference input errors (null arguments, etc)
  */
 public final class JsonReferenceError
-    extends ProcessingConfigurationError
+    extends ProcessingError
 {
     public JsonReferenceError(final ProcessingMessage message)
     {

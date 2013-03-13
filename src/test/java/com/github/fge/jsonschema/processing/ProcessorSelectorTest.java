@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -104,7 +104,7 @@ public final class ProcessorSelectorTest
         try {
             new ProcessorSelector<In, Out>().when(null).then(null);
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_PREDICATE);
         }
@@ -116,7 +116,7 @@ public final class ProcessorSelectorTest
         try {
             new ProcessorSelector<In, Out>().when(predicate1).then(null);
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_PROCESSOR);
         }
@@ -129,7 +129,7 @@ public final class ProcessorSelectorTest
             new ProcessorSelector<In, Out>().when(predicate1).then(processor1)
                 .otherwise(null);
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_PROCESSOR);
         }
@@ -188,7 +188,7 @@ public final class ProcessorSelectorTest
             for (final Processor<In, Out> p: otherProcessors)
                 verifyZeroInteractions(p);
             assertMessage(e.getProcessingMessage())
-                .hasMessage(NO_SUITABLE_PROCESSOR);
+                .hasMessage(NO_PROCESSOR);
         }
     }
 

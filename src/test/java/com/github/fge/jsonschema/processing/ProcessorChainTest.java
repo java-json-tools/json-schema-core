@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
@@ -39,7 +39,7 @@ public final class ProcessorChainTest
         try {
             ProcessorChain.startWith(null);
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_PROCESSOR);
         }
@@ -54,7 +54,7 @@ public final class ProcessorChainTest
         try {
             ProcessorChain.startWith(p).chainWith(null);
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_PROCESSOR);
         }

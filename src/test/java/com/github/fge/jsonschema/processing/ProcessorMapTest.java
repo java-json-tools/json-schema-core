@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -59,7 +59,7 @@ public final class ProcessorMapTest
         try {
             new TestProcessorMap(null).addEntry(null, null);
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_KEY);
         }
@@ -71,7 +71,7 @@ public final class ProcessorMapTest
         try {
             new TestProcessorMap(null).addEntry(Key.ONE, null);
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_PROCESSOR);
         }
@@ -84,7 +84,7 @@ public final class ProcessorMapTest
             new TestProcessorMap(null).addEntry(Key.ONE, processor1)
                 .setDefaultProcessor(null);
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_PROCESSOR);
         }
@@ -96,7 +96,7 @@ public final class ProcessorMapTest
         try {
             new TestProcessorMap(null).getProcessor();
             fail("No exception thrown!!");
-        } catch (ProcessorBuildError e) {
+        } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_FUNCTION);
         }
@@ -136,7 +136,7 @@ public final class ProcessorMapTest
             fail("No exception thrown!!");
         } catch (ProcessingException e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NO_SUITABLE_PROCESSOR)
+            assertMessage(message).hasMessage(NO_PROCESSOR)
                 .hasField("key", Key.THREE);
         }
     }

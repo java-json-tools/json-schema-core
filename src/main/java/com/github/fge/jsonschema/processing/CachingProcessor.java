@@ -1,11 +1,9 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.equivalence.Equivalences;
 import com.google.common.base.Equivalence;
@@ -71,12 +69,8 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     public CachingProcessor(final Processor<IN, OUT> processor,
         final Equivalence<IN> equivalence)
     {
-        if (processor == null)
-            throw new ProcessingError(new ProcessingMessage()
-                .message(NULL_PROCESSOR));
-        if (equivalence == null)
-            throw new ProcessingError(new ProcessingMessage()
-                .message(NULL_EQUIVALENCE));
+        NULL_PROCESSOR.checkThat(processor != null);
+        NULL_EQUIVALENCE.checkThat(equivalence != null);
         this.processor = processor;
         this.equivalence = equivalence;
         cache = CacheBuilder.newBuilder().build(loader());

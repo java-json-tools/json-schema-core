@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
-import com.github.fge.jsonschema.messages.ProcessingErrors;
 import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Preconditions;
@@ -84,8 +83,7 @@ public final class ProcessingMessage
         final ExceptionProvider exceptionProvider)
     {
         if (exceptionProvider == null)
-            throw new ProcessingError(new ProcessingMessage()
-                .message(NULL_EXCEPTION_PROVIDER));
+            throw new ProcessingError(NULL_EXCEPTION_PROVIDER.asMessage());
         this.exceptionProvider = exceptionProvider;
         return this;
     }
@@ -100,8 +98,7 @@ public final class ProcessingMessage
     public ProcessingMessage setLogLevel(final LogLevel level)
     {
         if (level == null)
-            throw new ProcessingError(new ProcessingMessage()
-                .message(ProcessingErrors.NULL_LEVEL));
+            throw new ProcessingError(NULL_LEVEL.asMessage());
         this.level = Preconditions.checkNotNull(level,
             "log level cannot be null");
         return put("level", level);

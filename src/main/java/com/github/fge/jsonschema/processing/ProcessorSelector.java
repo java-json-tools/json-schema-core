@@ -18,9 +18,8 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
@@ -117,14 +116,12 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
      *
      * @param predicate the predicate to add
      * @return a {@link ProcessorSelectorPredicate}
-     * @throws ProcessorBuildError the predicate is null
+     * @throws ProcessingConfigurationError the predicate is null
      */
     public ProcessorSelectorPredicate<IN, OUT> when(
         final Predicate<IN> predicate)
     {
-        if (predicate == null)
-            throw new ProcessorBuildError(new ProcessingMessage()
-                .message(NULL_PREDICATE));
+        NULL_PREDICATE.checkThat(predicate != null);
         return new ProcessorSelectorPredicate<IN, OUT>(this, predicate);
     }
 
@@ -133,14 +130,12 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
      *
      * @param byDefault the default processor
      * @return a <b>new</b> selector
-     * @throws ProcessorBuildError default processor is null
+     * @throws ProcessingConfigurationError default processor is null
      */
     public ProcessorSelector<IN, OUT> otherwise(
         final Processor<IN, OUT> byDefault)
     {
-        if (byDefault == null)
-            throw new ProcessorBuildError(new ProcessingMessage()
-                .message(NULL_PROCESSOR));
+        NULL_PROCESSOR.checkThat(byDefault != null);
         return new ProcessorSelector<IN, OUT>(choices, byDefault);
     }
 
@@ -186,8 +181,7 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
             if (byDefault != null)
                 return byDefault.process(report, input);
 
-            throw new ProcessingException(input.newMessage()
-                .message(NO_SUITABLE_PROCESSOR));
+            throw new ProcessingException(NO_PROCESSOR.asMessage());
         }
 
         @Override

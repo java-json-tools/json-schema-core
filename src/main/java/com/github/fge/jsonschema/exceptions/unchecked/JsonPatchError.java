@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 public final class JsonPatchError
     extends ProcessingError
 {
-    public JsonPatchError(ProcessingMessage message)
+    public JsonPatchError(final ProcessingMessage message)
     {
         super(message);
     }

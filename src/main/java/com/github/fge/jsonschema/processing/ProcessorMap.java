@@ -18,9 +18,8 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessorBuildError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
@@ -79,17 +78,13 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
      * @param key the key to match against
      * @param processor the processor for that key
      * @return this
-     * @throws ProcessorBuildError either the key or the processor are null
+     * @throws ProcessingConfigurationError either the key or the processor are null
      */
     public final ProcessorMap<K, IN, OUT> addEntry(final K key,
         final Processor<IN, OUT> processor)
     {
-        if (key == null)
-            throw new ProcessorBuildError(new ProcessingMessage()
-                .message(NULL_KEY));
-        if (processor == null)
-            throw new ProcessorBuildError(new ProcessingMessage()
-                .message(NULL_PROCESSOR));
+        NULL_KEY.checkThat(key != null);
+        NULL_PROCESSOR.checkThat(processor != null);
         processors.put(key, processor);
         return this;
     }
@@ -99,14 +94,12 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
      *
      * @param defaultProcessor the default processor
      * @return this
-     * @throws ProcessorBuildError processor is null
+     * @throws ProcessingConfigurationError processor is null
      */
     public final ProcessorMap<K, IN, OUT> setDefaultProcessor(
         final Processor<IN, OUT> defaultProcessor)
     {
-        if (defaultProcessor == null)
-            throw new ProcessorBuildError(new ProcessingMessage()
-                .message(NULL_PROCESSOR));
+        NULL_PROCESSOR.checkThat(defaultProcessor != null);
         this.defaultProcessor = defaultProcessor;
         return this;
     }
@@ -119,7 +112,7 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
      * processor you grabbed.</p>
      *
      * @return the processor for this map selector
-     * @throws ProcessorBuildError the function (provided by {@link #f()}) is
+     * @throws ProcessingConfigurationError the function (provided by {@link #f()}) is
      * null
      */
     public final Processor<IN, OUT> getProcessor()
@@ -144,9 +137,7 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
         private Mapper(final Map<K, Processor<IN, OUT>> processors,
             final Function<IN, K> f, final Processor<IN, OUT> defaultProcessor)
         {
-            if (f == null)
-                throw new ProcessorBuildError(new ProcessingMessage()
-                    .message(NULL_FUNCTION));
+            NULL_FUNCTION.checkThat(f != null);
             this.processors = ImmutableMap.copyOf(processors);
             this.f = f;
             this.defaultProcessor = defaultProcessor;
@@ -163,8 +154,8 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
                 processor = defaultProcessor;
 
             if (processor == null) // Not even a default processor. Ouch.
-                throw new ProcessingException(new ProcessingMessage()
-                    .message(NO_SUITABLE_PROCESSOR).put("key", key));
+                throw new ProcessingException(NO_PROCESSOR.asMessage()
+                    .put("key", key));
 
             return processor.process(report, input);
         }
