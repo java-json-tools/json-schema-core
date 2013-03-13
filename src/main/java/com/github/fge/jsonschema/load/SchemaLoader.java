@@ -116,9 +116,7 @@ public final class SchemaLoader
      */
     public SchemaTree load(final JsonNode schema)
     {
-        if (schema == null)
-            throw new ProcessingError(new ProcessingMessage()
-                .message(NULL_SCHEMA));
+        NULL_SCHEMA.checkThat(schema != null);
         return dereferencing.newTree(schema);
     }
 

@@ -17,6 +17,9 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
+import com.github.fge.jsonschema.report.ProcessingMessage;
+
 /**
  * Messages used by the configuration process
  */
@@ -39,6 +42,16 @@ public enum LoadingConfigurationMessages
         this.message = message;
     }
 
+    public ProcessingMessage asMessage()
+    {
+        return new ProcessingMessage().message(this);
+    }
+
+    public void checkThat(final boolean condition)
+    {
+        if (!condition)
+            throw new LoadingConfigurationError(asMessage());
+    }
     @Override
     public String toString()
     {

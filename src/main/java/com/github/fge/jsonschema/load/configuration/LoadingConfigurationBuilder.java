@@ -160,9 +160,7 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder dereferencing(
         final Dereferencing dereferencing)
     {
-        if (dereferencing == null)
-            throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(NULL_DEREFERENCING_MODE));
+        NULL_DEREFERENCING_MODE.checkThat(dereferencing != null);
         this.dereferencing = dereferencing;
         return this;
     }
@@ -185,8 +183,8 @@ public final class LoadingConfigurationBuilder
         final URI destinationURI = RefSanityChecks.absoluteLocator(destination);
         schemaRedirects.put(sourceURI, destinationURI);
         if (sourceURI.equals(destinationURI))
-            throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(REDIRECT_TO_SELF).put("uri", sourceURI));
+            throw new LoadingConfigurationError(REDIRECT_TO_SELF.asMessage()
+                .put("uri", sourceURI));
         return this;
     }
 
@@ -210,11 +208,10 @@ public final class LoadingConfigurationBuilder
     {
         final ProcessingMessage message = new ProcessingMessage();
 
-        if (schema == null)
-            throw new LoadingConfigurationError(message.message(NULL_SCHEMA));
+        NULL_SCHEMA.checkThat(schema != null);
         final URI key = RefSanityChecks.absoluteLocator(uri);
         if (preloadedSchemas.containsKey(key))
-            throw new LoadingConfigurationError(message.message(DUPLICATE_URI)
+            throw new LoadingConfigurationError(DUPLICATE_URI.asMessage()
                 .put("uri", key));
         preloadedSchemas.put(key, schema);
         return this;
@@ -234,9 +231,7 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder preloadSchema(final JsonNode schema)
     {
         final JsonNode node = schema.path("id");
-        if (!node.isTextual())
-            throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(NO_ID_IN_SCHEMA));
+        NO_ID_IN_SCHEMA.checkThat(node.isTextual());
         return preloadSchema(node.textValue(), schema);
     }
 
@@ -253,16 +248,12 @@ public final class LoadingConfigurationBuilder
 
     private static String checkScheme(final String scheme)
     {
-        final ProcessingMessage message = new ProcessingMessage();
-
-        if (scheme == null)
-            throw new LoadingConfigurationError(message.message(NULL_SCHEME));
-        if (scheme.isEmpty())
-            throw new LoadingConfigurationError(message.message(EMPTY_SCHEME));
+        NULL_SCHEME.checkThat(scheme != null);
+        EMPTY_SCHEME.checkThat(!scheme.isEmpty());
         try {
             new URI(scheme, "x", "y");
         } catch (URISyntaxException ignored) {
-            throw new LoadingConfigurationError(message.message(ILLEGAL_SCHEME)
+            throw new LoadingConfigurationError(ILLEGAL_SCHEME.asMessage()
                 .put("scheme", scheme));
         }
 
