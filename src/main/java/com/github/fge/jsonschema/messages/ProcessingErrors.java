@@ -104,6 +104,7 @@ public enum ProcessingErrors
      * MessageProvider)
      */
     NULL_REPORT("report cannot be null"),
+    NULL_VERSION("version cannot be null"),
     ;
 
     private final String message;
