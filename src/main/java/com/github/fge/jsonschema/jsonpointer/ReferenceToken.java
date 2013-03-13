@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.jsonpointer;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.messages.JsonReferenceErrors;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import net.jcip.annotations.Immutable;
 
@@ -196,8 +195,7 @@ public final class ReferenceToken
         }
 
         if (inEscape)
-            throw new JsonReferenceException(new ProcessingMessage()
-                .message(EMPTY_ESCAPE));
+            throw new JsonReferenceException(EMPTY_ESCAPE.asMessage());
 
         return raw.toString();
     }
@@ -214,9 +212,8 @@ public final class ReferenceToken
     {
         final int index = ENCODED.indexOf(c);
         if (index == -1)
-            throw new JsonReferenceException(new ProcessingMessage()
-                .message(ILLEGAL_ESCAPE).put("valid", ENCODED)
-                .put("found", Character.valueOf(c)));
+            throw new JsonReferenceException(ILLEGAL_ESCAPE.asMessage()
+                .put("valid", ENCODED).put("found", Character.valueOf(c)));
 
         sb.append(DECODED.get(index));
     }

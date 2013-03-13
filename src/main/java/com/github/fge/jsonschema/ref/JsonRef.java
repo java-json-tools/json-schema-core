@@ -21,7 +21,6 @@ import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.messages.JsonReferenceErrors;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import net.jcip.annotations.Immutable;
 
 import java.net.URI;
@@ -201,9 +200,8 @@ public abstract class JsonRef
         try {
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
-            final ProcessingMessage message = new ProcessingMessage()
-                .message(INVALID_URI).put("input", s);
-            throw new JsonReferenceException(message, e);
+            throw new JsonReferenceException(INVALID_URI.asMessage()
+                .put("input", s), e);
         }
     }
 

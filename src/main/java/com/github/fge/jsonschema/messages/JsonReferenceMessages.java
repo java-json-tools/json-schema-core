@@ -17,6 +17,8 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.report.ProcessingMessage;
+
 /**
  * Messages used for JSON Reference and JSON Pointer anomalous conditions
  *
@@ -48,6 +50,11 @@ public enum JsonReferenceMessages
     JsonReferenceMessages(final String message)
     {
         this.message = message;
+    }
+
+    public ProcessingMessage asMessage()
+    {
+        return new ProcessingMessage().message(this);
     }
 
     @Override

@@ -23,14 +23,14 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.messages.JsonReferenceErrors;
-import com.github.fge.jsonschema.messages.JsonReferenceMessages;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.jcip.annotations.ThreadSafe;
 
 import java.util.Iterator;
 import java.util.List;
+
+import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 
 /**
  * A pointer into a {@link TreeNode}
@@ -126,8 +126,7 @@ public abstract class TreePointer<T extends TreeNode>
         while (!s.isEmpty()) {
             c = s.charAt(0);
             if (c != SLASH)
-                throw new JsonReferenceException(new ProcessingMessage()
-                    .message(JsonReferenceMessages.NOT_SLASH)
+                throw new JsonReferenceException(NOT_SLASH.asMessage()
                     .put("expected", Character.valueOf(SLASH))
                     .put("found", Character.valueOf(c)));
             s = s.substring(1);
