@@ -57,7 +57,7 @@ public final class ProcessorMapTest
     public void cannotInputNullKey()
     {
         try {
-            new TestProcessorMap(null).addEntry(null, null);
+            new ProcessorMap<Key, In, Out>(fn).addEntry(null, null);
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
@@ -69,7 +69,7 @@ public final class ProcessorMapTest
     public void cannotInputNullProcessor()
     {
         try {
-            new TestProcessorMap(null).addEntry(Key.ONE, null);
+            new ProcessorMap<Key, In, Out>(fn).addEntry(Key.ONE, null);
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
@@ -81,7 +81,7 @@ public final class ProcessorMapTest
     public void cannotInputNullDefaultProcessor()
     {
         try {
-            new TestProcessorMap(null).addEntry(Key.ONE, processor1)
+            new ProcessorMap<Key, In, Out>(fn).addEntry(Key.ONE, processor1)
                 .setDefaultProcessor(null);
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
@@ -94,7 +94,7 @@ public final class ProcessorMapTest
     public void nullFunctionRaisesBuildError()
     {
         try {
-            new TestProcessorMap(null).getProcessor();
+            new ProcessorMap<Key, In, Out>(null).getProcessor();
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
@@ -106,7 +106,8 @@ public final class ProcessorMapTest
     public void appropriateProcessorIsSelectedAndRun()
         throws ProcessingException
     {
-        final ProcessorMap<Key, In, Out> processorMap = new TestProcessorMap(fn)
+        final ProcessorMap<Key, In, Out> processorMap
+            = new ProcessorMap<Key, In, Out>(fn)
             .addEntry(Key.ONE, processor1).addEntry(Key.TWO, processor2)
             .setDefaultProcessor(byDefault);
 
@@ -124,7 +125,8 @@ public final class ProcessorMapTest
     @Test
     public void noMatchingKeyAndNoDefaultProcessorThrowsException()
     {
-        final ProcessorMap<Key, In, Out> processorMap = new TestProcessorMap(fn)
+        final ProcessorMap<Key, In, Out> processorMap
+            = new ProcessorMap<Key, In, Out>(fn)
             .addEntry(Key.ONE, processor1).addEntry(Key.TWO, processor2);
 
         when(fn.apply(input)).thenReturn(Key.THREE);
@@ -145,7 +147,8 @@ public final class ProcessorMapTest
     public void noMatchingKeyCallsDefaultProcessorWhenSet()
         throws ProcessingException
     {
-        final ProcessorMap<Key, In, Out> processorMap = new TestProcessorMap(fn)
+        final ProcessorMap<Key, In, Out> processorMap
+            = new ProcessorMap<Key, In, Out>(fn)
             .addEntry(Key.ONE, processor1).addEntry(Key.TWO, processor2)
             .setDefaultProcessor(byDefault);
 
@@ -168,22 +171,5 @@ public final class ProcessorMapTest
 
     private interface Out extends MessageProvider
     {
-    }
-
-    private static final class TestProcessorMap
-        extends ProcessorMap<Key, In, Out>
-    {
-        private final Function<In, Key> fn;
-
-        private TestProcessorMap(final Function<In, Key> fn)
-        {
-            this.fn = fn;
-        }
-
-        @Override
-        protected Function<In, Key> f()
-        {
-            return fn;
-        }
     }
 }

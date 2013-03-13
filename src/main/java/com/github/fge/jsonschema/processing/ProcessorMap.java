@@ -24,7 +24,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import net.jcip.annotations.NotThreadSafe;
 
 import java.util.Map;
 
@@ -47,21 +46,18 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
  * <p>The default action depends on whether a default processor has been
  * supplied: if none exists, a {@link ProcessingException} is thrown.</p>
  *
- * <p>This class is meant to be extended, and the only method to implement is
- * {@link #f()}, which provides the function to compute keys.</p>
+ * <p>The {@link Function} used to extract a key from an input is the only
+ * argument of the constructor. It cannot be null.</p>
  *
- * <p>Note that while this class is not thread safe, the resulting processor
- * is <b>immutable</b>.</p>
- *
- * <p>Also note that <b>null keys are not allowed</b>.</p>
+ * <p>Note that <b>null keys are not allowed</b>.</p>
  *
  * @param <K> the type of keys in the map
  * @param <IN> the input type of processors
  * @param <OUT> the output type of processors
  */
-@NotThreadSafe
-public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends MessageProvider>
+public final class ProcessorMap<K, IN extends MessageProvider, OUT extends MessageProvider>
 {
+    private final Function<IN, K> keyFunction;
     /**
      * The map of processors
      */
@@ -73,6 +69,18 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
     private Processor<IN, OUT> defaultProcessor = null;
 
     /**
+     * Constructor
+     *
+     * @param keyFunction function to extract a key from an input
+     * @throws ProcessingConfigurationError key function is null
+     */
+    public ProcessorMap(final Function<IN, K> keyFunction)
+    {
+        NULL_FUNCTION.checkThat(keyFunction != null);
+        this.keyFunction = keyFunction;
+    }
+
+        /**
      * Add an entry to the processor map
      *
      * @param key the key to match against
@@ -80,7 +88,7 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
      * @return this
      * @throws ProcessingConfigurationError either the key or the processor are null
      */
-    public final ProcessorMap<K, IN, OUT> addEntry(final K key,
+    public ProcessorMap<K, IN, OUT> addEntry(final K key,
         final Processor<IN, OUT> processor)
     {
         NULL_KEY.checkThat(key != null);
@@ -96,7 +104,7 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
      * @return this
      * @throws ProcessingConfigurationError processor is null
      */
-    public final ProcessorMap<K, IN, OUT> setDefaultProcessor(
+    public ProcessorMap<K, IN, OUT> setDefaultProcessor(
         final Processor<IN, OUT> defaultProcessor)
     {
         NULL_PROCESSOR.checkThat(defaultProcessor != null);
@@ -112,20 +120,12 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
      * processor you grabbed.</p>
      *
      * @return the processor for this map selector
-     * @throws ProcessingConfigurationError the function (provided by {@link #f()}) is
-     * null
      */
-    public final Processor<IN, OUT> getProcessor()
+    public Processor<IN, OUT> getProcessor()
     {
-        return new Mapper<K, IN, OUT>(processors, f(), defaultProcessor);
+        return new Mapper<K, IN, OUT>(processors, keyFunction,
+            defaultProcessor);
     }
-
-    /**
-     * Provide the function to compute a key out of an input
-     *
-     * @return the function
-     */
-    protected abstract Function<IN, K> f();
 
     private static final class Mapper<K, IN extends MessageProvider, OUT extends MessageProvider>
         implements Processor<IN, OUT>
@@ -137,7 +137,6 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
         private Mapper(final Map<K, Processor<IN, OUT>> processors,
             final Function<IN, K> f, final Processor<IN, OUT> defaultProcessor)
         {
-            NULL_FUNCTION.checkThat(f != null);
             this.processors = ImmutableMap.copyOf(processors);
             this.f = f;
             this.defaultProcessor = defaultProcessor;
@@ -167,7 +166,7 @@ public abstract class ProcessorMap<K, IN extends MessageProvider, OUT extends Me
                 .append(processors.size()).append(" entries with ");
             if (defaultProcessor == null)
                 sb.append("no ");
-            return sb.append("default]").toString();
+            return sb.append("default processor]").toString();
         }
     }
 }
