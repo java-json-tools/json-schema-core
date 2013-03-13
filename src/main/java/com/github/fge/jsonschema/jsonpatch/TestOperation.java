@@ -49,7 +49,6 @@ public final class TestOperation
         = JsonSchemaEquivalence.getInstance();
 
     @JsonCreator
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public TestOperation(@JsonProperty("path") final JsonPointer path,
         @JsonProperty("value") final JsonNode value)
     {

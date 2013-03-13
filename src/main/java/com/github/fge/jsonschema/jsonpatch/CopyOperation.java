@@ -47,7 +47,6 @@ public final class CopyOperation
     extends DualPathOperation
 {
     @JsonCreator
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public CopyOperation(@JsonProperty("from") final JsonPointer from,
         @JsonProperty("path") final JsonPointer path)
     {

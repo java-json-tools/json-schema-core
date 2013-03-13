@@ -40,7 +40,6 @@ public final class RemoveOperation
     extends JsonPatchOperation
 {
     @JsonCreator
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public RemoveOperation(@JsonProperty("path") final JsonPointer path)
     {
         super(path);

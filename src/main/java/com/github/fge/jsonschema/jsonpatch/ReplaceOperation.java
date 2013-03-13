@@ -42,7 +42,6 @@ public final class ReplaceOperation
     extends PathValueOperation
 {
     @JsonCreator
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public ReplaceOperation(@JsonProperty("path") final JsonPointer path,
         @JsonProperty("value") final JsonNode value)
     {

@@ -69,7 +69,6 @@ public final class MoveOperation
     extends DualPathOperation
 {
     @JsonCreator
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public MoveOperation(@JsonProperty("from") final JsonPointer from,
         @JsonProperty("path") final JsonPointer path)
     {
