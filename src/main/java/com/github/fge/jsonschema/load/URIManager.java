@@ -21,9 +21,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Preconditions;
 
@@ -66,11 +65,11 @@ public final class URIManager
     }
 
     /**
-     * Get the content at a given URI as a {@link com.fasterxml.jackson.databind.JsonNode}
+     * Get the content at a given URI as a {@link JsonNode}
      *
      * @param uri the URI
      * @return the content
-     * @throws com.github.fge.jsonschema.exceptions.ProcessingException scheme is not registered, failed to get
+     * @throws ProcessingException scheme is not registered, failed to get
      * content, or content is not JSON
      */
     public JsonNode getContent(final URI uri)
@@ -81,19 +80,17 @@ public final class URIManager
         final URI target = schemaRedirects.containsKey(uri)
             ? schemaRedirects.get(uri) : uri;
 
-        final ProcessingMessage msg = new ProcessingMessage()
-            .put("uri", uri);
-
         if (!target.isAbsolute())
-            throw new ProcessingException(msg.message(URI_NOT_ABSOLUTE));
+            throw new ProcessingException(URI_NOT_ABSOLUTE.asMessage()
+                .put("uri", uri));
 
         final String scheme = target.getScheme();
 
         final URIDownloader downloader = downloaders.get(scheme);
 
         if (downloader == null)
-            throw new ProcessingException(msg.message(UNHANDLED_SCHEME)
-                .put("scheme", scheme));
+            throw new ProcessingException(UNHANDLED_SCHEME.asMessage()
+                .put("uri", uri).put("scheme", scheme));
 
         final InputStream in;
 
@@ -101,11 +98,11 @@ public final class URIManager
             in = downloader.fetch(target);
             return READER.readTree(in);
         } catch (JsonProcessingException e) {
-            throw new ProcessingException(msg.message(URI_NOT_JSON)
-                .put("parsingMessage", e.getOriginalMessage()));
+            throw new ProcessingException(URI_NOT_JSON.asMessage()
+                .put("uri", uri).put("parsingMessage", e.getOriginalMessage()));
         } catch (IOException e) {
-            throw new ProcessingException(msg.message(URI_IOERROR)
-                .put("exceptionMessage", e.getMessage()));
+            throw new ProcessingException(URI_IOERROR.asMessage()
+                .put("uri", uri).put("exceptionMessage", e.getMessage()));
         }
     }
 }

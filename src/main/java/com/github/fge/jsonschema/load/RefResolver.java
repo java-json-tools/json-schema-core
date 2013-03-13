@@ -21,10 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
@@ -90,8 +88,6 @@ public final class RefResolver
         final Set<JsonRef> refs = Sets.newLinkedHashSet();
 
         SchemaTree tree = orig;
-        final ProcessingMessage message = new ProcessingMessage()
-            .put("schema", tree);
 
         JsonPointer ptr;
         JsonRef ref;
@@ -115,10 +111,9 @@ public final class RefResolver
             /*
              * If we have seen this ref already, this is a ref loop.
              */
-            if (!refs.add(ref)) {
-                message.message(REF_LOOP).put("ref", ref).put("path", refs);
-                throw new ProcessingException(message);
-            }
+            if (!refs.add(ref))
+                throw new ProcessingException(REF_LOOP.asMessage()
+                    .put("schema", tree).put("ref", ref).put("path", refs));
             /*
              * Check whether ref is resolvable within the current tree. If not,
              * fetch the new tree.
@@ -133,10 +128,9 @@ public final class RefResolver
              * a dangling reference.
              */
             ptr = tree.matchingPointer(ref);
-            if (ptr == null) {
-                message.message(DANGLING_REF).put("ref", ref);
-                throw new ProcessingException(message);
-            }
+            if (ptr == null)
+                throw new ProcessingException(DANGLING_REF.asMessage()
+                    .put("schema", tree).put("ref", ref));
             tree = tree.setPointer(ptr);
         }
 

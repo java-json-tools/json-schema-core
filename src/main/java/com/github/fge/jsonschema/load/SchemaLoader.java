@@ -18,13 +18,12 @@
 package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -137,11 +136,9 @@ public final class SchemaLoader
     {
         final JsonRef ref = namespace.resolve(JsonRef.fromURI(uri));
 
-        final ProcessingMessage msg = new ProcessingMessage()
-            .put("uri", ref);
-
         if (!ref.isAbsolute())
-            throw new ProcessingException(msg.message(URI_NOT_ABSOLUTE));
+            throw new ProcessingException(URI_NOT_ABSOLUTE.asMessage()
+                .put("uri", ref));
 
         final URI realURI = ref.toURI();
 

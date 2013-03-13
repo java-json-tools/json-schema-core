@@ -17,6 +17,8 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.report.ProcessingMessage;
+
 /**
  * Messages used by JSON Reference processing exceptions
  */
@@ -28,6 +30,7 @@ public enum RefProcessingMessages
     URI_IOERROR("cannot dereference URI (IOException)"),
     REF_LOOP("JSON Reference loop detected"),
     DANGLING_REF("unresolvable JSON Reference"),
+    // FIXME: only used in -validator
     ILLEGAL_JSON_REF("illegal JSON Reference (fragment is not a JSON Pointer)"),
     ;
 
@@ -36,6 +39,11 @@ public enum RefProcessingMessages
     RefProcessingMessages(final String message)
     {
         this.message = message;
+    }
+
+    public ProcessingMessage asMessage()
+    {
+        return new ProcessingMessage().message(this);
     }
 
     @Override
