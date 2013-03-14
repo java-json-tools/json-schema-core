@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.Maps;
-import com.google.common.io.Closeables;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -123,8 +122,6 @@ public final class JacksonUtils
             writer.flush();
         } catch (IOException ignored) {
             // cannot happen
-        } finally {
-            Closeables.closeQuietly(writer);
         }
 
         return writer.toString();

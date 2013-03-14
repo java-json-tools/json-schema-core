@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Stopwatch;
-import com.google.common.io.Closeables;
+import com.google.common.io.Closer;
 import org.testng.reporters.Files;
 
 import java.io.IOException;
@@ -17,10 +17,12 @@ public final class ReadingTest
     public static void main(final String... args)
         throws IOException
     {
+        final Closer closer = Closer.create();
         final InputStream in
             = ReadingTest.class.getResourceAsStream("/draftv4/schema");
+        closer.register(in);
         final String input = Files.streamToString(in);
-        Closeables.closeQuietly(in);
+        closer.close();
 
         final ObjectReader mapper = JacksonUtils.getReader();
 
