@@ -105,6 +105,8 @@ public enum ProcessingErrors
      */
     NULL_REPORT("report cannot be null"),
     NULL_VERSION("version cannot be null"),
+    NO_LOADINGCFG("loading configuration must be set if resolveRefs is true"),
+    NULL_LOADINGCFG("loading configuration must not be null"),
     ;
 
     private final String message;

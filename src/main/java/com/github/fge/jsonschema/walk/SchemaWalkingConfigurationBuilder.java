@@ -2,6 +2,7 @@ package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
@@ -17,6 +18,8 @@ public final class SchemaWalkingConfigurationBuilder
 {
     DictionaryBuilder<PointerCollector> collectors;
     DictionaryBuilder<SyntaxChecker> checkers;
+    boolean resolveRefs = false;
+    LoadingConfiguration loadingCfg;
 
     SchemaWalkingConfigurationBuilder()
     {
@@ -28,6 +31,8 @@ public final class SchemaWalkingConfigurationBuilder
     {
         collectors = cfg.collectors.thaw();
         checkers = cfg.checkers.thaw();
+        resolveRefs = cfg.resolveRefs;
+        loadingCfg = cfg.loadingCfg;
     }
 
     public SchemaWalkingConfigurationBuilder setVersion(
@@ -41,6 +46,17 @@ public final class SchemaWalkingConfigurationBuilder
             ? DraftV4SyntaxCheckerDictionary.get().thaw()
             : DraftV3SyntaxCheckerDictionary.get().thaw();
         return this;
+    }
+
+    public void setResolveRefs(final boolean resolveRefs)
+    {
+        this.resolveRefs = resolveRefs;
+    }
+
+    public void setLoadingConfiguration(final LoadingConfiguration loadingCfg)
+    {
+        NULL_LOADINGCFG.checkThat(loadingCfg != null);
+        this.loadingCfg = loadingCfg;
     }
 
     @Override
