@@ -99,9 +99,10 @@ public interface SchemaListener<T>
     /**
      * Method called when the walking process exits a subtree
      *
+     * @param pointer the <b>relative</b> pointer into the tree
      * @throws ProcessingException processing failure
      */
-    void onExit()
+    void onExit(final JsonPointer pointer)
         throws ProcessingException;
 
     /**

@@ -147,7 +147,7 @@ public abstract class SchemaWalker
             doWalk(pointer, listener, report);
             tree = current;
         }
-        listener.onExit();
+        listener.onExit(pwd);
     }
 
     @Override

@@ -130,7 +130,8 @@ public final class SimpleSchemaWalkerTest
         order.verify(listener).onWalk(same(tree));
         order.verify(listener).onEnter(same(pointer));
         order.verify(listener).onWalk(captor.capture());
-        order.verify(listener, times(2)).onExit();
+        order.verify(listener).onExit(same(pointer));
+        order.verify(listener).onExit(eq(JsonPointer.empty()));
 
         final SchemaTree subTree = captor.getValue();
         assertEquals(subTree.getNode(), subNode);
