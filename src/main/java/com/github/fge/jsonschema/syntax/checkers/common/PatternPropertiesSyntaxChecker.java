@@ -18,9 +18,9 @@
 package com.github.fge.jsonschema.syntax.checkers.common;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.SchemaMapSyntaxChecker;
-import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.RhinoHelper;
 import com.google.common.collect.Ordering;

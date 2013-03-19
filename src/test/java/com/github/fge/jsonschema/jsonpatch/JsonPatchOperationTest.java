@@ -36,7 +36,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.testng.Assert.*;
 
 public abstract class JsonPatchOperationTest

@@ -17,6 +17,8 @@
 
 package com.github.fge.jsonschema.syntax.dictionaries;
 
+import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3DependenciesSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3ItemsSyntaxChecker;
@@ -24,8 +26,6 @@ import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3PropertiesSyntax
 import com.github.fge.jsonschema.syntax.checkers.draftv3.ExtendsSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.DivisorSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.DraftV3TypeKeywordSyntaxChecker;
-import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.library.DictionaryBuilder;
 
 /**
  * Draft v3 specific syntax checkers

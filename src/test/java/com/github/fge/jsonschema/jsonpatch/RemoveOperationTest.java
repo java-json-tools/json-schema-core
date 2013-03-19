@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public final class RemoveOperationTest
     extends JsonPatchOperationTest

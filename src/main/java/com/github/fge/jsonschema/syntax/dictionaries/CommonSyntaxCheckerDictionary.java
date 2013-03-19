@@ -17,6 +17,8 @@
 
 package com.github.fge.jsonschema.syntax.dictionaries;
 
+import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.common.AdditionalSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.common.EnumSyntaxChecker;
@@ -27,8 +29,6 @@ import com.github.fge.jsonschema.syntax.checkers.common.PatternSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.TypeOnlySyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.URISyntaxChecker;
-import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.library.DictionaryBuilder;
 
 import static com.github.fge.jsonschema.util.NodeType.*;
 
