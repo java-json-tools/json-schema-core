@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.RawProcessor;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
@@ -37,7 +37,7 @@ import com.github.fge.jsonschema.util.ValueHolder;
  * @param <T> the value type produced by the listeners
  */
 public final class SchemaWalkerProcessor<T>
-    implements Processor<ValueHolder<SchemaTree>, ValueHolder<T>>
+    extends RawProcessor<SchemaTree, T>
 {
     private final SchemaWalkerProvider walkerProvider;
     private final SchemaListenerProvider<T> listenerProvider;
@@ -51,18 +51,18 @@ public final class SchemaWalkerProcessor<T>
     public SchemaWalkerProcessor(final SchemaWalkerProvider walkerProvider,
         final SchemaListenerProvider<T> listenerProvider)
     {
+        super("schema", "value");
         this.walkerProvider = walkerProvider;
         this.listenerProvider = listenerProvider;
     }
 
     @Override
-    public ValueHolder<T> process(final ProcessingReport report,
-        final ValueHolder<SchemaTree> input)
+    public T rawProcess(final ProcessingReport report, final SchemaTree input)
         throws ProcessingException
     {
-        final SchemaWalker walker = walkerProvider.newWalker(input.getValue());
+        final SchemaWalker walker = walkerProvider.newWalker(input);
         final SchemaListener<T> listener = listenerProvider.newListener();
         walker.walk(listener, report);
-        return ValueHolder.hold(listener.getValue());
+        return listener.getValue();
     }
 }
