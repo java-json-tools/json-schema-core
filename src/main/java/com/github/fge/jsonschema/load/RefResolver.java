@@ -73,7 +73,7 @@ public final class RefResolver
         JsonRef ref;
         JsonNode node;
 
-        while(true) {
+        while (true) {
             /*
              * See if the current node is a JSON Reference.
              */
