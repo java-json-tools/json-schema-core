@@ -20,14 +20,13 @@ package com.github.fge.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.RawProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.ValueHolder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -43,21 +42,22 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
  * Syntax processor
  */
 public final class SyntaxProcessor
-    implements Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
+    extends RawProcessor<SchemaTree, SchemaTree>
 {
     private final Map<String, SyntaxChecker> checkers;
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
+        super("schema", "schema");
         checkers = dict.entries();
     }
 
     @Override
-    public ValueHolder<SchemaTree> process(final ProcessingReport report,
-        final ValueHolder<SchemaTree> input)
+    public SchemaTree rawProcess(final ProcessingReport report,
+        final SchemaTree input)
         throws ProcessingException
     {
-        validate(report, input.getValue());
+        validate(report, input);
         return input;
     }
 

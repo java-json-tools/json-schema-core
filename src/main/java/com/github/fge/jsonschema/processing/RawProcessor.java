@@ -35,7 +35,8 @@ public abstract class RawProcessor<IN, OUT>
     }
 
     protected abstract OUT rawProcess(final ProcessingReport report,
-        final IN input);
+        final IN input)
+        throws ProcessingException;
 
     @Override
     public final ValueHolder<OUT> process(final ProcessingReport report,
