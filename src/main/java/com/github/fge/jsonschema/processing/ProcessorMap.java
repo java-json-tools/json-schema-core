@@ -80,7 +80,7 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
         this.keyFunction = keyFunction;
     }
 
-        /**
+    /**
      * Add an entry to the processor map
      *
      * @param key the key to match against

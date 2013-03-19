@@ -38,7 +38,7 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  *     <li>{@link #onTreeChange(SchemaTree, SchemaTree)} (only if {@link
  *     ResolvingSchemaWalker} is used);</li>
  *     <li>{@link #onWalk(SchemaTree)};</li>
- *     <li>{@link #onExit()} (exiting a subtree).</li>
+ *     <li>{@link #onExit(JsonPointer)} (exiting a subtree).</li>
  * </ul>
  *
  * <p>For instance, if we consider this schema:</p>
