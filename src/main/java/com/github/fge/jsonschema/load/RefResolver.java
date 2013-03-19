@@ -60,24 +60,6 @@ public final class RefResolver
         final SchemaTree input)
         throws ProcessingException
     {
-        return loadRef(input);
-    }
-
-    private static JsonRef nodeAsRef(final JsonNode node)
-    {
-        final JsonNode refNode = node.path("$ref");
-        if (!refNode.isTextual())
-            return null;
-        try {
-            return JsonRef.fromString(refNode.textValue());
-        } catch (JsonReferenceException ignored) {
-            return null;
-        }
-    }
-
-    private SchemaTree loadRef(final SchemaTree orig)
-        throws ProcessingException
-    {
         /*
          * The set of refs we see during ref resolution, necessary to detect ref
          * loops. We make it linked since we want the ref path reported in the
@@ -85,7 +67,7 @@ public final class RefResolver
          */
         final Set<JsonRef> refs = Sets.newLinkedHashSet();
 
-        SchemaTree tree = orig;
+        SchemaTree tree = input;
 
         JsonPointer ptr;
         JsonRef ref;
@@ -133,6 +115,18 @@ public final class RefResolver
         }
 
         return tree;
+    }
+
+    private static JsonRef nodeAsRef(final JsonNode node)
+    {
+        final JsonNode refNode = node.path("$ref");
+        if (!refNode.isTextual())
+            return null;
+        try {
+            return JsonRef.fromString(refNode.textValue());
+        } catch (JsonReferenceException ignored) {
+            return null;
+        }
     }
 
     @Override
