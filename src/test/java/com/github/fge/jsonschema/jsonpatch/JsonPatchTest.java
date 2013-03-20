@@ -21,15 +21,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonPatchError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
+import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.NULL_INPUT;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -53,9 +51,8 @@ public final class JsonPatchTest
         try {
             JsonPatch.fromJson(null);
             fail("No exception thrown!!");
-        } catch (JsonPatchError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_INPUT);
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), NULL_INPUT);
         }
     }
 
@@ -68,9 +65,8 @@ public final class JsonPatchTest
         try {
             patch.apply(null);
             fail("No exception thrown!!");
-        } catch (JsonPatchError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_INPUT);
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), NULL_INPUT);
         }
     }
 

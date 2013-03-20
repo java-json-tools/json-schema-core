@@ -21,13 +21,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonPatchError;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import java.io.IOException;
 import java.util.List;
 
+import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.NULL_INPUT;
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
 /**
@@ -114,12 +115,12 @@ public final class JsonPatch
      * @param node the JSON representation of the generated JSON Patch
      * @return a JSON Patch
      * @throws JsonPatchException input is not a valid JSON patch
-     * @throws JsonPatchError input is null
+     * @throws NullPointerException input is null
      */
     public static JsonPatch fromJson(final JsonNode node)
         throws JsonPatchException
     {
-        NULL_INPUT.checkThat(node != null);
+        Preconditions.checkNotNull(node, NULL_INPUT);
         try {
             return JacksonUtils.getReader().withType(JsonPatch.class)
                 .readValue(node);
@@ -134,12 +135,12 @@ public final class JsonPatch
      * @param node the value to apply the patch to
      * @return the patched JSON value
      * @throws JsonPatchException failed to apply patch
-     * @throws JsonPatchError input is null
+     * @throws NullPointerException input is null
      */
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        NULL_INPUT.checkThat(node != null);
+        Preconditions.checkNotNull(node, NULL_INPUT);
         JsonNode ret = node;
         for (final JsonPatchOperation operation: operations)
             ret = operation.apply(ret);

@@ -15,15 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions.unchecked;
+package com.github.fge.jsonschema.jsonpatch;
 
-import com.github.fge.jsonschema.report.ProcessingMessage;
-
-public final class JsonPatchError
-    extends ProcessingError
+public final class JsonPatchMessages
 {
-    public JsonPatchError(final ProcessingMessage message)
+    public static final String NULL_INPUT = "input cannot be null";
+
+    private JsonPatchMessages()
     {
-        super(message);
     }
 }
