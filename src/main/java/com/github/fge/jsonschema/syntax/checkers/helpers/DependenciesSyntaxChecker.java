@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.syntax.checkers.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
@@ -26,7 +27,6 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Maps;
 

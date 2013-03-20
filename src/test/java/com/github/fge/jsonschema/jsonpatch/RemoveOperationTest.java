@@ -18,9 +18,9 @@
 package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.Test;
 
 import java.io.IOException;

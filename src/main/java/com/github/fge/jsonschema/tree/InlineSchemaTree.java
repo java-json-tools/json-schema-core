@@ -18,9 +18,9 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 

@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;

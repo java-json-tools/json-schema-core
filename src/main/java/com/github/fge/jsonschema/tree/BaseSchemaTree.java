@@ -20,11 +20,11 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import net.jcip.annotations.Immutable;
 
 /**

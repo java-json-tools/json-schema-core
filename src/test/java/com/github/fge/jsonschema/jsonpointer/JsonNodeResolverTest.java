@@ -21,9 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.SampleNodeProvider;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

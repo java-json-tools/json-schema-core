@@ -16,14 +16,18 @@
  */
 
 /**
- * Various utility classes
+ * Jackson utility classes
  *
- * <p>{@link com.github.fge.jsonschema.util.RhinoHelper} is in charge of all
- * regex validation: as the standard dictates ECMA 262 regexes, using {@link
- * java.util.regex} is out of the question. See this class' description for more
- * details.</p>
+ * <p>{@link com.github.fge.jackson.JsonLoader} contains various
+ * methods to load JSON documents as {@link
+ * com.fasterxml.jackson.databind.JsonNode}s.You will also use to want {@link
+ * com.github.fge.jackson.JacksonUtils} to grab a node factory, reader
+ * and pretty printer for anything JSON.</p>
  *
- * <p>There are other, various utility interfaces used elsewhere in the code.
- * </p>
+ * <p>Compared to the basic Jackson's {@link
+ * com.fasterxml.jackson.databind.ObjectMapper}, the one provided by {@link
+ * com.github.fge.jackson.JacksonUtils} deserializes all floating point numbers
+ * as {@link java.math.BigDecimal}s by default. This is done using {@link
+ * com.fasterxml.jackson.databind.DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS}.</p>
  */
-package com.github.fge.jsonschema.util;
+package com.github.fge.jackson;

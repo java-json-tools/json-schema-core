@@ -18,11 +18,11 @@
 package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.ValueHolder;
 import org.testng.annotations.Test;
 
