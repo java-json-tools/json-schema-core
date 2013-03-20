@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 import java.net.URISyntaxException;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
+import static com.github.fge.jsonschema.messages.JsonReferenceErrors.*;
 import static org.testng.Assert.*;
 
 public final class JsonRefTest
