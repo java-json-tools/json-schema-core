@@ -20,13 +20,13 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.messages.JsonPatchMessages;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
-import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
@@ -42,7 +42,7 @@ import static org.testng.Assert.*;
 public abstract class JsonPatchOperationTest
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonSchemaEquivalence.getInstance();
+        = JsonNumEquals.getInstance();
 
     private final JsonNode errors;
     private final JsonNode ops;

@@ -18,12 +18,12 @@
 package com.github.fge.jsonschema.syntax.checkers.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.DependenciesSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 

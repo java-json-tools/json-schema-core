@@ -48,6 +48,7 @@
                         <link>http://docs.oracle.com/javase/6/docs/api</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
                         <link>http://jcip.net.s3-website-us-east-1.amazonaws.com/annotations/doc</link>
+                        <link>http://fge.github.com/jackson-numequals</link>
                     </links>
                     <docfilessubdirs>true</docfilessubdirs>
                 </configuration>
@@ -78,19 +79,14 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.1.4</version>
+            <groupId>com.github.fge</groupId>
+            <artifactId>jackson-numequals</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.mozilla</groupId>
             <artifactId>rhino</artifactId>
             <version>1.7R4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>14.0</version>
         </dependency>
         <dependency>
             <groupId>net.jcip</groupId>

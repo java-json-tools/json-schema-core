@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.syntax.checkers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
@@ -28,7 +29,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
-import com.github.fge.jsonschema.util.NodeType;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -37,11 +37,12 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 
+import static com.github.fge.jackson.NodeType.*;
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-import static com.github.fge.jsonschema.util.NodeType.*;
 import static org.mockito.Mockito.*;
+
 
 public final class AbstractSyntaxCheckerTest
 {

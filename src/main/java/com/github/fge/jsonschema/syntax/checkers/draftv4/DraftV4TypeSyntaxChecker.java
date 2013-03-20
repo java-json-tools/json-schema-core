@@ -18,14 +18,14 @@
 package com.github.fge.jsonschema.syntax.checkers.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -45,7 +45,7 @@ public final class DraftV4TypeSyntaxChecker
         = EnumSet.allOf(NodeType.class);
 
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonSchemaEquivalence.getInstance();
+        = JsonNumEquals.getInstance();
 
     private static final SyntaxChecker INSTANCE
         = new DraftV4TypeSyntaxChecker();

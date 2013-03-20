@@ -30,7 +30,7 @@ import com.github.fge.jsonschema.syntax.checkers.helpers.PositiveIntegerSyntaxCh
 import com.github.fge.jsonschema.syntax.checkers.helpers.TypeOnlySyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.URISyntaxChecker;
 
-import static com.github.fge.jsonschema.util.NodeType.*;
+import static com.github.fge.jackson.NodeType.*;
 
 /**
  * Syntax checkers common to draft v4 and v3

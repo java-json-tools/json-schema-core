@@ -17,12 +17,12 @@
 
 package com.github.fge.jsonschema.syntax.checkers;
 
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Collection;
@@ -32,7 +32,7 @@ import java.util.EnumSet;
  * Interface for a syntax checker
  *
  * <p>This is a syntax checker for one keyword. As some keywords contain
- * subschemas, a list of {@link com.github.fge.jsonschema.jsonpointer.JsonPointer} is also passed as an argument so
+ * subschemas, a list of {@link JsonPointer} is also passed as an argument so
  * that the checker can instruct the syntax processor to also check these paths
  * after it is done.</p>
  *
@@ -53,7 +53,7 @@ public interface SyntaxChecker
      * @param pointers the list of JSON Pointers to fill (see description)
      * @param report the processing report to use
      * @param tree the schema
-     * @throws com.github.fge.jsonschema.exceptions.ProcessingException an error is detected, and the report is
+     * @throws ProcessingException an error is detected, and the report is
      * configured to throw an exception on error.
      */
     void checkSyntax(final Collection<JsonPointer> pointers,

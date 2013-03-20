@@ -20,9 +20,9 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
@@ -38,13 +38,13 @@ import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
  *
  * <p>Also note that equality as defined by JSON Patch is exactly the same as it
  * is defined by JSON Schema itself. As such, this operation reuses {@link
- * JsonSchemaEquivalence} for testing equality.</p>
+ * JsonNumEquals} for testing equality.</p>
  */
 public final class TestOperation
     extends PathValueOperation
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonSchemaEquivalence.getInstance();
+        = JsonNumEquals.getInstance();
 
     @JsonCreator
     public TestOperation(@JsonProperty("path") final JsonPointer path,

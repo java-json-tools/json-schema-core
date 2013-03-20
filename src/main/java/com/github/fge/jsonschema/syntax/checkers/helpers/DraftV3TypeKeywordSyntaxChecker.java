@@ -18,13 +18,13 @@
 package com.github.fge.jsonschema.syntax.checkers.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -32,8 +32,8 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
+import static com.github.fge.jackson.NodeType.*;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-import static com.github.fge.jsonschema.util.NodeType.*;
 
 /**
  * Helper class to validate the syntax of draft v3's {@code type} and {@code
@@ -44,7 +44,7 @@ public final class DraftV3TypeKeywordSyntaxChecker
 {
     private static final String ANY = "any";
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonSchemaEquivalence.getInstance();
+        = JsonNumEquals.getInstance();
 
     public DraftV3TypeKeywordSyntaxChecker(final String keyword)
     {
