@@ -18,8 +18,6 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import org.testng.annotations.DataProvider;
@@ -27,6 +25,7 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
+import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 import static org.testng.Assert.*;
@@ -40,9 +39,8 @@ public final class ReferenceTokenTest
         try {
             ReferenceToken.fromCooked(null);
             fail("No exception thrown!!");
-        } catch (JsonReferenceError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_INPUT);
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), NULL_INPUT);
         }
     }
     @Test
@@ -51,9 +49,8 @@ public final class ReferenceTokenTest
         try {
             ReferenceToken.fromRaw(null);
             fail("No exception thrown!!");
-        } catch (JsonReferenceError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_INPUT);
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), NULL_INPUT);
         }
     }
 

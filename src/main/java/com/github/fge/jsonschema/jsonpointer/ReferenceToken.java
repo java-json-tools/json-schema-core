@@ -18,13 +18,13 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.messages.JsonReferenceErrors;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import net.jcip.annotations.Immutable;
 
 import java.util.List;
 
+import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
 import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 
 /**
@@ -94,12 +94,12 @@ public final class ReferenceToken
      * @param cooked the input
      * @return a token
      * @throws JsonReferenceException illegal token (bad encode sequence)
-     * @throws JsonReferenceError null input
+     * @throws NullPointerException null input
      */
     public static ReferenceToken fromCooked(final String cooked)
         throws JsonReferenceException
     {
-        JsonReferenceErrors.NULL_INPUT.checkThat(cooked != null);
+        Preconditions.checkNotNull(cooked, NULL_INPUT);
         return new ReferenceToken(cooked, asRaw(cooked));
     }
 
@@ -108,11 +108,11 @@ public final class ReferenceToken
      *
      * @param raw the input
      * @return a token
-     * @throws JsonReferenceError null input
+     * @throws NullPointerException null input
      */
     public static ReferenceToken fromRaw(final String raw)
     {
-        JsonReferenceErrors.NULL_INPUT.checkThat(raw != null);
+        Preconditions.checkNotNull(raw, NULL_INPUT);
         return new ReferenceToken(asCooked(raw), raw);
     }
 
