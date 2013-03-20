@@ -22,9 +22,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.JsonNumEquals;
-import com.github.fge.jsonschema.messages.JsonPatchMessages;
-import com.github.fge.jsonschema.report.LogLevel;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
@@ -34,7 +31,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.testng.Assert.*;
 
 public abstract class JsonPatchOperationTest
@@ -64,6 +60,7 @@ public abstract class JsonPatchOperationTest
 
     @DataProvider
     public final Iterator<Object[]> getErrors()
+        throws NoSuchFieldException, IllegalAccessException
     {
         final List<Object[]> list = Lists.newArrayList();
 
@@ -71,7 +68,7 @@ public abstract class JsonPatchOperationTest
             list.add(new Object[]{
                 node.get("patch"),
                 node.get("node"),
-                JsonPatchMessages.valueOf(node.get("message").textValue())
+                getMessage(node.get("message").textValue())
             });
 
         return list.iterator();
@@ -79,7 +76,7 @@ public abstract class JsonPatchOperationTest
 
     @Test(dataProvider = "getErrors")
     public final void errorsAreCorrectlyReported(final JsonNode patch,
-        final JsonNode node, final JsonPatchMessages msg)
+        final JsonNode node, final String message)
         throws IOException
     {
         final JsonPatchOperation op = reader.readValue(patch);
@@ -88,9 +85,7 @@ public abstract class JsonPatchOperationTest
             op.apply(node);
             fail("No exception thrown!!");
         } catch (JsonPatchException e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasLevel(LogLevel.FATAL)
-                .hasMessage(msg);
+            assertEquals(e.getMessage(), message);
         }
     }
 

@@ -17,20 +17,11 @@
 
 package com.github.fge.jsonschema.jsonpatch;
 
-import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-
 public final class JsonPatchException
-    extends ProcessingException
+    extends Exception
 {
-    public JsonPatchException(final ProcessingMessage message)
+    public JsonPatchException(final String message)
     {
         super(message);
-    }
-
-    public JsonPatchException(final ProcessingMessage message,
-        final Throwable e)
-    {
-        super(message, e);
     }
 }

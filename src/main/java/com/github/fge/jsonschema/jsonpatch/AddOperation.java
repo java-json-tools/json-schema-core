@@ -26,7 +26,6 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.ReferenceToken;
 import com.github.fge.jackson.jsonpointer.TokenResolver;
 
-import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
 
 /**
  * JSON Patch {@code add} operation
@@ -89,7 +88,7 @@ public final class AddOperation
         final SplitPointer split = new SplitPointer(path);
         final JsonNode parentNode = split.parent.path(node);
         if (parentNode.isMissingNode())
-            throw new JsonPatchException(NO_SUCH_PARENT.asMessage());
+            throw new JsonPatchException(JsonPatchMessages.NO_SUCH_PARENT);
         return parentNode.isArray()
             ? addToArray(split, node)
             : addToObject(split, node);
@@ -112,11 +111,11 @@ public final class AddOperation
         try {
             index = Integer.parseInt(token.toString());
         } catch (NumberFormatException ignored) {
-            throw new JsonPatchException(NOT_AN_INDEX.asMessage());
+            throw new JsonPatchException(JsonPatchMessages.NOT_AN_INDEX);
         }
 
         if (index < 0 || index > size)
-            throw new JsonPatchException(NO_SUCH_INDEX.asMessage());
+            throw new JsonPatchException(JsonPatchMessages.NO_SUCH_INDEX);
 
         target.insert(index, value);
         return ret;

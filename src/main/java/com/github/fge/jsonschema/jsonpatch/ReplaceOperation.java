@@ -24,8 +24,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 
-import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
-
 /**
  * JSON Patch {@code replace} operation
  *
@@ -63,7 +61,7 @@ public final class ReplaceOperation
          * that there is no such index in the array.
          */
         if (path.path(node).isMissingNode())
-            throw new JsonPatchException(NO_SUCH_PATH.asMessage());
+            throw new JsonPatchException(JsonPatchMessages.NO_SUCH_PATH);
         final JsonNode replacement = value.deepCopy();
         if (path.isEmpty())
             return replacement;

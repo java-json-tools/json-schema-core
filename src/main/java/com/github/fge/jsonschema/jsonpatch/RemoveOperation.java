@@ -25,8 +25,6 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 
-import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
-
 /**
  * JSON Path {@code remove} operation
  *
@@ -49,7 +47,7 @@ public final class RemoveOperation
         if (path.isEmpty())
             return MissingNode.getInstance();
         if (path.path(node).isMissingNode())
-            throw new JsonPatchException(NO_SUCH_PATH.asMessage());
+            throw new JsonPatchException(JsonPatchMessages.NO_SUCH_PATH);
         final SplitPointer split = new SplitPointer(path);
         final JsonNode ret = node.deepCopy();
         final JsonNode parentNode = split.parent.get(ret);

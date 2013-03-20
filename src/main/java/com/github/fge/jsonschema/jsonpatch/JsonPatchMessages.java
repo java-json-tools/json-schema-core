@@ -24,7 +24,7 @@ public final class JsonPatchMessages
         = "input is not a valid JSON Patch";
     public static final String NO_SUCH_PARENT
         = "parent of node to add does not exist";
-    public static final String NOT_AND_INDEX
+    public static final String NOT_AN_INDEX
         = "reference token is not an array index";
     public static final String NO_SUCH_INDEX
         = "no such index in target array";

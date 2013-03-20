@@ -24,7 +24,7 @@ public final class JsonPatchTestSuite
 
     @DataProvider
     public Iterator<Object[]> getTests()
-        throws JsonPatchException
+        throws IOException
     {
         final List<Object[]> list = Lists.newArrayList();
 

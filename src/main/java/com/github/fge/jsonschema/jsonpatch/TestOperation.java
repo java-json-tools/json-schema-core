@@ -24,8 +24,6 @@ import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.google.common.base.Equivalence;
 
-import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
-
 /**
  * JSON Patch {@code test} operation
  *
@@ -58,9 +56,9 @@ public final class TestOperation
     {
         final JsonNode tested = path.path(node);
         if (tested.isMissingNode())
-            throw new JsonPatchException(NO_SUCH_PATH.asMessage());
+            throw new JsonPatchException(JsonPatchMessages.NO_SUCH_PATH);
         if (!EQUIVALENCE.equivalent(tested, value))
-            throw new JsonPatchException(VALUE_TEST_FAILURE.asMessage());
+            throw new JsonPatchException(JsonPatchMessages.VALUE_TEST_FAILURE);
         return node.deepCopy();
     }
 

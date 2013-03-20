@@ -27,8 +27,7 @@ import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.List;
 
-import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.NULL_INPUT;
-import static com.github.fge.jsonschema.messages.JsonPatchMessages.NOT_JSON_PATCH;
+import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.*;
 
 /**
  * Implementation of JSON Patch
@@ -113,19 +112,15 @@ public final class JsonPatch
      *
      * @param node the JSON representation of the generated JSON Patch
      * @return a JSON Patch
-     * @throws JsonPatchException input is not a valid JSON patch
+     * @throws IOException input is not a valid JSON patch
      * @throws NullPointerException input is null
      */
     public static JsonPatch fromJson(final JsonNode node)
-        throws JsonPatchException
+        throws IOException
     {
         Preconditions.checkNotNull(node, NULL_INPUT);
-        try {
-            return JacksonUtils.getReader().withType(JsonPatch.class)
-                .readValue(node);
-        } catch (IOException e) {
-            throw new JsonPatchException(NOT_JSON_PATCH.asMessage(), e);
-        }
+        return JacksonUtils.getReader().withType(JsonPatch.class)
+            .readValue(node);
     }
 
     /**

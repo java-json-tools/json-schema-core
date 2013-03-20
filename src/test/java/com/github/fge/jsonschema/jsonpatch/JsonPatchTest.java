@@ -20,11 +20,12 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.*;
 import static org.mockito.Mockito.*;
@@ -45,7 +46,7 @@ public final class JsonPatchTest
 
     @Test
     public void nullInputsDuringBuildAreRejected()
-        throws JsonPatchException
+        throws IOException
     {
         try {
             JsonPatch.fromJson(null);
@@ -94,8 +95,7 @@ public final class JsonPatchTest
     public void whenOneOperationFailsNextOperationIsNotCalled()
         throws JsonPatchException
     {
-        final ProcessingMessage message = new ProcessingMessage()
-            .message("foo");
+        final String message = "foo";
         when(op1.apply(any(JsonNode.class)))
             .thenThrow(new JsonPatchException(message));
 
@@ -105,7 +105,7 @@ public final class JsonPatchTest
             patch.apply(FACTORY.nullNode());
             fail("No exception thrown!!");
         } catch (JsonPatchException e) {
-            assertSame(e.getProcessingMessage(), message);
+            assertEquals(e.getMessage(), message);
         }
 
         verifyZeroInteractions(op2);
