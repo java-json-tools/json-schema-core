@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpointer;
+package com.github.fge.jackson.jsonpointer;
 
 import com.google.common.collect.ImmutableList;
 import org.testng.annotations.DataProvider;
@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
-import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
+import static com.github.fge.jackson.jsonpointer.JsonPointerMessages.*;
 import static org.testng.Assert.*;
 
 public final class ReferenceTokenTest

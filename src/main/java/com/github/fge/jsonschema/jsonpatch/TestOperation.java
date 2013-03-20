@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.google.common.base.Equivalence;
 
 import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;

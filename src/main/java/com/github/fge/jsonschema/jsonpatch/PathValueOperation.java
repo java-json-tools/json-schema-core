@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
 
 /**
  * Base class for patch operations taking a value in addition to a path

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpointer;
+package com.github.fge.jackson.jsonpointer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import net.jcip.annotations.Immutable;

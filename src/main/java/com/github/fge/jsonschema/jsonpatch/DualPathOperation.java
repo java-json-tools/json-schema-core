@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.jsonpatch;
 
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
 
 /**
  * Base class for JSON Patch operations taking two JSON Pointers as arguments

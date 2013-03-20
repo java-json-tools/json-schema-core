@@ -19,8 +19,8 @@ package com.github.fge.jsonschema.walk.collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.jsonpointer.JsonPointerException;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;

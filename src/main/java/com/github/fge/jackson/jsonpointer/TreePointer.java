@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpointer;
+package com.github.fge.jackson.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,7 +28,7 @@ import net.jcip.annotations.ThreadSafe;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
+import static com.github.fge.jackson.jsonpointer.JsonPointerMessages.*;
 
 /**
  * A pointer into a {@link TreeNode}

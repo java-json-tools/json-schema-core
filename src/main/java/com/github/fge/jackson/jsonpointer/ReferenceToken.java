@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpointer;
+package com.github.fge.jackson.jsonpointer;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -23,7 +23,7 @@ import net.jcip.annotations.Immutable;
 
 import java.util.List;
 
-import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
+import static com.github.fge.jackson.jsonpointer.JsonPointerMessages.*;
 
 /**
  * One JSON Pointer reference token

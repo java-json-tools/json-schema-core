@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonPatchException;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.jsonpointer.TokenResolver;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.google.common.collect.Lists;
 
 import java.util.List;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpointer;
+package com.github.fge.jackson.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
 import com.google.common.collect.ImmutableList;
@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
+import static com.github.fge.jackson.jsonpointer.JsonPointerMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 

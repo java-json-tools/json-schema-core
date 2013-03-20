@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.walk.collectors.helpers;
 
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.Lists;
 

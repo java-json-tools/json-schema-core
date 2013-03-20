@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpointer;
+package com.github.fge.jackson.jsonpointer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
@@ -34,7 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
+import static com.github.fge.jackson.jsonpointer.JsonPointerMessages.*;
 import static org.testng.Assert.*;
 
 public final class JsonPointerTest

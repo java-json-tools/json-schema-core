@@ -19,17 +19,17 @@
  * JSON Pointer related classes
  *
  * <p>This package, while primarily centered on {@link
- * com.github.fge.jsonschema.jsonpointer.JsonPointer}, is a generalization of
- * JSON Pointer to all implementations of Jackson's {@link
+ * com.github.fge.jackson.jsonpointer.JsonPointer}, is a generalization of JSON
+ * Pointer to all implementations of Jackson's {@link
  * com.fasterxml.jackson.core.TreeNode}.</p>
  *
  * <p>The fundamentals of JSON Pointer remain the same, however: a JSON pointer
  * is a set of reference tokens separated by the {@code /} character. One
  * reference token is materialized by the {@link
- * com.github.fge.jsonschema.jsonpointer.ReferenceToken} class, and advancing
+ * com.github.fge.jackson.jsonpointer.ReferenceToken} class, and advancing
  * one level into a tree is materialized by {@link
- * com.github.fge.jsonschema.jsonpointer.TokenResolver}. A {@link
- * com.github.fge.jsonschema.jsonpointer.TreePointer} is a collection of token
+ * com.github.fge.jackson.jsonpointer.TokenResolver}. A {@link
+ * com.github.fge.jackson.jsonpointer.TreePointer} is a collection of token
  * resolvers.</p>
  */
-package com.github.fge.jsonschema.jsonpointer;
+package com.github.fge.jackson.jsonpointer;

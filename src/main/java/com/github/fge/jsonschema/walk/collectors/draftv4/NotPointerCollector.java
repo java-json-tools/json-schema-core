@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.walk.collectors.draftv4;
 
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.github.fge.jsonschema.walk.collectors.helpers.AbstractPointerCollector;

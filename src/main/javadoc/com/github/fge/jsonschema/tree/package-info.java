@@ -21,7 +21,7 @@
  * <p>Classes in this package are wrappers over {@link
  * com.fasterxml.jackson.databind.JsonNode} instances with navigation
  * capabilities (using {@link
- * com.github.fge.jsonschema.jsonpointer.JsonPointer}).</p>
+ * com.github.fge.jackson.jsonpointer.JsonPointer}).</p>
  *
  * <p>A JSON Schema is represented by a {@link
  * com.github.fge.jsonschema.tree.SchemaTree} and, in addition to navigation
