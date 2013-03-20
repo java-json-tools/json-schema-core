@@ -48,7 +48,7 @@
                         <link>http://docs.oracle.com/javase/6/docs/api</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
                         <link>http://jcip.net.s3-website-us-east-1.amazonaws.com/annotations/doc</link>
-                        <link>http://fge.github.com/jackson-numequals</link>
+                        <link>http://fge.github.com/jackson-coreutils</link>
                     </links>
                     <docfilessubdirs>true</docfilessubdirs>
                 </configuration>
@@ -80,7 +80,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.fge</groupId>
-            <artifactId>jackson-numequals</artifactId>
+            <artifactId>jackson-coreutils</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
