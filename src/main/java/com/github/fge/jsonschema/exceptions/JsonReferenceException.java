@@ -17,22 +17,15 @@
 
 package com.github.fge.jsonschema.exceptions;
 
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 /**
  * Exception associated with all JSON Reference exceptions
  *
- * <p>This exception is used by {@link JsonRef} and {@link JsonPointer} to
- * signify errors.</p>
- *
- * <p>Note however that this is not the exception thrown if inputs are null:
- * in this case a {@link JsonReferenceError} (unchecked) is thrown.</p>
+ * <p>This exception is used by {@link JsonRef} to signify errors.</p>
  *
  * @see JsonRef
- * @see JsonPointer
  */
 public final class JsonReferenceException
     extends ProcessingException
