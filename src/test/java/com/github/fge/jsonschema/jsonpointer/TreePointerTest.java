@@ -18,17 +18,13 @@
 package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.NULL_INPUT;
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
+import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -36,7 +32,7 @@ public final class TreePointerTest
 {
     @Test
     public void attemptToBuildTokensFromNullRaisesAnError()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         try {
             TreePointer.tokensFromInput(null);
@@ -52,16 +48,14 @@ public final class TreePointerTest
         try {
             TreePointer.tokensFromInput("a/b");
             fail("No exception thrown!!");
-        } catch (JsonReferenceException e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NOT_SLASH)
-                .hasField("expected", '/').hasField("found", 'a');
+        } catch (JsonPointerException e) {
+            assertEquals(e.getMessage(), NOT_SLASH);
         }
     }
 
     @Test
     public void buildingTokenListIsUnfazedByAnEmptyInput()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         assertEquals(TreePointer.tokensFromInput(""),
             ImmutableList.<ReferenceToken>of());
@@ -69,7 +63,7 @@ public final class TreePointerTest
 
     @Test
     public void buildingTokenListIsUnfazedByEmptyToken()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         final List<ReferenceToken> expected
             = ImmutableList.of(ReferenceToken.fromCooked(""));
@@ -80,7 +74,7 @@ public final class TreePointerTest
 
     @Test
     public void tokenListRespectsOrder()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         final List<ReferenceToken> expected = ImmutableList.of(
             ReferenceToken.fromRaw("/"),
@@ -95,7 +89,7 @@ public final class TreePointerTest
 
     @Test
     public void tokenListAccountsForEmptyTokens()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         final List<ReferenceToken> expected = ImmutableList.of(
             ReferenceToken.fromRaw("a"),

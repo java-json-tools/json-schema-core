@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.ref;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import net.jcip.annotations.Immutable;
 
@@ -143,7 +144,7 @@ public abstract class JsonRef
         try {
             ptr = realFragment.isEmpty() ? JsonPointer.empty()
                 : new JsonPointer(realFragment);
-        } catch (JsonReferenceException ignored) {
+        } catch (JsonPointerException ignored) {
             ptr = null;
             isLegal = false;
         }

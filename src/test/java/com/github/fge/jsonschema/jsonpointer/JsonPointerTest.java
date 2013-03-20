@@ -22,7 +22,6 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.SampleNodeProvider;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -35,7 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.NULL_INPUT;
+import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
 import static org.testng.Assert.*;
 
 public final class JsonPointerTest
@@ -78,7 +77,7 @@ public final class JsonPointerTest
     @Test(dataProvider = "rawPointers")
     public void rawPointerResolvingWorks(final String input,
         final JsonNode expected)
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         final JsonPointer pointer = new JsonPointer(input);
 
@@ -101,7 +100,7 @@ public final class JsonPointerTest
     @Test(dataProvider = "uriPointers")
     public void uriPointerResolvingWorks(final String input,
         final JsonNode expected)
-        throws URISyntaxException, JsonReferenceException
+        throws URISyntaxException, JsonPointerException
     {
         final URI uri = new URI(input);
         final JsonPointer pointer = new JsonPointer(uri.getFragment());
@@ -111,7 +110,7 @@ public final class JsonPointerTest
 
     @Test
     public void appendingRawTokensToAPointerWorks()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         final JsonPointer ptr = new JsonPointer("/foo/bar");
         final String raw = "/0~";
@@ -122,7 +121,7 @@ public final class JsonPointerTest
 
     @Test
     public void appendingIndicesToAPointerWorks()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         final JsonPointer ptr = new JsonPointer("/foo/bar/");
         final int index = 33;
@@ -133,7 +132,7 @@ public final class JsonPointerTest
 
     @Test
     public void appendingOnePointerToAnotherWorks()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         final JsonPointer ptr = new JsonPointer("/a/b");
         final JsonPointer appended = new JsonPointer("/c/d");
@@ -156,7 +155,7 @@ public final class JsonPointerTest
 
     @Test
     public void staticConstructionFromTokensWorks()
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         JsonPointer ptr1, ptr2;
 

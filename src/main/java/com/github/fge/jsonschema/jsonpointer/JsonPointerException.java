@@ -17,16 +17,11 @@
 
 package com.github.fge.jsonschema.jsonpointer;
 
-public final class JsonPointerMessages
+public final class JsonPointerException
+    extends Exception
 {
-    public static final String NULL_INPUT = "input cannot be null";
-    public static final String EMPTY_ESCAPE
-        = "bad escape sequence: '~' not followed by any token";
-    public static final String ILLEGAL_ESCAPE
-        = "bad escape seqeunce: '~' not followed by a valid token";
-    public static final String NOT_SLASH
-        = "illegal pointer: expected a slash to separate tokens";
-    private JsonPointerMessages()
+    public JsonPointerException(final String message)
     {
+        super(message);
     }
 }

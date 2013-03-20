@@ -19,8 +19,9 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -51,7 +52,7 @@ public final class InlineSchemaTreeTest
 
     @DataProvider
     public Iterator<Object[]> getLookups()
-        throws ProcessingException
+        throws JsonReferenceException, JsonPointerException
     {
         final Set<Object[]> set = Sets.newHashSet();
 

@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.jsonpointer;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -88,11 +87,11 @@ public final class JsonPointer
      * The main constructor
      *
      * @param input the input string
-     * @throws JsonReferenceException malformed JSON Pointer
+     * @throws JsonPointerException malformed JSON Pointer
      * @throws NullPointerException null input
      */
     public JsonPointer(final String input)
-        throws JsonReferenceException
+        throws JsonPointerException
     {
         this(fromTokens(tokensFromInput(input)));
     }

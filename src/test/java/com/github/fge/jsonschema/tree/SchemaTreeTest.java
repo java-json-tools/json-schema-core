@@ -27,6 +27,7 @@ import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -118,7 +119,7 @@ public final class SchemaTreeTest
     @Test(dataProvider = "getContexts")
     public void pointerAppendCorrectlyCalculatesContext(final String path,
         final String s)
-        throws ProcessingException
+        throws JsonPointerException, JsonReferenceException
     {
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
@@ -130,7 +131,7 @@ public final class SchemaTreeTest
     @Test(dataProvider = "getContexts")
     public void pointerSetCorrectlyCalculatesContext(final String path,
         final String s)
-        throws ProcessingException
+        throws JsonPointerException, JsonReferenceException
     {
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);

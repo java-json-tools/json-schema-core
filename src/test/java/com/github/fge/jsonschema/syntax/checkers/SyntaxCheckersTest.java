@@ -28,6 +28,7 @@ import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -250,7 +251,7 @@ public abstract class SyntaxCheckersTest
     )
     public final void pointerDelegationWorksCorrectly(final JsonNode schema,
         final ArrayNode expectedPointers)
-        throws ProcessingException
+        throws ProcessingException, JsonPointerException
     {
         final SchemaTree tree = new CanonicalSchemaTree(schema);
 
