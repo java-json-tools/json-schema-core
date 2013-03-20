@@ -90,8 +90,7 @@ public final class AddOperation
         final SplitPointer split = new SplitPointer(path);
         final JsonNode parentNode = split.parent.path(node);
         if (parentNode.isMissingNode())
-            throw new JsonPatchException(NO_SUCH_PARENT.asMessage()
-                .put("node", node).put("path", path.toString()));
+            throw new JsonPatchException(NO_SUCH_PARENT.asMessage());
         return parentNode.isArray()
             ? addToArray(split, node)
             : addToObject(split, node);
@@ -114,14 +113,11 @@ public final class AddOperation
         try {
             index = Integer.parseInt(token.toString());
         } catch (NumberFormatException ignored) {
-            throw new JsonPatchException(NOT_AN_INDEX.asMessage()
-                .put("token", token.getToken().getRaw()));
+            throw new JsonPatchException(NOT_AN_INDEX.asMessage());
         }
 
         if (index < 0 || index > size)
-            throw new JsonPatchException(NO_SUCH_INDEX.asMessage()
-                .put("reminder", "array indices start at 0")
-                .put("arraySize", size).put("index", index));
+            throw new JsonPatchException(NO_SUCH_INDEX.asMessage());
 
         target.insert(index, value);
         return ret;

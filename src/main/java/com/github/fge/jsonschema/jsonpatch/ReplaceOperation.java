@@ -64,8 +64,7 @@ public final class ReplaceOperation
          * that there is no such index in the array.
          */
         if (path.path(node).isMissingNode())
-            throw new JsonPatchException(NO_SUCH_PATH.asMessage()
-                .put("node", node).put("path", path.toString()));
+            throw new JsonPatchException(NO_SUCH_PATH.asMessage());
         final JsonNode replacement = value.deepCopy();
         if (path.isEmpty())
             return replacement;
