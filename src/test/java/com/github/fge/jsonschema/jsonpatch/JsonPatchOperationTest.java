@@ -40,6 +40,9 @@ import static org.testng.Assert.*;
 
 public abstract class JsonPatchOperationTest
 {
+    private static final Class<?> MSGCLASS
+        = com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.class;
+
     private static final Equivalence<JsonNode> EQUIVALENCE
         = JsonNumEquals.getInstance();
 
@@ -121,6 +124,12 @@ public abstract class JsonPatchOperationTest
         if (EQUIVALENCE.equivalent(node, actual) && node.isContainerNode())
             assertNotSame(node, actual,
                 "operation didn't make a copy of the input node");
+    }
+
+    private static String getMessage(final String name)
+        throws NoSuchFieldException, IllegalAccessException
+    {
+        return (String) MSGCLASS.getDeclaredField(name).get(null);
     }
 }
 
