@@ -23,9 +23,6 @@ import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.messages.JsonReferenceErrors;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -38,7 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.NULL_INPUT;
 import static org.testng.Assert.*;
 
 public final class JsonPointerTest
@@ -60,10 +57,8 @@ public final class JsonPointerTest
         try {
             JsonPointer.empty().append(foo);
             fail("No exception thrown!!");
-        } catch (JsonReferenceError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(JsonReferenceErrors.NULL_JSON_POINTER);
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), NULL_INPUT);
         }
     }
 

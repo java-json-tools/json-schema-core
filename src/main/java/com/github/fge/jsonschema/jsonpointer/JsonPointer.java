@@ -21,13 +21,14 @@ import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.messages.JsonReferenceErrors;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.jcip.annotations.Immutable;
 
 import java.util.List;
+
+import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.*;
 
 /**
  * A {@link TreePointer} for {@link JsonNode}
@@ -69,7 +70,7 @@ public final class JsonPointer
      * @param first the first token
      * @param other other tokens
      * @return a JSON Pointer
-     * @throws JsonReferenceError one input token is null
+     * @throws NullPointerException one input token is null
      */
     public static JsonPointer of(final Object first, final Object... other)
     {
@@ -88,7 +89,7 @@ public final class JsonPointer
      *
      * @param input the input string
      * @throws JsonReferenceException malformed JSON Pointer
-     * @throws JsonReferenceError null input
+     * @throws NullPointerException null input
      */
     public JsonPointer(final String input)
         throws JsonReferenceException
@@ -114,7 +115,7 @@ public final class JsonPointer
      *
      * @param raw the raw token to append
      * @return a new pointer
-     * @throws JsonReferenceError input is null
+     * @throws NullPointerException input is null
      */
     public JsonPointer append(final String raw)
     {
@@ -142,11 +143,11 @@ public final class JsonPointer
      *
      * @param other the other pointer
      * @return a new pointer
-     * @throws JsonReferenceError other pointer is null
+     * @throws NullPointerException other pointer is null
      */
     public JsonPointer append(final JsonPointer other)
     {
-        JsonReferenceErrors.NULL_JSON_POINTER.checkThat(other != null);
+        Preconditions.checkNotNull(other, NULL_INPUT);
         final List<TokenResolver<JsonNode>> list
             = Lists.newArrayList(tokenResolvers);
         list.addAll(other.tokenResolvers);
