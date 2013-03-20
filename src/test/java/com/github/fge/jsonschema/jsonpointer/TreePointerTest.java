@@ -19,8 +19,6 @@ package com.github.fge.jsonschema.jsonpointer;
 
 import com.fasterxml.jackson.core.TreeNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -28,6 +26,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+import static com.github.fge.jsonschema.jsonpointer.JsonPointerMessages.NULL_INPUT;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.JsonReferenceMessages.*;
 import static org.mockito.Mockito.*;
@@ -42,9 +41,8 @@ public final class TreePointerTest
         try {
             TreePointer.tokensFromInput(null);
             fail("No exception thrown!!");
-        } catch (JsonReferenceError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_INPUT);
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), NULL_INPUT);
         }
     }
 
