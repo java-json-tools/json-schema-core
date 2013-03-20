@@ -20,6 +20,18 @@ package com.github.fge.jsonschema.jsonpatch;
 public final class JsonPatchMessages
 {
     public static final String NULL_INPUT = "input cannot be null";
+    public static final String NOT_JSON_PATCH
+        = "input is not a valid JSON Patch";
+    public static final String NO_SUCH_PARENT
+        = "parent of node to add does not exist";
+    public static final String NOT_AND_INDEX
+        = "reference token is not an array index";
+    public static final String NO_SUCH_INDEX
+        = "no such index in target array";
+    public static final String NO_SUCH_PATH
+        = "no such path in target JSON document";
+    public static final String VALUE_TEST_FAILURE
+        = "value differs from expectations";
 
     private JsonPatchMessages()
     {
