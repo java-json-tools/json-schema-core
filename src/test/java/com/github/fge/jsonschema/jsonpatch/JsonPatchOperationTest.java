@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.jsonpatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.JsonNumEquals;
@@ -70,8 +69,7 @@ public abstract class JsonPatchOperationTest
             list.add(new Object[]{
                 node.get("patch"),
                 node.get("node"),
-                JsonPatchMessages.valueOf(node.get("message").textValue()),
-                node.get("msgData")
+                JsonPatchMessages.valueOf(node.get("message").textValue())
             });
 
         return list.iterator();
@@ -79,8 +77,7 @@ public abstract class JsonPatchOperationTest
 
     @Test(dataProvider = "getErrors")
     public final void errorsAreCorrectlyReported(final JsonNode patch,
-        final JsonNode node, final JsonPatchMessages msg,
-        final ObjectNode msgData)
+        final JsonNode node, final JsonPatchMessages msg)
         throws IOException
     {
         final JsonPatchOperation op = reader.readValue(patch);
@@ -91,7 +88,7 @@ public abstract class JsonPatchOperationTest
         } catch (JsonPatchException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasLevel(LogLevel.FATAL)
-                .hasMessage(msg).hasContents(msgData);
+                .hasMessage(msg);
         }
     }
 

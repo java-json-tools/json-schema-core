@@ -3,20 +3,12 @@
         {
             "patch": { "op": "copy", "from": "/a", "path": "/b" },
             "node": {},
-            "message": "NO_SUCH_PATH",
-            "msgData": {
-                "node": {},
-                "path": "/a"
-            }
+            "message": "NO_SUCH_PATH"
         },
         {
             "patch": { "op": "copy", "from": "/a", "path": "/b/c" },
             "node": { "a": 1 },
-            "message": "NO_SUCH_PARENT",
-            "msgData": {
-                "node": { "a": 1 },
-                "path": "/b/c"
-            }
+            "message": "NO_SUCH_PARENT"
         }
     ],
     "ops": [

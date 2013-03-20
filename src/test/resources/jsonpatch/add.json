@@ -3,39 +3,22 @@
         {
             "patch": { "op": "add", "path": "/a/b/c", "value": 1 },
             "node": { "a": "b" },
-            "message": "NO_SUCH_PARENT",
-            "msgData": {
-                "node": { "a": "b" },
-                "path": "/a/b/c"
-            }
+            "message": "NO_SUCH_PARENT"
         },
         {
             "patch": { "op": "add", "path": "/~1", "value": 1 },
             "node": [],
-            "message": "NOT_AN_INDEX",
-            "msgData": {
-                "token": "/"
-            }
+            "message": "NOT_AN_INDEX"
         },
         {
             "patch": { "op": "add", "path": "/3", "value": 1 },
             "node": [ 1, 2 ],
-            "message": "NO_SUCH_INDEX",
-            "msgData": {
-                "reminder": "array indices start at 0",
-                "arraySize": 2,
-                "index": 3
-            }
+            "message": "NO_SUCH_INDEX"
         },
         {
             "patch": { "op": "add", "path": "/-2", "value": 1 },
             "node": [ 1, 2 ],
-            "message": "NO_SUCH_INDEX",
-            "msgData": {
-                "reminder": "array indices start at 0",
-                "arraySize": 2,
-                "index": -2
-            }
+            "message": "NO_SUCH_INDEX"
         }
     ],
     "ops": [
