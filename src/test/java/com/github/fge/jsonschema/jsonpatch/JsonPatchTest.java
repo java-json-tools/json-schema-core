@@ -20,14 +20,13 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.NULL_INPUT;
+import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 

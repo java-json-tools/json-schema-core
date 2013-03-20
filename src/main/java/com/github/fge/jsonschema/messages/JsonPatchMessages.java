@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema.messages;
 
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
-import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.jsonpatch.JsonPatchException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 public enum JsonPatchMessages

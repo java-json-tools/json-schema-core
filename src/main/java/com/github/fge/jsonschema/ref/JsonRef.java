@@ -17,10 +17,10 @@
 
 package com.github.fge.jsonschema.ref;
 
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import net.jcip.annotations.Immutable;
 
 import java.net.URI;

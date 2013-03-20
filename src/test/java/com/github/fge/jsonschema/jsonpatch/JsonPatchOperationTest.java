@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.JsonNumEquals;
-import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.github.fge.jsonschema.messages.JsonPatchMessages;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;

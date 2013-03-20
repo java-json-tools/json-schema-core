@@ -18,13 +18,13 @@
 package com.github.fge.jsonschema.walk;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
-import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;

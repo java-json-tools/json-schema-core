@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.jsonpatch;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.exceptions.JsonPatchException;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -29,7 +28,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.NULL_INPUT;
-import static com.github.fge.jsonschema.messages.JsonPatchMessages.*;
+import static com.github.fge.jsonschema.messages.JsonPatchMessages.NOT_JSON_PATCH;
 
 /**
  * Implementation of JSON Patch

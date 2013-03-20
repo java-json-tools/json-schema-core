@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions;
+package com.github.fge.jsonschema.jsonpatch;
 
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 public final class JsonPatchException
