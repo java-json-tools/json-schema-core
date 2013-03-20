@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.*;
+import static com.github.fge.jsonpatch.JsonPatchMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 

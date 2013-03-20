@@ -15,13 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
-public final class JsonPatchException
-    extends Exception
+import java.io.IOException;
+
+public final class ReplaceOperationTest
+    extends JsonPatchOperationTest
 {
-    public JsonPatchException(final String message)
+    public ReplaceOperationTest()
+        throws IOException
     {
-        super(message);
+        super("replace", ReplaceOperation.class);
     }
 }

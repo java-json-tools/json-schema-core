@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;

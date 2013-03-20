@@ -15,53 +15,70 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 
 /**
- * JSON Path {@code remove} operation
+ * JSON Patch {@code replace} operation
  *
- * <p>This operation only takes one pointer ({@code path}) as an argument. It
- * is an error condition if no JSON value exists at that pointer.</p>
+ * <p>For this operation, {@code path} points to the value to replace, and
+ * {@code value} is the replacement value.</p>
+ *
+ * <p>It is an error condition if {@code path} does not point to an actual JSON
+ * value.</p>
  */
-public final class RemoveOperation
-    extends JsonPatchOperation
+public final class ReplaceOperation
+    extends PathValueOperation
 {
     @JsonCreator
-    public RemoveOperation(@JsonProperty("path") final JsonPointer path)
+    public ReplaceOperation(@JsonProperty("path") final JsonPointer path,
+        @JsonProperty("value") final JsonNode value)
     {
-        super(path);
+        super(path, value);
     }
 
     @Override
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        if (path.isEmpty())
-            return MissingNode.getInstance();
+        /*
+         * FIXME cannot quite be replaced by a remove + add because of arrays.
+         * For instance:
+         *
+         * { "op": "replace", "path": "/0", "value": 1 }
+         *
+         * with
+         *
+         * [ "x" ]
+         *
+         * If remove is done first, the array is empty and add rightly complains
+         * that there is no such index in the array.
+         */
         if (path.path(node).isMissingNode())
             throw new JsonPatchException(JsonPatchMessages.NO_SUCH_PATH);
+        final JsonNode replacement = value.deepCopy();
+        if (path.isEmpty())
+            return replacement;
         final SplitPointer split = new SplitPointer(path);
         final JsonNode ret = node.deepCopy();
-        final JsonNode parentNode = split.parent.get(ret);
-        final String raw = split.lastToken.getToken().getRaw();
-        if (parentNode.isObject())
-            ((ObjectNode) parentNode).remove(raw);
+        final JsonNode parent = split.parent.get(ret);
+        final String rawToken = split.lastToken.getToken().getRaw();
+        if (parent.isObject())
+            ((ObjectNode) parent).put(rawToken, replacement);
         else
-            ((ArrayNode) parentNode).remove(Integer.parseInt(raw));
+            ((ArrayNode) parent).set(Integer.parseInt(rawToken), replacement);
         return ret;
     }
 
     @Override
     public String toString()
     {
-        return "remove: " + super.toString();
+        return "replace: " + super.toString();
     }
 }

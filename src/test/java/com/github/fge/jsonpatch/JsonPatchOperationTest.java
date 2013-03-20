@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -36,7 +36,7 @@ import static org.testng.Assert.*;
 public abstract class JsonPatchOperationTest
 {
     private static final Class<?> MSGCLASS
-        = com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.class;
+        = com.github.fge.jsonpatch.JsonPatchMessages.class;
 
     private static final Equivalence<JsonNode> EQUIVALENCE
         = JsonNumEquals.getInstance();

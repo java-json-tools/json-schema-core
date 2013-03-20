@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
 import java.io.IOException;
 
-public final class TestOperationTest
+public final class AddOperationTest
     extends JsonPatchOperationTest
 {
-    public TestOperationTest()
+    public AddOperationTest()
         throws IOException
     {
-        super("test", TestOperation.class);
+        super("add", AddOperation.class);
     }
 }

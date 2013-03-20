@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,10 +23,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 
 /**
- * JSON Patch {@code copy} operation
+ * JSON Patch {@code move} operation
  *
- * <p>For this operation, {@code from} is the JSON Pointer of the value to copy,
- * and {@code path} is the destination where the value should be copied.</p>
+ * <p>For this operation, {@code from} points to the value to move, and {@code
+ * path} points to the new location of the moved value.</p>
  *
  * <p>As for {@code add}:</p>
  *
@@ -36,13 +36,35 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
  *     <li>{@code -} appends at the end of an array.</li>
  * </ul>
  *
- * <p>It is an error if {@code from} fails to resolve to a JSON value.</p>
+ * <p>It is an error condition if {@code from} does not point to a JSON value.
+ * </p>
+ *
+ * <p>The specification adds another rule that the {@code from} path must not be
+ * an immediate parent of {@code path}. Unfortunately, that doesn't really work.
+ * Consider this patch:</p>
+ *
+ * <pre>
+ *     { "op": "move", "from": "/0", "path": "/0/x" }
+ * </pre>
+ *
+ * <p>Even though {@code /0} is an immediate parent of {@code /0/x}, when this
+ * patch is applied to:</p>
+ *
+ * <pre>
+ *     [ "victim", {} ]
+ * </pre>
+ *
+ * <p>it actually succeeds and results in the patched value:</p>
+ *
+ * <pre>
+ *     [ { "x": "victim" } ]
+ * </pre>
  */
-public final class CopyOperation
+public final class MoveOperation
     extends DualPathOperation
 {
     @JsonCreator
-    public CopyOperation(@JsonProperty("from") final JsonPointer from,
+    public MoveOperation(@JsonProperty("from") final JsonPointer from,
         @JsonProperty("path") final JsonPointer path)
     {
         super(from, path);
@@ -52,15 +74,19 @@ public final class CopyOperation
     public JsonNode apply(final JsonNode node)
         throws JsonPatchException
     {
-        final JsonNode dupData = from.path(node).deepCopy();
-        if (dupData.isMissingNode())
+        if (from.equals(path))
+            return node.deepCopy();
+        final JsonNode movedNode = from.path(node);
+        if (movedNode.isMissingNode())
             throw new JsonPatchException(JsonPatchMessages.NO_SUCH_PATH);
-        return new AddOperation(path, dupData).apply(node);
+        final JsonPatchOperation remove = new RemoveOperation(from);
+        final JsonPatchOperation add = new AddOperation(path, movedNode);
+        return add.apply(remove.apply(node));
     }
 
     @Override
     public String toString()
     {
-        return "copy: " + super.toString();
+        return "move: " + super.toString();
     }
 }

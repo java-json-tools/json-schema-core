@@ -15,33 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jackson.jsonpointer.JsonPointer;
-import org.testng.annotations.Test;
+import com.fasterxml.jackson.databind.deser.std.JsonNodeDeserializer;
+import com.fasterxml.jackson.databind.node.NullNode;
 
-import java.io.IOException;
-
-import static org.testng.Assert.*;
-
-public final class RemoveOperationTest
-    extends JsonPatchOperationTest
+/**
+ * Custom deserializer for {@link JsonNode}
+ *
+ * <p>Up to, and including, versions 2.1.4, Jackson's {@link
+ * JsonNodeDeserializer} deserializes a JSON null value as {@code null}. This
+ * custom deserializer deserializes it as a {@link NullNode} instead.</p>
+ *
+ * <p>See also <a
+ * href="https://github.com/FasterXML/jackson-databind/issues/186">here</a>.</p>
+ */
+public final class JsonNullAwareDeserializer
+    extends JsonNodeDeserializer
 {
-    public RemoveOperationTest()
-        throws IOException
+    @Override
+    public JsonNode getNullValue()
     {
-        super("remove", RemoveOperation.class);
-    }
-
-    @Test
-    public void removingRootReturnsMissingNode()
-        throws JsonPatchException
-    {
-        final JsonNode node = JacksonUtils.nodeFactory().nullNode();
-        final JsonPatchOperation op = new RemoveOperation(JsonPointer.empty());
-        final JsonNode ret = op.apply(node);
-        assertTrue(ret.isMissingNode());
+        return NullNode.getInstance();
     }
 }

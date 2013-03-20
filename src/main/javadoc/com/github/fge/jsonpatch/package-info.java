@@ -15,16 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
-
-import java.io.IOException;
-
-public final class AddOperationTest
-    extends JsonPatchOperationTest
-{
-    public AddOperationTest()
-        throws IOException
-    {
-        super("add", AddOperation.class);
-    }
-}
+/**
+ * Implementation of JSON Patch
+ *
+ * <p>As its name implies, JSON Patch is a mechanism designed to modify JSON
+ * documents. It consists of a series of operations to apply in order to the
+ * source JSON document until all operations are applied or an error has been
+ * encountered.</p>
+ *
+ * <p>The main class is {@link com.github.fge.jsonpatch.JsonPatch}.</p>
+ */
+package com.github.fge.jsonpatch;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.jsonpatch;
+package com.github.fge.jsonpatch;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.List;
 
-import static com.github.fge.jsonschema.jsonpatch.JsonPatchMessages.*;
+import static com.github.fge.jsonpatch.JsonPatchMessages.*;
 
 /**
  * Implementation of JSON Patch
