@@ -20,11 +20,12 @@ package com.github.fge.jsonschema.syntax.dictionaries;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.URISyntaxChecker;
 
 /**
  * Draft v3 specific syntax checkers
  */
-public final class DraftV4HyperSchemeSyntaxCheckerDictionary
+public final class DraftV4HyperSchemaSyntaxCheckerDictionary
 {
     private static final Dictionary<SyntaxChecker> DICTIONARY;
 
@@ -33,7 +34,7 @@ public final class DraftV4HyperSchemeSyntaxCheckerDictionary
         return DICTIONARY;
     }
 
-    private DraftV4HyperSchemeSyntaxCheckerDictionary()
+    private DraftV4HyperSchemaSyntaxCheckerDictionary()
     {
     }
 
@@ -49,6 +50,9 @@ public final class DraftV4HyperSchemeSyntaxCheckerDictionary
         String keyword;
         SyntaxChecker checker;
 
+        keyword = "pathStart";
+        checker = new URISyntaxChecker(keyword);
+        builder.addEntry(keyword, checker);
 
         DICTIONARY = builder.freeze();
     }
