@@ -85,10 +85,10 @@ public abstract class SyntaxCheckersTest
     /**
      * Constructor
      *
-     * @param dict the {@link com.github.fge.jsonschema.library.Dictionary} of {@link SyntaxChecker}s
+     * @param dict the {@link Dictionary} of {@link SyntaxChecker}s
      * @param prefix the prefix to use for resource files
      * @param keyword the keyword to test
-     * @throws com.fasterxml.jackson.core.JsonProcessingException source JSON (if any) is not legal JSON
+     * @throws JsonProcessingException source JSON (if any) is not legal JSON
      */
     protected SyntaxCheckersTest(final Dictionary<SyntaxChecker> dict,
         final String prefix, final String keyword)

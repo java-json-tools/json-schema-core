@@ -17,9 +17,11 @@
 
 package com.github.fge.jsonschema.syntax.dictionaries;
 
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.helpers.TypeOnlySyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.URISyntaxChecker;
 
 /**
@@ -52,6 +54,10 @@ public final class DraftV4HyperSchemaSyntaxCheckerDictionary
 
         keyword = "pathStart";
         checker = new URISyntaxChecker(keyword);
+        builder.addEntry(keyword, checker);
+
+        keyword = "fragmentResolution";
+        checker = new TypeOnlySyntaxChecker(keyword, NodeType.STRING);
         builder.addEntry(keyword, checker);
 
         DICTIONARY = builder.freeze();
