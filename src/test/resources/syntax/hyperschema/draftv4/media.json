@@ -24,6 +24,14 @@
             "msgData": {
                 "value": "foo"
             }
+        },
+        {
+            "schema": {
+                "media": {
+                    "binaryEncoding": "7Bit"
+                }
+            },
+            "valid": true
         }
     ]
 }
