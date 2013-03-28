@@ -60,10 +60,6 @@ public final class DraftV4HyperSchemaSyntaxCheckerDictionary
         checker = new TypeOnlySyntaxChecker(keyword, NodeType.STRING);
         builder.addEntry(keyword, checker);
 
-        keyword = "readOnly";
-        checker = new TypeOnlySyntaxChecker(keyword, NodeType.BOOLEAN);
-        builder.addEntry(keyword, checker);
-
         DICTIONARY = builder.freeze();
     }
 }
