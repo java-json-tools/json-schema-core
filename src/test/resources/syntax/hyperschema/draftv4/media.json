@@ -32,6 +32,20 @@
                 }
             },
             "valid": true
+        },
+        {
+            "schema": {
+                "media": {
+                    "binaryEncoding": "base64",
+                    "type": 2
+                }
+            },
+            "valid": false,
+            "message": "HS_MEDIA_INVALID_TYPE_TYPE",
+            "msgData": {
+                "expected": "string",
+                "found": "integer"
+            }
         }
     ]
 }
