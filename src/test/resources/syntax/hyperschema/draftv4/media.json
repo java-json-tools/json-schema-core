@@ -1,0 +1,16 @@
+{
+    "valueTests": [
+        {
+            "schema": {
+                "media": {
+                    "binaryEncoding": "foo"
+                }
+            },
+            "valid": false,
+            "message": "HS_MEDIA_INVALID_ENCODING",
+            "msgData": {
+                "value": "foo"
+            }
+        }
+    ]
+}
