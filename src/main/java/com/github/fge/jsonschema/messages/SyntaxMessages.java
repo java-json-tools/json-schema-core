@@ -45,6 +45,7 @@ public enum SyntaxMessages
     HS_MEDIA_INVALID_ENCODING_TYPE("invalid type for media binary encoding"),
     HS_MEDIA_INVALID_ENCODING("invalid binary encoding for media"),
     HS_MEDIA_INVALID_TYPE_TYPE("invalid primitive type for media MIME type"),
+    HS_MEDIA_INVALID_TYPE("invalid MIME type for media"),
     ;
 
     private final String message;

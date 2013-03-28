@@ -9,6 +9,7 @@ import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.net.MediaType;
 
 import java.util.Collection;
 import java.util.Set;
@@ -64,10 +65,17 @@ public final class MediaSyntaxChecker
         if (subNode.isMissingNode())
             return;
         type = NodeType.getNodeType(subNode);
-        value = subNode.textValue();
-        if (value == null) {
+        if (type != NodeType.STRING) {
             report.error(newMsg(tree, HS_MEDIA_INVALID_TYPE_TYPE)
                 .put("expected", NodeType.STRING).put("found", type));
+            return;
+        }
+        value = subNode.textValue();
+        try {
+            MediaType.parse(value);
+        } catch (IllegalArgumentException ignored) {
+            report.error(newMsg(tree, HS_MEDIA_INVALID_TYPE)
+                .put("value", value));
         }
     }
 }

@@ -46,6 +46,28 @@
                 "expected": "string",
                 "found": "integer"
             }
+        },
+        {
+            "schema": {
+                "media": {
+                    "binaryEncoding": "base64",
+                    "type": "foo"
+                }
+            },
+            "valid": false,
+            "message": "HS_MEDIA_INVALID_TYPE",
+            "msgData": {
+                "value": "foo"
+            }
+        },
+        {
+            "schema": {
+                "media": {
+                    "binaryEncoding": "quoted-printable",
+                    "type": "x/y;z=t"
+                }
+            },
+            "valid": true
         }
     ]
 }
