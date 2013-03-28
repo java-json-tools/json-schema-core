@@ -42,6 +42,7 @@ public enum SyntaxMessages
     DRAFTV3_PROPERTIES_REQUIRED("\"required\" attribute has wrong type"),
     EXTENDS_EMPTY_ARRAY("no elements in \"extends\" array"),
     INVALID_SCHEMA("invalid schema, cannot continue"),
+    HS_MEDIA_INVALID_ENCODING_TYPE("invalid type for media binary encoding"),
     HS_MEDIA_INVALID_ENCODING("invalid binary encoding for media"),
     ;
 

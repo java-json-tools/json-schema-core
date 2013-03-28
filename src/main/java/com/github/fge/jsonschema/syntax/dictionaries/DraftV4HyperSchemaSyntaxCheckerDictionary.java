@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.TypeOnlySyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.URISyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.hyperschema.MediaSyntaxChecker;
 
 /**
  * Draft v3 specific syntax checkers
@@ -61,7 +62,7 @@ public final class DraftV4HyperSchemaSyntaxCheckerDictionary
         builder.addEntry(keyword, checker);
 
         keyword = "media";
-        checker = new TypeOnlySyntaxChecker(keyword, NodeType.OBJECT);
+        checker = MediaSyntaxChecker.getInstance();
         builder.addEntry(keyword, checker);
 
         DICTIONARY = builder.freeze();

@@ -3,6 +3,19 @@
         {
             "schema": {
                 "media": {
+                    "binaryEncoding": false
+                }
+            },
+            "valid": false,
+            "message": "HS_MEDIA_INVALID_ENCODING_TYPE",
+            "msgData": {
+                "expected": "string",
+                "found": "boolean"
+            }
+        },
+        {
+            "schema": {
+                "media": {
                     "binaryEncoding": "foo"
                 }
             },
