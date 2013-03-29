@@ -65,6 +65,10 @@ public final class DraftV4HyperSchemaSyntaxCheckerDictionary
         checker = MediaSyntaxChecker.getInstance();
         builder.addEntry(keyword, checker);
 
+        keyword = "links";
+        checker = new TypeOnlySyntaxChecker(keyword, NodeType.ARRAY);
+        builder.addEntry(keyword, checker);
+
         DICTIONARY = builder.freeze();
     }
 }
