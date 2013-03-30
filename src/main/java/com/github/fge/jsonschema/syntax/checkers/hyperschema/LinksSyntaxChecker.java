@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
@@ -48,13 +49,15 @@ public final class LinksSyntaxChecker
 
         JsonNode ldo;
         NodeType type;
+        ProcessingMessage msg;
 
         for (int index = 0; index < size; index++) {
             ldo = getNode(tree).get(index);
+            msg = newMsg(tree, index);
             type = NodeType.getNodeType(ldo);
             if (type != NodeType.OBJECT) {
-                report.error(newMsg(tree, HS_LINKS_LDO_BAD_TYPE).put("index", index)
-                    .put("found", type).put("expected", NodeType.OBJECT));
+                report.error(msg.message(HS_LINKS_LDO_BAD_TYPE)
+                    .put("expected", NodeType.OBJECT).put("found", type));
                 continue;
             }
             if (ldo.has("targetSchema"))
@@ -104,5 +107,11 @@ public final class LinksSyntaxChecker
                 report.error(newMsg(tree, HS_LINKS_LDO_HREF_ILLEGAL)
                     .put("index", index));
             }
+    }
+
+    private ProcessingMessage newMsg(final SchemaTree tree,
+        final int index)
+    {
+        return newMsg(tree, "").put("index", index);
     }
 }
