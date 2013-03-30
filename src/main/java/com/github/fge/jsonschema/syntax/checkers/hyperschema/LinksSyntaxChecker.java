@@ -45,24 +45,28 @@ public final class LinksSyntaxChecker
     {
         final JsonNode node = getNode(tree);
         final int size = node.size();
-        for (int index = 0; index < size; index++)
-            checkLDO(report, tree, index);
+
+        JsonNode ldo;
+        NodeType type;
+
+        for (int index = 0; index < size; index++) {
+            ldo = getNode(tree).get(index);
+            type = NodeType.getNodeType(ldo);
+            if (type != NodeType.OBJECT) {
+                report.error(newMsg(tree, HS_LINKS_LDO_BAD_TYPE).put("index", index)
+                    .put("found", type).put("expected", NodeType.OBJECT));
+                continue;
+            }
+            if (ldo.has("targetSchema"))
+                pointers.add(JsonPointer.of(keyword, index, "targetSchema"));
+            checkLDO(report, tree, ldo, index);
+        }
     }
 
     private void checkLDO(final ProcessingReport report, final SchemaTree tree,
-        final int index)
+        final JsonNode ldo, final int index)
         throws ProcessingException
     {
-        final JsonNode ldo = getNode(tree).get(index);
-        NodeType type;
-
-        type = NodeType.getNodeType(ldo);
-
-        if (type != NodeType.OBJECT) {
-            report.error(newMsg(tree, HS_LINKS_LDO_BAD_TYPE).put("index", index)
-                .put("found", type).put("expected", NodeType.OBJECT));
-            return;
-        }
 
         final Set<String> set = Sets.newHashSet(ldo.fieldNames());
         final List<String> list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
@@ -76,6 +80,7 @@ public final class LinksSyntaxChecker
         }
 
         JsonNode node;
+        NodeType type;
 
         node = ldo.get("rel");
         type = NodeType.getNodeType(node);
