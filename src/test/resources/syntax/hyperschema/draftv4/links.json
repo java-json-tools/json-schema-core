@@ -1,0 +1,16 @@
+{
+    "valueTests": [
+        {
+            "schema": {
+                "links": [ 1 ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_BAD_TYPE",
+            "msgData": {
+                "index": 0,
+                "expected": "object",
+                "found": "integer"
+            }
+        }
+    ]
+}

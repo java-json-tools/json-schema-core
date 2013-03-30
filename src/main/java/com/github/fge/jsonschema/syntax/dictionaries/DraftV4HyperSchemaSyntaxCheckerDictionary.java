@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.TypeOnlySyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.URISyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.hyperschema.LinksSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.hyperschema.MediaSyntaxChecker;
 
 /**
@@ -66,7 +67,7 @@ public final class DraftV4HyperSchemaSyntaxCheckerDictionary
         builder.addEntry(keyword, checker);
 
         keyword = "links";
-        checker = new TypeOnlySyntaxChecker(keyword, NodeType.ARRAY);
+        checker = LinksSyntaxChecker.getInstance();
         builder.addEntry(keyword, checker);
 
         DICTIONARY = builder.freeze();
