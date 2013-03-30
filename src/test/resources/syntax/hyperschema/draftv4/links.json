@@ -23,6 +23,18 @@
                 "required": [ "href", "rel" ],
                 "missing": [ "href" ]
             }
+        },
+        {
+            "schema": {
+                "links": [ { "rel": 1.0, "href": "foo" } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_REL_WRONG_TYPE",
+            "msgData": {
+                "index": 0,
+                "expected": "string",
+                "found": "number"
+            }
         }
     ]
 }

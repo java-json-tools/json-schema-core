@@ -48,6 +48,7 @@ public enum SyntaxMessages
     HS_MEDIA_INVALID_TYPE("invalid MIME type for media"),
     HS_LINKS_LDO_BAD_TYPE("invalid type for LDO object"),
     HS_LINKS_LDO_MISSING_REQ("missing required property(ies) in LDO"),
+    HS_LINKS_LDO_REL_WRONG_TYPE("incorrect type for rel"),
     ;
 
     private final String message;

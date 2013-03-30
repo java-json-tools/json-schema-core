@@ -52,7 +52,9 @@ public final class LinksSyntaxChecker
         throws ProcessingException
     {
         final JsonNode ldo = getNode(tree).get(index);
-        final NodeType type = NodeType.getNodeType(ldo);
+        NodeType type;
+
+        type = NodeType.getNodeType(ldo);
 
         if (type != NodeType.OBJECT) {
             report.error(newMsg(tree, HS_LINKS_LDO_BAD_TYPE).put("index", index)
@@ -64,9 +66,21 @@ public final class LinksSyntaxChecker
         final List<String> list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
         list.removeAll(set);
 
-        if (!list.isEmpty())
+        if (!list.isEmpty()) {
             report.error(newMsg(tree, HS_LINKS_LDO_MISSING_REQ)
                 .put("index", index).put("required", REQUIRED_LDO_PROPERTIES)
-                .put("missing", list));
+                    .put("missing", list));
+            return;
+        }
+
+        JsonNode node;
+
+        node = ldo.get("rel");
+        type = NodeType.getNodeType(node);
+
+        if (type != NodeType.STRING)
+            report.error(newMsg(tree, HS_LINKS_LDO_REL_WRONG_TYPE)
+                .put("index", index).put("expected", NodeType.STRING)
+                .put("found", type));
     }
 }
