@@ -57,6 +57,30 @@
             "msgData": {
                 "index": 0
             }
+        },
+        {
+            "schema": {
+                "links": [ { "href": "foo", "rel": "foo", "title": [] } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_TITLE_WRONG_TYPE",
+            "msgData": {
+                "index": 0,
+                "expected": "string",
+                "found": "array"
+            }
+        },
+        {
+            "schema": {
+                "links": [ { "href": "foo", "rel": "foo", "mediaType": null } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE",
+            "msgData": {
+                "index": 0,
+                "expected": "string",
+                "found": "null"
+            }
         }
     ],
     "pointerTests": [

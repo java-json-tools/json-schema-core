@@ -51,6 +51,9 @@ public enum SyntaxMessages
     HS_LINKS_LDO_REL_WRONG_TYPE("incorrect type for rel"),
     HS_LINKS_LDO_HREF_WRONG_TYPE("incorrect type for href"),
     HS_LINKS_LDO_HREF_ILLEGAL("href is not a URI template"),
+    HS_LINKS_LDO_TITLE_WRONG_TYPE("incorrect type for title"),
+    HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE("incorrect type for mediaType"),
+    HS_LINKS_LDO_MEDIATYPE_ILLEGAL("mediaType is not a MIME type"),
     ;
 
     private final String message;

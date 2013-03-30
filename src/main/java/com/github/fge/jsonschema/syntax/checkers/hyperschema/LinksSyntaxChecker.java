@@ -15,6 +15,7 @@ import com.github.fge.uritemplate.URITemplateParseException;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.net.MediaType;
 
 import java.util.Collection;
 import java.util.List;
@@ -98,6 +99,20 @@ public final class LinksSyntaxChecker
             } catch (URITemplateParseException ignored) {
                 msg = newMsg(tree, index);
                 report.error(msg.message(HS_LINKS_LDO_HREF_ILLEGAL));
+            }
+        }
+
+        checkLDOProperty(report, tree, index, "title", NodeType.STRING,
+            HS_LINKS_LDO_TITLE_WRONG_TYPE);
+
+        if (checkLDOProperty(report, tree, index, "mediaType", NodeType.STRING,
+            HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE)) {
+            node = ldo.get("href");
+            try {
+                MediaType.parse(node.textValue());
+            } catch (IllegalArgumentException ignored) {
+                msg = newMsg(tree, index);
+                report.error(msg.message(HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE));
             }
         }
     }
