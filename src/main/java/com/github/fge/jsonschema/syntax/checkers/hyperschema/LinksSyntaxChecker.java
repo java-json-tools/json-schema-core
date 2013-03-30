@@ -82,5 +82,13 @@ public final class LinksSyntaxChecker
             report.error(newMsg(tree, HS_LINKS_LDO_REL_WRONG_TYPE)
                 .put("index", index).put("expected", NodeType.STRING)
                 .put("found", type));
+
+        node = ldo.get("href");
+        type = NodeType.getNodeType(node);
+
+        if (type != NodeType.STRING)
+            report.error(newMsg(tree, HS_LINKS_LDO_HREF_WRONG_TYPE)
+                .put("index", index).put("expected", NodeType.STRING)
+                .put("found", type));
     }
 }
