@@ -11,6 +11,18 @@
                 "expected": "object",
                 "found": "integer"
             }
+        },
+        {
+            "schema": {
+                "links": [ { "rel": "self" } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_MISSING_REQ",
+            "msgData": {
+                "index": 0,
+                "required": [ "href", "rel" ],
+                "missing": [ "href" ]
+            }
         }
     ]
 }

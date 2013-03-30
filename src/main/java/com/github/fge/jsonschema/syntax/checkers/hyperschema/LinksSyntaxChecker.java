@@ -8,14 +8,22 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 public final class LinksSyntaxChecker
     extends AbstractSyntaxChecker
 {
+    private static final List<String> REQUIRED_LDO_PROPERTIES
+        = ImmutableList.of("href", "rel");
+
     private static final SyntaxChecker INSTANCE = new LinksSyntaxChecker();
 
     private LinksSyntaxChecker()
@@ -45,9 +53,20 @@ public final class LinksSyntaxChecker
     {
         final JsonNode ldo = getNode(tree).get(index);
         final NodeType type = NodeType.getNodeType(ldo);
-        if (type != NodeType.OBJECT)
-            report.error(newMsg(tree, HS_LINKS_LDO_BAD_TYPE)
-                .put("index", index).put("found", type)
-                .put("expected", NodeType.OBJECT));
+
+        if (type != NodeType.OBJECT) {
+            report.error(newMsg(tree, HS_LINKS_LDO_BAD_TYPE).put("index", index)
+                .put("found", type).put("expected", NodeType.OBJECT));
+            return;
+        }
+
+        final Set<String> set = Sets.newHashSet(ldo.fieldNames());
+        final List<String> list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
+        list.removeAll(set);
+
+        if (!list.isEmpty())
+            report.error(newMsg(tree, HS_LINKS_LDO_MISSING_REQ)
+                .put("index", index).put("required", REQUIRED_LDO_PROPERTIES)
+                .put("missing", list));
     }
 }
