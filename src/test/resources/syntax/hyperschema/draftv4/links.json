@@ -81,6 +81,28 @@
                 "expected": "string",
                 "found": "null"
             }
+        },
+        {
+            "schema": {
+                "links": [ { "href": "foo", "rel": "foo", "mediaType": "meh" } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_MEDIATYPE_ILLEGAL",
+            "msgData": {
+                "index": 0
+            }
+        },
+        {
+            "schema": {
+                "links": [ { "href": "foo", "rel": "foo", "method": {} } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_METHOD_WRONG_TYPE",
+            "msgData": {
+                "index": 0,
+                "expected": "string",
+                "found": "object"
+            }
         }
     ],
     "pointerTests": [

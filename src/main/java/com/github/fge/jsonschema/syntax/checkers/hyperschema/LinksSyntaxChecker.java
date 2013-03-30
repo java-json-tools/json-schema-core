@@ -112,9 +112,12 @@ public final class LinksSyntaxChecker
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
                 msg = newMsg(tree, index);
-                report.error(msg.message(HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE));
+                report.error(msg.message(HS_LINKS_LDO_MEDIATYPE_ILLEGAL));
             }
         }
+
+        checkLDOProperty(report, tree, index, "method", NodeType.STRING,
+            HS_LINKS_LDO_METHOD_WRONG_TYPE);
     }
 
     private ProcessingMessage newMsg(final SchemaTree tree, final int index)
