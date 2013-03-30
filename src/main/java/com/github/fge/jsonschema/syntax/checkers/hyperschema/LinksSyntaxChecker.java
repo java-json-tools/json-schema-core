@@ -50,6 +50,8 @@ public final class LinksSyntaxChecker
         JsonNode ldo;
         NodeType type;
         ProcessingMessage msg;
+        Set<String> set;
+        List<String> list;
 
         for (int index = 0; index < size; index++) {
             ldo = getNode(tree).get(index);
@@ -60,27 +62,25 @@ public final class LinksSyntaxChecker
                     .put("expected", NodeType.OBJECT).put("found", type));
                 continue;
             }
+            set = Sets.newHashSet(ldo.fieldNames());
+            list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
+            list.removeAll(set);
+            if (!list.isEmpty()) {
+                report.error(msg.message(HS_LINKS_LDO_MISSING_REQ)
+                    .put("required", REQUIRED_LDO_PROPERTIES)
+                    .put("missing", list));
+                continue;
+            }
             if (ldo.has("targetSchema"))
                 pointers.add(JsonPointer.of(keyword, index, "targetSchema"));
-            checkLDO(report, tree, ldo, index);
+            checkLDO(report, ldo, msg);
         }
     }
 
-    private void checkLDO(final ProcessingReport report, final SchemaTree tree,
-        final JsonNode ldo, final int index)
+    private void checkLDO(final ProcessingReport report, final JsonNode ldo,
+        final ProcessingMessage msg)
         throws ProcessingException
     {
-
-        final Set<String> set = Sets.newHashSet(ldo.fieldNames());
-        final List<String> list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
-        list.removeAll(set);
-
-        if (!list.isEmpty()) {
-            report.error(newMsg(tree, HS_LINKS_LDO_MISSING_REQ)
-                .put("index", index).put("required", REQUIRED_LDO_PROPERTIES)
-                    .put("missing", list));
-            return;
-        }
 
         JsonNode node;
         NodeType type;
@@ -89,23 +89,20 @@ public final class LinksSyntaxChecker
         type = NodeType.getNodeType(node);
 
         if (type != NodeType.STRING)
-            report.error(newMsg(tree, HS_LINKS_LDO_REL_WRONG_TYPE)
-                .put("index", index).put("expected", NodeType.STRING)
-                .put("found", type));
+            report.error(msg.message(HS_LINKS_LDO_REL_WRONG_TYPE)
+                .put("expected", NodeType.STRING).put("found", type));
 
         node = ldo.get("href");
         type = NodeType.getNodeType(node);
 
         if (type != NodeType.STRING)
-            report.error(newMsg(tree, HS_LINKS_LDO_HREF_WRONG_TYPE)
-                .put("index", index).put("expected", NodeType.STRING)
-                .put("found", type));
+            report.error(msg.message(HS_LINKS_LDO_HREF_WRONG_TYPE)
+                .put("expected", NodeType.STRING).put("found", type));
         else
             try {
                 new URITemplate(node.textValue());
             } catch (URITemplateParseException ignored) {
-                report.error(newMsg(tree, HS_LINKS_LDO_HREF_ILLEGAL)
-                    .put("index", index));
+                report.error(msg.message(HS_LINKS_LDO_HREF_ILLEGAL));
             }
     }
 
