@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
@@ -73,42 +74,56 @@ public final class LinksSyntaxChecker
             }
             if (ldo.has("targetSchema"))
                 pointers.add(JsonPointer.of(keyword, index, "targetSchema"));
-            checkLDO(report, ldo, msg);
+            checkLDO(report, tree, index);
         }
     }
 
-    private void checkLDO(final ProcessingReport report, final JsonNode ldo,
-        final ProcessingMessage msg)
+    private void checkLDO(final ProcessingReport report, final SchemaTree tree,
+        final int index)
         throws ProcessingException
     {
+        final JsonNode ldo = getNode(tree).get(index);
 
         JsonNode node;
-        NodeType type;
+        ProcessingMessage msg;
 
-        node = ldo.get("rel");
-        type = NodeType.getNodeType(node);
+        checkLDOProperty(report, tree, index, "rel", NodeType.STRING,
+            HS_LINKS_LDO_REL_WRONG_TYPE);
 
-        if (type != NodeType.STRING)
-            report.error(msg.message(HS_LINKS_LDO_REL_WRONG_TYPE)
-                .put("expected", NodeType.STRING).put("found", type));
-
-        node = ldo.get("href");
-        type = NodeType.getNodeType(node);
-
-        if (type != NodeType.STRING)
-            report.error(msg.message(HS_LINKS_LDO_HREF_WRONG_TYPE)
-                .put("expected", NodeType.STRING).put("found", type));
-        else
+        if (checkLDOProperty(report, tree, index, "href", NodeType.STRING,
+            HS_LINKS_LDO_HREF_WRONG_TYPE)) {
+            node = ldo.get("href");
             try {
                 new URITemplate(node.textValue());
             } catch (URITemplateParseException ignored) {
+                msg = newMsg(tree, index);
                 report.error(msg.message(HS_LINKS_LDO_HREF_ILLEGAL));
             }
+        }
     }
 
-    private ProcessingMessage newMsg(final SchemaTree tree,
-        final int index)
+    private ProcessingMessage newMsg(final SchemaTree tree, final int index)
     {
         return newMsg(tree, "").put("index", index);
+    }
+
+    private boolean checkLDOProperty(final ProcessingReport report,
+        final SchemaTree tree, final int index, final String name,
+        final NodeType expected, final SyntaxMessages message)
+        throws ProcessingException
+    {
+        final JsonNode node = getNode(tree).get(index).get(name);
+
+        if (node == null)
+            return false;
+
+        final NodeType type = NodeType.getNodeType(node);
+
+        if (type == expected)
+            return true;
+
+        report.error(newMsg(tree, index).message(message)
+            .put("expected", expected).put("found", type));
+        return false;
     }
 }
