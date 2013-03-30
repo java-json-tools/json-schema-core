@@ -89,6 +89,11 @@
             <version>1.7R4</version>
         </dependency>
         <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>uri-template</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.8</version>

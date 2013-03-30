@@ -47,6 +47,16 @@
                 "expected": "string",
                 "found": "number"
             }
+        },
+        {
+            "schema": {
+                "links": [ { "href": "foo{", "rel": "foo" } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_HREF_ILLEGAL",
+            "msgData": {
+                "index": 0
+            }
         }
     ]
 }

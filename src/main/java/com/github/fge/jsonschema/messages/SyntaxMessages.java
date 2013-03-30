@@ -50,6 +50,7 @@ public enum SyntaxMessages
     HS_LINKS_LDO_MISSING_REQ("missing required property(ies) in LDO"),
     HS_LINKS_LDO_REL_WRONG_TYPE("incorrect type for rel"),
     HS_LINKS_LDO_HREF_WRONG_TYPE("incorrect type for href"),
+    HS_LINKS_LDO_HREF_ILLEGAL("href is not a URI template"),
     ;
 
     private final String message;

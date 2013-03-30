@@ -8,6 +8,8 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.uritemplate.URITemplate;
+import com.github.fge.uritemplate.URITemplateParseException;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -90,5 +92,12 @@ public final class LinksSyntaxChecker
             report.error(newMsg(tree, HS_LINKS_LDO_HREF_WRONG_TYPE)
                 .put("index", index).put("expected", NodeType.STRING)
                 .put("found", type));
+        else
+            try {
+                new URITemplate(node.textValue());
+            } catch (URITemplateParseException ignored) {
+                report.error(newMsg(tree, HS_LINKS_LDO_HREF_ILLEGAL)
+                    .put("index", index));
+            }
     }
 }
