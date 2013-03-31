@@ -103,6 +103,28 @@
                 "expected": "string",
                 "found": "object"
             }
+        },
+        {
+            "schema": {
+                "links": [ { "href": "foo", "rel": "foo", "encType": [] } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_ENCTYPE_WRONG_TYPE",
+            "msgData": {
+                "index": 0,
+                "expected": "string",
+                "found": "array"
+            }
+        },
+        {
+            "schema": {
+                "links": [ { "href": "foo", "rel": "foo", "encType": "meh" } ]
+            },
+            "valid": false,
+            "message": "HS_LINKS_LDO_ENCTYPE_ILLEGAL",
+            "msgData": {
+                "index": 0
+            }
         }
     ],
     "pointerTests": [
@@ -114,6 +136,15 @@
                 ]
             },
             "pointers": [ "/links/1/targetSchema" ]
+        },
+        {
+            "schema": {
+                "links": [
+                    { "href": "foo", "rel": "bar", "schema": {} },
+                    { "href": "foo", "rel": "bar", "targetSchema": {} }
+                ]
+            },
+            "pointers": [ "/links/0/schema", "/links/1/targetSchema" ]
         }
     ]
 }

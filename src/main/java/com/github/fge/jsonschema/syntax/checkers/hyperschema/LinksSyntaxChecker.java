@@ -73,6 +73,8 @@ public final class LinksSyntaxChecker
                     .put("missing", list));
                 continue;
             }
+            if (ldo.has("schema"))
+                pointers.add(JsonPointer.of(keyword, index, "schema"));
             if (ldo.has("targetSchema"))
                 pointers.add(JsonPointer.of(keyword, index, "targetSchema"));
             checkLDO(report, tree, index);
@@ -107,7 +109,7 @@ public final class LinksSyntaxChecker
 
         if (checkLDOProperty(report, tree, index, "mediaType", NodeType.STRING,
             HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE)) {
-            node = ldo.get("href");
+            node = ldo.get("mediaType");
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
@@ -118,6 +120,17 @@ public final class LinksSyntaxChecker
 
         checkLDOProperty(report, tree, index, "method", NodeType.STRING,
             HS_LINKS_LDO_METHOD_WRONG_TYPE);
+
+        if (checkLDOProperty(report, tree, index, "encType", NodeType.STRING,
+            HS_LINKS_LDO_ENCTYPE_WRONG_TYPE)) {
+            node = ldo.get("encType");
+            try {
+                MediaType.parse(node.textValue());
+            } catch (IllegalArgumentException ignored) {
+                msg = newMsg(tree, index);
+                report.error(msg.message(HS_LINKS_LDO_ENCTYPE_ILLEGAL));
+            }
+        }
     }
 
     private ProcessingMessage newMsg(final SchemaTree tree, final int index)

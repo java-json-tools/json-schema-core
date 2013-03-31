@@ -55,6 +55,8 @@ public enum SyntaxMessages
     HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE("incorrect type for mediaType"),
     HS_LINKS_LDO_MEDIATYPE_ILLEGAL("mediaType is not a MIME type"),
     HS_LINKS_LDO_METHOD_WRONG_TYPE("incorrect type for method"),
+    HS_LINKS_LDO_ENCTYPE_WRONG_TYPE("incorrect type for encType"),
+    HS_LINKS_LDO_ENCTYPE_ILLEGAL("encType is not a MIME type"),
     ;
 
     private final String message;
