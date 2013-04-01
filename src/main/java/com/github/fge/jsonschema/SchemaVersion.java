@@ -44,6 +44,11 @@ public enum SchemaVersion
      * Draft v3
      */
     DRAFTV3("http://json-schema.org/draft-03/schema#", "/draftv3/schema"),
+    /**
+     * Draft v4 hyperschema
+     */
+    DRAFTV4_HYPERSCHEMA("http://json-schema.org/draft-04/hyper-schema#",
+        "/draftv4/hyper-schema"),
     ;
 
     private final URI location;
