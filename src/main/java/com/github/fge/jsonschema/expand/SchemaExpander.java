@@ -28,7 +28,7 @@ public final class SchemaExpander
     public SchemaExpander(final SchemaTree tree)
     {
         baseRef = tree.getLoadingRef();
-        baseNode = (ObjectNode) tree.getBaseNode();
+        baseNode = tree.getBaseNode().deepCopy();
         currentNode = baseNode;
     }
 
@@ -37,7 +37,7 @@ public final class SchemaExpander
         final SchemaTree newTree)
         throws ProcessingException
     {
-        currentNode.put(token.getRaw(), newTree.getNode());
+        currentNode.put(token.getRaw(), newTree.getNode().deepCopy());
     }
 
     @Override
