@@ -1,9 +1,10 @@
 package com.github.fge.jsonschema.expand;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jackson.jsonpointer.ReferenceToken;
 import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -11,25 +12,24 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.SchemaListener;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 
-import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public final class SchemaExpander
     implements SchemaListener<SchemaTree>
 {
     private final JsonRef baseRef;
-    private final ObjectNode baseNode;
+    private JsonNode baseNode;
 
-    JsonPointer parent = null;
-    ReferenceToken token = null;
-    ObjectNode currentNode;
+    private JsonPointer path = JsonPointer.empty();
+    private final Deque<JsonPointer> paths = Queues.newArrayDeque();
 
     public SchemaExpander(final SchemaTree tree)
     {
         baseRef = tree.getLoadingRef();
         baseNode = tree.getBaseNode().deepCopy();
-        currentNode = baseNode;
     }
 
     @Override
@@ -37,7 +37,27 @@ public final class SchemaExpander
         final SchemaTree newTree)
         throws ProcessingException
     {
-        currentNode.put(token.getRaw(), newTree.getNode().deepCopy());
+        final JsonNode newNode = newTree.getNode().deepCopy();
+        if (path.isEmpty()) {
+            baseNode = newNode;
+            return;
+        }
+
+        final JsonPointer parent = getParent(path);
+        final String token = getLastToken(path);
+        final JsonNode parentNode = parent.get(baseNode);
+        final NodeType type = NodeType.getNodeType(parentNode);
+        switch (type) {
+            case OBJECT:
+                ((ObjectNode) parentNode).put(token, newNode);
+                break;
+            case ARRAY:
+                ((ArrayNode) parentNode).set(Integer.parseInt(token), newNode);
+                break;
+            default:
+                throw new IllegalStateException("was expecting an object or" +
+                    " an array");
+        }
     }
 
     @Override
@@ -50,20 +70,16 @@ public final class SchemaExpander
     public void onEnter(final JsonPointer pointer)
         throws ProcessingException
     {
-        if (pointer.isEmpty())
-            return;
-        final ArrayList<TokenResolver<JsonNode>> list
-            = Lists.newArrayList(pointer);
-        final int size = list.size();
-        parent = buildPointer(list.subList(0, size - 1));
-        token = list.get(size - 1).getToken();
-        currentNode = (ObjectNode) parent.get(baseNode);
+        final JsonPointer ptr = path.append(pointer);
+        paths.push(path);
+        path = ptr;
     }
 
     @Override
     public void onExit(final JsonPointer pointer)
         throws ProcessingException
     {
+        path = paths.pop();
     }
 
     @Override
@@ -79,5 +95,21 @@ public final class SchemaExpander
         for (final TokenResolver<JsonNode> tokenResolver: list)
             ret = ret.append(tokenResolver.getToken().getRaw());
         return ret;
+    }
+
+    private static JsonPointer getParent(final JsonPointer ptr)
+    {
+        final List<TokenResolver<JsonNode>> list = Lists.newArrayList(ptr);
+        final int size = list.size();
+
+        return buildPointer(list.subList(0, size - 1));
+    }
+
+    private static String getLastToken(final JsonPointer ptr)
+    {
+        final List<TokenResolver<JsonNode>> list = Lists.newArrayList(ptr);
+        final int size = list.size();
+
+        return list.get(size - 1).getToken().getRaw();
     }
 }
