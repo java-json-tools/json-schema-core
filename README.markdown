@@ -18,10 +18,6 @@ this package can be used, for instance, to perform the following:</p>
     <li>walk a JSON Schema and plug a listener into the walking process.</li>
 </ul>
 
-<p>But this does not stop there. This package also provides a complete, tested <a
-href="http://tools.ietf.org/html/draft-ietf-appsawg-json-patch-10">JSON Patch</a>
-implementation.</p>
-
 <p>More details on this library can be found <a
 href="https://github.com/fge/json-schema-core/wiki/Architecture">here</a>. Future plans can be
 viewed <a
