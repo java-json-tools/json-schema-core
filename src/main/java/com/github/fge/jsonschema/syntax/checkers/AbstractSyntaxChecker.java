@@ -87,8 +87,8 @@ public abstract class AbstractSyntaxChecker
      *
      * <p>This method only checks that the keyword's type is of the correct
      * type, and reports an error if it isn't; if it is, it handles the rest
-     * of syntax checking to {@link #checkValue(java.util.Collection, com.github.fge.jsonschema.report.ProcessingReport,
-     * com.github.fge.jsonschema.tree.SchemaTree)}.</p>
+     * of syntax checking to {@link #checkValue(Collection, ProcessingReport,
+     * SchemaTree)}.</p>
      *
      * @param pointers the list of JSON Pointers to fill (see description)
      * @param report the processing report to use
@@ -133,8 +133,8 @@ public abstract class AbstractSyntaxChecker
      * @param tree the schema tree
      * @param msg the message value to fill
      * @param <T> type of this message value
-     * @return a new {@link com.github.fge.jsonschema.report.ProcessingMessage}
-     * @see com.github.fge.jsonschema.report.ProcessingMessage#message(Object)
+     * @return a new {@link ProcessingMessage}
+     * @see ProcessingMessage#message(Object)
      */
     protected final <T> ProcessingMessage newMsg(final SchemaTree tree,
         final T msg)

@@ -3,8 +3,13 @@ package com.github.fge.jsonschema.load.configuration;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
+import com.github.fge.jsonschema.load.URIManager;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
+import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.util.Frozen;
+import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.ImmutableMap;
 
 import java.net.URI;
@@ -28,9 +33,9 @@ import java.util.Map;
  * set of supported schemes.</p>
  *
  * @see LoadingConfigurationBuilder
- * @see com.github.fge.jsonschema.load.Dereferencing
- * @see com.github.fge.jsonschema.load.URIManager
- * @see com.github.fge.jsonschema.load.SchemaLoader
+ * @see Dereferencing
+ * @see URIManager
+ * @see SchemaLoader
  */
 public final class LoadingConfiguration
     implements Frozen<LoadingConfigurationBuilder>
@@ -38,24 +43,24 @@ public final class LoadingConfiguration
     /**
      * Dictionary for URI downloaders
      *
-     * @see com.github.fge.jsonschema.load.URIDownloader
-     * @see com.github.fge.jsonschema.load.URIManager
+     * @see URIDownloader
+     * @see URIManager
      */
     final Dictionary<URIDownloader> downloaders;
 
     /**
      * Loading URI namespace
      *
-     * @see com.github.fge.jsonschema.load.SchemaLoader
+     * @see SchemaLoader
      */
     final URI namespace;
 
     /**
      * Dereferencing mode
      *
-     * @see com.github.fge.jsonschema.load.SchemaLoader
-     * @see com.github.fge.jsonschema.tree.CanonicalSchemaTree
-     * @see com.github.fge.jsonschema.tree.InlineSchemaTree
+     * @see SchemaLoader
+     * @see CanonicalSchemaTree
+     * @see InlineSchemaTree
      */
     final Dereferencing dereferencing;
 
@@ -82,7 +87,7 @@ public final class LoadingConfiguration
     /**
      * Create a default, immutable loading configuration
      *
-     * <p>This is the result of calling {@link com.github.fge.jsonschema.util.Thawed#freeze()} on {@link
+     * <p>This is the result of calling {@link Thawed#freeze()} on {@link
      * #newBuilder()}.</p>
      *
      * @return a default configuration
@@ -110,7 +115,7 @@ public final class LoadingConfiguration
     /**
      * Return the dictionary of URI downloaders
      *
-     * @return an immutable {@link com.github.fge.jsonschema.library.Dictionary}
+     * @return an immutable {@link Dictionary}
      */
     public Dictionary<URIDownloader> getDownloaders()
     {

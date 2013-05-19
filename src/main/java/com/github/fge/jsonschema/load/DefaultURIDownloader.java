@@ -20,15 +20,16 @@ package com.github.fge.jsonschema.load;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 
 /**
  * Default URI downloader
  *
- * <p>{@link java.net.URL}'s API doc guarantees that an implementation can handle the
+ * <p>{@link URL}'s API doc guarantees that an implementation can handle the
  * following schemes: {@code http}, {@code https}, {@code ftp}, {@code file}
  * and {@code jar}. This is what this downloader uses.</p>
  *
- * @see java.net.URL#openStream()
+ * @see URL#openStream()
  */
 public final class DefaultURIDownloader
     implements URIDownloader

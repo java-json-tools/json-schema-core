@@ -30,8 +30,8 @@ public interface URIDownloader
      * Fetch the content at a given URI
      *
      * @param source the URI
-     * @return an {@link java.io.InputStream}
-     * @throws java.io.IOException unable to find an input stream
+     * @return an {@link InputStream}
+     * @throws IOException unable to find an input stream
      */
     InputStream fetch(final URI source)
         throws IOException;

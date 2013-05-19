@@ -28,8 +28,8 @@ import java.net.URI;
  * what you would obtain using {@link Class#getResourceAsStream(String)}.</p>
  *
  * <p>And in fact, this is what this downloader does: it takes whatever is in
- * the provided URI's path (using {@link java.net.URI#getPath()}) and tries to make an
- * input stream of it. The difference is that an {@link java.io.IOException} will be
+ * the provided URI's path (using {@link URI#getPath()}) and tries to make an
+ * input stream of it. The difference is that an {@link IOException} will be
  * thrown if the resource cannot be found (instead of returning {@code null}).
  * </p>
  */

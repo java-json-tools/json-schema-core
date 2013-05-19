@@ -30,15 +30,15 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  * defines those two modes, along with methods to generate appropriate schema
  * trees.</p>
  *
- * @see com.github.fge.jsonschema.tree.InlineSchemaTree
- * @see com.github.fge.jsonschema.tree.CanonicalSchemaTree
+ * @see InlineSchemaTree
+ * @see CanonicalSchemaTree
  */
 public enum Dereferencing
 {
     /**
      * Canonical dereferencing
      *
-     * @see com.github.fge.jsonschema.tree.CanonicalSchemaTree
+     * @see CanonicalSchemaTree
      */
     CANONICAL("canonical")
     {
@@ -51,7 +51,7 @@ public enum Dereferencing
     /**
      * Inline dereferencing
      *
-     * @see com.github.fge.jsonschema.tree.InlineSchemaTree
+     * @see InlineSchemaTree
      */
     INLINE("inline")
     {

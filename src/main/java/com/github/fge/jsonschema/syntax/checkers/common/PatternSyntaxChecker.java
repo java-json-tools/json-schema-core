@@ -33,7 +33,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 /**
  * Syntax checker for the {@code pattern} keyword
  *
- * @see com.github.fge.jsonschema.util.RhinoHelper
+ * @see RhinoHelper
  */
 public final class PatternSyntaxChecker
     extends AbstractSyntaxChecker

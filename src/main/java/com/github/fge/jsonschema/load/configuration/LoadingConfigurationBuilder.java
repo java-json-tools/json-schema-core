@@ -2,12 +2,15 @@ package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.SchemaVersion;
+import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.load.DefaultDownloadersDictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
+import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
@@ -35,22 +38,22 @@ public final class LoadingConfigurationBuilder
     /**
      * Mutable dictionary of URI downloaders
      *
-     * @see com.github.fge.jsonschema.load.URIDownloader
-     * @see com.github.fge.jsonschema.load.URIManager
+     * @see URIDownloader
+     * @see URIManager
      */
     final DictionaryBuilder<URIDownloader> downloaders;
 
     /**
      * Loading default namespace
      *
-     * @see com.github.fge.jsonschema.load.SchemaLoader
+     * @see SchemaLoader
      */
     URI namespace;
 
     /**
      * Dereferencing mode
      *
-     * @see com.github.fge.jsonschema.load.SchemaLoader
+     * @see SchemaLoader
      */
     Dereferencing dereferencing;
 
@@ -65,7 +68,7 @@ public final class LoadingConfigurationBuilder
      * <p>The default list of preloaded schemas consists of the draft v3 and
      * draft v4 core schemas</p>
      *
-     * @see com.github.fge.jsonschema.SchemaVersion
+     * @see SchemaVersion
      */
     final Map<URI, JsonNode> preloadedSchemas;
 
@@ -107,7 +110,7 @@ public final class LoadingConfigurationBuilder
      * @param downloader the downloader
      * @return this
      * @throws LoadingConfigurationError scheme is null or illegal
-     * @throws com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError downloader is null
+     * @throws DictionaryBuildError downloader is null
      */
     public LoadingConfigurationBuilder addScheme(final String scheme,
         final URIDownloader downloader)
