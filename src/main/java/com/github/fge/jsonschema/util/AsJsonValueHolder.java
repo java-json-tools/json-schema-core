@@ -18,7 +18,8 @@
 package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import net.jcip.annotations.Immutable;
+
+import javax.annotation.concurrent.Immutable;
 
 /**
  * A specialized {@link ValueHolder} for values implementing {@link AsJson}

@@ -23,7 +23,8 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import net.jcip.annotations.Immutable;
+
+import javax.annotation.concurrent.Immutable;
 
 /**
  * A wrapper over an arbitrary type to be used by processors

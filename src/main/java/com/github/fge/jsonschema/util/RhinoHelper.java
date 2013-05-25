@@ -17,11 +17,11 @@
 
 package com.github.fge.jsonschema.util;
 
-import net.jcip.annotations.ThreadSafe;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.regex.Pattern;
 
 /**

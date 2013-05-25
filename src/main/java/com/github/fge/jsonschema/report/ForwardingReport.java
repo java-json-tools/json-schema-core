@@ -2,8 +2,8 @@ package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.google.common.collect.Iterators;
-import net.jcip.annotations.NotThreadSafe;
 
+import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Iterator;
 
 /**

@@ -29,8 +29,8 @@ import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.util.AsJson;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import net.jcip.annotations.NotThreadSafe;
 
+import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.ProcessingErrors.*;

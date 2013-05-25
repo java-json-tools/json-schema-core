@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.util;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Interface for a frozen object

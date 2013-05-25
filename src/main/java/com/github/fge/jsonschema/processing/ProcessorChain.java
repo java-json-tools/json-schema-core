@@ -23,7 +23,8 @@ import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationErr
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import net.jcip.annotations.Immutable;
+
+import javax.annotation.concurrent.Immutable;
 
 import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 

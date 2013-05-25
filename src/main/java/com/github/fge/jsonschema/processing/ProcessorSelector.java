@@ -24,8 +24,8 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import net.jcip.annotations.Immutable;
 
+import javax.annotation.concurrent.Immutable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

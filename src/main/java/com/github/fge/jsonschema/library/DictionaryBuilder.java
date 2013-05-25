@@ -20,8 +20,8 @@ package com.github.fge.jsonschema.library;
 import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
-import net.jcip.annotations.NotThreadSafe;
 
+import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.DictionaryBuildErrors.*;

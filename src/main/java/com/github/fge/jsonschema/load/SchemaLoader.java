@@ -28,8 +28,8 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import net.jcip.annotations.ThreadSafe;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
 

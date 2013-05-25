@@ -19,8 +19,8 @@ package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.util.Frozen;
 import com.google.common.collect.ImmutableMap;
-import net.jcip.annotations.Immutable;
 
+import javax.annotation.concurrent.Immutable;
 import java.util.Map;
 
 /**

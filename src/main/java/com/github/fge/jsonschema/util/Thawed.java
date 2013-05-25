@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.util;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * Interface for a thawed object
