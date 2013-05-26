@@ -19,6 +19,8 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
@@ -67,6 +69,9 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 @Immutable
 public final class ProcessorSelector<IN extends MessageProvider, OUT extends MessageProvider>
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
+
     /**
      * Map of predicates and their associated processors
      */
@@ -121,7 +126,7 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
     public ProcessorSelectorPredicate<IN, OUT> when(
         final Predicate<IN> predicate)
     {
-        NULL_PREDICATE.checkThat(predicate != null);
+        BUNDLE.checkNotNull(predicate, "nullPredicate");
         return new ProcessorSelectorPredicate<IN, OUT>(this, predicate);
     }
 
@@ -135,7 +140,7 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
     public ProcessorSelector<IN, OUT> otherwise(
         final Processor<IN, OUT> byDefault)
     {
-        NULL_PROCESSOR.checkThat(byDefault != null);
+        BUNDLE.checkNotNull(byDefault, "nullProcessor");
         return new ProcessorSelector<IN, OUT>(choices, byDefault);
     }
 
@@ -181,7 +186,7 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
             if (byDefault != null)
                 return byDefault.process(report, input);
 
-            throw new ProcessingException(NO_PROCESSOR.asMessage());
+            throw new ProcessingException(BUNDLE.getString("noProcessor"));
         }
 
         @Override

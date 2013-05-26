@@ -19,6 +19,8 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -31,12 +33,14 @@ import java.util.List;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class ProcessorSelectorTest
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
+
     private Predicate<In> predicate1;
     private Processor<In, Out> processor1;
 
@@ -106,7 +110,8 @@ public final class ProcessorSelectorTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PREDICATE);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullPredicate"));
         }
     }
 
@@ -118,7 +123,8 @@ public final class ProcessorSelectorTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PROCESSOR);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullProcessor"));
         }
     }
 
@@ -131,7 +137,8 @@ public final class ProcessorSelectorTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PROCESSOR);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullProcessor"));
         }
     }
 
@@ -188,7 +195,7 @@ public final class ProcessorSelectorTest
             for (final Processor<In, Out> p: otherProcessors)
                 verifyZeroInteractions(p);
             assertMessage(e.getProcessingMessage())
-                .hasMessage(NO_PROCESSOR);
+                .hasMessage(BUNDLE.getString("noProcessor"));
         }
     }
 
