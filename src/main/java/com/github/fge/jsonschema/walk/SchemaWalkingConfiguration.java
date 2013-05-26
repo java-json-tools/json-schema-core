@@ -2,15 +2,18 @@ package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.Frozen;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
-
 public final class SchemaWalkingConfiguration
     implements Frozen<SchemaWalkingConfigurationBuilder>
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
+
     final Dictionary<PointerCollector> collectors;
     final Dictionary<SyntaxChecker> checkers;
     final boolean resolveRefs;
@@ -28,7 +31,7 @@ public final class SchemaWalkingConfiguration
         resolveRefs = builder.resolveRefs;
         loadingCfg = builder.loadingCfg;
         if (resolveRefs)
-            NO_LOADINGCFG.checkThat(loadingCfg != null);
+            BUNDLE.checkNotNull(loadingCfg, "noLoadingCfg");
     }
 
     @Override

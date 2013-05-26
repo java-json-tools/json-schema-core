@@ -3,6 +3,8 @@ package com.github.fge.jsonschema.walk;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
@@ -11,11 +13,12 @@ import com.github.fge.jsonschema.walk.collectors.DraftV3PointerCollectorDictiona
 import com.github.fge.jsonschema.walk.collectors.DraftV4PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
-
 public final class SchemaWalkingConfigurationBuilder
     implements Thawed<SchemaWalkingConfiguration>
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
+
     DictionaryBuilder<PointerCollector> collectors;
     DictionaryBuilder<SyntaxChecker> checkers;
     boolean resolveRefs = false;
@@ -38,7 +41,7 @@ public final class SchemaWalkingConfigurationBuilder
     public SchemaWalkingConfigurationBuilder setVersion(
         final SchemaVersion version)
     {
-        NULL_VERSION.checkThat(version != null);
+        BUNDLE.checkNotNull(version, "nullVersion");
         collectors = version == SchemaVersion.DRAFTV4
             ? DraftV4PointerCollectorDictionary.get().thaw()
             : DraftV3PointerCollectorDictionary.get().thaw();
@@ -55,7 +58,7 @@ public final class SchemaWalkingConfigurationBuilder
 
     public void setLoadingConfiguration(final LoadingConfiguration loadingCfg)
     {
-        NULL_LOADINGCFG.checkThat(loadingCfg != null);
+        BUNDLE.checkNotNull(loadingCfg, "nullLoadingCfg");
         this.loadingCfg = loadingCfg;
     }
 
