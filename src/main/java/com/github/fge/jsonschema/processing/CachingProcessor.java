@@ -1,6 +1,7 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
@@ -11,9 +12,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
 /**
  * A class caching the result of a {@link Processor}
@@ -30,6 +30,8 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 public final class CachingProcessor<IN extends MessageProvider, OUT extends MessageProvider>
     implements Processor<IN, OUT>
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("processing");
     /**
      * The wrapped processor
      */
@@ -69,8 +71,8 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     public CachingProcessor(final Processor<IN, OUT> processor,
         final Equivalence<IN> equivalence)
     {
-        NULL_PROCESSOR.checkThat(processor != null);
-        NULL_EQUIVALENCE.checkThat(equivalence != null);
+        checkNotNull(processor, "nullProcessor");
+        checkNotNull(equivalence, "nullEquivalence");
         this.processor = processor;
         this.equivalence = equivalence;
         cache = CacheBuilder.newBuilder().build(loader());
@@ -110,5 +112,11 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     public String toString()
     {
         return "CACHED[" + processor + ']';
+    }
+
+    private static void checkNotNull(final Object obj, final String key)
+    {
+        if (obj == null)
+            throw new ProcessingConfigurationError(BUNDLE.getString(key));
     }
 }

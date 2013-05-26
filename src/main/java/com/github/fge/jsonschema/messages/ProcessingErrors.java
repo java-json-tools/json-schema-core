@@ -61,12 +61,6 @@ public enum ProcessingErrors
      */
     NULL_PROCESSOR("processor cannot be null"),
     /**
-     * Attempt to use a null equivalence in a cache
-     *
-     * @see CachingProcessor
-     */
-    NULL_EQUIVALENCE("equivalence must not be null"),
-    /**
      * Chain deliberately stopped
      *
      * @see ProcessorChain#failOnError()

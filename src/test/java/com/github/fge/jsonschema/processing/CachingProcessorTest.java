@@ -9,14 +9,18 @@ import com.github.fge.jsonschema.util.equivalence.Equivalences;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ResourceBundle;
+
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class CachingProcessorTest
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("processing");
+
     private In input;
 
     private Processor<In, Out> processor;
@@ -37,7 +41,8 @@ public final class CachingProcessorTest
             fail("No exception thrown!!");
         } catch (ProcessingError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PROCESSOR);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullProcessor"));
         }
     }
 
@@ -49,7 +54,8 @@ public final class CachingProcessorTest
             fail("No exception thrown!!");
         } catch (ProcessingError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_EQUIVALENCE);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullEquivalence"));
         }
     }
 
