@@ -25,6 +25,11 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 public final class JsonReferenceError
     extends ProcessingError
 {
+    public JsonReferenceError(final String msg)
+    {
+        super(msg);
+    }
+
     public JsonReferenceError(final ProcessingMessage message)
     {
         super(message);

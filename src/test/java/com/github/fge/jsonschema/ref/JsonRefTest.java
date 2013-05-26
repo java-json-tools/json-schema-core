@@ -19,18 +19,20 @@ package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
 
 import java.net.URISyntaxException;
+import java.util.ResourceBundle;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.JsonReferenceErrors.*;
 import static org.testng.Assert.*;
 
 public final class JsonRefTest
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("jsonref");
+
     @Test
     public void cannotCreateRefFromNullURI()
     {
@@ -39,7 +41,7 @@ public final class JsonRefTest
             fail("No exception thrown!!");
         } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_URI);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullURI"));
         }
     }
 
@@ -52,7 +54,7 @@ public final class JsonRefTest
             fail("No exception thrown!!");
         } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(JsonReferenceErrors.NULL_INPUT);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullInput"));
         }
     }
 
@@ -66,7 +68,7 @@ public final class JsonRefTest
             fail("No exception thrown!!");
         } catch (JsonReferenceException e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(INVALID_URI)
+            assertMessage(message).hasMessage(BUNDLE.getString("invalidURI"))
                 .hasField("input", input)
                 .hasField("exceptionClass", URISyntaxException.class.getName());
         }

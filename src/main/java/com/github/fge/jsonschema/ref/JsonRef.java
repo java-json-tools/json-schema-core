@@ -21,12 +21,12 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 
 import javax.annotation.concurrent.Immutable;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import static com.github.fge.jsonschema.messages.JsonReferenceErrors.*;
+import java.util.ResourceBundle;
 
 /**
  * Representation of a JSON Reference
@@ -73,6 +73,9 @@ import static com.github.fge.jsonschema.messages.JsonReferenceErrors.*;
 @Immutable
 public abstract class JsonRef
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("jsonref");
+
     /**
      * The empty URI
      */
@@ -172,7 +175,7 @@ public abstract class JsonRef
      */
     public static JsonRef fromURI(final URI uri)
     {
-        NULL_URI.checkThat(uri != null);
+        checkNotNull(uri, "nullURI");
 
         final URI normalized = uri.normalize();
 
@@ -195,13 +198,13 @@ public abstract class JsonRef
     public static JsonRef fromString(final String s)
         throws JsonReferenceException
     {
-        NULL_INPUT.checkThat(s != null);
+        checkNotNull(s, "nullInput");
 
         try {
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
-            throw new JsonReferenceException(INVALID_URI.asMessage()
-                .put("input", s), e);
+            throw new JsonReferenceException(new ProcessingMessage()
+                .message(BUNDLE.getString("invalidURI")).put("input", s), e);
         }
     }
 
@@ -325,5 +328,11 @@ public abstract class JsonRef
     public final String toString()
     {
         return asString;
+    }
+
+    private static void checkNotNull(final Object obj, final String key)
+    {
+        if (obj == null)
+            throw new JsonReferenceError(BUNDLE.getString(key));
     }
 }
