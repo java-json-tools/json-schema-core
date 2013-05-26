@@ -18,11 +18,11 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ResourceBundle;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
@@ -30,8 +30,7 @@ import static org.testng.Assert.*;
 
 public final class DictionaryBuilderTest
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("dictionary");
+    private static final MessageBundle BUNDLE = MessageBundles.DICTIONARY;
 
     private static final String KEY = "key";
     private static final Whatever MOCK1 = mock(Whatever.class);

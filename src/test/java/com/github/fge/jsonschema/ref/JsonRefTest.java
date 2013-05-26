@@ -19,19 +19,19 @@ package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
 
 import java.net.URISyntaxException;
-import java.util.ResourceBundle;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.testng.Assert.*;
 
 public final class JsonRefTest
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("jsonref");
+    private static final MessageBundle BUNDLE = MessageBundles.JSON_REF;
 
     @Test
     public void cannotCreateRefFromNullURI()

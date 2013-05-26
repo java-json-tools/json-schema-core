@@ -12,6 +12,8 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
@@ -20,7 +22,6 @@ import com.google.common.collect.Maps;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * Loading configuration (mutable instance)
@@ -30,10 +31,9 @@ import java.util.ResourceBundle;
 public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>
 {
-    private static final ResourceBundle REF_BUNDLE
-        = ResourceBundle.getBundle("jsonref");
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("loadingConfiguration");
+    private static final MessageBundle REF_BUNDLE = MessageBundles.JSON_REF;
+    private static final MessageBundle BUNDLE
+        = MessageBundles.LOADING_CFG;
 
     /**
      * The empty, default namespace
@@ -167,7 +167,7 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder dereferencing(
         final Dereferencing dereferencing)
     {
-        checkNotNull(dereferencing, "nullDereferencingMode");
+        BUNDLE.checkNotNull(dereferencing, "nullDereferencingMode");
         this.dereferencing = dereferencing;
         return this;
     }
@@ -214,7 +214,7 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder preloadSchema(final String uri,
         final JsonNode schema)
     {
-        checkNotNull(schema, "nullSchema");
+        BUNDLE.checkNotNull(schema, "nullSchema");
         final URI key = getLocator(uri);
         if (preloadedSchemas.containsKey(key))
             throw new LoadingConfigurationError(new ProcessingMessage()
@@ -263,7 +263,7 @@ public final class LoadingConfigurationBuilder
 
     private static String checkScheme(final String scheme)
     {
-        checkNotNull(scheme, "nullScheme");
+        BUNDLE.checkNotNull(scheme, "nullScheme");
         if (scheme.isEmpty())
             throw new LoadingConfigurationError(
                 BUNDLE.getString("emptyScheme"));

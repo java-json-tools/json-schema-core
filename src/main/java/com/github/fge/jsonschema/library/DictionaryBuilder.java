@@ -18,12 +18,13 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * A dictionary builder
@@ -46,8 +47,7 @@ import java.util.ResourceBundle;
 public final class DictionaryBuilder<T>
     implements Thawed<Dictionary<T>>
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("dictionary");
+    private static final MessageBundle BUNDLE = MessageBundles.DICTIONARY;
 
     /**
      * Entries for this builder (mutable!)
@@ -84,8 +84,8 @@ public final class DictionaryBuilder<T>
      */
     public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
-        checkNotNull(key, "nullKey");
-        checkNotNull(value, "nullValue");
+        BUNDLE.checkNotNull(key, "nullKey");
+        BUNDLE.checkNotNull(value, "nullValue");
         entries.put(key, value);
         return this;
     }
@@ -99,7 +99,7 @@ public final class DictionaryBuilder<T>
      */
     public DictionaryBuilder<T> addAll(final Dictionary<T> other)
     {
-        checkNotNull(other, "nullDict");
+        BUNDLE.checkNotNull(other, "nullDict");
         entries.putAll(other.entries);
         return this;
     }
@@ -125,11 +125,5 @@ public final class DictionaryBuilder<T>
     public Dictionary<T> freeze()
     {
         return new Dictionary<T>(this);
-    }
-
-    private static void checkNotNull(final Object obj, final String key)
-    {
-        if (obj == null)
-            throw new DictionaryBuildError(BUNDLE.getString(key));
     }
 }

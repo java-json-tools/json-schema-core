@@ -2,14 +2,14 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.equivalence.Equivalences;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ResourceBundle;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
@@ -18,8 +18,8 @@ import static org.testng.Assert.*;
 
 public final class CachingProcessorTest
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("processing");
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
 
     private In input;
 

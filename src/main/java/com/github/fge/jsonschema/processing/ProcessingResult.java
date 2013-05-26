@@ -19,12 +19,12 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
-
-import java.util.ResourceBundle;
 
 /**
  * Wrapper class over a processing result
@@ -43,8 +43,8 @@ import java.util.ResourceBundle;
  */
 public final class ProcessingResult<R extends MessageProvider>
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("processing");
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
 
     private final ProcessingReport report;
     private final R result;
@@ -151,5 +151,4 @@ public final class ProcessingResult<R extends MessageProvider>
         }
         return ret;
     }
-
 }

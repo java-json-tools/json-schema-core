@@ -6,13 +6,14 @@ import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.load.URIDownloader;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
 
 import java.net.URI;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
@@ -20,8 +21,8 @@ import static org.testng.Assert.*;
 
 public final class LoadingConfigurationBuilderTest
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("loadingConfiguration");
+    private static final MessageBundle BUNDLE
+        = MessageBundles.LOADING_CFG;
 
     private static final String SAMPLE_ABSOLUTE_REF = "x://y";
 

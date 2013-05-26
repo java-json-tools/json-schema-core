@@ -20,12 +20,13 @@ package com.github.fge.jsonschema.processing;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
 import javax.annotation.concurrent.Immutable;
-import java.util.ResourceBundle;
 
 /**
  * A processor chain
@@ -62,8 +63,8 @@ import java.util.ResourceBundle;
 @Immutable
 public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("processing");
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
 
     /**
      * The resulting processor
@@ -82,7 +83,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public static <X extends MessageProvider, Y extends MessageProvider>
         ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
     {
-        checkNotNull(p, "nullProcessor");
+        BUNDLE.checkNotNull(p, "nullProcessor");
         return new ProcessorChain<X, Y>(p);
     }
 
@@ -154,7 +155,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public <NEWOUT extends MessageProvider> ProcessorChain<IN, NEWOUT>
         chainWith(final Processor<OUT, NEWOUT> p)
     {
-        checkNotNull(p, "nullProcessor");
+        BUNDLE.checkNotNull(p, "nullProcessor");
         final Processor<IN, NEWOUT> merger
             = new ProcessorMerger<IN, OUT, NEWOUT>(processor, p);
         return new ProcessorChain<IN, NEWOUT>(merger);

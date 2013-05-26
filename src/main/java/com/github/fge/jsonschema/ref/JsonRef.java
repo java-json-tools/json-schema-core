@@ -21,12 +21,13 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 import javax.annotation.concurrent.Immutable;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ResourceBundle;
 
 /**
  * Representation of a JSON Reference
@@ -73,8 +74,7 @@ import java.util.ResourceBundle;
 @Immutable
 public abstract class JsonRef
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("jsonref");
+    private static final MessageBundle BUNDLE = MessageBundles.JSON_REF;
 
     /**
      * The empty URI
@@ -175,7 +175,7 @@ public abstract class JsonRef
      */
     public static JsonRef fromURI(final URI uri)
     {
-        checkNotNull(uri, "nullURI");
+        BUNDLE.checkNotNull(uri, "nullURI");
 
         final URI normalized = uri.normalize();
 
@@ -198,7 +198,7 @@ public abstract class JsonRef
     public static JsonRef fromString(final String s)
         throws JsonReferenceException
     {
-        checkNotNull(s, "nullInput");
+        BUNDLE.checkNotNull(s, "nullInput");
 
         try {
             return fromURI(new URI(s));
@@ -328,11 +328,5 @@ public abstract class JsonRef
     public final String toString()
     {
         return asString;
-    }
-
-    private static void checkNotNull(final Object obj, final String key)
-    {
-        if (obj == null)
-            throw new JsonReferenceError(BUNDLE.getString(key));
     }
 }

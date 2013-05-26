@@ -19,14 +19,14 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Function;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ResourceBundle;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
@@ -35,8 +35,8 @@ import static org.testng.Assert.*;
 
 public final class ProcessorMapTest
 {
-    private static final ResourceBundle BUNDLE
-        = ResourceBundle.getBundle("processing");
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
 
     private Processor<In, Out> processor1;
     private Processor<In, Out> processor2;
