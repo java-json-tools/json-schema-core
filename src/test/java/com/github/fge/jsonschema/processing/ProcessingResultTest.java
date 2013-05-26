@@ -12,15 +12,17 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class ProcessingResultTest
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("processing");
     private static final String MSG = "Houston, we have a problem";
 
     private Processor<In, Out> processor;
@@ -45,7 +47,8 @@ public final class ProcessingResultTest
             fail("No exception thrown!!");
         } catch (ProcessingError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PROCESSOR);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullProcessor"));
         }
     }
 
@@ -58,7 +61,8 @@ public final class ProcessingResultTest
             fail("No exception thrown!!");
         } catch (ProcessingError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_REPORT);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullReport"));
         }
     }
 

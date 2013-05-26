@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
+import java.util.ResourceBundle;
 
 /**
  * Wrapper class over a processing result
@@ -43,13 +43,16 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
  */
 public final class ProcessingResult<R extends MessageProvider>
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("processing");
+
     private final ProcessingReport report;
     private final R result;
 
     private ProcessingResult(final ProcessingReport report, final R result)
     {
         if (report == null)
-            throw new ProcessingError(NULL_REPORT.asMessage());
+            throw new ProcessingError(BUNDLE.getString("nullReport"));
         this.report = report;
         this.result = result;
     }
@@ -71,7 +74,8 @@ public final class ProcessingResult<R extends MessageProvider>
         final ProcessingReport report, final IN input)
         throws ProcessingException
     {
-        NULL_PROCESSOR.checkThat(processor != null);
+        if (processor == null)
+            throw new ProcessingError(BUNDLE.getString("nullProcessor"));
         final OUT out = processor.process(report, input);
         return new ProcessingResult<OUT>(report, out);
     }
@@ -147,4 +151,5 @@ public final class ProcessingResult<R extends MessageProvider>
         }
         return ret;
     }
+
 }
