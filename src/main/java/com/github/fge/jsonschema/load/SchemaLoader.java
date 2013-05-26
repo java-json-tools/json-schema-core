@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.load;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
@@ -31,9 +32,9 @@ import com.google.common.cache.LoadingCache;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.net.URI;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
-import static com.github.fge.jsonschema.messages.LoadingConfigurationMessages.*;
 import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 
 /**
@@ -49,6 +50,8 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 @ThreadSafe
 public final class SchemaLoader
 {
+    private static final ResourceBundle LOAD_BUNDLE
+        = ResourceBundle.getBundle("loadingConfiguration");
     /**
      * The URI manager
      */
@@ -115,7 +118,9 @@ public final class SchemaLoader
      */
     public SchemaTree load(final JsonNode schema)
     {
-        NULL_SCHEMA.checkThat(schema != null);
+        if (schema == null)
+            throw new LoadingConfigurationError(
+                LOAD_BUNDLE.getString("nullSchema"));
         return dereferencing.newTree(schema);
     }
 

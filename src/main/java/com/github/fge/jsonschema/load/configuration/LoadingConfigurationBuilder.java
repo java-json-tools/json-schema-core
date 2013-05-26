@@ -22,8 +22,6 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static com.github.fge.jsonschema.messages.LoadingConfigurationMessages.*;
-
 /**
  * Loading configuration (mutable instance)
  *
@@ -34,6 +32,8 @@ public final class LoadingConfigurationBuilder
 {
     private static final ResourceBundle REF_BUNDLE
         = ResourceBundle.getBundle("jsonref");
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("loadingConfiguration");
 
     /**
      * The empty, default namespace
@@ -167,7 +167,7 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder dereferencing(
         final Dereferencing dereferencing)
     {
-        NULL_DEREFERENCING_MODE.checkThat(dereferencing != null);
+        checkNotNull(dereferencing, "nullDereferencingMode");
         this.dereferencing = dereferencing;
         return this;
     }
@@ -190,7 +190,8 @@ public final class LoadingConfigurationBuilder
         final URI destinationURI = getLocator(destination);
         schemaRedirects.put(sourceURI, destinationURI);
         if (sourceURI.equals(destinationURI))
-            throw new LoadingConfigurationError(REDIRECT_TO_SELF.asMessage()
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(BUNDLE.getString("redirectToSelf"))
                 .put("uri", sourceURI));
         return this;
     }
@@ -213,10 +214,11 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder preloadSchema(final String uri,
         final JsonNode schema)
     {
-        NULL_SCHEMA.checkThat(schema != null);
+        checkNotNull(schema, "nullSchema");
         final URI key = getLocator(uri);
         if (preloadedSchemas.containsKey(key))
-            throw new LoadingConfigurationError(DUPLICATE_URI.asMessage()
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(BUNDLE.getString("duplicateURI"))
                 .put("uri", key));
         preloadedSchemas.put(key, schema);
         return this;
@@ -236,7 +238,9 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder preloadSchema(final JsonNode schema)
     {
         final JsonNode node = schema.path("id");
-        NO_ID_IN_SCHEMA.checkThat(node.isTextual());
+        if (!node.isTextual())
+            throw new LoadingConfigurationError(
+                BUNDLE.getString("noIDInSchema"));
         return preloadSchema(node.textValue(), schema);
     }
 
@@ -251,14 +255,23 @@ public final class LoadingConfigurationBuilder
         return new LoadingConfiguration(this);
     }
 
+    private static void checkNotNull(final Object obj, final String key)
+    {
+        if (obj == null)
+            throw new LoadingConfigurationError(BUNDLE.getString(key));
+    }
+
     private static String checkScheme(final String scheme)
     {
-        NULL_SCHEME.checkThat(scheme != null);
-        EMPTY_SCHEME.checkThat(!scheme.isEmpty());
+        checkNotNull(scheme, "nullScheme");
+        if (scheme.isEmpty())
+            throw new LoadingConfigurationError(
+                BUNDLE.getString("emptyScheme"));
         try {
             new URI(scheme, "x", "y");
         } catch (URISyntaxException ignored) {
-            throw new LoadingConfigurationError(ILLEGAL_SCHEME.asMessage()
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(BUNDLE.getString("illegalScheme"))
                 .put("scheme", scheme));
         }
 
