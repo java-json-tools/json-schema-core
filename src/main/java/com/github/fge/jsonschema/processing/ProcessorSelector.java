@@ -31,8 +31,6 @@ import javax.annotation.concurrent.Immutable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
-
 /**
  * A processor selector using predicates
  *

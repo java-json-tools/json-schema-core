@@ -26,14 +26,14 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.util.AsJson;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Map;
-
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 
 /**
  * One processing message
@@ -52,6 +52,9 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 public final class ProcessingMessage
     implements AsJson
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
+
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     private final Map<String, JsonNode> map = Maps.newLinkedHashMap();
@@ -83,7 +86,8 @@ public final class ProcessingMessage
         final ExceptionProvider exceptionProvider)
     {
         if (exceptionProvider == null)
-            throw new ProcessingError(NULL_EXCEPTION_PROVIDER.asMessage());
+            throw new ProcessingError(
+                BUNDLE.getString("nullExceptionProvider"));
         this.exceptionProvider = exceptionProvider;
         return this;
     }
@@ -98,7 +102,7 @@ public final class ProcessingMessage
     public ProcessingMessage setLogLevel(final LogLevel level)
     {
         if (level == null)
-            throw new ProcessingError(NULL_LEVEL.asMessage());
+            throw new ProcessingError(BUNDLE.getString("nullLevel"));
         this.level = Preconditions.checkNotNull(level,
             "log level cannot be null");
         return put("level", level);

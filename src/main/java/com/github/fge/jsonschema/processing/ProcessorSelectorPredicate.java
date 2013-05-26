@@ -18,7 +18,8 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
-import com.github.fge.jsonschema.messages.ProcessingErrors;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
@@ -37,6 +38,9 @@ import java.util.Map;
  */
 public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT extends MessageProvider>
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
+
     /**
      * The predicate
      */
@@ -77,7 +81,7 @@ public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT ex
      */
     public ProcessorSelector<IN, OUT> then(final Processor<IN, OUT> processor)
     {
-        ProcessingErrors.NULL_PROCESSOR.checkThat(processor != null);
+        BUNDLE.checkNotNull(processor, "nullProcessor");
         choices.put(predicate, processor);
         return new ProcessorSelector<IN, OUT>(this);
     }

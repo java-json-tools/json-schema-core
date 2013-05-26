@@ -25,6 +25,8 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
@@ -33,11 +35,13 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.testng.Assert.*;
 
 public final class ProcessingMessageTest
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.PROCESSING;
+
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     @Test
@@ -68,7 +72,8 @@ public final class ProcessingMessageTest
             fail("No exception thrown!");
         } catch (ProcessingError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_LEVEL);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullLevel"));
         }
     }
 
@@ -213,7 +218,8 @@ public final class ProcessingMessageTest
             fail("No exception thrown!!");
         } catch (ProcessingError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_EXCEPTION_PROVIDER);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullExceptionProvider"));
         }
     }
 
