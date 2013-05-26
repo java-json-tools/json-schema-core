@@ -26,13 +26,17 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import org.testng.annotations.Test;
 
+import java.util.ResourceBundle;
+
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class ProcessorChainTest
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("processing");
+
     @Test
     public void cannotInitiateWithNullProcessor()
     {
@@ -41,7 +45,8 @@ public final class ProcessorChainTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PROCESSOR);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullProcessor"));
         }
     }
 
@@ -56,7 +61,8 @@ public final class ProcessorChainTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PROCESSOR);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullProcessor"));
         }
     }
     @Test
@@ -82,7 +88,8 @@ public final class ProcessorChainTest
             fail("No exception thrown!!");
         } catch (ProcessingException e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(CHAIN_STOPPED);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("chainStopped"));
         }
 
         verify(p1).process(same(report), any(MessageProvider.class));

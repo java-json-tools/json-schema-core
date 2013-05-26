@@ -25,8 +25,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
 import javax.annotation.concurrent.Immutable;
-
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
+import java.util.ResourceBundle;
 
 /**
  * A processor chain
@@ -63,6 +62,9 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 @Immutable
 public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("processing");
+
     /**
      * The resulting processor
      */
@@ -80,7 +82,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public static <X extends MessageProvider, Y extends MessageProvider>
         ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
     {
-        NULL_PROCESSOR.checkThat(p != null);
+        checkNotNull(p, "nullProcessor");
         return new ProcessorChain<X, Y>(p);
     }
 
@@ -105,7 +107,8 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
      */
     public ProcessorChain<IN, OUT> failOnError()
     {
-        return failOnError(new ProcessingMessage().message(CHAIN_STOPPED));
+        return failOnError(new ProcessingMessage()
+            .message(BUNDLE.getString("chainStopped")));
     }
 
     /**
@@ -151,7 +154,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public <NEWOUT extends MessageProvider> ProcessorChain<IN, NEWOUT>
         chainWith(final Processor<OUT, NEWOUT> p)
     {
-        NULL_PROCESSOR.checkThat(p != null);
+        checkNotNull(p, "nullProcessor");
         final Processor<IN, NEWOUT> merger
             = new ProcessorMerger<IN, OUT, NEWOUT>(processor, p);
         return new ProcessorChain<IN, NEWOUT>(merger);
@@ -189,6 +192,12 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         {
             return p1 + " -> " + p2;
         }
+    }
+
+    private static void checkNotNull(final Object obj, final String key)
+    {
+        if (obj == null)
+            throw new ProcessingConfigurationError(BUNDLE.getString(key));
     }
 }
 

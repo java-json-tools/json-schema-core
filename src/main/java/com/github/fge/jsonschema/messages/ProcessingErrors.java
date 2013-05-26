@@ -58,12 +58,6 @@ public enum ProcessingErrors
      */
     NULL_PROCESSOR("processor cannot be null"),
     /**
-     * Chain deliberately stopped
-     *
-     * @see ProcessorChain#failOnError()
-     */
-    CHAIN_STOPPED("processing chain stopped"),
-    /**
      * Attempt to set a null log level to a message
      *
      * @see ProcessingMessage#setLogLevel(LogLevel)
