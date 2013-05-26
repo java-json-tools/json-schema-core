@@ -2,6 +2,7 @@ package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.SchemaVersion;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
@@ -19,6 +20,7 @@ import com.google.common.collect.Maps;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import static com.github.fge.jsonschema.messages.LoadingConfigurationMessages.*;
 
@@ -30,6 +32,9 @@ import static com.github.fge.jsonschema.messages.LoadingConfigurationMessages.*;
 public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>
 {
+    private static final ResourceBundle REF_BUNDLE
+        = ResourceBundle.getBundle("jsonref");
+
     /**
      * The empty, default namespace
      */
@@ -142,12 +147,11 @@ public final class LoadingConfigurationBuilder
      * @return this
      * @throws JsonReferenceError input is null or not an absolute
      * JSON Reference
-     * @see RefSanityChecks#absoluteLocator(String)
      * @see JsonRef
      */
     public LoadingConfigurationBuilder setNamespace(final String input)
     {
-        namespace = RefSanityChecks.absoluteLocator(input);
+        namespace = getLocator(input);
         return this;
     }
 
@@ -182,8 +186,8 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder addSchemaRedirect(final String source,
         final String destination)
     {
-        final URI sourceURI = RefSanityChecks.absoluteLocator(source);
-        final URI destinationURI = RefSanityChecks.absoluteLocator(destination);
+        final URI sourceURI = getLocator(source);
+        final URI destinationURI = getLocator(destination);
         schemaRedirects.put(sourceURI, destinationURI);
         if (sourceURI.equals(destinationURI))
             throw new LoadingConfigurationError(REDIRECT_TO_SELF.asMessage()
@@ -209,10 +213,8 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder preloadSchema(final String uri,
         final JsonNode schema)
     {
-        final ProcessingMessage message = new ProcessingMessage();
-
         NULL_SCHEMA.checkThat(schema != null);
-        final URI key = RefSanityChecks.absoluteLocator(uri);
+        final URI key = getLocator(uri);
         if (preloadedSchemas.containsKey(key))
             throw new LoadingConfigurationError(DUPLICATE_URI.asMessage()
                 .put("uri", key));
@@ -261,5 +263,20 @@ public final class LoadingConfigurationBuilder
         }
 
         return scheme;
+    }
+
+    private static URI getLocator(final String input)
+    {
+        final JsonRef ref;
+        try {
+            ref = JsonRef.fromString(input);
+            if (!ref.isAbsolute())
+                throw new JsonReferenceError(new ProcessingMessage()
+                    .message(REF_BUNDLE.getString("refNotAbsolute"))
+                    .put("input", ref));
+            return ref.getLocator();
+        } catch (JsonReferenceException e) {
+            throw new JsonReferenceError(e.getProcessingMessage());
+        }
     }
 }
