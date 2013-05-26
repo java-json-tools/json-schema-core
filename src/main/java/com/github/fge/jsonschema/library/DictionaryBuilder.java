@@ -23,8 +23,7 @@ import com.google.common.collect.Maps;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Map;
-
-import static com.github.fge.jsonschema.messages.DictionaryBuildErrors.*;
+import java.util.ResourceBundle;
 
 /**
  * A dictionary builder
@@ -47,6 +46,9 @@ import static com.github.fge.jsonschema.messages.DictionaryBuildErrors.*;
 public final class DictionaryBuilder<T>
     implements Thawed<Dictionary<T>>
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("dictionary");
+
     /**
      * Entries for this builder (mutable!)
      */
@@ -82,8 +84,8 @@ public final class DictionaryBuilder<T>
      */
     public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
-        NULL_KEY.checkThat(key != null);
-        NULL_VALUE.checkThat(value != null);
+        checkNotNull(key, "nullKey");
+        checkNotNull(value, "nullValue");
         entries.put(key, value);
         return this;
     }
@@ -97,7 +99,7 @@ public final class DictionaryBuilder<T>
      */
     public DictionaryBuilder<T> addAll(final Dictionary<T> other)
     {
-        NULL_DICT.checkThat(other != null);
+        checkNotNull(other, "nullDict");
         entries.putAll(other.entries);
         return this;
     }
@@ -123,5 +125,11 @@ public final class DictionaryBuilder<T>
     public Dictionary<T> freeze()
     {
         return new Dictionary<T>(this);
+    }
+
+    private static void checkNotNull(final Object obj, final String key)
+    {
+        if (obj == null)
+            throw new DictionaryBuildError(BUNDLE.getString(key));
     }
 }

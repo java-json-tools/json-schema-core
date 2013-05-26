@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.exceptions.unchecked;
 
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 
 /**
  * Exception thrown on {@link Dictionary} build errors
@@ -26,8 +25,8 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 public final class DictionaryBuildError
     extends ProcessingError
 {
-    public DictionaryBuildError(final ProcessingMessage message)
+    public DictionaryBuildError(final String msg)
     {
-        super(message);
+        super(msg);
     }
 }

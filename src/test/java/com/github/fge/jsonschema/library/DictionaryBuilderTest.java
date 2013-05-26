@@ -22,13 +22,17 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ResourceBundle;
+
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.DictionaryBuildErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class DictionaryBuilderTest
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("dictionary");
+
     private static final String KEY = "key";
     private static final Whatever MOCK1 = mock(Whatever.class);
     private static final Whatever MOCK2 = mock(Whatever.class);
@@ -49,7 +53,7 @@ public final class DictionaryBuilderTest
             fail("No exception thrown!!");
         } catch (DictionaryBuildError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_KEY);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullKey"));
         }
     }
 
@@ -61,7 +65,7 @@ public final class DictionaryBuilderTest
             fail("No exception thrown!!");
         } catch (DictionaryBuildError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_VALUE);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullValue"));
         }
     }
 
@@ -73,7 +77,7 @@ public final class DictionaryBuilderTest
             fail("No exception thrown!!");
         } catch (DictionaryBuildError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_DICT);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullDict"));
         }
     }
 
