@@ -61,18 +61,6 @@ public enum ProcessingErrors
      */
     NULL_PROCESSOR("processor cannot be null"),
     /**
-     * Attempt to use a null key in a map selector
-     *
-     * @see ProcessorMap
-     */
-    NULL_KEY("map keys must not be null"),
-    /**
-     * Attempt to use a null function in a map selector
-     *
-     * @see ProcessorMap
-     */
-    NULL_FUNCTION("input-to-key function must not be null"),
-    /**
      * Attempt to use a null equivalence in a cache
      *
      * @see CachingProcessor
