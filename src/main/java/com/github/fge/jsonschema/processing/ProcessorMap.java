@@ -20,14 +20,14 @@ package com.github.fge.jsonschema.processing;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
-
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
+import java.util.ResourceBundle;
 
 /**
  * {@link Map}-based processor selector, with an optional default processor
@@ -57,6 +57,9 @@ import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
  */
 public final class ProcessorMap<K, IN extends MessageProvider, OUT extends MessageProvider>
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("processing");
+
     private final Function<IN, K> keyFunction;
     /**
      * The map of processors
@@ -76,7 +79,7 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
      */
     public ProcessorMap(final Function<IN, K> keyFunction)
     {
-        NULL_FUNCTION.checkThat(keyFunction != null);
+        checkNotNull(keyFunction, "nullFunction");
         this.keyFunction = keyFunction;
     }
 
@@ -91,8 +94,8 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
     public ProcessorMap<K, IN, OUT> addEntry(final K key,
         final Processor<IN, OUT> processor)
     {
-        NULL_KEY.checkThat(key != null);
-        NULL_PROCESSOR.checkThat(processor != null);
+        checkNotNull(key, "nullKey");
+        checkNotNull(processor, "nullProcessor");
         processors.put(key, processor);
         return this;
     }
@@ -107,7 +110,7 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
     public ProcessorMap<K, IN, OUT> setDefaultProcessor(
         final Processor<IN, OUT> defaultProcessor)
     {
-        NULL_PROCESSOR.checkThat(defaultProcessor != null);
+        checkNotNull(defaultProcessor, "nullProcessor");
         this.defaultProcessor = defaultProcessor;
         return this;
     }
@@ -153,7 +156,8 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
                 processor = defaultProcessor;
 
             if (processor == null) // Not even a default processor. Ouch.
-                throw new ProcessingException(NO_PROCESSOR.asMessage()
+                throw new ProcessingException(new ProcessingMessage()
+                    .message(BUNDLE.getString("noProcessor"))
                     .put("key", key));
 
             return processor.process(report, input);
@@ -168,6 +172,12 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
                 sb.append("no ");
             return sb.append("default processor]").toString();
         }
+    }
+
+    private static void checkNotNull(final Object obj, final String key)
+    {
+        if (obj == null)
+            throw new ProcessingConfigurationError(BUNDLE.getString(key));
     }
 }
 

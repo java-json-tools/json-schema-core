@@ -31,6 +31,11 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 public class ProcessingConfigurationError
     extends ProcessingError
 {
+    public ProcessingConfigurationError(final String msg)
+    {
+        super(msg);
+    }
+
     public ProcessingConfigurationError(final ProcessingMessage message)
     {
         super(message);

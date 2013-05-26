@@ -26,14 +26,18 @@ import com.google.common.base.Function;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ResourceBundle;
+
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ProcessingErrors.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class ProcessorMapTest
 {
+    private static final ResourceBundle BUNDLE
+        = ResourceBundle.getBundle("processing");
+
     private Processor<In, Out> processor1;
     private Processor<In, Out> processor2;
     private Processor<In, Out> byDefault;
@@ -61,7 +65,7 @@ public final class ProcessorMapTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_KEY);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullKey"));
         }
     }
 
@@ -73,7 +77,8 @@ public final class ProcessorMapTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PROCESSOR);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullProcessor"));
         }
     }
 
@@ -86,7 +91,8 @@ public final class ProcessorMapTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_PROCESSOR);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullProcessor"));
         }
     }
 
@@ -98,7 +104,7 @@ public final class ProcessorMapTest
             fail("No exception thrown!!");
         } catch (ProcessingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_FUNCTION);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullFunction"));
         }
     }
 
@@ -138,7 +144,7 @@ public final class ProcessorMapTest
             fail("No exception thrown!!");
         } catch (ProcessingException e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NO_PROCESSOR)
+            assertMessage(message).hasMessage(BUNDLE.getString("noProcessor"))
                 .hasField("key", Key.THREE);
         }
     }
