@@ -36,6 +36,12 @@ public class ProcessingError
         processingMessage = message.setLogLevel(LogLevel.FATAL);
     }
 
+    public ProcessingError(final String msg)
+    {
+        processingMessage = new ProcessingMessage().setLogLevel(LogLevel.FATAL)
+            .message(msg);
+    }
+
     @Override
     public final String getMessage()
     {
