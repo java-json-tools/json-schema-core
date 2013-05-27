@@ -51,16 +51,14 @@ public final class LinksSyntaxChecker
 
         JsonNode ldo;
         NodeType type;
-        ProcessingMessage msg;
         Set<String> set;
         List<String> list;
 
         for (int index = 0; index < size; index++) {
             ldo = getNode(tree).get(index);
-            msg = LDOMsg(tree, index);
             type = NodeType.getNodeType(ldo);
             if (type != NodeType.OBJECT) {
-                report.error(msg.message(HS_LINKS_LDO_BAD_TYPE)
+                report.error(LDOMsg(tree, HS_LINKS_LDO_BAD_TYPE, index)
                     .put("expected", NodeType.OBJECT).put("found", type));
                 continue;
             }
@@ -68,7 +66,7 @@ public final class LinksSyntaxChecker
             list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
             list.removeAll(set);
             if (!list.isEmpty()) {
-                report.error(msg.message(HS_LINKS_LDO_MISSING_REQ)
+                report.error(LDOMsg(tree, HS_LINKS_LDO_MISSING_REQ, index)
                     .put("required", REQUIRED_LDO_PROPERTIES)
                     .put("missing", list));
                 continue;
@@ -88,7 +86,6 @@ public final class LinksSyntaxChecker
         final JsonNode ldo = getNode(tree).get(index);
 
         JsonNode node;
-        ProcessingMessage msg;
 
         checkLDOProperty(report, tree, index, "rel", NodeType.STRING,
             HS_LINKS_LDO_REL_WRONG_TYPE);
@@ -99,8 +96,7 @@ public final class LinksSyntaxChecker
             try {
                 new URITemplate(node.textValue());
             } catch (URITemplateParseException ignored) {
-                msg = LDOMsg(tree, index);
-                report.error(msg.message(HS_LINKS_LDO_HREF_ILLEGAL));
+                report.error(LDOMsg(tree, HS_LINKS_LDO_HREF_ILLEGAL, index));
             }
         }
 
@@ -113,8 +109,8 @@ public final class LinksSyntaxChecker
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
-                msg = LDOMsg(tree, index);
-                report.error(msg.message(HS_LINKS_LDO_MEDIATYPE_ILLEGAL));
+                report.error(LDOMsg(tree, HS_LINKS_LDO_MEDIATYPE_ILLEGAL,
+                    index));
             }
         }
 
@@ -127,15 +123,15 @@ public final class LinksSyntaxChecker
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
-                msg = LDOMsg(tree, index);
-                report.error(msg.message(HS_LINKS_LDO_ENCTYPE_ILLEGAL));
+                report.error(LDOMsg(tree, HS_LINKS_LDO_ENCTYPE_ILLEGAL, index));
             }
         }
     }
 
-    private ProcessingMessage LDOMsg(final SchemaTree tree, final int index)
+    private ProcessingMessage LDOMsg(final SchemaTree tree,
+        final SyntaxMessages msg, final int index)
     {
-        return newMsg(tree, "").put("index", index);
+        return newMsg(tree, msg).put("index", index);
     }
 
     private boolean checkLDOProperty(final ProcessingReport report,
@@ -153,8 +149,7 @@ public final class LinksSyntaxChecker
         if (type == expected)
             return true;
 
-        report.error(
-            LDOMsg(tree, index).message(message).put("expected", expected)
+        report.error(LDOMsg(tree, message, index).put("expected", expected)
                 .put("found", type));
         return false;
     }
