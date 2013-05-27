@@ -27,7 +27,6 @@ import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.messages.MessageBundles;
-import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.DevNullProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -174,7 +173,8 @@ public final class ResolvingSchemaWalkerTest
             fail("No exception thrown!!");
         } catch (InvalidSchemaException e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(SyntaxMessages.INVALID_SCHEMA);
+            assertMessage(message)
+                .hasMessage(MessageBundles.SYNTAX.getString("INVALID_SCHEMA"));
         }
     }
 }

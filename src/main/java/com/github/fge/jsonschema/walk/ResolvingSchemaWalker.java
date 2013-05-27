@@ -31,7 +31,6 @@ import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.messages.MessageBundles;
-import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -69,7 +68,7 @@ public final class ResolvingSchemaWalker
         = MessageBundles.SCHEMA_WALKER;
 
     private static final ProcessingMessage MESSAGE = new ProcessingMessage()
-        .message(SyntaxMessages.INVALID_SCHEMA)
+        .message(MessageBundles.SYNTAX.getString("INVALID_SCHEMA"))
         .setExceptionProvider(new ExceptionProvider()
         {
             @Override
