@@ -23,6 +23,7 @@ public final class MessageBundles
     public static final MessageBundle LOADING_CFG;
     public static final MessageBundle PROCESSING;
     public static final MessageBundle REF_PROCESSING;
+    public static final MessageBundle SCHEMA_WALKER;
 
     static {
         String name;
@@ -74,6 +75,9 @@ public final class MessageBundles
 
         name = "refProcessing";
         REF_PROCESSING = new MessageBundle(name, DEFAULT_PROVIDER);
+
+        name = "schemaWalker";
+        SCHEMA_WALKER = new MessageBundle(name, DEFAULT_PROVIDER);
     }
 
     private MessageBundles()
