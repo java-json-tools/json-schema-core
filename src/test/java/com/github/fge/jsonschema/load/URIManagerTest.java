@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import org.testng.annotations.BeforeMethod;
@@ -32,12 +34,14 @@ import java.io.InputStream;
 import java.net.URI;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class URIManagerTest
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.REF_PROCESSING;
+
     private URIDownloader mock;
 
     @BeforeMethod
@@ -55,7 +59,8 @@ public final class URIManagerTest
         try {
             manager.getContent(uri);
         } catch (ProcessingException e) {
-            assertMessage(e.getProcessingMessage()).hasMessage(UNHANDLED_SCHEME)
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getString("unhandledScheme"))
                 .hasField("scheme", "bar").hasField("uri", uri)
                 .hasLevel(LogLevel.FATAL);
         }
@@ -78,8 +83,9 @@ public final class URIManagerTest
         try {
             manager.getContent(uri);
         } catch (ProcessingException e) {
-            assertMessage(e.getProcessingMessage()).hasField("uri", uri)
-                .hasMessage(URI_IOERROR).hasLevel(LogLevel.FATAL)
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getString("uriIOError"))
+                .hasField("uri", uri).hasLevel(LogLevel.FATAL)
                 .hasField("exceptionMessage", "foo");
         }
     }
@@ -102,7 +108,8 @@ public final class URIManagerTest
         try {
             manager.getContent(uri);
         } catch (ProcessingException e) {
-            assertMessage(e.getProcessingMessage()).hasMessage(URI_NOT_JSON)
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getString("uriNotJson"))
                 .hasTextField("parsingMessage").hasLevel(LogLevel.FATAL)
                 .hasField("uri", uri);
         }
