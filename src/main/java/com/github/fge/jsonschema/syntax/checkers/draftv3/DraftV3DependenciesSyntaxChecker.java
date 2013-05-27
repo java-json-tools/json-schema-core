@@ -30,8 +30,6 @@ import com.google.common.collect.Sets;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for draft v3's {@code dependencies} keyword
  */
@@ -65,7 +63,7 @@ public final class DraftV3DependenciesSyntaxChecker
             return;
 
         if (type != NodeType.ARRAY) {
-            report.error(newMsg(tree, INCORRECT_DEPENDENCY_VALUE)
+            report.error(newMsg(tree, "INCORRECT_DEPENDENCY_VALUE")
                 .put("property", name).put("expected", dependencyTypes)
                 .put("found", type));
             return;
@@ -78,7 +76,7 @@ public final class DraftV3DependenciesSyntaxChecker
          * empty! This is stupid, so at least warn the user.
          */
         if (size == 0) {
-            report.warn(newMsg(tree, EMPTY_ARRAY).put("property", name));
+            report.warn(newMsg(tree, "EMPTY_ARRAY").put("property", name));
             return;
         }
 
@@ -93,7 +91,7 @@ public final class DraftV3DependenciesSyntaxChecker
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             if (type == NodeType.STRING)
                 continue;
-            report.error(newMsg(tree, INCORRECT_ELEMENT_TYPE)
+            report.error(newMsg(tree, "INCORRECT_ELEMENT_TYPE")
                 .put("property", name).put("index", index)
                 .put("expected", EnumSet.of(NodeType.STRING))
                 .put("found", type));
@@ -104,7 +102,7 @@ public final class DraftV3DependenciesSyntaxChecker
          * so warn the user.
          */
         if (!uniqueElements)
-            report.warn(newMsg(tree, ELEMENTS_NOT_UNIQUE)
+            report.warn(newMsg(tree, "ELEMENTS_NOT_UNIQUE")
                 .put("property", name));
     }
 }

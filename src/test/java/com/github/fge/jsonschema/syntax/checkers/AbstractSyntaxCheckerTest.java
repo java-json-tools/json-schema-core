@@ -25,6 +25,8 @@ import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -40,12 +42,12 @@ import java.util.Iterator;
 import static com.github.fge.jackson.NodeType.*;
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
 
 
 public final class AbstractSyntaxCheckerTest
 {
+    private static final MessageBundle BUNDLE = MessageBundles.SYNTAX;
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String KEYWORD = "foo";
 
@@ -96,7 +98,8 @@ public final class AbstractSyntaxCheckerTest
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
-            .hasMessage(INCORRECT_TYPE).hasField("domain", "syntax")
+            .hasMessage(BUNDLE.getString("INCORRECT_TYPE"))
+            .hasField("domain", "syntax")
             .hasField("expected", EnumSet.of(ARRAY, INTEGER, STRING))
             .hasField("found", NodeType.getNodeType(node));
     }

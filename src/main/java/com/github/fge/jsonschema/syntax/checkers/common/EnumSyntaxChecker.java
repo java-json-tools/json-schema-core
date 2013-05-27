@@ -32,8 +32,6 @@ import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for the {@code enum} keyword
  *
@@ -65,7 +63,7 @@ public final class EnumSyntaxChecker
 
         for (final JsonNode element: getNode(tree))
             if (!set.add(EQUIVALENCE.wrap(element))) {
-                report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE));
+                report.error(newMsg(tree, "ELEMENTS_NOT_UNIQUE"));
                 return;
             }
     }

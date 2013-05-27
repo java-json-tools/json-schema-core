@@ -26,8 +26,6 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 
 import java.util.Collection;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Helper class to validate the syntax of all keywords taking a schema array as
  * a value
@@ -50,7 +48,7 @@ public final class SchemaArraySyntaxChecker
         final int size = getNode(tree).size();
 
         if (size == 0) {
-            report.error(newMsg(tree, EMPTY_ARRAY));
+            report.error(newMsg(tree, "EMPTY_ARRAY"));
             return;
         }
 

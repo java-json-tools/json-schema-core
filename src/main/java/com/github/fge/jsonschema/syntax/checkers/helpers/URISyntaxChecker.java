@@ -28,8 +28,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Helper class to validate the syntax of all keywords whose value must be a URI
  *
@@ -53,9 +51,10 @@ public final class URISyntaxChecker
         try {
             final URI uri = new URI(s);
             if (!uri.equals(uri.normalize()))
-                report.error(newMsg(tree, URI_NOT_NORMALIZED).put("value", s));
+                report.error(newMsg(tree, "URI_NOT_NORMALIZED")
+                    .put("value", s));
         } catch (URISyntaxException ignored) {
-            report.error(newMsg(tree, INVALID_URI).put("value", s));
+            report.error(newMsg(tree, "INVALID_URI").put("value", s));
         }
     }
 }

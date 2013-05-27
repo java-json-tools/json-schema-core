@@ -143,7 +143,7 @@ public final class ProcessingMessageAssert
      * More complicated matchers
      */
     public <T> ProcessingMessageAssert isSyntaxError(final String keyword,
-        final T msg, final SchemaTree tree)
+        final String msg, final SchemaTree tree)
     {
         // FIXME: .hasLevel() is not always set
         return hasField("keyword", keyword).hasMessage(msg)

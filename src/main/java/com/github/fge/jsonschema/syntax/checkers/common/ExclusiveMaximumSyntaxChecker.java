@@ -27,8 +27,6 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 
 import java.util.Collection;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for the {@code exclusiveMaximum} keyword
  */
@@ -54,6 +52,6 @@ public final class ExclusiveMaximumSyntaxChecker
         throws ProcessingException
     {
         if (!tree.getNode().has("maximum"))
-            report.error(newMsg(tree, EXCLUSIVEMAXIMUM));
+            report.error(newMsg(tree, "EXCLUSIVEMAXIMUM"));
     }
 }

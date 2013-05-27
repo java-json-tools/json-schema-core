@@ -28,8 +28,6 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for the {@code patternProperties} keyword
  *
@@ -63,7 +61,7 @@ public final class PatternPropertiesSyntaxChecker
 
         for (final String s: Ordering.natural().sortedCopy(set))
             if (!RhinoHelper.regexIsValid(s))
-                report.error(newMsg(tree, INVALID_REGEX_MEMBER_NAME)
+                report.error(newMsg(tree, "INVALID_REGEX_MEMBER_NAME")
                     .put("memberName", s));
     }
 }

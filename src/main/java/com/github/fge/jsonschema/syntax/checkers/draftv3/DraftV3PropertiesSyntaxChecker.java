@@ -30,8 +30,6 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for draft v3's {@code properties} keyword
  */
@@ -70,7 +68,7 @@ public final class DraftV3PropertiesSyntaxChecker
                 continue;
             type = NodeType.getNodeType(required);
             if (type != NodeType.BOOLEAN) {
-                report.error(newMsg(tree, DRAFTV3_PROPERTIES_REQUIRED)
+                report.error(newMsg(tree, "DRAFTV3_PROPERTIES_REQUIRED")
                     .put("property", member).put("expected", NodeType.BOOLEAN)
                     .put("found", type));
             }

@@ -30,7 +30,8 @@ import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.messages.SyntaxMessages;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -49,12 +50,13 @@ import java.util.List;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public abstract class SyntaxCheckersTest
 {
+    private static final MessageBundle BUNDLE = MessageBundles.SYNTAX;
+
     /*
      * The keyword
      */
@@ -166,7 +168,8 @@ public abstract class SyntaxCheckersTest
         verify(report).error(captor.capture());
 
         final ProcessingMessage msg = captor.getValue();
-        assertMessage(msg).isSyntaxError(keyword, INCORRECT_TYPE, tree)
+        assertMessage(msg)
+            .isSyntaxError(keyword, BUNDLE.getString("INCORRECT_TYPE"), tree)
             .hasField("expected", EnumSet.complementOf(invalidTypes))
             .hasField("found", type);
     }
@@ -183,14 +186,14 @@ public abstract class SyntaxCheckersTest
 
         final List<Object[]> list = Lists.newArrayList();
 
-        SyntaxMessages message;
+        String msg;
         JsonNode msgNode;
 
         for (final JsonNode node: valueTests) {
             msgNode = node.get("message");
-            message = msgNode == null ? null
-                : SyntaxMessages.valueOf(msgNode.textValue());
-            list.add(new Object[]{ node.get("schema"), message,
+            msg = msgNode == null ? null
+                : BUNDLE.getString(msgNode.textValue());
+            list.add(new Object[]{ node.get("schema"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }
         return list.iterator();
@@ -201,8 +204,7 @@ public abstract class SyntaxCheckersTest
         dataProvider = "getValueTests"
     )
     public final void valueTestsSucceed(final JsonNode schema,
-        final SyntaxMessages syntaxMessage, final boolean success,
-        final ObjectNode msgData)
+        final String msg, final boolean success, final ObjectNode msgData)
         throws ProcessingException
     {
         final SchemaTree tree = new CanonicalSchemaTree(schema);
@@ -220,7 +222,7 @@ public abstract class SyntaxCheckersTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).isSyntaxError(keyword, syntaxMessage, tree)
+        assertMessage(message).isSyntaxError(keyword, msg, tree)
             .hasContents(msgData);
     }
 

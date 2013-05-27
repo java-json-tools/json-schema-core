@@ -27,8 +27,6 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 
 import java.util.Collection;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for the {@code exclusiveMinimum} keyword
  */
@@ -54,6 +52,6 @@ public final class ExclusiveMinimumSyntaxChecker
         throws ProcessingException
     {
         if (!tree.getNode().has("minimum"))
-            report.error(newMsg(tree, EXCLUSIVEMINIMUM));
+            report.error(newMsg(tree, "EXCLUSIVEMINIMUM"));
     }
 }

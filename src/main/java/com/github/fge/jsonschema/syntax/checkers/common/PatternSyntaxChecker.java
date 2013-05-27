@@ -28,8 +28,6 @@ import com.github.fge.jsonschema.util.RhinoHelper;
 
 import java.util.Collection;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for the {@code pattern} keyword
  *
@@ -58,6 +56,7 @@ public final class PatternSyntaxChecker
         final String value = getNode(tree).textValue();
 
         if (!RhinoHelper.regexIsValid(value))
-            report.error(newMsg(tree, INVALID_REGEX_VALUE).put("value", value));
+            report.error(newMsg(tree, "INVALID_REGEX_VALUE")
+                .put("value", value));
     }
 }

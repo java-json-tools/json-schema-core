@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
@@ -20,8 +19,6 @@ import com.google.common.net.MediaType;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 public final class LinksSyntaxChecker
     extends AbstractSyntaxChecker
@@ -58,7 +55,7 @@ public final class LinksSyntaxChecker
             ldo = getNode(tree).get(index);
             type = NodeType.getNodeType(ldo);
             if (type != NodeType.OBJECT) {
-                report.error(LDOMsg(tree, HS_LINKS_LDO_BAD_TYPE, index)
+                report.error(LDOMsg(tree, "HS_LINKS_LDO_BAD_TYPE", index)
                     .put("expected", NodeType.OBJECT).put("found", type));
                 continue;
             }
@@ -66,7 +63,7 @@ public final class LinksSyntaxChecker
             list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
             list.removeAll(set);
             if (!list.isEmpty()) {
-                report.error(LDOMsg(tree, HS_LINKS_LDO_MISSING_REQ, index)
+                report.error(LDOMsg(tree, "HS_LINKS_LDO_MISSING_REQ", index)
                     .put("required", REQUIRED_LDO_PROPERTIES)
                     .put("missing", list));
                 continue;
@@ -88,55 +85,56 @@ public final class LinksSyntaxChecker
         JsonNode node;
 
         checkLDOProperty(report, tree, index, "rel", NodeType.STRING,
-            HS_LINKS_LDO_REL_WRONG_TYPE);
+            "HS_LINKS_LDO_REL_WRONG_TYPE");
 
         if (checkLDOProperty(report, tree, index, "href", NodeType.STRING,
-            HS_LINKS_LDO_HREF_WRONG_TYPE)) {
+            "HS_LINKS_LDO_HREF_WRONG_TYPE")) {
             node = ldo.get("href");
             try {
                 new URITemplate(node.textValue());
             } catch (URITemplateParseException ignored) {
-                report.error(LDOMsg(tree, HS_LINKS_LDO_HREF_ILLEGAL, index));
+                report.error(LDOMsg(tree, "HS_LINKS_LDO_HREF_ILLEGAL", index));
             }
         }
 
         checkLDOProperty(report, tree, index, "title", NodeType.STRING,
-            HS_LINKS_LDO_TITLE_WRONG_TYPE);
+            "HS_LINKS_LDO_TITLE_WRONG_TYPE");
 
         if (checkLDOProperty(report, tree, index, "mediaType", NodeType.STRING,
-            HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE)) {
+            "HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE")) {
             node = ldo.get("mediaType");
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
-                report.error(LDOMsg(tree, HS_LINKS_LDO_MEDIATYPE_ILLEGAL,
+                report.error(LDOMsg(tree, "HS_LINKS_LDO_MEDIATYPE_ILLEGAL",
                     index));
             }
         }
 
         checkLDOProperty(report, tree, index, "method", NodeType.STRING,
-            HS_LINKS_LDO_METHOD_WRONG_TYPE);
+            "HS_LINKS_LDO_METHOD_WRONG_TYPE");
 
         if (checkLDOProperty(report, tree, index, "encType", NodeType.STRING,
-            HS_LINKS_LDO_ENCTYPE_WRONG_TYPE)) {
+            "HS_LINKS_LDO_ENCTYPE_WRONG_TYPE")) {
             node = ldo.get("encType");
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
-                report.error(LDOMsg(tree, HS_LINKS_LDO_ENCTYPE_ILLEGAL, index));
+                report.error(LDOMsg(tree, "HS_LINKS_LDO_ENCTYPE_ILLEGAL",
+                    index));
             }
         }
     }
 
     private ProcessingMessage LDOMsg(final SchemaTree tree,
-        final SyntaxMessages msg, final int index)
+        final String key, final int index)
     {
-        return newMsg(tree, msg).put("index", index);
+        return newMsg(tree, key).put("index", index);
     }
 
     private boolean checkLDOProperty(final ProcessingReport report,
         final SchemaTree tree, final int index, final String name,
-        final NodeType expected, final SyntaxMessages message)
+        final NodeType expected, final String key)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree).get(index).get(name);
@@ -149,7 +147,7 @@ public final class LinksSyntaxChecker
         if (type == expected)
             return true;
 
-        report.error(LDOMsg(tree, message, index).put("expected", expected)
+        report.error(LDOMsg(tree, key, index).put("expected", expected)
                 .put("found", type));
         return false;
     }

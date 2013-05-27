@@ -33,8 +33,6 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for draft v4's {@code required} keyword
  */
@@ -65,7 +63,7 @@ public final class RequiredSyntaxChecker
         final int size = node.size();
 
         if (size == 0) {
-            report.error(newMsg(tree, EMPTY_ARRAY));
+            report.error(newMsg(tree, "EMPTY_ARRAY"));
             return;
         }
 
@@ -80,7 +78,7 @@ public final class RequiredSyntaxChecker
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             type = NodeType.getNodeType(element);
             if (type != NodeType.STRING)
-                report.error(newMsg(tree, INCORRECT_ELEMENT_TYPE)
+                report.error(newMsg(tree, "INCORRECT_ELEMENT_TYPE")
                     .put("index", index)
                     .put("expected", EnumSet.of(NodeType.STRING))
                     .put("found", type)
@@ -88,6 +86,6 @@ public final class RequiredSyntaxChecker
         }
 
         if (!uniqueElements)
-            report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE));
+            report.error(newMsg(tree, "ELEMENTS_NOT_UNIQUE"));
     }
 }

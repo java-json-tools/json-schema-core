@@ -33,7 +33,6 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import static com.github.fge.jackson.NodeType.*;
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 /**
  * Helper class to validate the syntax of draft v3's {@code type} and {@code
@@ -60,7 +59,7 @@ public final class DraftV3TypeKeywordSyntaxChecker
 
         if (node.isTextual()) {
             if (!typeIsValid(node.textValue()))
-                report.error(newMsg(tree, INCORRECT_PRIMITIVE_TYPE)
+                report.error(newMsg(tree, "INCORRECT_PRIMITIVE_TYPE")
                     .put("valid", EnumSet.allOf(NodeType.class))
                     .put("found", node));
             return;
@@ -82,21 +81,21 @@ public final class DraftV3TypeKeywordSyntaxChecker
                 continue;
             }
             if (type != STRING) {
-                report.error(newMsg(tree, INCORRECT_ELEMENT_TYPE)
+                report.error(newMsg(tree, "INCORRECT_ELEMENT_TYPE")
                     .put("index", index)
                     .put("expected", EnumSet.of(OBJECT, STRING))
                     .put("found", type));
                 continue;
             }
             if (!typeIsValid(element.textValue()))
-                report.error(newMsg(tree, INCORRECT_PRIMITIVE_TYPE)
+                report.error(newMsg(tree, "INCORRECT_PRIMITIVE_TYPE")
                     .put("index", index)
                     .put("valid", EnumSet.allOf(NodeType.class))
                     .put("found", element));
         }
 
         if (!uniqueItems)
-            report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE));
+            report.error(newMsg(tree, "ELEMENTS_NOT_UNIQUE"));
     }
 
     private static boolean typeIsValid(final String s)

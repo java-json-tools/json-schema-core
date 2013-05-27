@@ -27,8 +27,6 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 
 import java.util.Collection;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Helper class to check the syntax of all keywords having a positive integer
  * as a valid value
@@ -49,12 +47,12 @@ public final class PositiveIntegerSyntaxChecker
         final JsonNode node = getNode(tree);
 
         if (!node.canConvertToInt()) {
-            report.error(newMsg(tree, INTEGER_TOO_LARGE)
+            report.error(newMsg(tree, "INTEGER_TOO_LARGE")
                 .put("max", Integer.MAX_VALUE));
             return;
         }
 
         if (node.intValue() < 0)
-            report.error(newMsg(tree, INTEGER_IS_NEGATIVE));
+            report.error(newMsg(tree, "INTEGER_IS_NEGATIVE"));
     }
 }

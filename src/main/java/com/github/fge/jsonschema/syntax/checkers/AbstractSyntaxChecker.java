@@ -23,7 +23,8 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.messages.SyntaxMessages;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -42,6 +43,8 @@ import java.util.EnumSet;
 public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
 {
+    private static final MessageBundle BUNDLE = MessageBundles.SYNTAX;
+
     private static final ExceptionProvider EXCEPTION_PROVIDER
         = new ExceptionProvider()
     {
@@ -104,8 +107,8 @@ public abstract class AbstractSyntaxChecker
         final NodeType type = NodeType.getNodeType(node);
 
         if (!types.contains(type)) {
-            report.error(newMsg(tree, SyntaxMessages.INCORRECT_TYPE)
-                .put("expected", types).put("found", type));
+            report.error(newMsg(tree, "INCORRECT_TYPE").put("expected", types)
+                .put("found", type));
             return;
         }
 
@@ -131,16 +134,15 @@ public abstract class AbstractSyntaxChecker
      * Provide a new message for reporting purposes
      *
      * @param tree the schema tree
-     * @param msg the message value to fill
-     * @param <T> type of this message value
+     * @param key the key in the syntax message bundle
      * @return a new {@link ProcessingMessage}
      * @see ProcessingMessage#message(Object)
      */
-    protected final <T> ProcessingMessage newMsg(final SchemaTree tree,
-        final T msg)
+    protected final ProcessingMessage newMsg(final SchemaTree tree,
+        final String key)
     {
-        return new ProcessingMessage().put("domain", "syntax")
-            .put("schema", tree).put("keyword", keyword).message(msg)
+        return BUNDLE.message(key).put("domain", "syntax")
+            .put("schema", tree).put("keyword", keyword)
             .setExceptionProvider(EXCEPTION_PROVIDER);
     }
 

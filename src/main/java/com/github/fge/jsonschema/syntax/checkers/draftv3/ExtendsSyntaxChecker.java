@@ -24,8 +24,6 @@ import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.SchemaOrSchemaArraySyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax checker for draft v3's {@code extends} keyword
  */
@@ -52,6 +50,6 @@ public final class ExtendsSyntaxChecker
     {
         final JsonNode node = tree.getNode().get(keyword);
         if (node.isArray() && node.size() == 0)
-            report.warn(newMsg(tree, EXTENDS_EMPTY_ARRAY));
+            report.warn(newMsg(tree, "EXTENDS_EMPTY_ARRAY"));
     }
 }
