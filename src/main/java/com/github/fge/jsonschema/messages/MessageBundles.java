@@ -24,6 +24,7 @@ public final class MessageBundles
     public static final MessageBundle PROCESSING;
     public static final MessageBundle REF_PROCESSING;
     public static final MessageBundle SCHEMA_WALKER;
+    public static final MessageBundle SYNTAX;
 
     static {
         String name;
@@ -78,6 +79,9 @@ public final class MessageBundles
 
         name = "schemaWalker";
         SCHEMA_WALKER = new MessageBundle(name, DEFAULT_PROVIDER);
+
+        name = "syntax";
+        SYNTAX = new MessageBundle(name, DEFAULT_PROVIDER);
     }
 
     private MessageBundles()
