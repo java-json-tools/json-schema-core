@@ -8,10 +8,21 @@ import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 
 public final class MessageBundles
 {
+    private static final MessageBundle.ErrorProvider DEFAULT_PROVIDER
+        = new MessageBundle.ErrorProvider()
+    {
+        @Override
+        public ProcessingError doError(final String msg)
+        {
+            return new ProcessingError(msg);
+        }
+    };
+
     public static final MessageBundle JSON_REF;
     public static final MessageBundle DICTIONARY;
     public static final MessageBundle LOADING_CFG;
     public static final MessageBundle PROCESSING;
+    public static final MessageBundle REF_PROCESSING;
 
     static {
         String name;
@@ -60,6 +71,9 @@ public final class MessageBundles
             }
         };
         PROCESSING = new MessageBundle(name, provider);
+
+        name = "refProcessing";
+        REF_PROCESSING = new MessageBundle(name, DEFAULT_PROVIDER);
     }
 
     private MessageBundles()
