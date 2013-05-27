@@ -20,6 +20,8 @@ package com.github.fge.jsonschema.load;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -27,12 +29,14 @@ import com.github.fge.jsonschema.util.ValueHolder;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class RefResolverTest
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.REF_PROCESSING;
+
     private final RefResolver processor = new RefResolver(null);
     private final ProcessingReport report = mock(ProcessingReport.class);
 
@@ -49,7 +53,8 @@ public final class RefResolverTest
             processor.process(report, holder);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            assertMessage(e.getProcessingMessage()).hasMessage(REF_LOOP);
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getString("refLoop"));
         }
     }
 
@@ -66,7 +71,8 @@ public final class RefResolverTest
             processor.process(report, holder);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            assertMessage(e.getProcessingMessage()).hasMessage(DANGLING_REF);
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getString("danglingRef"));
         }
     }
 }
