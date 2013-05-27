@@ -1,6 +1,7 @@
 package com.github.fge.jsonschema.messages;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 
 import java.util.ResourceBundle;
 
@@ -18,6 +19,11 @@ public final class MessageBundle
     public String getString(final String key)
     {
         return bundle.getString(key);
+    }
+
+    public ProcessingMessage message(final String key)
+    {
+        return new ProcessingMessage().message(bundle.getString(key));
     }
 
     public void checkNotNull(final Object obj, final String key)
