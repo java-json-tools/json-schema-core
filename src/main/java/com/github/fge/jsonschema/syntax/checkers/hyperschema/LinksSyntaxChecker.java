@@ -57,7 +57,7 @@ public final class LinksSyntaxChecker
 
         for (int index = 0; index < size; index++) {
             ldo = getNode(tree).get(index);
-            msg = newMsg(tree, index);
+            msg = LDOMsg(tree, index);
             type = NodeType.getNodeType(ldo);
             if (type != NodeType.OBJECT) {
                 report.error(msg.message(HS_LINKS_LDO_BAD_TYPE)
@@ -99,7 +99,7 @@ public final class LinksSyntaxChecker
             try {
                 new URITemplate(node.textValue());
             } catch (URITemplateParseException ignored) {
-                msg = newMsg(tree, index);
+                msg = LDOMsg(tree, index);
                 report.error(msg.message(HS_LINKS_LDO_HREF_ILLEGAL));
             }
         }
@@ -113,7 +113,7 @@ public final class LinksSyntaxChecker
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
-                msg = newMsg(tree, index);
+                msg = LDOMsg(tree, index);
                 report.error(msg.message(HS_LINKS_LDO_MEDIATYPE_ILLEGAL));
             }
         }
@@ -127,13 +127,13 @@ public final class LinksSyntaxChecker
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
-                msg = newMsg(tree, index);
+                msg = LDOMsg(tree, index);
                 report.error(msg.message(HS_LINKS_LDO_ENCTYPE_ILLEGAL));
             }
         }
     }
 
-    private ProcessingMessage newMsg(final SchemaTree tree, final int index)
+    private ProcessingMessage LDOMsg(final SchemaTree tree, final int index)
     {
         return newMsg(tree, "").put("index", index);
     }
@@ -153,8 +153,9 @@ public final class LinksSyntaxChecker
         if (type == expected)
             return true;
 
-        report.error(newMsg(tree, index).message(message)
-            .put("expected", expected).put("found", type));
+        report.error(
+            LDOMsg(tree, index).message(message).put("expected", expected)
+                .put("found", type));
         return false;
     }
 }
