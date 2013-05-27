@@ -20,10 +20,11 @@ package com.github.fge.jsonschema.load;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.cache.CacheBuilder;
@@ -32,10 +33,7 @@ import com.google.common.cache.LoadingCache;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.net.URI;
-import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-
-import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 
 /**
  * JSON Schema loader
@@ -50,8 +48,11 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 @ThreadSafe
 public final class SchemaLoader
 {
-    private static final ResourceBundle LOAD_BUNDLE
-        = ResourceBundle.getBundle("loadingConfiguration");
+    private static final MessageBundle BUNDLE
+        = MessageBundles.REF_PROCESSING;
+    private static final MessageBundle LOAD_BUNDLE
+        = MessageBundles.LOADING_CFG;
+
     /**
      * The URI manager
      */
@@ -118,9 +119,7 @@ public final class SchemaLoader
      */
     public SchemaTree load(final JsonNode schema)
     {
-        if (schema == null)
-            throw new LoadingConfigurationError(
-                LOAD_BUNDLE.getString("nullSchema"));
+        LOAD_BUNDLE.checkNotNull(schema, "nullSchema");
         return dereferencing.newTree(schema);
     }
 
@@ -142,7 +141,7 @@ public final class SchemaLoader
         final JsonRef ref = namespace.resolve(JsonRef.fromURI(uri));
 
         if (!ref.isAbsolute())
-            throw new ProcessingException(URI_NOT_ABSOLUTE.asMessage()
+            throw new ProcessingException(BUNDLE.message("uriNotAbsolute")
                 .put("uri", ref));
 
         final URI realURI = ref.toURI();
