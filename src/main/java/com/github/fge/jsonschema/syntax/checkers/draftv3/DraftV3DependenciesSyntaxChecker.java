@@ -63,7 +63,7 @@ public final class DraftV3DependenciesSyntaxChecker
             return;
 
         if (type != NodeType.ARRAY) {
-            report.error(newMsg(tree, "INCORRECT_DEPENDENCY_VALUE")
+            report.error(newMsg(tree, "incorrectDependencyValue")
                 .put("property", name).put("expected", dependencyTypes)
                 .put("found", type));
             return;
@@ -76,7 +76,7 @@ public final class DraftV3DependenciesSyntaxChecker
          * empty! This is stupid, so at least warn the user.
          */
         if (size == 0) {
-            report.warn(newMsg(tree, "EMPTY_ARRAY").put("property", name));
+            report.warn(newMsg(tree, "emptyArray").put("property", name));
             return;
         }
 
@@ -91,7 +91,7 @@ public final class DraftV3DependenciesSyntaxChecker
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             if (type == NodeType.STRING)
                 continue;
-            report.error(newMsg(tree, "INCORRECT_ELEMENT_TYPE")
+            report.error(newMsg(tree, "incorrectElementType")
                 .put("property", name).put("index", index)
                 .put("expected", EnumSet.of(NodeType.STRING))
                 .put("found", type));
@@ -102,7 +102,7 @@ public final class DraftV3DependenciesSyntaxChecker
          * so warn the user.
          */
         if (!uniqueElements)
-            report.warn(newMsg(tree, "ELEMENTS_NOT_UNIQUE")
+            report.warn(newMsg(tree, "elementsNotUnique")
                 .put("property", name));
     }
 }

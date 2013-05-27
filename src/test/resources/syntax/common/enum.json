@@ -3,13 +3,13 @@
         {
             "schema": { "enum": [ { "a": "b" }, { "a": "b" } ] },
             "valid": false,
-            "message": "ELEMENTS_NOT_UNIQUE",
+            "message": "elementsNotUnique",
             "msgData": {}
         },
         {
             "schema": { "enum": [ 1, 1.0 ] },
             "valid": false,
-            "message": "ELEMENTS_NOT_UNIQUE",
+            "message": "elementsNotUnique",
             "msgData": {}
         },
         {

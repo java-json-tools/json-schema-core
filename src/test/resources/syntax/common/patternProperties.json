@@ -7,7 +7,7 @@
                 }
             },
             "valid": false,
-            "message": "INVALID_REGEX_MEMBER_NAME",
+            "message": "invalidRegexMemberName",
             "msgData": {
                 "memberName": "a++"
             }

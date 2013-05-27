@@ -55,7 +55,7 @@ public final class LinksSyntaxChecker
             ldo = getNode(tree).get(index);
             type = NodeType.getNodeType(ldo);
             if (type != NodeType.OBJECT) {
-                report.error(LDOMsg(tree, "HS_LINKS_LDO_BAD_TYPE", index)
+                report.error(LDOMsg(tree, "hsLinksLdoBadType", index)
                     .put("expected", NodeType.OBJECT).put("found", type));
                 continue;
             }
@@ -63,7 +63,7 @@ public final class LinksSyntaxChecker
             list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
             list.removeAll(set);
             if (!list.isEmpty()) {
-                report.error(LDOMsg(tree, "HS_LINKS_LDO_MISSING_REQ", index)
+                report.error(LDOMsg(tree, "hsLinksLdoMissingReq", index)
                     .put("required", REQUIRED_LDO_PROPERTIES)
                     .put("missing", list));
                 continue;
@@ -85,42 +85,42 @@ public final class LinksSyntaxChecker
         JsonNode node;
 
         checkLDOProperty(report, tree, index, "rel", NodeType.STRING,
-            "HS_LINKS_LDO_REL_WRONG_TYPE");
+            "hsLinksLdoRelWrongType");
 
         if (checkLDOProperty(report, tree, index, "href", NodeType.STRING,
-            "HS_LINKS_LDO_HREF_WRONG_TYPE")) {
+            "hsLinksLdoHrefWrongType")) {
             node = ldo.get("href");
             try {
                 new URITemplate(node.textValue());
             } catch (URITemplateParseException ignored) {
-                report.error(LDOMsg(tree, "HS_LINKS_LDO_HREF_ILLEGAL", index));
+                report.error(LDOMsg(tree, "hsLinksLdoHrefIllegal", index));
             }
         }
 
         checkLDOProperty(report, tree, index, "title", NodeType.STRING,
-            "HS_LINKS_LDO_TITLE_WRONG_TYPE");
+            "hsLinksLdoTitleWrongType");
 
         if (checkLDOProperty(report, tree, index, "mediaType", NodeType.STRING,
-            "HS_LINKS_LDO_MEDIATYPE_WRONG_TYPE")) {
+            "hsLinksLdoMediatypeWrongType")) {
             node = ldo.get("mediaType");
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
-                report.error(LDOMsg(tree, "HS_LINKS_LDO_MEDIATYPE_ILLEGAL",
+                report.error(LDOMsg(tree, "hsLinksLdoMediatypeIllegal",
                     index));
             }
         }
 
         checkLDOProperty(report, tree, index, "method", NodeType.STRING,
-            "HS_LINKS_LDO_METHOD_WRONG_TYPE");
+            "hsLinksLdoMethodWrongType");
 
         if (checkLDOProperty(report, tree, index, "encType", NodeType.STRING,
-            "HS_LINKS_LDO_ENCTYPE_WRONG_TYPE")) {
+            "hsLinksLdoEnctypeWrongType")) {
             node = ldo.get("encType");
             try {
                 MediaType.parse(node.textValue());
             } catch (IllegalArgumentException ignored) {
-                report.error(LDOMsg(tree, "HS_LINKS_LDO_ENCTYPE_ILLEGAL",
+                report.error(LDOMsg(tree, "hsLinksLdoEnctypeIllegal",
                     index));
             }
         }

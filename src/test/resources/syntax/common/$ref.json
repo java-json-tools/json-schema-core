@@ -3,7 +3,7 @@
         {
             "schema": { "$ref": "+23:" },
             "valid": false,
-            "message": "INVALID_URI",
+            "message": "invalidUri",
             "msgData": {
                 "value": "+23:"
             }
@@ -11,7 +11,7 @@
         {
             "schema": { "$ref": "/a/b/../c#" },
             "valid": false,
-            "message": "URI_NOT_NORMALIZED",
+            "message": "uriNotNormalized",
             "msgData": {
                 "value": "/a/b/../c#"
             }

@@ -56,7 +56,7 @@ public final class PatternSyntaxChecker
         final String value = getNode(tree).textValue();
 
         if (!RhinoHelper.regexIsValid(value))
-            report.error(newMsg(tree, "INVALID_REGEX_VALUE")
+            report.error(newMsg(tree, "invalidRegexValue")
                 .put("value", value));
     }
 }

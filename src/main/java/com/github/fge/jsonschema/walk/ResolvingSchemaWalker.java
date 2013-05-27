@@ -68,7 +68,7 @@ public final class ResolvingSchemaWalker
         = MessageBundles.SCHEMA_WALKER;
 
     private static final ProcessingMessage MESSAGE = new ProcessingMessage()
-        .message(MessageBundles.SYNTAX.getString("INVALID_SCHEMA"))
+        .message(MessageBundles.SYNTAX.getString("invalidSchema"))
         .setExceptionProvider(new ExceptionProvider()
         {
             @Override

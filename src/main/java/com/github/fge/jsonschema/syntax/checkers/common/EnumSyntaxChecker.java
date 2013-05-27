@@ -63,7 +63,7 @@ public final class EnumSyntaxChecker
 
         for (final JsonNode element: getNode(tree))
             if (!set.add(EQUIVALENCE.wrap(element))) {
-                report.error(newMsg(tree, "ELEMENTS_NOT_UNIQUE"));
+                report.error(newMsg(tree, "elementsNotUnique"));
                 return;
             }
     }

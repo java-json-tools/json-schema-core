@@ -52,10 +52,10 @@ public final class MediaSyntaxChecker
             type = NodeType.getNodeType(subNode);
             value = subNode.textValue();
             if (value == null)
-                report.error(newMsg(tree, "HS_MEDIA_INVALID_ENCODING_TYPE")
+                report.error(newMsg(tree, "hsMediaInvalidEncodingType")
                     .put("expected", NodeType.STRING).put("found", type));
             else if (!BINARY_ENCODINGS.contains(value.toLowerCase()))
-                report.error(newMsg(tree, "HS_MEDIA_INVALID_ENCODING")
+                report.error(newMsg(tree, "hsMediaInvalidEncoding")
                     .put("value", value));
         }
 
@@ -64,7 +64,7 @@ public final class MediaSyntaxChecker
             return;
         type = NodeType.getNodeType(subNode);
         if (type != NodeType.STRING) {
-            report.error(newMsg(tree, "HS_MEDIA_INVALID_TYPE_TYPE")
+            report.error(newMsg(tree, "hsMediaInvalidTypeType")
                 .put("expected", NodeType.STRING).put("found", type));
             return;
         }
@@ -72,7 +72,7 @@ public final class MediaSyntaxChecker
         try {
             MediaType.parse(value);
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(tree, "HS_MEDIA_INVALID_TYPE")
+            report.error(newMsg(tree, "hsMediaInvalidType")
                 .put("value", value));
         }
     }

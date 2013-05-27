@@ -5,7 +5,7 @@
                 "dependencies": { "p": null }
             },
             "valid": false,
-            "message": "INCORRECT_DEPENDENCY_VALUE",
+            "message": "incorrectDependencyValue",
             "msgData": {
                 "property": "p",
                 "expected": [ "array", "object", "string" ],
@@ -29,7 +29,7 @@
                 "dependencies": { "p": [ "a", false ] }
             },
             "valid": false,
-            "message": "INCORRECT_ELEMENT_TYPE",
+            "message": "incorrectElementType",
             "msgData": {
                 "property": "p",
                 "index": 1,

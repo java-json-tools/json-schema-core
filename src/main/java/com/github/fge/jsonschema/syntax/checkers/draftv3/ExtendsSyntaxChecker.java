@@ -50,6 +50,6 @@ public final class ExtendsSyntaxChecker
     {
         final JsonNode node = tree.getNode().get(keyword);
         if (node.isArray() && node.size() == 0)
-            report.warn(newMsg(tree, "EXTENDS_EMPTY_ARRAY"));
+            report.warn(newMsg(tree, "extendsEmptyArray"));
     }
 }

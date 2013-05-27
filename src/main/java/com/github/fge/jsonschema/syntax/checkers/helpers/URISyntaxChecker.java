@@ -51,10 +51,10 @@ public final class URISyntaxChecker
         try {
             final URI uri = new URI(s);
             if (!uri.equals(uri.normalize()))
-                report.error(newMsg(tree, "URI_NOT_NORMALIZED")
+                report.error(newMsg(tree, "uriNotNormalized")
                     .put("value", s));
         } catch (URISyntaxException ignored) {
-            report.error(newMsg(tree, "INVALID_URI").put("value", s));
+            report.error(newMsg(tree, "invalidUri").put("value", s));
         }
     }
 }

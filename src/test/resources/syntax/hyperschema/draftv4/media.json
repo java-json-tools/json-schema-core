@@ -7,7 +7,7 @@
                 }
             },
             "valid": false,
-            "message": "HS_MEDIA_INVALID_ENCODING_TYPE",
+            "message": "hsMediaInvalidEncodingType",
             "msgData": {
                 "expected": "string",
                 "found": "boolean"
@@ -20,7 +20,7 @@
                 }
             },
             "valid": false,
-            "message": "HS_MEDIA_INVALID_ENCODING",
+            "message": "hsMediaInvalidEncoding",
             "msgData": {
                 "value": "foo"
             }
@@ -41,7 +41,7 @@
                 }
             },
             "valid": false,
-            "message": "HS_MEDIA_INVALID_TYPE_TYPE",
+            "message": "hsMediaInvalidTypeType",
             "msgData": {
                 "expected": "string",
                 "found": "integer"
@@ -55,7 +55,7 @@
                 }
             },
             "valid": false,
-            "message": "HS_MEDIA_INVALID_TYPE",
+            "message": "hsMediaInvalidType",
             "msgData": {
                 "value": "foo"
             }

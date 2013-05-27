@@ -107,7 +107,7 @@ public abstract class AbstractSyntaxChecker
         final NodeType type = NodeType.getNodeType(node);
 
         if (!types.contains(type)) {
-            report.error(newMsg(tree, "INCORRECT_TYPE").put("expected", types)
+            report.error(newMsg(tree, "incorrectType").put("expected", types)
                 .put("found", type));
             return;
         }

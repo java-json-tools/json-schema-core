@@ -169,7 +169,7 @@ public abstract class SyntaxCheckersTest
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg)
-            .isSyntaxError(keyword, BUNDLE.getString("INCORRECT_TYPE"), tree)
+            .isSyntaxError(keyword, BUNDLE.getString("incorrectType"), tree)
             .hasField("expected", EnumSet.complementOf(invalidTypes))
             .hasField("found", type);
     }

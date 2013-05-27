@@ -48,7 +48,7 @@ public final class SchemaArraySyntaxChecker
         final int size = getNode(tree).size();
 
         if (size == 0) {
-            report.error(newMsg(tree, "EMPTY_ARRAY"));
+            report.error(newMsg(tree, "emptyArray"));
             return;
         }
 

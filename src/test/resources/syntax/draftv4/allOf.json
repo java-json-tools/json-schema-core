@@ -3,7 +3,7 @@
         {
             "schema": { "allOf": [] },
             "valid": false,
-            "message": "EMPTY_ARRAY",
+            "message": "emptyArray",
             "msgData": {}
         }
     ],

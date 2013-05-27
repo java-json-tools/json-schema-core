@@ -174,7 +174,7 @@ public final class ResolvingSchemaWalkerTest
         } catch (InvalidSchemaException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message)
-                .hasMessage(MessageBundles.SYNTAX.getString("INVALID_SCHEMA"));
+                .hasMessage(MessageBundles.SYNTAX.getString("invalidSchema"));
         }
     }
 }

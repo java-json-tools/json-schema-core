@@ -47,12 +47,12 @@ public final class PositiveIntegerSyntaxChecker
         final JsonNode node = getNode(tree);
 
         if (!node.canConvertToInt()) {
-            report.error(newMsg(tree, "INTEGER_TOO_LARGE")
+            report.error(newMsg(tree, "integerTooLarge")
                 .put("max", Integer.MAX_VALUE));
             return;
         }
 
         if (node.intValue() < 0)
-            report.error(newMsg(tree, "INTEGER_IS_NEGATIVE"));
+            report.error(newMsg(tree, "integerIsNegative"));
     }
 }

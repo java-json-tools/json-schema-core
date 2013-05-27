@@ -74,7 +74,7 @@ public final class SyntaxProcessor
          */
         if (type != NodeType.OBJECT) {
             final ProcessingMessage msg = newMsg(tree)
-                .message(BUNDLE.getString("NOT_A_SCHEMA")).put("found", type);
+                .message(BUNDLE.getString("notASchema")).put("found", type);
             report.error(msg);
             return;
         }
@@ -94,7 +94,7 @@ public final class SyntaxProcessor
 
         if (!fieldNames.isEmpty())
             report.warn(newMsg(tree)
-                .message(BUNDLE.getString("UNKNOWN_KEYWORDS"))
+                .message(BUNDLE.getString("unknownKeywords"))
                 .put("ignored", Ordering.natural().sortedCopy(fieldNames)));
 
         /*
