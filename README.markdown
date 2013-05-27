@@ -33,7 +33,7 @@ href="https://github.com/fge/json-schema-processor-examples">separate project</a
 href="https://github.com/fge/json-schema-core/wiki/ChangeLog">ChangeLog</a>, <a
 href="http://fge.github.com/json-schema-core/stable/index.html">Javadoc</a>).</p>
 
-<p>The current development verson is <b>1.1.3</b> (<a
+<p>The current development verson is <b>1.1.4</b> (<a
 href="https://github.com/fge/json-schema-core/wiki/ChangeLog.devel">ChangeLog</a>, <a
 href="http://fge.github.com/json-schema-core/devel/index.html">Javadoc</a>).</p>
 
