@@ -29,6 +29,8 @@ import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
@@ -48,8 +50,6 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 
-import static com.github.fge.jsonschema.messages.SchemaWalkerMessages.*;
-
 /**
  * A schema walker performing JSON Reference resolution
  *
@@ -65,6 +65,9 @@ import static com.github.fge.jsonschema.messages.SchemaWalkerMessages.*;
 public final class ResolvingSchemaWalker
     extends SchemaWalker
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.SCHEMA_WALKER;
+
     private static final ProcessingMessage MESSAGE = new ProcessingMessage()
         .message(SyntaxMessages.INVALID_SCHEMA)
         .setExceptionProvider(new ExceptionProvider()
@@ -191,15 +194,20 @@ public final class ResolvingSchemaWalker
             .put("schemaURI", tree.getLoadingRef())
             .put("source", sourcePointer.toString())
             .put("target", targetPointer.toString());
+
+        String msg;
+
         /*
          * Check if there is an attempt to expand to a parent tree
          */
+        msg = BUNDLE.getString("parentExpand");
         if (Collections.indexOfSubList(sourceTokens, targetTokens) == 0)
-            throw new SchemaWalkingException(message.message(PARENT_EXPAND));
+            throw new SchemaWalkingException(message.message(msg));
         /*
          * Check if there is an attempt to expand to a subtree
          */
+        msg = BUNDLE.getString("subtreeExpand");
         if (Collections.indexOfSubList(targetTokens, sourceTokens) == 0)
-            throw new SchemaWalkingException(message.message(SUBTREE_EXPAND));
+            throw new SchemaWalkingException(message.message(msg));
     }
 }

@@ -25,6 +25,8 @@ import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.DevNullProcessingReport;
@@ -37,12 +39,14 @@ import org.mockito.InOrder;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.SchemaWalkerMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class ResolvingSchemaWalkerTest
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.SCHEMA_WALKER;
+
     @Test
     public void listenerIsCalledAppropriatelyOnTreeChange()
         throws ProcessingException
@@ -107,7 +111,7 @@ public final class ResolvingSchemaWalkerTest
             fail("No exception thrown!!");
         } catch (SchemaWalkingException e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(SUBTREE_EXPAND)
+            assertMessage(message).hasMessage(BUNDLE.getString("subtreeExpand"))
                 .hasField("schemaURI", ref)
                 .hasField("source", JsonPointer.empty())
                 .hasField("target", JsonPointer.of("a"));
@@ -137,7 +141,7 @@ public final class ResolvingSchemaWalkerTest
             fail("No exception thrown!!");
         } catch (SchemaWalkingException e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(PARENT_EXPAND)
+            assertMessage(message).hasMessage(BUNDLE.getString("parentExpand"))
                 .hasField("schemaURI", ref)
                 .hasField("source", JsonPointer.of("not"))
                 .hasField("target", JsonPointer.empty());
