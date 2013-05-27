@@ -22,6 +22,8 @@ import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.processing.RawProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -36,14 +38,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Syntax processor
  */
 public final class SyntaxProcessor
     extends RawProcessor<SchemaTree, SchemaTree>
 {
+    private static final MessageBundle BUNDLE = MessageBundles.SYNTAX;
+
     private final Map<String, SyntaxChecker> checkers;
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
@@ -71,8 +73,8 @@ public final class SyntaxProcessor
          * Barf if not an object, and don't even try to go any further
          */
         if (type != NodeType.OBJECT) {
-            final ProcessingMessage msg = newMsg(tree).message(NOT_A_SCHEMA)
-                .put("found", type);
+            final ProcessingMessage msg = newMsg(tree)
+                .message(BUNDLE.getString("NOT_A_SCHEMA")).put("found", type);
             report.error(msg);
             return;
         }
@@ -91,7 +93,8 @@ public final class SyntaxProcessor
         fieldNames.removeAll(map.keySet());
 
         if (!fieldNames.isEmpty())
-            report.warn(newMsg(tree).message(UNKNOWN_KEYWORDS)
+            report.warn(newMsg(tree)
+                .message(BUNDLE.getString("UNKNOWN_KEYWORDS"))
                 .put("ignored", Ordering.natural().sortedCopy(fieldNames)));
 
         /*
