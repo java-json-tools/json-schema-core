@@ -20,13 +20,13 @@ package com.github.fge.jsonschema.walk;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.DevNullProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -43,8 +43,8 @@ import static org.testng.Assert.*;
 
 public final class ResolvingSchemaWalkerTest
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.SCHEMA_WALKER;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     @Test
     public void listenerIsCalledAppropriatelyOnTreeChange()
@@ -109,8 +109,8 @@ public final class ResolvingSchemaWalkerTest
             walker.walk(listener, report);
             fail("No exception thrown!!");
         } catch (SchemaWalkingException e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("subtreeExpand"))
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getKey("schemaWalking.subtreeExpand"))
                 .hasField("schemaURI", ref)
                 .hasField("source", JsonPointer.empty())
                 .hasField("target", JsonPointer.of("a"));
@@ -139,8 +139,8 @@ public final class ResolvingSchemaWalkerTest
             walker.walk(listener, report);
             fail("No exception thrown!!");
         } catch (SchemaWalkingException e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("parentExpand"))
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getKey("schemaWalking.parentExpand"))
                 .hasField("schemaURI", ref)
                 .hasField("source", JsonPointer.of("not"))
                 .hasField("target", JsonPointer.empty());

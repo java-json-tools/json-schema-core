@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.walk;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.TokenResolver;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
@@ -30,7 +31,6 @@ import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -64,8 +64,8 @@ import java.util.List;
 public final class ResolvingSchemaWalker
     extends SchemaWalker
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.SCHEMA_WALKER;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private static final ProcessingMessage MESSAGE = new ProcessingMessage()
         .message(CoreMessageBundles.SYNTAX.getString("invalidSchema"))
@@ -194,19 +194,18 @@ public final class ResolvingSchemaWalker
             .put("source", sourcePointer.toString())
             .put("target", targetPointer.toString());
 
-        String msg;
 
         /*
          * Check if there is an attempt to expand to a parent tree
          */
-        msg = BUNDLE.getString("parentExpand");
         if (Collections.indexOfSubList(sourceTokens, targetTokens) == 0)
-            throw new SchemaWalkingException(message.message(msg));
+            throw new SchemaWalkingException(message
+                .message(BUNDLE.getKey("schemaWalking.parentExpand")));
         /*
          * Check if there is an attempt to expand to a subtree
          */
-        msg = BUNDLE.getString("subtreeExpand");
         if (Collections.indexOfSubList(targetTokens, sourceTokens) == 0)
-            throw new SchemaWalkingException(message.message(msg));
+            throw new SchemaWalkingException(message
+                .message(BUNDLE.getKey("schemaWalking.subtreeExpand")));
     }
 }

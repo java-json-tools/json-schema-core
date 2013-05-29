@@ -14,18 +14,8 @@ public final class CoreMessageBundles
         }
     };
 
-    public static final MessageBundle SCHEMA_WALKER;
-    public static final MessageBundle SYNTAX;
-
-    static {
-        String name;
-
-        name = "schemaWalker";
-        SCHEMA_WALKER = new MessageBundle(name, DEFAULT_PROVIDER);
-
-        name = "syntax";
-        SYNTAX = new MessageBundle(name, DEFAULT_PROVIDER);
-    }
+    public static final MessageBundle SYNTAX = new MessageBundle("syntax",
+        DEFAULT_PROVIDER);
 
     private CoreMessageBundles()
     {
