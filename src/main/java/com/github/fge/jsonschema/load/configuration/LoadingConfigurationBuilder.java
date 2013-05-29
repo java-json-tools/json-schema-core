@@ -1,6 +1,7 @@
 package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
@@ -30,7 +31,8 @@ import java.util.Map;
 public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>
 {
-    private static final MessageBundle REF_BUNDLE = CoreMessageBundles.JSON_REF;
+    private static final CoreMessageBundle REF_BUNDLE
+        = CoreMessageBundle.getInstance();
     private static final MessageBundle BUNDLE
         = CoreMessageBundles.LOADING_CFG;
 
@@ -284,7 +286,7 @@ public final class LoadingConfigurationBuilder
             ref = JsonRef.fromString(input);
             if (!ref.isAbsolute())
                 throw new JsonReferenceError(new ProcessingMessage()
-                    .message(REF_BUNDLE.getString("refNotAbsolute"))
+                    .message(REF_BUNDLE.getKey("jsonRef.refNotAbsolute"))
                     .put("input", ref));
             return ref.getLocator();
         } catch (JsonReferenceException e) {
