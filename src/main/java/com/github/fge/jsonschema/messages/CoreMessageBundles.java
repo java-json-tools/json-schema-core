@@ -1,6 +1,5 @@
 package com.github.fge.jsonschema.messages;
 
-import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 
@@ -16,7 +15,6 @@ public final class CoreMessageBundles
         }
     };
 
-    public static final MessageBundle LOADING_CFG;
     public static final MessageBundle PROCESSING;
     public static final MessageBundle REF_PROCESSING;
     public static final MessageBundle SCHEMA_WALKER;
@@ -25,17 +23,6 @@ public final class CoreMessageBundles
     static {
         String name;
         MessageBundle.ErrorProvider provider;
-
-        name = "loadingConfiguration";
-        provider = new MessageBundle.ErrorProvider()
-        {
-            @Override
-            public ProcessingError doError(final String msg)
-            {
-                return new LoadingConfigurationError(msg);
-            }
-        };
-        LOADING_CFG = new MessageBundle(name, provider);
 
         name = "processing";
         provider = new MessageBundle.ErrorProvider()

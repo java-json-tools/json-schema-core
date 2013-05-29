@@ -12,8 +12,6 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
@@ -31,10 +29,8 @@ import java.util.Map;
 public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>
 {
-    private static final CoreMessageBundle REF_BUNDLE
+    private static final CoreMessageBundle BUNDLE
         = CoreMessageBundle.getInstance();
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.LOADING_CFG;
 
     /**
      * The empty, default namespace
@@ -168,7 +164,8 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder dereferencing(
         final Dereferencing dereferencing)
     {
-        BUNDLE.checkNotNull(dereferencing, "nullDereferencingMode");
+        BUNDLE.checkNotNull(dereferencing,
+            "loadingCfg.nullDereferencingMode");
         this.dereferencing = dereferencing;
         return this;
     }
@@ -192,7 +189,7 @@ public final class LoadingConfigurationBuilder
         schemaRedirects.put(sourceURI, destinationURI);
         if (sourceURI.equals(destinationURI))
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getString("redirectToSelf"))
+                .message(BUNDLE.getKey("loadingCfg.redirectToSelf"))
                 .put("uri", sourceURI));
         return this;
     }
@@ -215,11 +212,11 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder preloadSchema(final String uri,
         final JsonNode schema)
     {
-        BUNDLE.checkNotNull(schema, "nullSchema");
+        BUNDLE.checkNotNull(schema, "loadingCfg.nullSchema");
         final URI key = getLocator(uri);
         if (preloadedSchemas.containsKey(key))
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getString("duplicateURI"))
+                .message(BUNDLE.getKey("loadingCfg.duplicateURI"))
                 .put("uri", key));
         preloadedSchemas.put(key, schema);
         return this;
@@ -241,7 +238,7 @@ public final class LoadingConfigurationBuilder
         final JsonNode node = schema.path("id");
         if (!node.isTextual())
             throw new LoadingConfigurationError(
-                BUNDLE.getString("noIDInSchema"));
+                BUNDLE.getKey("loadingCfg.noIDInSchema"));
         return preloadSchema(node.textValue(), schema);
     }
 
@@ -256,23 +253,17 @@ public final class LoadingConfigurationBuilder
         return new LoadingConfiguration(this);
     }
 
-    private static void checkNotNull(final Object obj, final String key)
-    {
-        if (obj == null)
-            throw new LoadingConfigurationError(BUNDLE.getString(key));
-    }
-
     private static String checkScheme(final String scheme)
     {
-        BUNDLE.checkNotNull(scheme, "nullScheme");
+        BUNDLE.checkNotNull(scheme, "loadingCfg.nullScheme");
         if (scheme.isEmpty())
             throw new LoadingConfigurationError(
-                BUNDLE.getString("emptyScheme"));
+                BUNDLE.getKey("loadingCfg.emptyScheme"));
         try {
             new URI(scheme, "x", "y");
         } catch (URISyntaxException ignored) {
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getString("illegalScheme"))
+                .message(BUNDLE.getKey("loadingCfg.illegalScheme"))
                 .put("scheme", scheme));
         }
 
@@ -286,7 +277,7 @@ public final class LoadingConfigurationBuilder
             ref = JsonRef.fromString(input);
             if (!ref.isAbsolute())
                 throw new JsonReferenceError(new ProcessingMessage()
-                    .message(REF_BUNDLE.getKey("jsonRef.notAbsolute"))
+                    .message(BUNDLE.getKey("jsonRef.notAbsolute"))
                     .put("input", ref));
             return ref.getLocator();
         } catch (JsonReferenceException e) {

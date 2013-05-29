@@ -49,8 +49,6 @@ public final class SchemaLoader
 {
     private static final MessageBundle BUNDLE
         = CoreMessageBundles.REF_PROCESSING;
-    private static final MessageBundle LOAD_BUNDLE
-        = CoreMessageBundles.LOADING_CFG;
 
     /**
      * The URI manager
@@ -118,7 +116,7 @@ public final class SchemaLoader
      */
     public SchemaTree load(final JsonNode schema)
     {
-        LOAD_BUNDLE.checkNotNull(schema, "nullSchema");
+        BUNDLE.checkNotNull(schema, "loadingCfg.nullSchema");
         return dereferencing.newTree(schema);
     }
 
