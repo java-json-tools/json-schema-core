@@ -1,6 +1,5 @@
 package com.github.fge.jsonschema.messages;
 
-import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
@@ -19,7 +18,6 @@ public final class CoreMessageBundles
     };
 
     public static final MessageBundle JSON_REF;
-    public static final MessageBundle DICTIONARY;
     public static final MessageBundle LOADING_CFG;
     public static final MessageBundle PROCESSING;
     public static final MessageBundle REF_PROCESSING;
@@ -40,17 +38,6 @@ public final class CoreMessageBundles
             }
         };
         JSON_REF = new MessageBundle(name, provider);
-
-        name = "dictionary";
-        provider = new MessageBundle.ErrorProvider()
-        {
-            @Override
-            public ProcessingError doError(final String msg)
-            {
-                return new DictionaryBuildError(msg);
-            }
-        };
-        DICTIONARY = new MessageBundle(name, provider);
 
         name = "loadingConfiguration";
         provider = new MessageBundle.ErrorProvider()

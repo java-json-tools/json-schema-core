@@ -3,7 +3,6 @@ package com.github.fge.jsonschema.load.configuration;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
@@ -115,7 +114,7 @@ public final class LoadingConfigurationBuilder
      * @param downloader the downloader
      * @return this
      * @throws LoadingConfigurationError scheme is null or illegal
-     * @throws DictionaryBuildError downloader is null
+     * @throws NullPointerException downloader is null
      */
     public LoadingConfigurationBuilder addScheme(final String scheme,
         final URIDownloader downloader)

@@ -17,9 +17,7 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
@@ -47,7 +45,8 @@ import java.util.Map;
 public final class DictionaryBuilder<T>
     implements Thawed<Dictionary<T>>
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.DICTIONARY;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     /**
      * Entries for this builder (mutable!)
@@ -80,12 +79,12 @@ public final class DictionaryBuilder<T>
      * @param key the key
      * @param value the value
      * @return this
-     * @throws DictionaryBuildError either the key or the value is null
+     * @throws NullPointerException either the key or the value is null
      */
     public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
-        BUNDLE.checkNotNull(key, "nullKey");
-        BUNDLE.checkNotNull(value, "nullValue");
+        BUNDLE.checkNotNull(key, "dictionary.nullKey");
+        BUNDLE.checkNotNull(value, "dictionary.nullValue");
         entries.put(key, value);
         return this;
     }
@@ -95,11 +94,11 @@ public final class DictionaryBuilder<T>
      *
      * @param other the other dictionary
      * @return this
-     * @throws DictionaryBuildError the dictionary is null
+     * @throws NullPointerException the dictionary is null
      */
     public DictionaryBuilder<T> addAll(final Dictionary<T> other)
     {
-        BUNDLE.checkNotNull(other, "nullDict");
+        BUNDLE.checkNotNull(other, "dictionary.nullDict");
         entries.putAll(other.entries);
         return this;
     }

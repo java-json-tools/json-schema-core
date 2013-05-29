@@ -17,26 +17,23 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class DictionaryBuilderTest
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.DICTIONARY;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private static final String KEY = "key";
-    private static final Whatever MOCK1 = mock(Whatever.class);
-    private static final Whatever MOCK2 = mock(Whatever.class);
+    private static final Object MOCK1 = mock(Object.class);
+    private static final Object MOCK2 = mock(Object.class);
 
-    private DictionaryBuilder<Whatever> builder;
+    private DictionaryBuilder<Object> builder;
 
     @BeforeMethod
     public void createBuilder()
@@ -50,9 +47,8 @@ public final class DictionaryBuilderTest
         try {
             builder.addEntry(null, null);
             fail("No exception thrown!!");
-        } catch (DictionaryBuildError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullKey"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("dictionary.nullKey"));
         }
     }
 
@@ -62,9 +58,8 @@ public final class DictionaryBuilderTest
         try {
             builder.addEntry(KEY, null);
             fail("No exception thrown!!");
-        } catch (DictionaryBuildError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullValue"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("dictionary.nullValue"));
         }
     }
 
@@ -74,9 +69,8 @@ public final class DictionaryBuilderTest
         try {
             builder.addAll(null);
             fail("No exception thrown!!");
-        } catch (DictionaryBuildError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullDict"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("dictionary.nullDict"));
         }
     }
 
@@ -101,9 +95,5 @@ public final class DictionaryBuilderTest
         builder.addEntry(KEY, MOCK1);
         builder.addEntry(KEY, MOCK2);
         assertSame(builder.freeze().entries().get(KEY), MOCK2);
-    }
-
-    private interface Whatever
-    {
     }
 }
