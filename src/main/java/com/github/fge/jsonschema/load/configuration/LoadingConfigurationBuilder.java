@@ -286,7 +286,7 @@ public final class LoadingConfigurationBuilder
             ref = JsonRef.fromString(input);
             if (!ref.isAbsolute())
                 throw new JsonReferenceError(new ProcessingMessage()
-                    .message(REF_BUNDLE.getKey("jsonRef.refNotAbsolute"))
+                    .message(REF_BUNDLE.getKey("jsonRef.notAbsolute"))
                     .put("input", ref));
             return ref.getLocator();
         } catch (JsonReferenceException e) {
