@@ -19,10 +19,8 @@ package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 import javax.annotation.concurrent.Immutable;
@@ -74,7 +72,8 @@ import java.net.URISyntaxException;
 @Immutable
 public abstract class JsonRef
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.JSON_REF;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     /**
      * The empty URI
@@ -171,11 +170,11 @@ public abstract class JsonRef
      *
      * @param uri the provided URI
      * @return the JSON Reference
-     * @throws JsonReferenceError the provided URI is null
+     * @throws NullPointerException the provided URI is null
      */
     public static JsonRef fromURI(final URI uri)
     {
-        BUNDLE.checkNotNull(uri, "nullURI");
+        BUNDLE.checkNotNull(uri, "jsonRef.nullURI");
 
         final URI normalized = uri.normalize();
 
@@ -193,18 +192,19 @@ public abstract class JsonRef
      * @param s the string
      * @return the reference
      * @throws JsonReferenceException string is not a valid URI
-     * @throws JsonReferenceError provided string is null
+     * @throws NullPointerException provided string is null
      */
     public static JsonRef fromString(final String s)
         throws JsonReferenceException
     {
-        BUNDLE.checkNotNull(s, "nullInput");
+        BUNDLE.checkNotNull(s, "jsonRef.nullInput");
 
         try {
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
             throw new JsonReferenceException(new ProcessingMessage()
-                .message(BUNDLE.getString("invalidURI")).put("input", s), e);
+                .message(BUNDLE.getKey("jsonRef.invalidURI"))
+                .put("input", s), e);
         }
     }
 

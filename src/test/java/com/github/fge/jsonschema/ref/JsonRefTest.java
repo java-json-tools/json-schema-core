@@ -17,10 +17,8 @@
 
 package com.github.fge.jsonschema.ref;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
 
@@ -31,7 +29,8 @@ import static org.testng.Assert.*;
 
 public final class JsonRefTest
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.JSON_REF;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     @Test
     public void cannotCreateRefFromNullURI()
@@ -39,9 +38,8 @@ public final class JsonRefTest
         try {
             JsonRef.fromURI(null);
             fail("No exception thrown!!");
-        } catch (JsonReferenceError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullURI"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("jsonRef.nullURI"));
         }
     }
 
@@ -52,9 +50,8 @@ public final class JsonRefTest
         try {
             JsonRef.fromString(null);
             fail("No exception thrown!!");
-        } catch (JsonReferenceError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullInput"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("jsonRef.nullInput"));
         }
     }
 
@@ -68,7 +65,8 @@ public final class JsonRefTest
             fail("No exception thrown!!");
         } catch (JsonReferenceException e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("invalidURI"))
+            assertMessage(message)
+                .hasMessage(BUNDLE.getKey("jsonRef.invalidURI"))
                 .hasField("input", input)
                 .hasField("exceptionClass", URISyntaxException.class.getName());
         }
