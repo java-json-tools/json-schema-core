@@ -22,8 +22,8 @@ import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.processing.RawProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -44,7 +44,7 @@ import java.util.Set;
 public final class SyntaxProcessor
     extends RawProcessor<SchemaTree, SchemaTree>
 {
-    private static final MessageBundle BUNDLE = MessageBundles.SYNTAX;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.SYNTAX;
 
     private final Map<String, SyntaxChecker> checkers;
 

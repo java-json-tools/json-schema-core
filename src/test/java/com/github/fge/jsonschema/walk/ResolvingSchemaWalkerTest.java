@@ -25,8 +25,8 @@ import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.DevNullProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -44,7 +44,7 @@ import static org.testng.Assert.*;
 public final class ResolvingSchemaWalkerTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.SCHEMA_WALKER;
+        = CoreMessageBundles.SCHEMA_WALKER;
 
     @Test
     public void listenerIsCalledAppropriatelyOnTreeChange()
@@ -174,7 +174,7 @@ public final class ResolvingSchemaWalkerTest
         } catch (InvalidSchemaException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message)
-                .hasMessage(MessageBundles.SYNTAX.getString("invalidSchema"));
+                .hasMessage(CoreMessageBundles.SYNTAX.getString("invalidSchema"));
         }
     }
 }

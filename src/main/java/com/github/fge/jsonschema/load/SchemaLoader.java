@@ -23,8 +23,8 @@ import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.cache.CacheBuilder;
@@ -49,9 +49,9 @@ import java.util.concurrent.ExecutionException;
 public final class SchemaLoader
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.REF_PROCESSING;
+        = CoreMessageBundles.REF_PROCESSING;
     private static final MessageBundle LOAD_BUNDLE
-        = MessageBundles.LOADING_CFG;
+        = CoreMessageBundles.LOADING_CFG;
 
     /**
      * The URI manager

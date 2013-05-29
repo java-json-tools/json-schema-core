@@ -6,7 +6,7 @@ import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 
-public final class MessageBundles
+public final class CoreMessageBundles
 {
     private static final MessageBundle.ErrorProvider DEFAULT_PROVIDER
         = new MessageBundle.ErrorProvider()
@@ -84,7 +84,7 @@ public final class MessageBundles
         SYNTAX = new MessageBundle(name, DEFAULT_PROVIDER);
     }
 
-    private MessageBundles()
+    private CoreMessageBundles()
     {
     }
 }

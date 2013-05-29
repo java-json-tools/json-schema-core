@@ -23,8 +23,8 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -43,7 +43,7 @@ import java.util.EnumSet;
 public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
 {
-    private static final MessageBundle BUNDLE = MessageBundles.SYNTAX;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.SYNTAX;
 
     private static final ExceptionProvider EXCEPTION_PROVIDER
         = new ExceptionProvider()

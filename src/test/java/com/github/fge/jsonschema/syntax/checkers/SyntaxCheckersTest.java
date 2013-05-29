@@ -30,8 +30,8 @@ import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -55,7 +55,7 @@ import static org.testng.Assert.*;
 
 public abstract class SyntaxCheckersTest
 {
-    private static final MessageBundle BUNDLE = MessageBundles.SYNTAX;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.SYNTAX;
 
     /*
      * The keyword

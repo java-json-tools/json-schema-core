@@ -3,8 +3,8 @@ package com.github.fge.jsonschema.walk;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
@@ -17,7 +17,7 @@ public final class SchemaWalkingConfigurationBuilder
     implements Thawed<SchemaWalkingConfiguration>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.PROCESSING;
+        = CoreMessageBundles.PROCESSING;
 
     DictionaryBuilder<PointerCollector> collectors;
     DictionaryBuilder<SyntaxChecker> checkers;

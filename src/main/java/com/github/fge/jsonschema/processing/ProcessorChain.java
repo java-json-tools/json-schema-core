@@ -20,8 +20,8 @@ package com.github.fge.jsonschema.processing;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -64,7 +64,7 @@ import javax.annotation.concurrent.Immutable;
 public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.PROCESSING;
+        = CoreMessageBundles.PROCESSING;
 
     /**
      * The resulting processor

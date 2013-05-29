@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import org.testng.annotations.BeforeMethod;
@@ -40,7 +40,7 @@ import static org.testng.Assert.*;
 public final class URIManagerTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.REF_PROCESSING;
+        = CoreMessageBundles.REF_PROCESSING;
 
     private URIDownloader mock;
 

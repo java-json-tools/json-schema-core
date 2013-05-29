@@ -6,8 +6,8 @@ import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.load.URIDownloader;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
@@ -21,8 +21,7 @@ import static org.testng.Assert.*;
 
 public final class LoadingConfigurationBuilderTest
 {
-    private static final MessageBundle BUNDLE
-        = MessageBundles.LOADING_CFG;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.LOADING_CFG;
 
     private static final String SAMPLE_ABSOLUTE_REF = "x://y";
 

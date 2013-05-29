@@ -20,8 +20,8 @@ package com.github.fge.jsonschema.load;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -35,7 +35,7 @@ import static org.testng.Assert.*;
 public final class RefResolverTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.REF_PROCESSING;
+        = CoreMessageBundles.REF_PROCESSING;
 
     private final RefResolver processor = new RefResolver(null);
     private final ProcessingReport report = mock(ProcessingReport.class);

@@ -1,8 +1,8 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutionException;
 public final class CachingProcessor<IN extends MessageProvider, OUT extends MessageProvider>
     implements Processor<IN, OUT>
 {
-    private static final MessageBundle BUNDLE = MessageBundles.PROCESSING;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.PROCESSING;
     /**
      * The wrapped processor
      */

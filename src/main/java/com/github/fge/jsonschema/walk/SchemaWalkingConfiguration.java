@@ -2,8 +2,8 @@ package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.Frozen;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
@@ -12,7 +12,7 @@ public final class SchemaWalkingConfiguration
     implements Frozen<SchemaWalkingConfigurationBuilder>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.PROCESSING;
+        = CoreMessageBundles.PROCESSING;
 
     final Dictionary<PointerCollector> collectors;
     final Dictionary<SyntaxChecker> checkers;

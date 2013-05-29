@@ -24,8 +24,8 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
@@ -48,7 +48,7 @@ import java.util.Map;
 public final class URIManager
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.REF_PROCESSING;
+        = CoreMessageBundles.REF_PROCESSING;
     private static final ObjectReader READER = JacksonUtils.getReader();
 
     private final Map<String, URIDownloader> downloaders;

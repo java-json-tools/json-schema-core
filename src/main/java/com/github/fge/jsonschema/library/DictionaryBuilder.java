@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.exceptions.unchecked.DictionaryBuildError;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
@@ -47,7 +47,7 @@ import java.util.Map;
 public final class DictionaryBuilder<T>
     implements Thawed<Dictionary<T>>
 {
-    private static final MessageBundle BUNDLE = MessageBundles.DICTIONARY;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.DICTIONARY;
 
     /**
      * Entries for this builder (mutable!)

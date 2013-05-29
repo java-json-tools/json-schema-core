@@ -2,8 +2,8 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -22,8 +22,7 @@ import static org.testng.Assert.*;
 
 public final class ProcessingResultTest
 {
-    private static final MessageBundle BUNDLE
-        = MessageBundles.PROCESSING;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.PROCESSING;
     private static final String MSG = "Houston, we have a problem";
 
     private Processor<In, Out> processor;

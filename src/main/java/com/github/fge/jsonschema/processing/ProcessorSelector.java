@@ -19,8 +19,8 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
@@ -68,7 +68,7 @@ import java.util.Map;
 public final class ProcessorSelector<IN extends MessageProvider, OUT extends MessageProvider>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.PROCESSING;
+        = CoreMessageBundles.PROCESSING;
 
     /**
      * Map of predicates and their associated processors

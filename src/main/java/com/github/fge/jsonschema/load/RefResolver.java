@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.processing.RawProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -48,7 +48,7 @@ public final class RefResolver
     extends RawProcessor<SchemaTree, SchemaTree>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.REF_PROCESSING;
+        = CoreMessageBundles.REF_PROCESSING;
 
     private final SchemaLoader loader;
 

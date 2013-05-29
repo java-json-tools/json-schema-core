@@ -21,8 +21,8 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 import javax.annotation.concurrent.Immutable;
@@ -74,7 +74,7 @@ import java.net.URISyntaxException;
 @Immutable
 public abstract class JsonRef
 {
-    private static final MessageBundle BUNDLE = MessageBundles.JSON_REF;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.JSON_REF;
 
     /**
      * The empty URI

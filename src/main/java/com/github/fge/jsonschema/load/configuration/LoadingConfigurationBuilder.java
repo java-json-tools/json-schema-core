@@ -12,8 +12,8 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
@@ -31,9 +31,9 @@ import java.util.Map;
 public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>
 {
-    private static final MessageBundle REF_BUNDLE = MessageBundles.JSON_REF;
+    private static final MessageBundle REF_BUNDLE = CoreMessageBundles.JSON_REF;
     private static final MessageBundle BUNDLE
-        = MessageBundles.LOADING_CFG;
+        = CoreMessageBundles.LOADING_CFG;
 
     /**
      * The empty, default namespace

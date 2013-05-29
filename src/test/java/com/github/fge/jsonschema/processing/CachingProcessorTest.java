@@ -2,8 +2,8 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -18,8 +18,7 @@ import static org.testng.Assert.*;
 
 public final class CachingProcessorTest
 {
-    private static final MessageBundle BUNDLE
-        = MessageBundles.PROCESSING;
+    private static final MessageBundle BUNDLE = CoreMessageBundles.PROCESSING;
 
     private In input;
 

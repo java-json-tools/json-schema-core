@@ -19,8 +19,8 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
@@ -44,7 +44,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 public final class ProcessingResult<R extends MessageProvider>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.PROCESSING;
+        = CoreMessageBundles.PROCESSING;
 
     private final ProcessingReport report;
     private final R result;

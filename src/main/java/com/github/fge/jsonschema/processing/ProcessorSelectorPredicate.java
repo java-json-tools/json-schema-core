@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
@@ -39,7 +39,7 @@ import java.util.Map;
 public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT extends MessageProvider>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.PROCESSING;
+        = CoreMessageBundles.PROCESSING;
 
     /**
      * The predicate

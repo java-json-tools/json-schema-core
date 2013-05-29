@@ -20,8 +20,8 @@ package com.github.fge.jsonschema.load;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -39,7 +39,7 @@ import static org.testng.Assert.*;
 public final class SchemaLoaderTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundles.REF_PROCESSING;
+        = CoreMessageBundles.REF_PROCESSING;
     private static final byte[] BYTES = JacksonUtils.nodeFactory().objectNode()
         .toString().getBytes();
 
