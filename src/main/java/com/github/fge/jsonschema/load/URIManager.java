@@ -22,10 +22,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
@@ -47,8 +47,8 @@ import java.util.Map;
  */
 public final class URIManager
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.REF_PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
     private static final ObjectReader READER = JacksonUtils.getReader();
 
     private final Map<String, URIDownloader> downloaders;
@@ -83,7 +83,8 @@ public final class URIManager
             ? schemaRedirects.get(uri) : uri;
 
         if (!target.isAbsolute())
-            throw new ProcessingException(BUNDLE.message("uriNotAbsolute")
+            throw new ProcessingException(new ProcessingMessage()
+                .message(BUNDLE.getKey("refProcessing.uriNotAbsolute"))
                 .put("uri", uri));
 
         final String scheme = target.getScheme();
@@ -91,7 +92,8 @@ public final class URIManager
         final URIDownloader downloader = downloaders.get(scheme);
 
         if (downloader == null)
-            throw new ProcessingException(BUNDLE.message("unhandledScheme")
+            throw new ProcessingException(new ProcessingMessage()
+                .message(BUNDLE.getKey("refProcessing.unhandledScheme"))
                 .put("uri", uri).put("scheme", scheme));
 
         final InputStream in;
@@ -100,10 +102,12 @@ public final class URIManager
             in = downloader.fetch(target);
             return READER.readTree(in);
         } catch (JsonProcessingException e) {
-            throw new ProcessingException(BUNDLE.message("uriNotJson")
+            throw new ProcessingException(new ProcessingMessage()
+                .message(BUNDLE.getKey("refProcessing.uriNotJson"))
                 .put("uri", uri).put("parsingMessage", e.getOriginalMessage()));
         } catch (IOException e) {
-            throw new ProcessingException(BUNDLE.message("uriIOError")
+            throw new ProcessingException(new ProcessingMessage()
+                .message(BUNDLE.getKey("refProcessing.uriIOError"))
                 .put("uri", uri).put("exceptionMessage", e.getMessage()));
         }
     }

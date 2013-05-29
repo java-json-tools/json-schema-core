@@ -19,10 +19,9 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import org.testng.annotations.BeforeMethod;
@@ -39,8 +38,8 @@ import static org.testng.Assert.*;
 
 public final class URIManagerTest
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.REF_PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private URIDownloader mock;
 
@@ -60,7 +59,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getString("unhandledScheme"))
+                .hasMessage(BUNDLE.getKey("refProcessing.unhandledScheme"))
                 .hasField("scheme", "bar").hasField("uri", uri)
                 .hasLevel(LogLevel.FATAL);
         }
@@ -84,7 +83,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getString("uriIOError"))
+                .hasMessage(BUNDLE.getKey("refProcessing.uriIOError"))
                 .hasField("uri", uri).hasLevel(LogLevel.FATAL)
                 .hasField("exceptionMessage", "foo");
         }
@@ -109,7 +108,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getString("uriNotJson"))
+                .hasMessage(BUNDLE.getKey("refProcessing.uriNotJson"))
                 .hasTextField("parsingMessage").hasLevel(LogLevel.FATAL)
                 .hasField("uri", uri);
         }

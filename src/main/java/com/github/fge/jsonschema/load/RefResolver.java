@@ -19,12 +19,12 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.processing.RawProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.Sets;
@@ -47,8 +47,8 @@ import java.util.Set;
 public final class RefResolver
     extends RawProcessor<SchemaTree, SchemaTree>
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.REF_PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private final SchemaLoader loader;
 
@@ -95,7 +95,8 @@ public final class RefResolver
              * If we have seen this ref already, this is a ref loop.
              */
             if (!refs.add(ref))
-                throw new ProcessingException(BUNDLE.message("refLoop")
+                throw new ProcessingException(new ProcessingMessage()
+                    .message(BUNDLE.getKey("refProcessing.refLoop"))
                     .put("schema", tree).put("ref", ref).put("path", refs));
             /*
              * Check whether ref is resolvable within the current tree. If not,
@@ -112,7 +113,8 @@ public final class RefResolver
              */
             ptr = tree.matchingPointer(ref);
             if (ptr == null)
-                throw new ProcessingException(BUNDLE.message("danglingRef")
+                throw new ProcessingException(new ProcessingMessage()
+                    .message(BUNDLE.getKey("refProcessing.danglingRef"))
                     .put("schema", tree).put("ref", ref));
             tree = tree.setPointer(ptr);
         }

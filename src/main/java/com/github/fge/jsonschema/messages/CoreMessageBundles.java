@@ -14,15 +14,11 @@ public final class CoreMessageBundles
         }
     };
 
-    public static final MessageBundle REF_PROCESSING;
     public static final MessageBundle SCHEMA_WALKER;
     public static final MessageBundle SYNTAX;
 
     static {
         String name;
-
-        name = "refProcessing";
-        REF_PROCESSING = new MessageBundle(name, DEFAULT_PROVIDER);
 
         name = "schemaWalker";
         SCHEMA_WALKER = new MessageBundle(name, DEFAULT_PROVIDER);
