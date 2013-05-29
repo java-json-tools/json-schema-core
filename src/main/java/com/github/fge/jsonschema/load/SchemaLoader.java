@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
@@ -133,7 +132,7 @@ public final class SchemaLoader
      * @return a schema tree
      * @throws ProcessingException URI is not an absolute JSON reference, or
      * failed to dereference this URI
-     * @throws JsonReferenceError URI is null
+     * @throws NullPointerException URI is null
      */
     public SchemaTree get(final URI uri)
         throws ProcessingException

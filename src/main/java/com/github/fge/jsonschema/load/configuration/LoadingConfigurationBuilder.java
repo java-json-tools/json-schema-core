@@ -146,8 +146,8 @@ public final class LoadingConfigurationBuilder
      *
      * @param input the namespace
      * @return this
-     * @throws JsonReferenceError input is null or not an absolute
-     * JSON Reference
+     * @throws NullPointerException input is null
+     * @throws JsonReferenceError input is not an absolute JSON Reference
      * @see JsonRef
      */
     public LoadingConfigurationBuilder setNamespace(final String input)
