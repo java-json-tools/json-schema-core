@@ -17,10 +17,8 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -58,8 +56,8 @@ import java.util.Map;
  */
 public final class ProcessorMap<K, IN extends MessageProvider, OUT extends MessageProvider>
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private final Function<IN, K> keyFunction;
     /**
@@ -76,11 +74,11 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
      * Constructor
      *
      * @param keyFunction function to extract a key from an input
-     * @throws ProcessingConfigurationError key function is null
+     * @throws NullPointerException key function is null
      */
     public ProcessorMap(final Function<IN, K> keyFunction)
     {
-        BUNDLE.checkNotNull(keyFunction, "nullFunction");
+        BUNDLE.checkNotNull(keyFunction, "processing.nullFunction");
         this.keyFunction = keyFunction;
     }
 
@@ -90,13 +88,13 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
      * @param key the key to match against
      * @param processor the processor for that key
      * @return this
-     * @throws ProcessingConfigurationError either the key or the processor are null
+     * @throws NullPointerException either the key or the processor are null
      */
     public ProcessorMap<K, IN, OUT> addEntry(final K key,
         final Processor<IN, OUT> processor)
     {
-        BUNDLE.checkNotNull(key, "nullKey");
-        BUNDLE.checkNotNull(processor, "nullProcessor");
+        BUNDLE.checkNotNull(key, "processing.nullKey");
+        BUNDLE.checkNotNull(processor, "processing.nullProcessor");
         processors.put(key, processor);
         return this;
     }
@@ -106,12 +104,12 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
      *
      * @param defaultProcessor the default processor
      * @return this
-     * @throws ProcessingConfigurationError processor is null
+     * @throws NullPointerException processor is null
      */
     public ProcessorMap<K, IN, OUT> setDefaultProcessor(
         final Processor<IN, OUT> defaultProcessor)
     {
-        BUNDLE.checkNotNull(defaultProcessor, "nullProcessor");
+        BUNDLE.checkNotNull(defaultProcessor, "processing.nullProcessor");
         this.defaultProcessor = defaultProcessor;
         return this;
     }
@@ -158,7 +156,7 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
 
             if (processor == null) // Not even a default processor. Ouch.
                 throw new ProcessingException(new ProcessingMessage()
-                    .message(BUNDLE.getString("noProcessor"))
+                    .message(BUNDLE.getKey("processing.noProcessor"))
                     .put("key", key));
 
             return processor.process(report, input);

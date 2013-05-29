@@ -23,13 +23,10 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.util.AsJson;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -52,8 +49,8 @@ import java.util.Map;
 public final class ProcessingMessage
     implements AsJson
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
@@ -80,14 +77,13 @@ public final class ProcessingMessage
      *
      * @param exceptionProvider the exception provider
      * @return this
-     * @throws ProcessingError exception provider is null
+     * @throws NullPointerException exception provider is null
      */
     public ProcessingMessage setExceptionProvider(
         final ExceptionProvider exceptionProvider)
     {
-        if (exceptionProvider == null)
-            throw new ProcessingError(
-                BUNDLE.getString("nullExceptionProvider"));
+        BUNDLE.checkNotNull(exceptionProvider,
+            "processing.nullExceptionProvider");
         this.exceptionProvider = exceptionProvider;
         return this;
     }
@@ -97,14 +93,12 @@ public final class ProcessingMessage
      *
      * @param level the log level
      * @return this
-     * @throws ProcessingError log level is null
+     * @throws NullPointerException log level is null
      */
     public ProcessingMessage setLogLevel(final LogLevel level)
     {
-        if (level == null)
-            throw new ProcessingError(BUNDLE.getString("nullLevel"));
-        this.level = Preconditions.checkNotNull(level,
-            "log level cannot be null");
+        BUNDLE.checkNotNull(level, "processing.nullLevel");
+        this.level = level;
         return put("level", level);
     }
 

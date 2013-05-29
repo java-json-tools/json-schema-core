@@ -17,11 +17,9 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -63,8 +61,8 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     /**
      * The resulting processor
@@ -78,12 +76,12 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
      * @param <X> the input type
      * @param <Y> the output type
      * @return a single element processing chain
-     * @throws ProcessingConfigurationError processor is null
+     * @throws NullPointerException processor is null
      */
     public static <X extends MessageProvider, Y extends MessageProvider>
         ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
     {
-        BUNDLE.checkNotNull(p, "nullProcessor");
+        BUNDLE.checkNotNull(p, "processing.nullProcessor");
         return new ProcessorChain<X, Y>(p);
     }
 
@@ -109,7 +107,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public ProcessorChain<IN, OUT> failOnError()
     {
         return failOnError(new ProcessingMessage()
-            .message(BUNDLE.getString("chainStopped")));
+            .message(BUNDLE.getKey("processing.chainStopped")));
     }
 
     /**
@@ -150,12 +148,12 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
      * @param <NEWOUT> the return type for that new processor
      * @return a new chain consisting of the previous chain with the new
      * processor appended
-     * @throws ProcessingConfigurationError processor to append is null
+     * @throws NullPointerException processor to append is null
      */
     public <NEWOUT extends MessageProvider> ProcessorChain<IN, NEWOUT>
         chainWith(final Processor<OUT, NEWOUT> p)
     {
-        BUNDLE.checkNotNull(p, "nullProcessor");
+        BUNDLE.checkNotNull(p, "processing.nullProcessor");
         final Processor<IN, NEWOUT> merger
             = new ProcessorMerger<IN, OUT, NEWOUT>(processor, p);
         return new ProcessorChain<IN, NEWOUT>(merger);
@@ -193,12 +191,6 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         {
             return p1 + " -> " + p2;
         }
-    }
-
-    private static void checkNotNull(final Object obj, final String key)
-    {
-        if (obj == null)
-            throw new ProcessingConfigurationError(BUNDLE.getString(key));
     }
 }
 

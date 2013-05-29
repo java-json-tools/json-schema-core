@@ -17,12 +17,9 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Function;
 import org.testng.annotations.BeforeMethod;
@@ -35,7 +32,8 @@ import static org.testng.Assert.*;
 
 public final class ProcessorMapTest
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private Processor<In, Out> processor1;
     private Processor<In, Out> processor2;
@@ -62,9 +60,8 @@ public final class ProcessorMapTest
         try {
             new ProcessorMap<Key, In, Out>(fn).addEntry(null, null);
             fail("No exception thrown!!");
-        } catch (ProcessingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullKey"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("processing.nullKey"));
         }
     }
 
@@ -74,10 +71,9 @@ public final class ProcessorMapTest
         try {
             new ProcessorMap<Key, In, Out>(fn).addEntry(Key.ONE, null);
             fail("No exception thrown!!");
-        } catch (ProcessingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullProcessor"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getKey("processing.nullProcessor"));
         }
     }
 
@@ -88,10 +84,9 @@ public final class ProcessorMapTest
             new ProcessorMap<Key, In, Out>(fn).addEntry(Key.ONE, processor1)
                 .setDefaultProcessor(null);
             fail("No exception thrown!!");
-        } catch (ProcessingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullProcessor"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getKey("processing.nullProcessor"));
         }
     }
 
@@ -101,9 +96,9 @@ public final class ProcessorMapTest
         try {
             new ProcessorMap<Key, In, Out>(null).getProcessor();
             fail("No exception thrown!!");
-        } catch (ProcessingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullFunction"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getKey("processing.nullFunction"));
         }
     }
 
@@ -142,8 +137,8 @@ public final class ProcessorMapTest
             processor.process(report, input);
             fail("No exception thrown!!");
         } catch (ProcessingException e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("noProcessor"))
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getKey("processing.noProcessor"))
                 .hasField("key", Key.THREE);
         }
     }

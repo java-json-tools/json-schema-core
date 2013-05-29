@@ -17,10 +17,8 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
@@ -43,16 +41,15 @@ import com.github.fge.jsonschema.report.ProcessingReport;
  */
 public final class ProcessingResult<R extends MessageProvider>
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private final ProcessingReport report;
     private final R result;
 
     private ProcessingResult(final ProcessingReport report, final R result)
     {
-        if (report == null)
-            throw new ProcessingError(BUNDLE.getString("nullReport"));
+        BUNDLE.checkNotNull(report, "processing.nullReport");
         this.report = report;
         this.result = result;
     }
@@ -67,15 +64,14 @@ public final class ProcessingResult<R extends MessageProvider>
      * @param <OUT> type of the output
      * @return a processing result
      * @throws ProcessingException processing failed
-     * @throws ProcessingError the processor or report are null
+     * @throws NullPointerException the processor or report are null
      */
     public static <IN extends MessageProvider, OUT extends MessageProvider>
         ProcessingResult<OUT> of(final Processor<IN, OUT> processor,
         final ProcessingReport report, final IN input)
         throws ProcessingException
     {
-        if (processor == null)
-            throw new ProcessingError(BUNDLE.getString("nullProcessor"));
+        BUNDLE.checkNotNull(processor, "processing.nullProcessor");
         final OUT out = processor.process(report, input);
         return new ProcessingResult<OUT>(report, out);
     }
@@ -89,7 +85,7 @@ public final class ProcessingResult<R extends MessageProvider>
      * @param <IN> type of the input
      * @param <OUT> type of the output
      * @return a processing result
-     * @throws ProcessingError the processor or report are null
+     * @throws NullPointerException the processor or report are null
      */
     public static <IN extends MessageProvider, OUT extends MessageProvider>
         ProcessingResult<OUT> uncheckedResult(
@@ -144,7 +140,7 @@ public final class ProcessingResult<R extends MessageProvider>
             = new ListProcessingReport(LogLevel.DEBUG, LogLevel.NONE);
         try {
             ret.fatal(e.getProcessingMessage()
-                .put("info", "other messages follow (if any)"));
+                .put("info", BUNDLE.getKey("processing.moreMessages")));
             ret.mergeWith(report);
         } catch (ProcessingException ignored) {
             // can't happen

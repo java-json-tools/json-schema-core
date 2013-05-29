@@ -17,10 +17,8 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
@@ -34,7 +32,8 @@ import static org.testng.Assert.*;
 
 public final class ProcessorChainTest
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     @Test
     public void cannotInitiateWithNullProcessor()
@@ -42,10 +41,9 @@ public final class ProcessorChainTest
         try {
             ProcessorChain.startWith(null);
             fail("No exception thrown!!");
-        } catch (ProcessingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullProcessor"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getKey("processing.nullProcessor"));
         }
     }
 
@@ -58,12 +56,12 @@ public final class ProcessorChainTest
         try {
             ProcessorChain.startWith(p).chainWith(null);
             fail("No exception thrown!!");
-        } catch (ProcessingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullProcessor"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getKey("processing.nullProcessor"));
         }
     }
+
     @Test
     public void failingOnErrorExitsEarly()
         throws ProcessingException
@@ -86,9 +84,8 @@ public final class ProcessorChainTest
             processor.process(report, input);
             fail("No exception thrown!!");
         } catch (ProcessingException e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("chainStopped"));
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getKey("processing.chainStopped"));
         }
 
         verify(p1).process(same(report), any(MessageProvider.class));

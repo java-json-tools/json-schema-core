@@ -17,10 +17,8 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
@@ -67,8 +65,8 @@ import java.util.Map;
 @Immutable
 public final class ProcessorSelector<IN extends MessageProvider, OUT extends MessageProvider>
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     /**
      * Map of predicates and their associated processors
@@ -119,12 +117,12 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
      *
      * @param predicate the predicate to add
      * @return a {@link ProcessorSelectorPredicate}
-     * @throws ProcessingConfigurationError the predicate is null
+     * @throws NullPointerException the predicate is null
      */
     public ProcessorSelectorPredicate<IN, OUT> when(
         final Predicate<IN> predicate)
     {
-        BUNDLE.checkNotNull(predicate, "nullPredicate");
+        BUNDLE.checkNotNull(predicate, "processing.nullPredicate");
         return new ProcessorSelectorPredicate<IN, OUT>(this, predicate);
     }
 
@@ -133,12 +131,12 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
      *
      * @param byDefault the default processor
      * @return a <b>new</b> selector
-     * @throws ProcessingConfigurationError default processor is null
+     * @throws NullPointerException default processor is null
      */
     public ProcessorSelector<IN, OUT> otherwise(
         final Processor<IN, OUT> byDefault)
     {
-        BUNDLE.checkNotNull(byDefault, "nullProcessor");
+        BUNDLE.checkNotNull(byDefault, "processing.nullProcessor");
         return new ProcessorSelector<IN, OUT>(choices, byDefault);
     }
 
@@ -147,6 +145,7 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
      *
      * <p>The returned processor is immutable: reusing this selector will not
      * affect the result of this method in any way.</p>
+     *
      * @return the selector
      */
     public Processor<IN, OUT> getProcessor()
@@ -184,7 +183,8 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
             if (byDefault != null)
                 return byDefault.process(report, input);
 
-            throw new ProcessingException(BUNDLE.getString("noProcessor"));
+            throw new ProcessingException(
+                BUNDLE.getKey("processing.noProcessor"));
         }
 
         @Override

@@ -1,24 +1,21 @@
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.equivalence.Equivalences;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.TestUtils.*;
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class CachingProcessorTest
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private In input;
 
@@ -38,10 +35,9 @@ public final class CachingProcessorTest
         try {
             new CachingProcessor<In, Out>(null);
             fail("No exception thrown!!");
-        } catch (ProcessingError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullProcessor"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getKey("processing.nullProcessor"));
         }
     }
 
@@ -51,10 +47,9 @@ public final class CachingProcessorTest
         try {
             new CachingProcessor<In, Out>(processor, null);
             fail("No exception thrown!!");
-        } catch (ProcessingError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullEquivalence"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getKey("processing.nullEquivalence"));
         }
     }
 

@@ -1,8 +1,7 @@
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
@@ -30,7 +29,8 @@ import java.util.concurrent.ExecutionException;
 public final class CachingProcessor<IN extends MessageProvider, OUT extends MessageProvider>
     implements Processor<IN, OUT>
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
     /**
      * The wrapped processor
      */
@@ -66,12 +66,13 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
      *
      * @param processor the processor
      * @param equivalence an equivalence to use for cache keys
+     * @throws NullPointerException processor or equivalence are null
      */
     public CachingProcessor(final Processor<IN, OUT> processor,
         final Equivalence<IN> equivalence)
     {
-        BUNDLE.checkNotNull(processor, "nullProcessor");
-        BUNDLE.checkNotNull(equivalence, "nullEquivalence");
+        BUNDLE.checkNotNull(processor, "processing.nullProcessor");
+        BUNDLE.checkNotNull(equivalence, "processing.nullEquivalence");
         this.processor = processor;
         this.equivalence = equivalence;
         cache = CacheBuilder.newBuilder().build(loader());

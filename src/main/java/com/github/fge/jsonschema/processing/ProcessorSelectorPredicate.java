@@ -17,9 +17,7 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingConfigurationError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
@@ -38,8 +36,8 @@ import java.util.Map;
  */
 public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT extends MessageProvider>
 {
-    private static final MessageBundle BUNDLE
-        = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     /**
      * The predicate
@@ -77,11 +75,11 @@ public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT ex
      *
      * @param processor the associated processor
      * @return a new {@link ProcessorSelector}
-     * @throws ProcessingConfigurationError the processor is null
+     * @throws NullPointerException the processor is null
      */
     public ProcessorSelector<IN, OUT> then(final Processor<IN, OUT> processor)
     {
-        BUNDLE.checkNotNull(processor, "nullProcessor");
+        BUNDLE.checkNotNull(processor, "processing.nullProcessor");
         choices.put(predicate, processor);
         return new ProcessorSelector<IN, OUT>(this);
     }

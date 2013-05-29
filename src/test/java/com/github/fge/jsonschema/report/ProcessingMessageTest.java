@@ -22,11 +22,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
@@ -39,7 +37,8 @@ import static org.testng.Assert.*;
 
 public final class ProcessingMessageTest
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
@@ -69,10 +68,8 @@ public final class ProcessingMessageTest
         try {
             msg.setLogLevel(null);
             fail("No exception thrown!");
-        } catch (ProcessingError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullLevel"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("processing.nullLevel"));
         }
     }
 
@@ -215,10 +212,9 @@ public final class ProcessingMessageTest
         try {
             new ProcessingMessage().setExceptionProvider(null);
             fail("No exception thrown!!");
-        } catch (ProcessingError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullExceptionProvider"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getKey("processing.nullExceptionProvider"));
         }
     }
 
