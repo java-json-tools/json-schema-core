@@ -112,7 +112,7 @@ public final class SyntaxProcessorTest
         verify(report).log(same(LogLevel.ERROR), captor.capture());
 
         final ProcessingMessage message = captor.getValue();
-        assertMessage(message).hasMessage(BUNDLE.getKey("notASchema"))
+        assertMessage(message).hasMessage(BUNDLE.getKey("core.notASchema"))
         .hasField("found", NodeType.getNodeType(node));
     }
 
@@ -140,7 +140,7 @@ public final class SyntaxProcessorTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).hasMessage(BUNDLE.getKey("unknownKeywords"))
+        assertMessage(message).hasMessage(BUNDLE.getKey("core.unknownKeywords"))
             .hasField("ignored", ignored);
     }
 

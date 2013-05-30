@@ -80,7 +80,7 @@ public final class SyntaxProcessor
          * Barf if not an object, and don't even try to go any further
          */
         if (type != NodeType.OBJECT) {
-            report.error(newMsg(tree, "notASchema").put("found", type));
+            report.error(newMsg(tree, "core.notASchema").put("found", type));
             return;
         }
 
@@ -98,8 +98,8 @@ public final class SyntaxProcessor
         fieldNames.removeAll(map.keySet());
 
         if (!fieldNames.isEmpty())
-            report.warn(newMsg(tree, "unknownKeywords")
-                    .put("ignored", Ordering.natural().sortedCopy(fieldNames)));
+            report.warn(newMsg(tree, "core.unknownKeywords")
+                .put("ignored", Ordering.natural().sortedCopy(fieldNames)));
 
         /*
          * Now, check syntax of each keyword, and collect pointers for further
