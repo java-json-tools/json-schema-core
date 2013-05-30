@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
@@ -44,24 +45,25 @@ public abstract class SchemaMapSyntaxChecker
     }
 
     @Override
-    protected final void checkValue(
-        final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+    protected final void checkValue(final Collection<JsonPointer> pointers,
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         collectPointers(pointers, getNode(tree));
-        extraChecks(report, tree);
+        extraChecks(report, bundle, tree);
     }
 
     /**
      * Perform extra checks on the value
      *
      * @param report the report to use
+     * @param bundle the message bundle to use
      * @param tree the schema
      * @throws InvalidSchemaException schema is invalid
      */
     protected abstract void extraChecks(final ProcessingReport report,
-        final SchemaTree tree)
+        final MessageBundle bundle, final SchemaTree tree)
         throws ProcessingException;
 
     private void collectPointers(final Collection<JsonPointer> pointers,

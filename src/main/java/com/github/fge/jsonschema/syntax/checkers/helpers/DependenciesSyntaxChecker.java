@@ -27,6 +27,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Maps;
 
@@ -67,7 +68,8 @@ public abstract class DependenciesSyntaxChecker
 
     @Override
     protected final void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
@@ -83,7 +85,7 @@ public abstract class DependenciesSyntaxChecker
             if (value.isObject())
                 pointers.add(JsonPointer.of(keyword, key));
             else
-                checkDependency(report, entry.getKey(), tree);
+                checkDependency(report, bundle, entry.getKey(), tree);
         }
 
     }
@@ -92,11 +94,12 @@ public abstract class DependenciesSyntaxChecker
      * Check one dependency which is not a schema dependency
      *
      * @param report the processing report to use
+     * @param bundle the message bundle to use
      * @param name the property dependency name
      * @param tree the schema
      * @throws InvalidSchemaException keyword is invalid
      */
     protected abstract void checkDependency(final ProcessingReport report,
-        final String name, final SchemaTree tree)
+        final MessageBundle bundle, final String name, final SchemaTree tree)
         throws ProcessingException;
 }

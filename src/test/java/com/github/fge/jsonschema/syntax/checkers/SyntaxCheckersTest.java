@@ -163,7 +163,7 @@ public abstract class SyntaxCheckersTest
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
-        checker.checkSyntax(pointers, report, tree);
+        checker.checkSyntax(pointers, BUNDLE, report, tree);
 
         verify(report).error(captor.capture());
 
@@ -209,7 +209,7 @@ public abstract class SyntaxCheckersTest
     {
         final SchemaTree tree = new CanonicalSchemaTree(schema);
 
-        checker.checkSyntax(pointers, report, tree);
+        checker.checkSyntax(pointers, BUNDLE, report, tree);
 
         if (success) {
             verify(report, never()).error(anyMessage());
@@ -257,7 +257,7 @@ public abstract class SyntaxCheckersTest
     {
         final SchemaTree tree = new CanonicalSchemaTree(schema);
 
-        checker.checkSyntax(pointers, report, tree);
+        checker.checkSyntax(pointers, BUNDLE, report, tree);
 
         final List<JsonPointer> expected = Lists.newArrayList();
         for (final JsonNode node: expectedPointers)

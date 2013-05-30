@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -52,14 +53,15 @@ public final class DraftV3TypeKeywordSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = tree.getNode().get(keyword);
 
         if (node.isTextual()) {
             if (!typeIsValid(node.textValue()))
-                report.error(newMsg(tree, "incorrectPrimitiveType")
+                report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
                     .put("valid", EnumSet.allOf(NodeType.class))
                     .put("found", node));
             return;
@@ -81,21 +83,21 @@ public final class DraftV3TypeKeywordSyntaxChecker
                 continue;
             }
             if (type != STRING) {
-                report.error(newMsg(tree, "incorrectElementType")
+                report.error(newMsg(tree, bundle, "incorrectElementType")
                     .put("index", index)
                     .put("expected", EnumSet.of(OBJECT, STRING))
                     .put("found", type));
                 continue;
             }
             if (!typeIsValid(element.textValue()))
-                report.error(newMsg(tree, "incorrectPrimitiveType")
+                report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
                     .put("index", index)
                     .put("valid", EnumSet.allOf(NodeType.class))
                     .put("found", element));
         }
 
         if (!uniqueItems)
-            report.error(newMsg(tree, "elementsNotUnique"));
+            report.error(newMsg(tree, bundle, "elementsNotUnique"));
     }
 
     private static boolean typeIsValid(final String s)

@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -60,7 +61,8 @@ public final class DraftV4TypeSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
@@ -69,7 +71,7 @@ public final class DraftV4TypeSyntaxChecker
         if (node.isTextual()) {
             final String s = node.textValue();
             if (NodeType.fromName(s) == null)
-                report.error(newMsg(tree, "incorrectPrimitiveType")
+                report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
                     .put("valid", ALL_TYPES).put("found", s));
             return;
         }
@@ -77,7 +79,7 @@ public final class DraftV4TypeSyntaxChecker
         final int size = node.size();
 
         if (size == 0) {
-            report.error(newMsg(tree, "emptyArray"));
+            report.error(newMsg(tree, bundle, "emptyArray"));
             return;
         }
 
@@ -92,18 +94,18 @@ public final class DraftV4TypeSyntaxChecker
             type = NodeType.getNodeType(element);
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             if (type != NodeType.STRING) {
-                report.error(
-                    newMsg(tree, "incorrectElementType").put("index", index)
-                        .put("expected", NodeType.STRING).put("found", type));
+                report.error(newMsg(tree, bundle, "incorrectElementType")
+                    .put("index", index).put("expected", NodeType.STRING)
+                    .put("found", type));
                 continue;
             }
             if (NodeType.fromName(element.textValue()) == null)
-                report.error(newMsg(tree, "incorrectPrimitiveType")
+                report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
                     .put("index", index).put("valid", ALL_TYPES)
                     .put("found", element));
         }
 
         if (!uniqueElements)
-            report.error(newMsg(tree, "elementsNotUnique"));
+            report.error(newMsg(tree, bundle, "elementsNotUnique"));
     }
 }

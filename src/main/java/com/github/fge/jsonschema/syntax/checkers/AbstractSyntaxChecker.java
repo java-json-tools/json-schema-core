@@ -25,7 +25,6 @@ import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 
@@ -43,8 +42,6 @@ import java.util.EnumSet;
 public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
 {
-    private static final MessageBundle BUNDLE = SyntaxMessageBundle.get();
-
     private static final ExceptionProvider EXCEPTION_PROVIDER
         = new ExceptionProvider()
     {
@@ -90,29 +87,31 @@ public abstract class AbstractSyntaxChecker
      *
      * <p>This method only checks that the keyword's type is of the correct
      * type, and reports an error if it isn't; if it is, it handles the rest
-     * of syntax checking to {@link #checkValue(Collection, ProcessingReport,
-     * SchemaTree)}.</p>
+     * of syntax checking to {@link #checkValue(Collection, MessageBundle,
+     * ProcessingReport, SchemaTree)}.</p>
      *
      * @param pointers the list of JSON Pointers to fill (see description)
+     * @param  bundle the message bundle to use
      * @param report the processing report to use
      * @param tree the schema
      * @throws InvalidSchemaException keyword is invalid
      */
     @Override
     public final void checkSyntax(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
         final NodeType type = NodeType.getNodeType(node);
 
         if (!types.contains(type)) {
-            report.error(newMsg(tree, "incorrectType").put("expected", types)
-                .put("found", type));
+            report.error(newMsg(tree, bundle, "incorrectType")
+                .put("expected", types).put("found", type));
             return;
         }
 
-        checkValue(pointers, report, tree);
+        checkValue(pointers, bundle, report, tree);
     }
 
     /**
@@ -122,26 +121,29 @@ public abstract class AbstractSyntaxChecker
      * correct type.</p>
      *
      * @param pointers the list of JSON Pointers to fill (see description)
+     * @param  bundle the message bundle to use
      * @param report the processing report to use
      * @param tree the schema
      * @throws InvalidSchemaException keyword is invalid
      */
     protected abstract void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException;
 
     /**
      * Provide a new message for reporting purposes
      *
      * @param tree the schema tree
-     * @param key the key in the syntax message bundle
+     * @param bundle the message bundle to use
+     * @param key the message
      * @return a new {@link ProcessingMessage}
      * @see ProcessingMessage#message(Object)
      */
     protected final ProcessingMessage newMsg(final SchemaTree tree,
-        final String key)
+        final MessageBundle bundle, final String key)
     {
-        return new ProcessingMessage().message(BUNDLE.getKey(key))
+        return new ProcessingMessage().message(bundle.getKey(key))
             .put("domain", "syntax").put("schema", tree).put("keyword", keyword)
             .setExceptionProvider(EXCEPTION_PROVIDER);
     }

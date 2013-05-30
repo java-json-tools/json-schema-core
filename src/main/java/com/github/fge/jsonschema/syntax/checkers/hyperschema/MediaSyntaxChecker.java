@@ -8,6 +8,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.net.MediaType;
 
@@ -39,7 +40,8 @@ public final class MediaSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
@@ -52,10 +54,10 @@ public final class MediaSyntaxChecker
             type = NodeType.getNodeType(subNode);
             value = subNode.textValue();
             if (value == null)
-                report.error(newMsg(tree, "hsMediaInvalidEncodingType")
+                report.error(newMsg(tree, bundle, "hsMediaInvalidEncodingType")
                     .put("expected", NodeType.STRING).put("found", type));
             else if (!BINARY_ENCODINGS.contains(value.toLowerCase()))
-                report.error(newMsg(tree, "hsMediaInvalidEncoding")
+                report.error(newMsg(tree, bundle, "hsMediaInvalidEncoding")
                     .put("value", value));
         }
 
@@ -64,7 +66,7 @@ public final class MediaSyntaxChecker
             return;
         type = NodeType.getNodeType(subNode);
         if (type != NodeType.STRING) {
-            report.error(newMsg(tree, "hsMediaInvalidTypeType")
+            report.error(newMsg(tree, bundle, "hsMediaInvalidTypeType")
                 .put("expected", NodeType.STRING).put("found", type));
             return;
         }
@@ -72,7 +74,7 @@ public final class MediaSyntaxChecker
         try {
             MediaType.parse(value);
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(tree, "hsMediaInvalidType")
+            report.error(newMsg(tree, bundle, "hsMediaInvalidType")
                 .put("value", value));
         }
     }

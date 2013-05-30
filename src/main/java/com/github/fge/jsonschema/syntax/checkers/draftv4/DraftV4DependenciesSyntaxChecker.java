@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.DependenciesSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -51,7 +52,7 @@ public final class DraftV4DependenciesSyntaxChecker
 
     @Override
     protected void checkDependency(final ProcessingReport report,
-        final String name, final SchemaTree tree)
+        final MessageBundle bundle, final String name, final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree).get(name);
@@ -60,7 +61,7 @@ public final class DraftV4DependenciesSyntaxChecker
         type = NodeType.getNodeType(node);
 
         if (type != NodeType.ARRAY) {
-            report.error(newMsg(tree, "incorrectDependencyValue")
+            report.error(newMsg(tree, bundle, "incorrectDependencyValue")
                 .put("property", name).put("expected", dependencyTypes)
                 .put("found", type));
             return;
@@ -69,7 +70,8 @@ public final class DraftV4DependenciesSyntaxChecker
         final int size = node.size();
 
         if (size == 0) {
-            report.error(newMsg(tree, "emptyArray").put("property", name));
+            report.error(newMsg(tree, bundle, "emptyArray")
+                .put("property", name));
             return;
         }
 
@@ -84,14 +86,14 @@ public final class DraftV4DependenciesSyntaxChecker
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             if (type == NodeType.STRING)
                 continue;
-            report.error(newMsg(tree, "incorrectElementType")
+            report.error(newMsg(tree, bundle, "incorrectElementType")
                 .put("property", name).put("index", index)
                 .put("expected", EnumSet.of(NodeType.STRING))
                 .put("found", type));
         }
 
         if (!uniqueElements)
-            report.error(newMsg(tree, "elementsNotUnique")
+            report.error(newMsg(tree, bundle, "elementsNotUnique")
                 .put("property", name));
     }
 }

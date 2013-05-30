@@ -67,8 +67,8 @@ public final class AbstractSyntaxCheckerTest
         schema.put(KEYWORD, node);
         final SchemaTree tree = new CanonicalSchemaTree(schema);
 
-        checker.checkSyntax(null, report, tree);
-        verify(checker).checkValue(null, report, tree);
+        checker.checkSyntax(null, BUNDLE, report, tree);
+        verify(checker).checkValue(null, BUNDLE, report, tree);
         verify(report, never()).error(anyMessage());
     }
 
@@ -92,9 +92,9 @@ public final class AbstractSyntaxCheckerTest
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
-        checker.checkSyntax(null, report, tree);
+        checker.checkSyntax(null, BUNDLE, report, tree);
         verify(report).error(captor.capture());
-        verify(checker, never()).checkValue(null, report, tree);
+        verify(checker, never()).checkValue(null, BUNDLE, report, tree);
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
@@ -114,7 +114,8 @@ public final class AbstractSyntaxCheckerTest
 
         @Override
         protected void checkValue(final Collection<JsonPointer> pointers,
-            final ProcessingReport report, final SchemaTree tree)
+            final MessageBundle bundle, final ProcessingReport report,
+            final SchemaTree tree)
             throws ProcessingException
         {
         }

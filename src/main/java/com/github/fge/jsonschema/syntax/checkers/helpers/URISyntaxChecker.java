@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,7 +44,8 @@ public final class URISyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final String s = getNode(tree).textValue();
@@ -51,10 +53,10 @@ public final class URISyntaxChecker
         try {
             final URI uri = new URI(s);
             if (!uri.equals(uri.normalize()))
-                report.error(newMsg(tree, "uriNotNormalized")
+                report.error(newMsg(tree, bundle, "uriNotNormalized")
                     .put("value", s));
         } catch (URISyntaxException ignored) {
-            report.error(newMsg(tree, "invalidUri").put("value", s));
+            report.error(newMsg(tree, bundle, "invalidUri").put("value", s));
         }
     }
 }

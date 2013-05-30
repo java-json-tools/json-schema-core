@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -51,7 +52,7 @@ public final class DraftV3PropertiesSyntaxChecker
 
     @Override
     protected void extraChecks(final ProcessingReport report,
-        final SchemaTree tree)
+        final MessageBundle bundle, final SchemaTree tree)
         throws ProcessingException
     {
         final SortedMap<String, JsonNode> map = Maps.newTreeMap();
@@ -68,7 +69,7 @@ public final class DraftV3PropertiesSyntaxChecker
                 continue;
             type = NodeType.getNodeType(required);
             if (type != NodeType.BOOLEAN) {
-                report.error(newMsg(tree, "draftv3PropertiesRequired")
+                report.error(newMsg(tree, bundle, "draftv3PropertiesRequired")
                     .put("property", member).put("expected", NodeType.BOOLEAN)
                     .put("found", type));
             }

@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -56,14 +57,15 @@ public final class EnumSyntaxChecker
     }
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
 
         for (final JsonNode element: getNode(tree))
             if (!set.add(EQUIVALENCE.wrap(element))) {
-                report.error(newMsg(tree, "elementsNotUnique"));
+                report.error(newMsg(tree, bundle, "elementsNotUnique"));
                 return;
             }
     }

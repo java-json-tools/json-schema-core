@@ -81,7 +81,8 @@ public final class SyntaxProcessorTest
 
             @Override
             public void checkSyntax(final Collection<JsonPointer> pointers,
-                final ProcessingReport report, final SchemaTree tree)
+                final MessageBundle bundle, final ProcessingReport report,
+                final SchemaTree tree)
                 throws ProcessingException
             {
                 report.error(new ProcessingMessage().message(ERRMSG));
@@ -178,7 +179,7 @@ public final class SyntaxProcessorTest
 
         processor.process(report, holder);
         verify(checker, never()).checkSyntax(anyCollectionOf(JsonPointer.class),
-            anyReport(), anySchema());
+            any(MessageBundle.class), anyReport(), anySchema());
     }
 
     private static class TestProcessingReport

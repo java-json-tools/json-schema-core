@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Syntax checker for draft v4's {@code properties} keyword
@@ -43,7 +44,7 @@ public final class DraftV4PropertiesSyntaxChecker
     }
     @Override
     protected void extraChecks(final ProcessingReport report,
-        final SchemaTree tree)
+        final MessageBundle bundle, final SchemaTree tree)
         throws ProcessingException
     {
     }

@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Collection;
@@ -51,12 +52,14 @@ public interface SyntaxChecker
      * Check the syntax for this keyword
      *
      * @param pointers the list of JSON Pointers to fill (see description)
+     * @param  bundle the message bundle to use
      * @param report the processing report to use
      * @param tree the schema
      * @throws ProcessingException an error is detected, and the report is
      * configured to throw an exception on error.
      */
     void checkSyntax(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException;
 }

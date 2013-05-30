@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.RhinoHelper;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
@@ -51,7 +52,7 @@ public final class PatternPropertiesSyntaxChecker
 
     @Override
     protected void extraChecks(final ProcessingReport report,
-        final SchemaTree tree)
+        final MessageBundle bundle, final SchemaTree tree)
         throws ProcessingException
     {
         /*
@@ -61,7 +62,7 @@ public final class PatternPropertiesSyntaxChecker
 
         for (final String s: Ordering.natural().sortedCopy(set))
             if (!RhinoHelper.regexIsValid(s))
-                report.error(newMsg(tree, "invalidRegexMemberName")
+                report.error(newMsg(tree, bundle, "invalidRegexMemberName")
                     .put("memberName", s));
     }
 }

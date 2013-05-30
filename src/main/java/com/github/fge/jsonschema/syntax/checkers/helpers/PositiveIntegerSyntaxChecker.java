@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.util.Collection;
 
@@ -41,18 +42,19 @@ public final class PositiveIntegerSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
 
         if (!node.canConvertToInt()) {
-            report.error(newMsg(tree, "integerTooLarge")
+            report.error(newMsg(tree, bundle, "integerTooLarge")
                 .put("max", Integer.MAX_VALUE));
             return;
         }
 
         if (node.intValue() < 0)
-            report.error(newMsg(tree, "integerIsNegative"));
+            report.error(newMsg(tree, bundle, "integerIsNegative"));
     }
 }

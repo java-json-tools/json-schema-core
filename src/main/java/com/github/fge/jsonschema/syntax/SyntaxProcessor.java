@@ -44,7 +44,6 @@ public final class SyntaxProcessor
     extends RawProcessor<SchemaTree, SchemaTree>
 {
     private final MessageBundle bundle;
-
     private final Map<String, SyntaxChecker> checkers;
 
     public SyntaxProcessor(final MessageBundle bundle,
@@ -107,7 +106,7 @@ public final class SyntaxProcessor
          */
         final List<JsonPointer> pointers = Lists.newArrayList();
         for (final SyntaxChecker checker: map.values())
-            checker.checkSyntax(pointers, report, tree);
+            checker.checkSyntax(pointers, bundle, report, tree);
 
         /*
          * Operate on these pointers.

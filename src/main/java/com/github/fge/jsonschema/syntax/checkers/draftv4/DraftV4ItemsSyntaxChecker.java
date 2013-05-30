@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.SchemaOrSchemaArraySyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Syntax checker for draft v4's {@code items} keyword
@@ -45,12 +46,12 @@ public final class DraftV4ItemsSyntaxChecker
 
     @Override
     protected void extraChecks(final ProcessingReport report,
-        final SchemaTree tree)
+        final MessageBundle bundle, final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
 
         if (node.isArray() && node.size() == 0)
-            report.error(newMsg(tree, "emptyArray"));
+            report.error(newMsg(tree, bundle, "emptyArray"));
     }
 }

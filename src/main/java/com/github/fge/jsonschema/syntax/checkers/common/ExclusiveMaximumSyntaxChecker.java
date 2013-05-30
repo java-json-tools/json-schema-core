@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.util.Collection;
 
@@ -48,10 +49,11 @@ public final class ExclusiveMaximumSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         if (!tree.getNode().has("maximum"))
-            report.error(newMsg(tree, "exclusiveMaximum"));
+            report.error(newMsg(tree, bundle, "exclusiveMaximum"));
     }
 }

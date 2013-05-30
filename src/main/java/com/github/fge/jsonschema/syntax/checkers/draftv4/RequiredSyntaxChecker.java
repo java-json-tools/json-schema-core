@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -56,14 +57,15 @@ public final class RequiredSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
         final int size = node.size();
 
         if (size == 0) {
-            report.error(newMsg(tree, "emptyArray"));
+            report.error(newMsg(tree, bundle, "emptyArray"));
             return;
         }
 
@@ -78,7 +80,7 @@ public final class RequiredSyntaxChecker
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             type = NodeType.getNodeType(element);
             if (type != NodeType.STRING)
-                report.error(newMsg(tree, "incorrectElementType")
+                report.error(newMsg(tree, bundle, "incorrectElementType")
                     .put("index", index)
                     .put("expected", EnumSet.of(NodeType.STRING))
                     .put("found", type)
@@ -86,6 +88,6 @@ public final class RequiredSyntaxChecker
         }
 
         if (!uniqueElements)
-            report.error(newMsg(tree, "elementsNotUnique"));
+            report.error(newMsg(tree, bundle, "elementsNotUnique"));
     }
 }

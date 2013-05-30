@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -42,13 +43,15 @@ public final class DivisorSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
         final BigDecimal divisor = node.decimalValue();
 
         if (divisor.compareTo(BigDecimal.ZERO) <= 0)
-            report.error(newMsg(tree, "illegalDivisor").put("found", node));
+            report.error(newMsg(tree, bundle, "illegalDivisor")
+                .put("found", node));
     }
 }

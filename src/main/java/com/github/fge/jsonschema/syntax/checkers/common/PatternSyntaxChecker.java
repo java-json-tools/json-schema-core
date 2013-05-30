@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.RhinoHelper;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.util.Collection;
 
@@ -50,13 +51,14 @@ public final class PatternSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
+        final MessageBundle bundle, final ProcessingReport report,
+        final SchemaTree tree)
         throws ProcessingException
     {
         final String value = getNode(tree).textValue();
 
         if (!RhinoHelper.regexIsValid(value))
-            report.error(newMsg(tree, "invalidRegexValue")
+            report.error(newMsg(tree, bundle, "invalidRegexValue")
                 .put("value", value));
     }
 }
