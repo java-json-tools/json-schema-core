@@ -54,12 +54,6 @@ public final class SyntaxProcessor
         checkers = dict.entries();
     }
 
-    // TODO: remove?
-    public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
-    {
-        this(SyntaxMessageBundle.get(), dict);
-    }
-
     @Override
     public SchemaTree rawProcess(final ProcessingReport report,
         final SchemaTree input)
