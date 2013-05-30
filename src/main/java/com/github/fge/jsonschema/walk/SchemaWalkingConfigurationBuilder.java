@@ -20,7 +20,6 @@ public final class SchemaWalkingConfigurationBuilder
     Dictionary<PointerCollector> collectors;
     Dictionary<SyntaxChecker> checkers;
     MessageBundle bundle;
-    boolean resolveRefs = false;
     LoadingConfiguration loadingCfg;
 
     SchemaWalkingConfigurationBuilder()
@@ -35,7 +34,6 @@ public final class SchemaWalkingConfigurationBuilder
     {
         collectors = cfg.collectors;
         checkers = cfg.checkers;
-        resolveRefs = cfg.resolveRefs;
         loadingCfg = cfg.loadingCfg;
     }
 
@@ -58,13 +56,6 @@ public final class SchemaWalkingConfigurationBuilder
     {
         BUNDLE.checkNotNull(bundle, "processing.nullBundle");
         this.bundle = bundle;
-        return this;
-    }
-
-    public SchemaWalkingConfigurationBuilder setResolveRefs(
-        final boolean resolveRefs)
-    {
-        this.resolveRefs = resolveRefs;
         return this;
     }
 

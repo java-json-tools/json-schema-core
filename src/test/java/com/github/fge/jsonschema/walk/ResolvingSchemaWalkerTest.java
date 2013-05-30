@@ -61,7 +61,7 @@ public final class ResolvingSchemaWalkerTest
                 .preloadSchema(uri1, schema1).preloadSchema(uri2, schema2)
                 .freeze();
         final SchemaWalkingConfiguration cfg
-            = SchemaWalkingConfiguration.newBuilder().setResolveRefs(true)
+            = SchemaWalkingConfiguration.newBuilder()
                 .setLoadingConfiguration(loadingCfg).freeze();
 
         final SchemaWalker walker = new ResolvingSchemaWalker(tree, cfg);
@@ -162,7 +162,7 @@ public final class ResolvingSchemaWalkerTest
             = LoadingConfiguration.newBuilder().preloadSchema(uri, schema2)
                 .freeze();
         final SchemaWalkingConfiguration cfg
-            = SchemaWalkingConfiguration.newBuilder().setResolveRefs(true)
+            = SchemaWalkingConfiguration.newBuilder()
                 .setLoadingConfiguration(loadingCfg).freeze();
 
         final SchemaWalker walker = new ResolvingSchemaWalker(tree, cfg);
