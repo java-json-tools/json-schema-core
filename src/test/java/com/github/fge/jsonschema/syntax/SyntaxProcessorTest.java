@@ -28,8 +28,6 @@ import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -38,6 +36,7 @@ import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -53,7 +52,7 @@ import static org.mockito.Mockito.*;
 
 public final class SyntaxProcessorTest
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.SYNTAX;
+    private static final MessageBundle BUNDLE = SyntaxMessageBundle.get();
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String K1 = "k1";
     private static final String K2 = "k2";
@@ -89,7 +88,7 @@ public final class SyntaxProcessorTest
             }
         });
 
-        processor = new SyntaxProcessor(builder.freeze());
+        processor = new SyntaxProcessor(BUNDLE, builder.freeze());
     }
 
     @DataProvider
@@ -113,7 +112,7 @@ public final class SyntaxProcessorTest
         verify(report).log(same(LogLevel.ERROR), captor.capture());
 
         final ProcessingMessage message = captor.getValue();
-        assertMessage(message).hasMessage(BUNDLE.getString("notASchema"))
+        assertMessage(message).hasMessage(BUNDLE.getKey("notASchema"))
         .hasField("found", NodeType.getNodeType(node));
     }
 
@@ -141,7 +140,7 @@ public final class SyntaxProcessorTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).hasMessage(BUNDLE.getString("unknownKeywords"))
+        assertMessage(message).hasMessage(BUNDLE.getKey("unknownKeywords"))
             .hasField("ignored", ignored);
     }
 

@@ -22,13 +22,12 @@ import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.processing.RawProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -44,14 +43,22 @@ import java.util.Set;
 public final class SyntaxProcessor
     extends RawProcessor<SchemaTree, SchemaTree>
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.SYNTAX;
+    private final MessageBundle bundle;
 
     private final Map<String, SyntaxChecker> checkers;
 
-    public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
+    public SyntaxProcessor(final MessageBundle bundle,
+        final Dictionary<SyntaxChecker> dict)
     {
         super("schema", "schema");
+        this.bundle = bundle;
         checkers = dict.entries();
+    }
+
+    // TODO: remove?
+    public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
+    {
+        this(SyntaxMessageBundle.get(), dict);
     }
 
     @Override
@@ -73,9 +80,7 @@ public final class SyntaxProcessor
          * Barf if not an object, and don't even try to go any further
          */
         if (type != NodeType.OBJECT) {
-            final ProcessingMessage msg = newMsg(tree)
-                .message(BUNDLE.getString("notASchema")).put("found", type);
-            report.error(msg);
+            report.error(newMsg(tree, "notASchema").put("found", type));
             return;
         }
 
@@ -93,9 +98,8 @@ public final class SyntaxProcessor
         fieldNames.removeAll(map.keySet());
 
         if (!fieldNames.isEmpty())
-            report.warn(newMsg(tree)
-                .message(BUNDLE.getString("unknownKeywords"))
-                .put("ignored", Ordering.natural().sortedCopy(fieldNames)));
+            report.warn(newMsg(tree, "unknownKeywords")
+                    .put("ignored", Ordering.natural().sortedCopy(fieldNames)));
 
         /*
          * Now, check syntax of each keyword, and collect pointers for further
@@ -112,10 +116,11 @@ public final class SyntaxProcessor
             validate(report, tree.append(pointer));
     }
 
-    private static ProcessingMessage newMsg(final SchemaTree tree)
+    private ProcessingMessage newMsg(final SchemaTree tree, final String key)
     {
         return new ProcessingMessage().put("schema", tree)
-            .put("domain", "syntax");
+            .put("domain", "syntax").message(bundle.getKey(key));
+
     }
 
     @Override
