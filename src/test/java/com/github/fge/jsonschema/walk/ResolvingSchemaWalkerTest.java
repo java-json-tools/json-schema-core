@@ -26,11 +26,10 @@ import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.DevNullProcessingReport;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import org.mockito.ArgumentCaptor;
@@ -172,9 +171,9 @@ public final class ResolvingSchemaWalkerTest
             walker.walk(listener, report);
             fail("No exception thrown!!");
         } catch (InvalidSchemaException e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(CoreMessageBundles.SYNTAX.getString("invalidSchema"));
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(SyntaxMessageBundle.get()
+                    .getKey("core.invalidSchema"));
         }
     }
 }
