@@ -66,9 +66,12 @@ public final class SimpleSchemaWalkerTest
     {
         final Dictionary<PointerCollector> dict
             = Dictionary.<PointerCollector>newBuilder().freeze();
+        final SchemaWalkingConfiguration cfg
+            = SchemaWalkingConfiguration.newBuilder().setCollectors(dict)
+                .freeze();
 
         final SchemaTree tree = new CanonicalSchemaTree(FACTORY.objectNode());
-        final SchemaWalker walker = new SimpleSchemaWalker(tree, dict);
+        final SchemaWalker walker = new SimpleSchemaWalker(tree, cfg);
 
         walker.walk(listener, report);
         final InOrder order = inOrder(listener);
@@ -82,10 +85,13 @@ public final class SimpleSchemaWalkerTest
         final Dictionary<PointerCollector> dict
             = Dictionary.<PointerCollector>newBuilder().addEntry(K1, collector1)
             .addEntry(K2, collector2).freeze();
+        final SchemaWalkingConfiguration cfg
+            = SchemaWalkingConfiguration.newBuilder().setCollectors(dict)
+            .freeze();
 
         final ObjectNode schema = FACTORY.objectNode().put(K1, K1);
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final SchemaWalker walker = new SimpleSchemaWalker(tree, dict);
+        final SchemaWalker walker = new SimpleSchemaWalker(tree, cfg);
 
         walker.walk(listener, report);
         verify(collector1).collect(anyCollectionOf(JsonPointer.class),
@@ -115,10 +121,14 @@ public final class SimpleSchemaWalkerTest
         schema.put(K1, subNode);
 
         final Dictionary<PointerCollector> dict
-            = Dictionary.<PointerCollector>newBuilder()
-            .addEntry(K1, collector).freeze();
+            = Dictionary.<PointerCollector>newBuilder().addEntry(K1, collector)
+                .freeze();
+        final SchemaWalkingConfiguration cfg
+            = SchemaWalkingConfiguration.newBuilder().setCollectors(dict)
+                .freeze();
+
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final SchemaWalker walker = new SimpleSchemaWalker(tree, dict);
+        final SchemaWalker walker = new SimpleSchemaWalker(tree, cfg);
 
         final ArgumentCaptor<SchemaTree> captor
             = ArgumentCaptor.forClass(SchemaTree.class);

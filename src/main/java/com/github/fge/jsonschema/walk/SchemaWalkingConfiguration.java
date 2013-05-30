@@ -25,10 +25,15 @@ public final class SchemaWalkingConfiguration
         return new SchemaWalkingConfigurationBuilder().freeze();
     }
 
+    public static SchemaWalkingConfigurationBuilder newBuilder()
+    {
+        return new SchemaWalkingConfigurationBuilder();
+    }
+
     SchemaWalkingConfiguration(final SchemaWalkingConfigurationBuilder builder)
     {
-        collectors = builder.collectors.freeze();
-        checkers = builder.checkers.freeze();
+        collectors = builder.collectors;
+        checkers = builder.checkers;
         bundle = builder.bundle;
         resolveRefs = builder.resolveRefs;
         loadingCfg = builder.loadingCfg;

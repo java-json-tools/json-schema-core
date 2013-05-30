@@ -1,15 +1,12 @@
 package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jsonschema.CoreMessageBundle;
-import com.github.fge.jsonschema.SchemaVersion;
-import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
-import com.github.fge.jsonschema.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.util.Thawed;
-import com.github.fge.jsonschema.walk.collectors.DraftV3PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.collectors.DraftV4PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -20,37 +17,39 @@ public final class SchemaWalkingConfigurationBuilder
     private static final CoreMessageBundle BUNDLE
         = CoreMessageBundle.getInstance();
 
-    DictionaryBuilder <PointerCollector> collectors;
-    DictionaryBuilder<SyntaxChecker> checkers;
+    Dictionary<PointerCollector> collectors;
+    Dictionary<SyntaxChecker> checkers;
     MessageBundle bundle;
     boolean resolveRefs = false;
     LoadingConfiguration loadingCfg;
 
     SchemaWalkingConfigurationBuilder()
     {
-        collectors = DraftV4PointerCollectorDictionary.get().thaw();
-        checkers = DraftV4SyntaxCheckerDictionary.get().thaw();
+        collectors = DraftV4PointerCollectorDictionary.get();
+        checkers = DraftV4SyntaxCheckerDictionary.get();
+        loadingCfg = LoadingConfiguration.byDefault();
         bundle = SyntaxMessageBundle.get();
     }
 
     SchemaWalkingConfigurationBuilder(final SchemaWalkingConfiguration cfg)
     {
-        collectors = cfg.collectors.thaw();
-        checkers = cfg.checkers.thaw();
+        collectors = cfg.collectors;
+        checkers = cfg.checkers;
         resolveRefs = cfg.resolveRefs;
         loadingCfg = cfg.loadingCfg;
     }
 
-    public SchemaWalkingConfigurationBuilder setVersion(
-        final SchemaVersion version)
+    public SchemaWalkingConfigurationBuilder setCheckers(
+        final Dictionary<SyntaxChecker> checkers)
     {
-        BUNDLE.checkNotNull(version, "processing.nullVersion");
-        collectors = version == SchemaVersion.DRAFTV4
-            ? DraftV4PointerCollectorDictionary.get().thaw()
-            : DraftV3PointerCollectorDictionary.get().thaw();
-        checkers = version == SchemaVersion.DRAFTV4
-            ? DraftV4SyntaxCheckerDictionary.get().thaw()
-            : DraftV3SyntaxCheckerDictionary.get().thaw();
+        this.checkers = checkers;
+        return this;
+    }
+
+    public SchemaWalkingConfigurationBuilder setCollectors(
+        final Dictionary<PointerCollector> collectors)
+    {
+        this.collectors = collectors;
         return this;
     }
 
@@ -62,15 +61,19 @@ public final class SchemaWalkingConfigurationBuilder
         return this;
     }
 
-    public void setResolveRefs(final boolean resolveRefs)
+    public SchemaWalkingConfigurationBuilder setResolveRefs(
+        final boolean resolveRefs)
     {
         this.resolveRefs = resolveRefs;
+        return this;
     }
 
-    public void setLoadingConfiguration(final LoadingConfiguration loadingCfg)
+    public SchemaWalkingConfigurationBuilder setLoadingConfiguration(
+        final LoadingConfiguration loadingCfg)
     {
         BUNDLE.checkNotNull(loadingCfg, "processing.nullLoadingCfg");
         this.loadingCfg = loadingCfg;
+        return this;
     }
 
     @Override

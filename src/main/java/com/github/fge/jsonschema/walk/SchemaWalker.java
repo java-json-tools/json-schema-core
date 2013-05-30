@@ -18,13 +18,9 @@
 package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.walk.collectors.DraftV3PointerCollectorDictionary;
-import com.github.fge.jsonschema.walk.collectors.DraftV4PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -62,31 +58,11 @@ public abstract class SchemaWalker
      */
     private final Map<String, PointerCollector> collectors;
 
-    /**
-     * Protected constructor for a given version
-     *
-     * @param tree the schema tree
-     * @param version the schema version
-     */
-    protected SchemaWalker(final SchemaTree tree, final SchemaVersion version)
-    {
-        collectors = version == SchemaVersion.DRAFTV4
-            ? DraftV4PointerCollectorDictionary.get().entries()
-            : DraftV3PointerCollectorDictionary.get().entries();
-        this.tree = tree;
-    }
-
-    /**
-     * Protected constructor with a custom pointer collector dictionary
-     *
-     * @param tree the schema tree
-     * @param dict the dictionary of pointer collectors
-     */
     protected SchemaWalker(final SchemaTree tree,
-        final Dictionary<PointerCollector> dict)
+        final SchemaWalkingConfiguration cfg)
     {
-        collectors = dict.entries();
         this.tree = tree;
+        collectors = cfg.collectors.entries();
     }
 
     /**

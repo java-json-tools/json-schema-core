@@ -21,12 +21,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.CoreMessageBundle;
-import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
-import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
@@ -36,13 +34,9 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.syntax.SyntaxProcessor;
-import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
-import com.github.fge.jsonschema.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;
-import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
-import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 
@@ -85,59 +79,22 @@ public final class ResolvingSchemaWalker
     private final Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
         processor;
 
-    /**
-     * Constructor for a given schema version
-     *
-     * @param tree the starting schema tree
-     * @param version the schema version
-     * @param cfg the listening configuration
-     */
     public ResolvingSchemaWalker(final SchemaTree tree,
-        final SchemaVersion version, final LoadingConfiguration cfg)
+        final SchemaWalkingConfiguration cfg)
     {
-        super(tree, version);
-        final Dictionary<SyntaxChecker> checkers
-            = version == SchemaVersion.DRAFTV4
-                ? DraftV4SyntaxCheckerDictionary.get()
-                : DraftV3SyntaxCheckerDictionary.get();
-
-        final RefResolver refResolver = new RefResolver(new SchemaLoader(cfg));
+        super(tree, cfg);
+        final LoadingConfiguration loadingCfg = cfg.loadingCfg;
+        final SchemaLoader loader = new SchemaLoader(loadingCfg);
+        final RefResolver refResolver = new RefResolver(loader);
+        final SyntaxProcessor syntaxProcessor
+            = new SyntaxProcessor(cfg.bundle, cfg.checkers);
         processor = ProcessorChain.startWith(refResolver)
-            .chainWith(new SyntaxProcessor(checkers))
-            .failOnError(MESSAGE).getProcessor();
+            .chainWith(syntaxProcessor).failOnError(MESSAGE).getProcessor();
     }
 
-    /**
-     * Schema walker for a given version and with a default loading
-     * configuration
-     *
-     * @param tree the schema tree
-     * @param version the schema version
-     */
-    public ResolvingSchemaWalker(final SchemaTree tree,
-        final SchemaVersion version)
+    public ResolvingSchemaWalker(final SchemaTree tree)
     {
-        this(tree, version, LoadingConfiguration.byDefault());
-    }
-
-    /**
-     * Fully customized schema walker
-     *
-     * @param tree the schema tree
-     * @param collectors the pointer collectors dictionary
-     * @param checkers the syntax checkers dictionary
-     * @param cfg the loading configuration
-     */
-    public ResolvingSchemaWalker(final SchemaTree tree,
-        final Dictionary<PointerCollector> collectors,
-        final Dictionary<SyntaxChecker> checkers,
-        final LoadingConfiguration cfg)
-    {
-        super(tree, collectors);
-        final RefResolver refResolver = new RefResolver(new SchemaLoader(cfg));
-        processor = ProcessorChain.startWith(refResolver)
-            .chainWith(new SyntaxProcessor(checkers))
-            .failOnError(MESSAGE).getProcessor();
+        this(tree, SchemaWalkingConfiguration.byDefault());
     }
 
     @Override

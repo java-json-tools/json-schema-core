@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.CoreMessageBundle;
-import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
@@ -57,11 +56,15 @@ public final class ResolvingSchemaWalkerTest
 
         final SchemaTree tree = new CanonicalSchemaTree(schema1);
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .preloadSchema(uri1, schema1).preloadSchema(uri2, schema2).freeze();
+        final LoadingConfiguration loadingCfg
+            = LoadingConfiguration.newBuilder()
+                .preloadSchema(uri1, schema1).preloadSchema(uri2, schema2)
+                .freeze();
+        final SchemaWalkingConfiguration cfg
+            = SchemaWalkingConfiguration.newBuilder().setResolveRefs(true)
+                .setLoadingConfiguration(loadingCfg).freeze();
 
-        final SchemaWalker walker
-            = new ResolvingSchemaWalker(tree, SchemaVersion.DRAFTV4, cfg);
+        final SchemaWalker walker = new ResolvingSchemaWalker(tree, cfg);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -97,8 +100,7 @@ public final class ResolvingSchemaWalkerTest
         final JsonRef ref = JsonRef.fromString("x://y/z#");
         final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
 
-        final SchemaWalker walker
-            = new ResolvingSchemaWalker(tree, SchemaVersion.DRAFTV4);
+        final SchemaWalker walker = new ResolvingSchemaWalker(tree);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -127,8 +129,7 @@ public final class ResolvingSchemaWalkerTest
         final JsonRef ref = JsonRef.fromString("x://y/z#");
         final SchemaTree tree = new CanonicalSchemaTree(ref, schema);
 
-        final SchemaWalker walker
-            = new ResolvingSchemaWalker(tree, SchemaVersion.DRAFTV4);
+        final SchemaWalker walker = new ResolvingSchemaWalker(tree);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -157,11 +158,14 @@ public final class ResolvingSchemaWalkerTest
         schema2.put("not", "inMyLife");
         final SchemaTree tree = new CanonicalSchemaTree(schema1);
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .preloadSchema(uri, schema2).freeze();
+        final LoadingConfiguration loadingCfg
+            = LoadingConfiguration.newBuilder().preloadSchema(uri, schema2)
+                .freeze();
+        final SchemaWalkingConfiguration cfg
+            = SchemaWalkingConfiguration.newBuilder().setResolveRefs(true)
+                .setLoadingConfiguration(loadingCfg).freeze();
 
-        final SchemaWalker walker
-            = new ResolvingSchemaWalker(tree, SchemaVersion.DRAFTV4, cfg);
+        final SchemaWalker walker = new ResolvingSchemaWalker(tree, cfg);
 
         @SuppressWarnings("unchecked")
         final SchemaListener<Object> listener = mock(SchemaListener.class);
@@ -172,8 +176,8 @@ public final class ResolvingSchemaWalkerTest
             fail("No exception thrown!!");
         } catch (InvalidSchemaException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(SyntaxMessageBundle.get()
-                    .getKey("core.invalidSchema"));
+                .hasMessage(
+                    SyntaxMessageBundle.get().getKey("core.invalidSchema"));
         }
     }
 }

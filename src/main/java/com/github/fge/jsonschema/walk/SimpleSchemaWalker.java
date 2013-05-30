@@ -17,12 +17,9 @@
 
 package com.github.fge.jsonschema.walk;
 
-import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 
 /**
  * A simple schema walker, which does not change trees when walking
@@ -31,15 +28,14 @@ public final class SimpleSchemaWalker
     extends SchemaWalker
 {
     public SimpleSchemaWalker(final SchemaTree tree,
-        final SchemaVersion version)
+        final SchemaWalkingConfiguration cfg)
     {
-        super(tree, version);
+        super(tree, cfg);
     }
 
-    public SimpleSchemaWalker(final SchemaTree tree,
-        final Dictionary<PointerCollector> dict)
+    public SimpleSchemaWalker(final SchemaTree tree)
     {
-        super(tree, dict);
+        this(tree, SchemaWalkingConfiguration.byDefault());
     }
 
     @Override
