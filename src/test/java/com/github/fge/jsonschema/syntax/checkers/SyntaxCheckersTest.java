@@ -30,12 +30,12 @@ import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
@@ -55,7 +55,7 @@ import static org.testng.Assert.*;
 
 public abstract class SyntaxCheckersTest
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.SYNTAX;
+    private static final MessageBundle BUNDLE = SyntaxMessageBundle.get();
 
     /*
      * The keyword
@@ -169,7 +169,7 @@ public abstract class SyntaxCheckersTest
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg)
-            .isSyntaxError(keyword, BUNDLE.getString("incorrectType"), tree)
+            .isSyntaxError(keyword, BUNDLE.getKey("incorrectType"), tree)
             .hasField("expected", EnumSet.complementOf(invalidTypes))
             .hasField("found", type);
     }
@@ -192,7 +192,7 @@ public abstract class SyntaxCheckersTest
         for (final JsonNode node: valueTests) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
-                : BUNDLE.getString(msgNode.textValue());
+                : BUNDLE.getKey(msgNode.textValue());
             list.add(new Object[]{ node.get("schema"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }

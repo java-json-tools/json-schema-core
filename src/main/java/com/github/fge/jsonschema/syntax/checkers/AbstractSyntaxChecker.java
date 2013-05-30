@@ -23,11 +23,11 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.messages.CoreMessageBundles;
-import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.util.Collection;
 import java.util.EnumSet;
@@ -43,7 +43,7 @@ import java.util.EnumSet;
 public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
 {
-    private static final MessageBundle BUNDLE = CoreMessageBundles.SYNTAX;
+    private static final MessageBundle BUNDLE = SyntaxMessageBundle.get();
 
     private static final ExceptionProvider EXCEPTION_PROVIDER
         = new ExceptionProvider()
@@ -141,8 +141,8 @@ public abstract class AbstractSyntaxChecker
     protected final ProcessingMessage newMsg(final SchemaTree tree,
         final String key)
     {
-        return BUNDLE.message(key).put("domain", "syntax")
-            .put("schema", tree).put("keyword", keyword)
+        return new ProcessingMessage().message(BUNDLE.getKey(key))
+            .put("domain", "syntax").put("schema", tree).put("keyword", keyword)
             .setExceptionProvider(EXCEPTION_PROVIDER);
     }
 
