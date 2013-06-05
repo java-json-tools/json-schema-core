@@ -30,8 +30,11 @@ import javax.annotation.concurrent.NotThreadSafe;
  * thread safety.</p>
  *
  * @param <F> the type of the frozen representation
+ *
+ * @deprecated use {@link com.github.fge.Thawed} instead
  */
 @NotThreadSafe
+@Deprecated
 public interface Thawed<F extends Frozen<? extends Thawed<F>>>
 {
     /**

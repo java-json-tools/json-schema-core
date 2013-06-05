@@ -1,12 +1,12 @@
 package com.github.fge.jsonschema.walk;
 
+import com.github.fge.Thawed;
 import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
-import com.github.fge.jsonschema.util.Thawed;
 import com.github.fge.jsonschema.walk.collectors.DraftV4PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.github.fge.msgsimple.bundle.MessageBundle;

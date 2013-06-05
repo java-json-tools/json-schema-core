@@ -29,8 +29,11 @@ import javax.annotation.concurrent.Immutable;
  * <p>By contract, implementations of this interface must be immutable.</p>
  *
  * @param <T> the type of the thawed counterpart
+ *
+ * @deprecated use {@link com.github.fge.Frozen} instead
  */
 @Immutable
+@Deprecated
 public interface Frozen<T extends Thawed<? extends Frozen<T>>>
 {
     /**

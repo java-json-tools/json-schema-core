@@ -1,9 +1,9 @@
 package com.github.fge.jsonschema.walk;
 
+import com.github.fge.Frozen;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
-import com.github.fge.jsonschema.util.Frozen;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 

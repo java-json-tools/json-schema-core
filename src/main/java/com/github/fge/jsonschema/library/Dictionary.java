@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.github.fge.jsonschema.util.Frozen;
+import com.github.fge.Frozen;
 import com.google.common.collect.ImmutableMap;
 
 import javax.annotation.concurrent.Immutable;

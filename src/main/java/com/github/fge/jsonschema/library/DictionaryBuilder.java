@@ -17,8 +17,8 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.Thawed;
 import com.github.fge.jsonschema.CoreMessageBundle;
-import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
 import javax.annotation.concurrent.NotThreadSafe;

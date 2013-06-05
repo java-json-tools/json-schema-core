@@ -1,6 +1,7 @@
 package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.Thawed;
 import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
@@ -14,7 +15,6 @@ import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
 import java.net.URI;

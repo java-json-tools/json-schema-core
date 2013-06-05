@@ -1,6 +1,8 @@
 package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.Frozen;
+import com.github.fge.Thawed;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
@@ -8,8 +10,6 @@ import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
-import com.github.fge.jsonschema.util.Frozen;
-import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.ImmutableMap;
 
 import java.net.URI;
