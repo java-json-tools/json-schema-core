@@ -98,7 +98,7 @@ public final class AbstractSyntaxCheckerTest
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
-            .hasMessage(BUNDLE.getKey("incorrectType"))
+            .hasMessage(BUNDLE.getMessage("incorrectType"))
             .hasField("domain", "syntax")
             .hasField("expected", EnumSet.of(ARRAY, INTEGER, STRING))
             .hasField("found", NodeType.getNodeType(node));

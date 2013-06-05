@@ -18,7 +18,7 @@ public final class SyntaxMessageBundle
             throw new ExceptionInInitializerError(e);
         }
 
-        BUNDLE = new MessageBundle.Builder().appendSource(source).build();
+        BUNDLE = MessageBundle.newBuilder().appendSource(source).freeze();
     }
 
     private SyntaxMessageBundle()

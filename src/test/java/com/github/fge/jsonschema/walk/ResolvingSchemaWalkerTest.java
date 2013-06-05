@@ -176,8 +176,8 @@ public final class ResolvingSchemaWalkerTest
             fail("No exception thrown!!");
         } catch (InvalidSchemaException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(
-                    SyntaxMessageBundle.get().getKey("core.invalidSchema"));
+                .hasMessage(SyntaxMessageBundle.get()
+                    .getMessage("core.invalidSchema"));
         }
     }
 }

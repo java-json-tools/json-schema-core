@@ -169,7 +169,7 @@ public abstract class SyntaxCheckersTest
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg)
-            .isSyntaxError(keyword, BUNDLE.getKey("incorrectType"), tree)
+            .isSyntaxError(keyword, BUNDLE.getMessage("incorrectType"), tree)
             .hasField("expected", EnumSet.complementOf(invalidTypes))
             .hasField("found", type);
     }
@@ -192,7 +192,7 @@ public abstract class SyntaxCheckersTest
         for (final JsonNode node: valueTests) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
-                : BUNDLE.getKey(msgNode.textValue());
+                : BUNDLE.getMessage(msgNode.textValue());
             list.add(new Object[]{ node.get("schema"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }
