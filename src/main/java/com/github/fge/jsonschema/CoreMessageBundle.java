@@ -17,7 +17,8 @@ public final class CoreMessageBundle
         final MessageSource source;
 
         try {
-            source = PropertiesMessageSource.fromResource("/core.properties");
+            source = PropertiesMessageSource
+                .fromResource("/com/github/fge/jsonschema/core/core.properties");
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }

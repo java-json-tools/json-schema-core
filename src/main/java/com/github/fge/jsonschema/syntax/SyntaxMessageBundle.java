@@ -13,7 +13,8 @@ public final class SyntaxMessageBundle
     static {
         final MessageSource source;
         try {
-            source = PropertiesMessageSource.fromResource("/syntax.properties");
+            source = PropertiesMessageSource
+                .fromResource("/com/github/fge/jsonschema/core/syntax.properties");
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
