@@ -1,29 +1,19 @@
 package com.github.fge.jsonschema;
 
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.source.MessageSource;
-import com.github.fge.msgsimple.source.PropertiesMessageSource;
-
-import java.io.IOException;
+import com.github.fge.msgsimple.bundle.PropertiesBundle;
 
 public final class CoreMessageBundle
 {
+    private static final String PATH
+        = "/com/github/fge/jsonschema/core/core.properties";
+
     private static final CoreMessageBundle INSTANCE = new CoreMessageBundle();
 
-    private final MessageBundle bundle;
+    private final MessageBundle bundle = PropertiesBundle.forPath(PATH);
 
     private CoreMessageBundle()
     {
-        final MessageSource source;
-
-        try {
-            source = PropertiesMessageSource
-                .fromResource("/com/github/fge/jsonschema/core/core.properties");
-        } catch (IOException e) {
-            throw new ExceptionInInitializerError(e);
-        }
-
-        bundle = MessageBundle.newBuilder().appendSource(source).freeze();
     }
 
     public static CoreMessageBundle getInstance()
