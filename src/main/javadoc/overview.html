@@ -178,10 +178,10 @@ expression, but also to test whether a string matches a given regex.</p>
 
 <h1>Freeze/thaw</h1>
 
-<p>The two interfaces, {@link com.github.fge.jsonschema.util.Frozen} and {@link
-com.github.fge.jsonschema.util.Thawed}, provide a contract whereby any frozen
-value may provide a "thawed", mutable version of itself, and any thawed value
-may provide a "frozen", immutable version of itself.</p>
+<p>The two interfaces, {@link com.github.fge.Frozen} and {@link
+com.github.fge.Thawed}, provide a contract whereby any frozen value may provide
+a "thawed", mutable version of itself, and any thawed value may provide a
+"frozen", immutable version of itself.</p>
 
 <p>json-schema-validator makes heavy use of this paradigm -- and this is the
 main reason why it is thread safe: all processors use immutable, frozen
