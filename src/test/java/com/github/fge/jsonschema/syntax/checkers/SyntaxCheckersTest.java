@@ -176,7 +176,7 @@ public abstract class SyntaxCheckersTest
 
     /*
      * Third test: value tests. If no value tests were found, don't bother:
-     * AbstractSyntaxCheckerTest has covered that for us.
+     * BasicSyntaxCheckerTest has covered that for us.
      */
     @DataProvider
     protected final Iterator<Object[]> getValueTests()

@@ -45,7 +45,7 @@ import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 
 
-public final class AbstractSyntaxCheckerTest
+public final class BasicSyntaxCheckerTest
 {
     private static final MessageBundle BUNDLE = SyntaxMessageBundle.get();
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
