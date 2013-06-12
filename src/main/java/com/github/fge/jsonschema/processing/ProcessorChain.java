@@ -17,12 +17,14 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -61,8 +63,8 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * The resulting processor
@@ -107,7 +109,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public ProcessorChain<IN, OUT> failOnError()
     {
         return failOnError(new ProcessingMessage()
-            .message(BUNDLE.getKey("processing.chainStopped")));
+            .message(BUNDLE.getMessage("processing.chainStopped")));
     }
 
     /**

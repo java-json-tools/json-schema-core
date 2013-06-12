@@ -17,10 +17,12 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -65,8 +67,8 @@ import java.util.Map;
 @Immutable
 public final class ProcessorSelector<IN extends MessageProvider, OUT extends MessageProvider>
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * Map of predicates and their associated processors
@@ -184,7 +186,7 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
                 return byDefault.process(report, input);
 
             throw new ProcessingException(
-                BUNDLE.getKey("processing.noProcessor"));
+                BUNDLE.getMessage("processing.noProcessor"));
         }
 
         @Override

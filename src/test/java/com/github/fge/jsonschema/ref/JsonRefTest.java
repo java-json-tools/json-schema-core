@@ -17,9 +17,11 @@
 
 package com.github.fge.jsonschema.ref;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.Test;
 
 import java.net.URISyntaxException;
@@ -29,8 +31,8 @@ import static org.testng.Assert.*;
 
 public final class JsonRefTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     @Test
     public void cannotCreateRefFromNullURI()
@@ -39,7 +41,7 @@ public final class JsonRefTest
             JsonRef.fromURI(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("jsonRef.nullURI"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("jsonRef.nullURI"));
         }
     }
 
@@ -51,7 +53,8 @@ public final class JsonRefTest
             JsonRef.fromString(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("jsonRef.nullInput"));
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("jsonRef.nullInput"));
         }
     }
 
@@ -66,7 +69,7 @@ public final class JsonRefTest
         } catch (JsonReferenceException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message)
-                .hasMessage(BUNDLE.getKey("jsonRef.invalidURI"))
+                .hasMessage(BUNDLE.getMessage("jsonRef.invalidURI"))
                 .hasField("input", input)
                 .hasField("exceptionClass", URISyntaxException.class.getName());
         }

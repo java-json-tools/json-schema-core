@@ -18,14 +18,16 @@
 package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -47,8 +49,8 @@ import java.util.concurrent.ExecutionException;
 @ThreadSafe
 public final class SchemaLoader
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * The URI manager
@@ -139,7 +141,7 @@ public final class SchemaLoader
 
         if (!ref.isAbsolute())
             throw new ProcessingException(new ProcessingMessage()
-                .message(BUNDLE.getKey("refProcessing.uriNotAbsolute"))
+                .message(BUNDLE.getMessage("refProcessing.uriNotAbsolute"))
                 .put("uri", ref));
 
         final URI realURI = ref.toURI();

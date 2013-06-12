@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.walk;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.TokenResolver;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
@@ -28,6 +27,7 @@ import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -37,6 +37,8 @@ import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 
@@ -58,8 +60,8 @@ import java.util.List;
 public final class ResolvingSchemaWalker
     extends SchemaWalker
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final ProcessingMessage MESSAGE = new ProcessingMessage()
         .message(SyntaxMessageBundle.get().getMessage("core.invalidSchema"))
@@ -157,12 +159,12 @@ public final class ResolvingSchemaWalker
          */
         if (Collections.indexOfSubList(sourceTokens, targetTokens) == 0)
             throw new SchemaWalkingException(message
-                .message(BUNDLE.getKey("schemaWalking.parentExpand")));
+                .message(BUNDLE.getMessage("schemaWalking.parentExpand")));
         /*
          * Check if there is an attempt to expand to a subtree
          */
         if (Collections.indexOfSubList(targetTokens, sourceTokens) == 0)
             throw new SchemaWalkingException(message
-                .message(BUNDLE.getKey("schemaWalking.subtreeExpand")));
+                .message(BUNDLE.getMessage("schemaWalking.subtreeExpand")));
     }
 }

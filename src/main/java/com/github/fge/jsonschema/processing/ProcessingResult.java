@@ -17,12 +17,14 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 
 /**
  * Wrapper class over a processing result
@@ -41,8 +43,8 @@ import com.github.fge.jsonschema.report.ProcessingReport;
  */
 public final class ProcessingResult<R extends MessageProvider>
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final ProcessingReport report;
     private final R result;
@@ -140,7 +142,7 @@ public final class ProcessingResult<R extends MessageProvider>
             = new ListProcessingReport(LogLevel.DEBUG, LogLevel.NONE);
         try {
             ret.fatal(e.getProcessingMessage()
-                .put("info", BUNDLE.getKey("processing.moreMessages")));
+                .put("info", BUNDLE.getMessage("processing.moreMessages")));
             ret.mergeWith(report);
         } catch (ProcessingException ignored) {
             // can't happen

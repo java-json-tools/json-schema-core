@@ -18,12 +18,14 @@
 package com.github.fge.jsonschema.load;
 
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
@@ -37,8 +39,9 @@ import static org.testng.Assert.*;
 
 public final class SchemaLoaderTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+
     private static final byte[] BYTES = JacksonUtils.nodeFactory().objectNode()
         .toString().getBytes();
 
@@ -102,7 +105,7 @@ public final class SchemaLoaderTest
             fail("No exception thrown!");
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("refProcessing.uriNotAbsolute"))
+                .hasMessage(BUNDLE.getMessage("refProcessing.uriNotAbsolute"))
                 .hasLevel(LogLevel.FATAL).hasField("uri", target);
         }
     }

@@ -18,7 +18,9 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.Thawed;
-import com.github.fge.jsonschema.CoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Maps;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -45,8 +47,8 @@ import java.util.Map;
 public final class DictionaryBuilder<T>
     implements Thawed<Dictionary<T>>
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * Entries for this builder (mutable!)

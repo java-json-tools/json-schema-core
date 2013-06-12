@@ -19,14 +19,16 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.processing.RawProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Sets;
 
 import java.util.Set;
@@ -47,8 +49,8 @@ import java.util.Set;
 public final class RefResolver
     extends RawProcessor<SchemaTree, SchemaTree>
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final SchemaLoader loader;
 
@@ -96,7 +98,7 @@ public final class RefResolver
              */
             if (!refs.add(ref))
                 throw new ProcessingException(new ProcessingMessage()
-                    .message(BUNDLE.getKey("refProcessing.refLoop"))
+                    .message(BUNDLE.getMessage("refProcessing.refLoop"))
                     .put("schema", tree).put("ref", ref).put("path", refs));
             /*
              * Check whether ref is resolvable within the current tree. If not,
@@ -114,7 +116,7 @@ public final class RefResolver
             ptr = tree.matchingPointer(ref);
             if (ptr == null)
                 throw new ProcessingException(new ProcessingMessage()
-                    .message(BUNDLE.getKey("refProcessing.danglingRef"))
+                    .message(BUNDLE.getMessage("refProcessing.danglingRef"))
                     .put("schema", tree).put("ref", ref));
             tree = tree.setPointer(ptr);
         }

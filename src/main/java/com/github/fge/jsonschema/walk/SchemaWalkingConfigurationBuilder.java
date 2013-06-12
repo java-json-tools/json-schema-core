@@ -1,23 +1,24 @@
 package com.github.fge.jsonschema.walk;
 
 import com.github.fge.Thawed;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.walk.collectors.DraftV4PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 
 public final class SchemaWalkingConfigurationBuilder
     implements Thawed<SchemaWalkingConfiguration>
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    Dictionary<PointerCollector> collectors;
+    Dictionary< PointerCollector > collectors;
     Dictionary<SyntaxChecker> checkers;
     MessageBundle bundle;
     LoadingConfiguration loadingCfg;

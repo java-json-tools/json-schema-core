@@ -17,7 +17,9 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -26,8 +28,8 @@ import static org.testng.Assert.*;
 
 public final class DictionaryBuilderTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final String KEY = "key";
     private static final Object MOCK1 = mock(Object.class);
@@ -48,7 +50,8 @@ public final class DictionaryBuilderTest
             builder.addEntry(null, null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("dictionary.nullKey"));
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("dictionary.nullKey"));
         }
     }
 
@@ -59,7 +62,8 @@ public final class DictionaryBuilderTest
             builder.addEntry(KEY, null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("dictionary.nullValue"));
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("dictionary.nullValue"));
         }
     }
 
@@ -70,7 +74,8 @@ public final class DictionaryBuilderTest
             builder.addAll(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("dictionary.nullDict"));
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("dictionary.nullDict"));
         }
     }
 

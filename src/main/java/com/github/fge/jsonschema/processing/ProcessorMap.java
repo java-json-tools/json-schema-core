@@ -17,11 +17,13 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -56,8 +58,8 @@ import java.util.Map;
  */
 public final class ProcessorMap<K, IN extends MessageProvider, OUT extends MessageProvider>
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final Function<IN, K> keyFunction;
     /**
@@ -156,7 +158,7 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
 
             if (processor == null) // Not even a default processor. Ouch.
                 throw new ProcessingException(new ProcessingMessage()
-                    .message(BUNDLE.getKey("processing.noProcessor"))
+                    .message(BUNDLE.getMessage("processing.noProcessor"))
                     .put("key", key));
 
             return processor.process(report, input);

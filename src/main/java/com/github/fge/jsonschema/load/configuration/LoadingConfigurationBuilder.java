@@ -2,7 +2,6 @@ package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
@@ -13,8 +12,11 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Maps;
 
 import java.net.URI;
@@ -29,8 +31,8 @@ import java.util.Map;
 public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * The empty, default namespace
@@ -189,7 +191,7 @@ public final class LoadingConfigurationBuilder
         schemaRedirects.put(sourceURI, destinationURI);
         if (sourceURI.equals(destinationURI))
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getKey("loadingCfg.redirectToSelf"))
+                .message(BUNDLE.getMessage("loadingCfg.redirectToSelf"))
                 .put("uri", sourceURI));
         return this;
     }
@@ -216,7 +218,7 @@ public final class LoadingConfigurationBuilder
         final URI key = getLocator(uri);
         if (preloadedSchemas.containsKey(key))
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getKey("loadingCfg.duplicateURI"))
+                .message(BUNDLE.getMessage("loadingCfg.duplicateURI"))
                 .put("uri", key));
         preloadedSchemas.put(key, schema);
         return this;
@@ -238,7 +240,7 @@ public final class LoadingConfigurationBuilder
         final JsonNode node = schema.path("id");
         if (!node.isTextual())
             throw new LoadingConfigurationError(
-                BUNDLE.getKey("loadingCfg.noIDInSchema"));
+                BUNDLE.getMessage("loadingCfg.noIDInSchema"));
         return preloadSchema(node.textValue(), schema);
     }
 
@@ -258,12 +260,12 @@ public final class LoadingConfigurationBuilder
         BUNDLE.checkNotNull(scheme, "loadingCfg.nullScheme");
         if (scheme.isEmpty())
             throw new LoadingConfigurationError(
-                BUNDLE.getKey("loadingCfg.emptyScheme"));
+                BUNDLE.getMessage("loadingCfg.emptyScheme"));
         try {
             new URI(scheme, "x", "y");
         } catch (URISyntaxException ignored) {
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getKey("loadingCfg.illegalScheme"))
+                .message(BUNDLE.getMessage("loadingCfg.illegalScheme"))
                 .put("scheme", scheme));
         }
 
@@ -277,7 +279,7 @@ public final class LoadingConfigurationBuilder
             ref = JsonRef.fromString(input);
             if (!ref.isAbsolute())
                 throw new JsonReferenceError(new ProcessingMessage()
-                    .message(BUNDLE.getKey("jsonRef.notAbsolute"))
+                    .message(BUNDLE.getMessage("jsonRef.notAbsolute"))
                     .put("input", ref));
             return ref.getLocator();
         } catch (JsonReferenceException e) {

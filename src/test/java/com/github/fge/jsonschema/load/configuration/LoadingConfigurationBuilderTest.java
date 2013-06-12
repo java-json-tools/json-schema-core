@@ -2,13 +2,15 @@ package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.load.URIDownloader;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.Test;
 
 import java.net.URI;
@@ -20,8 +22,8 @@ import static org.testng.Assert.*;
 
 public final class LoadingConfigurationBuilderTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final String SAMPLE_ABSOLUTE_REF = "x://y";
 
@@ -36,7 +38,8 @@ public final class LoadingConfigurationBuilderTest
             cfg.addScheme(null, downloader);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("loadingCfg.nullScheme"));
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("loadingCfg.nullScheme"));
         }
     }
 
@@ -48,7 +51,7 @@ public final class LoadingConfigurationBuilderTest
             fail("No exception thrown!!");
         } catch (LoadingConfigurationError e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("loadingCfg.emptyScheme"));
+                .hasMessage(BUNDLE.getMessage("loadingCfg.emptyScheme"));
         }
     }
 
@@ -62,7 +65,7 @@ public final class LoadingConfigurationBuilderTest
         } catch (LoadingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasField("scheme", scheme)
-                .hasMessage(BUNDLE.getKey("loadingCfg.illegalScheme"));
+                .hasMessage(BUNDLE.getMessage("loadingCfg.illegalScheme"));
         }
     }
 
@@ -86,7 +89,7 @@ public final class LoadingConfigurationBuilderTest
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getKey("loadingCfg.nullDereferencingMode"));
+                BUNDLE.getMessage("loadingCfg.nullDereferencingMode"));
         }
     }
 
@@ -115,7 +118,7 @@ public final class LoadingConfigurationBuilderTest
             final URI uri = JsonRef.fromString(SAMPLE_ABSOLUTE_REF).toURI();
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasField("uri", uri)
-                .hasMessage(BUNDLE.getKey("loadingCfg.redirectToSelf"));
+                .hasMessage(BUNDLE.getMessage("loadingCfg.redirectToSelf"));
         }
     }
 
@@ -144,7 +147,7 @@ public final class LoadingConfigurationBuilderTest
         } catch (LoadingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasField("uri", input)
-                .hasMessage(BUNDLE.getKey("loadingCfg.duplicateURI"));
+                .hasMessage(BUNDLE.getMessage("loadingCfg.duplicateURI"));
         }
     }
 
@@ -157,7 +160,7 @@ public final class LoadingConfigurationBuilderTest
         } catch (LoadingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message)
-                .hasMessage(BUNDLE.getKey("loadingCfg.noIDInSchema"));
+                .hasMessage(BUNDLE.getMessage("loadingCfg.noIDInSchema"));
         }
     }
 }

@@ -17,13 +17,15 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
@@ -32,8 +34,8 @@ import static org.testng.Assert.*;
 
 public final class ProcessorChainTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     @Test
     public void cannotInitiateWithNullProcessor()
@@ -43,7 +45,7 @@ public final class ProcessorChainTest
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getKey("processing.nullProcessor"));
+                BUNDLE.getMessage("processing.nullProcessor"));
         }
     }
 
@@ -58,7 +60,7 @@ public final class ProcessorChainTest
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getKey("processing.nullProcessor"));
+                BUNDLE.getMessage("processing.nullProcessor"));
         }
     }
 
@@ -85,7 +87,7 @@ public final class ProcessorChainTest
             fail("No exception thrown!!");
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("processing.chainStopped"));
+                .hasMessage(BUNDLE.getMessage("processing.chainStopped"));
         }
 
         verify(p1).process(same(report), any(MessageProvider.class));

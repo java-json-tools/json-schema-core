@@ -20,17 +20,19 @@ package com.github.fge.jsonschema.walk;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.DevNullProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
@@ -41,8 +43,8 @@ import static org.testng.Assert.*;
 
 public final class ResolvingSchemaWalkerTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     @Test
     public void listenerIsCalledAppropriatelyOnTreeChange()
@@ -111,7 +113,7 @@ public final class ResolvingSchemaWalkerTest
             fail("No exception thrown!!");
         } catch (SchemaWalkingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("schemaWalking.subtreeExpand"))
+                .hasMessage(BUNDLE.getMessage("schemaWalking.subtreeExpand"))
                 .hasField("schemaURI", ref)
                 .hasField("source", JsonPointer.empty())
                 .hasField("target", JsonPointer.of("a"));
@@ -140,7 +142,7 @@ public final class ResolvingSchemaWalkerTest
             fail("No exception thrown!!");
         } catch (SchemaWalkingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("schemaWalking.parentExpand"))
+                .hasMessage(BUNDLE.getMessage("schemaWalking.parentExpand"))
                 .hasField("schemaURI", ref)
                 .hasField("source", JsonPointer.of("not"))
                 .hasField("target", JsonPointer.empty());

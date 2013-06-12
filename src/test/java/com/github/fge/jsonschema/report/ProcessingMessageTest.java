@@ -22,9 +22,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
@@ -37,8 +39,8 @@ import static org.testng.Assert.*;
 
 public final class ProcessingMessageTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
@@ -69,7 +71,7 @@ public final class ProcessingMessageTest
             msg.setLogLevel(null);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("processing.nullLevel"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("processing.nullLevel"));
         }
     }
 
@@ -214,7 +216,7 @@ public final class ProcessingMessageTest
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getKey("processing.nullExceptionProvider"));
+                BUNDLE.getMessage("processing.nullExceptionProvider"));
         }
     }
 

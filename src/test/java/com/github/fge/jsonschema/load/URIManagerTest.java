@@ -19,11 +19,13 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -38,8 +40,8 @@ import static org.testng.Assert.*;
 
 public final class URIManagerTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private URIDownloader mock;
 
@@ -59,7 +61,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("refProcessing.unhandledScheme"))
+                .hasMessage(BUNDLE.getMessage("refProcessing.unhandledScheme"))
                 .hasField("scheme", "bar").hasField("uri", uri)
                 .hasLevel(LogLevel.FATAL);
         }
@@ -83,7 +85,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("refProcessing.uriIOError"))
+                .hasMessage(BUNDLE.getMessage("refProcessing.uriIOError"))
                 .hasField("uri", uri).hasLevel(LogLevel.FATAL)
                 .hasField("exceptionMessage", "foo");
         }
@@ -108,7 +110,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("refProcessing.uriNotJson"))
+                .hasMessage(BUNDLE.getMessage("refProcessing.uriNotJson"))
                 .hasTextField("parsingMessage").hasLevel(LogLevel.FATAL)
                 .hasField("uri", uri);
         }

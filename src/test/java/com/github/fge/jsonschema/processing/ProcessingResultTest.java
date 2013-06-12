@@ -1,11 +1,13 @@
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import org.testng.annotations.BeforeMethod;
@@ -20,8 +22,9 @@ import static org.testng.Assert.*;
 
 public final class ProcessingResultTest
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+
     private static final String MSG = "Houston, we have a problem";
 
     private Processor<In, Out> processor;
@@ -46,7 +49,7 @@ public final class ProcessingResultTest
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getKey("processing.nullProcessor"));
+                BUNDLE.getMessage("processing.nullProcessor"));
         }
     }
 
@@ -59,7 +62,7 @@ public final class ProcessingResultTest
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getKey("processing.nullReport"));
+                BUNDLE.getMessage("processing.nullReport"));
         }
     }
 

@@ -19,9 +19,11 @@ package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 
 import javax.annotation.concurrent.Immutable;
 import java.net.URI;
@@ -72,8 +74,8 @@ import java.net.URISyntaxException;
 @Immutable
 public abstract class JsonRef
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * The empty URI
@@ -203,7 +205,7 @@ public abstract class JsonRef
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
             throw new JsonReferenceException(new ProcessingMessage()
-                .message(BUNDLE.getKey("jsonRef.invalidURI"))
+                .message(BUNDLE.getMessage("jsonRef.invalidURI"))
                 .put("input", s), e);
         }
     }
