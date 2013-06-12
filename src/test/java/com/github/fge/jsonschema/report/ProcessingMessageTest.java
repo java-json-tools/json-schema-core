@@ -220,6 +220,25 @@ public final class ProcessingMessageTest
         }
     }
 
+    @Test
+    public void argumentsShowUpInMessage()
+    {
+        final ProcessingMessage message = new ProcessingMessage()
+            .message("Hello %s!").putArgument("greeted", "world");
+
+        assertEquals(message.getMessage(), "Hello world!");
+    }
+
+    @Test
+    public void missingFormatArgumentsCausesFormatItselfToBeReturned()
+    {
+        final String format = "%s%s";
+        final ProcessingMessage message = new ProcessingMessage()
+            .message(format).putArgument("arg1", 1);
+
+        assertEquals(message.getMessage(), format);
+    }
+
     private static final class Foo
         extends ProcessingException
     {

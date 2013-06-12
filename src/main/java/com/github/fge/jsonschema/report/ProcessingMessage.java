@@ -29,9 +29,13 @@ import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.Formatter;
+import java.util.IllegalFormatException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,6 +61,8 @@ public final class ProcessingMessage
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     private final Map<String, JsonNode> map = Maps.newLinkedHashMap();
+
+    private final List<Object> args = Lists.newArrayList();
 
     private ExceptionProvider exceptionProvider
         = SimpleExceptionProvider.getInstance();
@@ -137,8 +143,20 @@ public final class ProcessingMessage
      */
     public String getMessage()
     {
-        return map.containsKey("message") ? map.get("message").textValue()
-            : "(no message)";
+        final JsonNode node = map.get("message");
+        if (node == null)
+            return "(no message)";
+
+        final String message = node.textValue();
+
+        if (args.isEmpty())
+            return message;
+
+        try {
+            return new Formatter().format(message, args.toArray()).toString();
+        } catch (IllegalFormatException ignored) {
+            return message;
+        }
     }
 
     /**
@@ -238,6 +256,13 @@ public final class ProcessingMessage
                 ? FACTORY.nullNode()
                 : FACTORY.textNode(value.toString()));
         return put(key, node);
+    }
+
+    public ProcessingMessage putArgument(final String key, final Object value)
+    {
+        if (key != null)
+            args.add(value);
+        return put(key, value);
     }
 
     /**
