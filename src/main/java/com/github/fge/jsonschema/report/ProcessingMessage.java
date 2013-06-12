@@ -137,7 +137,7 @@ public final class ProcessingMessage
      */
     public String getMessage()
     {
-        return map.containsKey("message") ? map.get("message").asText()
+        return map.containsKey("message") ? map.get("message").textValue()
             : "(no message)";
     }
 
