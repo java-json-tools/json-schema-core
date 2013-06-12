@@ -98,12 +98,12 @@
         <dependency>
             <groupId>com.github.fge</groupId>
             <artifactId>uri-template</artifactId>
-            <version>0.4</version>
+            <version>0.5</version>
         </dependency>
         <dependency>
             <groupId>com.github.fge</groupId>
             <artifactId>msg-simple</artifactId>
-            <version>0.2</version>
+            <version>0.4</version>
         </dependency>
         <dependency>
             <groupId>com.github.fge</groupId>
