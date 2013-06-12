@@ -170,7 +170,7 @@
         <dependency>
             <groupId>com.github.fge</groupId>
             <artifactId>msg-simple</artifactId>
-            <version>0.4</version>
+            <version>0.4.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.fge</groupId>
