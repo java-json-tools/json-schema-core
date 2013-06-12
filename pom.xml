@@ -84,6 +84,7 @@
 				</plugins>
     </build>
     <dependencies>
+        <!-- Runtime -->
         <dependency>
             <groupId>com.github.fge</groupId>
             <artifactId>jackson-coreutils</artifactId>
@@ -109,6 +110,14 @@
             <artifactId>btf</artifactId>
             <version>1.0</version>
         </dependency>
+        <!-- Provided -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>2.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Testing -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -140,12 +149,6 @@
             <artifactId>fest-assert</artifactId>
             <version>1.4</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>2.0.1</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
     <licenses>
