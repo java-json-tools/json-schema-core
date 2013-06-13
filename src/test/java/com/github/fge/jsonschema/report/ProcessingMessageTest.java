@@ -247,7 +247,17 @@ public final class ProcessingMessageTest
 
         assertEquals(message.asJson().get("message").textValue(),
             "Hello world!");
+    }
 
+    @Test
+    public void settingMessageAgainResetsArguments()
+    {
+        final String fmt2 = "message2: %s";
+        final ProcessingMessage message = new ProcessingMessage()
+            .setMessage("Hello %s!").putArgument("greeted", "world")
+            .setMessage(fmt2).putArgument("foo", "bar");
+
+        assertEquals(message.getMessage(), "message2: bar");
     }
 
     private static final class Foo

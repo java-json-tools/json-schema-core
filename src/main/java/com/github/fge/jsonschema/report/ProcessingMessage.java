@@ -109,6 +109,7 @@ public final class ProcessingMessage
      */
     public ProcessingMessage setMessage(final String message)
     {
+        args.clear();
         return put("message", message);
     }
 
@@ -124,6 +125,7 @@ public final class ProcessingMessage
      */
     public <T> ProcessingMessage setMessage(final T value)
     {
+        args.clear();
         return put("message", value);
     }
 
