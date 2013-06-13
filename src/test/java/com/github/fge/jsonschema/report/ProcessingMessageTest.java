@@ -78,7 +78,7 @@ public final class ProcessingMessageTest
     @Test
     public void msgMethodSetsMessageField()
     {
-        final ProcessingMessage msg = new ProcessingMessage().message("foo");
+        final ProcessingMessage msg = new ProcessingMessage().setMessage("foo");
         assertMessage(msg).hasMessage("foo");
     }
 
@@ -224,7 +224,7 @@ public final class ProcessingMessageTest
     public void argumentsShowUpInMessage()
     {
         final ProcessingMessage message = new ProcessingMessage()
-            .message("Hello %s!").putArgument("greeted", "world");
+            .setMessage("Hello %s!").putArgument("greeted", "world");
 
         assertEquals(message.getMessage(), "Hello world!");
     }
@@ -234,7 +234,7 @@ public final class ProcessingMessageTest
     {
         final String format = "%s%s";
         final ProcessingMessage message = new ProcessingMessage()
-            .message(format).putArgument("arg1", 1);
+            .setMessage(format).putArgument("arg1", 1);
 
         assertEquals(message.getMessage(), format);
     }
