@@ -6,7 +6,8 @@
             "message": "invalidUri",
             "msgData": {
                 "value": "+23:"
-            }
+            },
+            "msgParams": [ "value" ]
         },
         {
             "schema": { "pathStart": "/a/b/../c#" },

@@ -6,7 +6,8 @@
             "message": "invalidRegexValue",
             "msgData": {
                 "value": "a++"
-            }
+            },
+            "msgParams": [ "value" ]
         },
         {
             "schema": { "pattern": "[^]" },

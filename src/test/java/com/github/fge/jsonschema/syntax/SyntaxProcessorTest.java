@@ -37,6 +37,8 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -113,8 +115,10 @@ public final class SyntaxProcessorTest
         verify(report).log(same(LogLevel.ERROR), captor.capture());
 
         final ProcessingMessage message = captor.getValue();
-        assertMessage(message).hasMessage(BUNDLE.getMessage("core.notASchema"))
-        .hasField("found", NodeType.getNodeType(node));
+        final NodeType type = NodeType.getNodeType(node);
+        assertMessage(message)
+            .hasMessage(BUNDLE.printf("core.notASchema", type))
+            .hasField("found", type);
     }
 
     @Test
@@ -132,6 +136,15 @@ public final class SyntaxProcessorTest
         // They appear in alphabetical order in the report!
         ignored.add("bar");
         ignored.add("foo");
+        final Iterable<String> iterable = Iterables.transform(ignored,
+            new Function<JsonNode, String>()
+            {
+                @Override
+                public String apply(final JsonNode input)
+                {
+                    return input.textValue();
+                }
+            });
 
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
@@ -142,7 +155,7 @@ public final class SyntaxProcessorTest
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message).hasField("ignored", ignored)
-            .hasMessage(BUNDLE.getMessage("core.unknownKeywords"));
+            .hasMessage(BUNDLE.printf("core.unknownKeywords", iterable));
     }
 
     @Test

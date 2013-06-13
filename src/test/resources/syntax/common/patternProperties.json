@@ -9,8 +9,9 @@
             "valid": false,
             "message": "invalidRegexMemberName",
             "msgData": {
-                "memberName": "a++"
-            }
+                "propertyName": "a++"
+            },
+            "msgParams": [ "propertyName" ]
         },
         {
             "schema": {

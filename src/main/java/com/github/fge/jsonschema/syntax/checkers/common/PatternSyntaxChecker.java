@@ -59,6 +59,6 @@ public final class PatternSyntaxChecker
 
         if (!RhinoHelper.regexIsValid(value))
             report.error(newMsg(tree, bundle, "invalidRegexValue")
-                .put("value", value));
+                .putArgument("value", value));
     }
 }

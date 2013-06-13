@@ -56,7 +56,8 @@ public final class URISyntaxChecker
                 report.error(newMsg(tree, bundle, "uriNotNormalized")
                     .put("value", s));
         } catch (URISyntaxException ignored) {
-            report.error(newMsg(tree, bundle, "invalidUri").put("value", s));
+            report.error(newMsg(tree, bundle, "invalidUri")
+                .putArgument("value", s));
         }
     }
 }
