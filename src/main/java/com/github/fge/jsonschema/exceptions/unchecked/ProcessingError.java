@@ -39,7 +39,7 @@ public class ProcessingError
     public ProcessingError(final String msg)
     {
         processingMessage = new ProcessingMessage().setLogLevel(LogLevel.FATAL)
-            .message(msg);
+            .setMessage(msg);
     }
 
     @Override

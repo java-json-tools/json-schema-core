@@ -158,7 +158,7 @@ public final class ProcessorMap<K, IN extends MessageProvider, OUT extends Messa
 
             if (processor == null) // Not even a default processor. Ouch.
                 throw new ProcessingException(new ProcessingMessage()
-                    .message(BUNDLE.getMessage("processing.noProcessor"))
+                    .setMessage(BUNDLE.getMessage("processing.noProcessor"))
                     .put("key", key));
 
             return processor.process(report, input);

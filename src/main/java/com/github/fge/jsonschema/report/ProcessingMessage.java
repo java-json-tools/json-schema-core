@@ -114,19 +114,29 @@ public final class ProcessingMessage
     }
 
     /**
-     * Set the exception provider for that particular message
+     * Set the main message
      *
-     * @param exceptionProvider the exception provider
+     * @param message the message as a string
      * @return this
-     * @throws NullPointerException exception provider is null
      */
-    public ProcessingMessage setExceptionProvider(
-        final ExceptionProvider exceptionProvider)
+    public ProcessingMessage setMessage(final String message)
     {
-        BUNDLE.checkNotNull(exceptionProvider,
-            "processing.nullExceptionProvider");
-        this.exceptionProvider = exceptionProvider;
-        return this;
+        return put("message", message);
+    }
+
+    /**
+     * Set the main message
+     *
+     * <p>The value type can be anything. It is your responsibility to make sure
+     * that {@link Object#toString()} is implemented correctly!</p>
+     *
+     * @param value the value
+     * @param <T> the type of the value
+     * @return this
+     */
+    public <T> ProcessingMessage setMessage(final T value)
+    {
+        return put("message", value);
     }
 
     /**
@@ -144,11 +154,30 @@ public final class ProcessingMessage
     }
 
     /**
+     * Set the exception provider for that particular message
+     *
+     * @param exceptionProvider the exception provider
+     * @return this
+     * @throws NullPointerException exception provider is null
+     */
+    public ProcessingMessage setExceptionProvider(
+        final ExceptionProvider exceptionProvider)
+    {
+        BUNDLE.checkNotNull(exceptionProvider,
+            "processing.nullExceptionProvider");
+        this.exceptionProvider = exceptionProvider;
+        return this;
+    }
+
+    /**
      * Set the main message
      *
      * @param message the message as a string
      * @return this
+     * @deprecated use {@link #setMessage(String)} instead; will be removed in
+     * 1.2.0.
      */
+    @Deprecated
     public ProcessingMessage message(final String message)
     {
         return put("message", message);
@@ -163,7 +192,10 @@ public final class ProcessingMessage
      * @param value the value
      * @param <T> the type of the value
      * @return this
+     * @deprecated use {@link #setMessage(Object)} instead; will be removed in
+     * 1.2.0
      */
+    @Deprecated
     public <T> ProcessingMessage message(final T value)
     {
         return put("message", value);

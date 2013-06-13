@@ -64,7 +64,7 @@ public final class ResolvingSchemaWalker
         = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final ProcessingMessage MESSAGE = new ProcessingMessage()
-        .message(SyntaxMessageBundle.get().getMessage("core.invalidSchema"))
+        .setMessage(SyntaxMessageBundle.get().getMessage("core.invalidSchema"))
         .setExceptionProvider(new ExceptionProvider()
         {
             @Override
@@ -148,7 +148,7 @@ public final class ResolvingSchemaWalker
         final List<TokenResolver<JsonNode>> targetTokens
             = Lists.newArrayList(targetPointer);
 
-        final ProcessingMessage message = new ProcessingMessage().message("")
+        final ProcessingMessage message = new ProcessingMessage().setMessage("")
             .put("schemaURI", tree.getLoadingRef())
             .put("source", sourcePointer.toString())
             .put("target", targetPointer.toString());
@@ -159,12 +159,12 @@ public final class ResolvingSchemaWalker
          */
         if (Collections.indexOfSubList(sourceTokens, targetTokens) == 0)
             throw new SchemaWalkingException(message
-                .message(BUNDLE.getMessage("schemaWalking.parentExpand")));
+                .setMessage(BUNDLE.getMessage("schemaWalking.parentExpand")));
         /*
          * Check if there is an attempt to expand to a subtree
          */
         if (Collections.indexOfSubList(targetTokens, sourceTokens) == 0)
             throw new SchemaWalkingException(message
-                .message(BUNDLE.getMessage("schemaWalking.subtreeExpand")));
+                .setMessage(BUNDLE.getMessage("schemaWalking.subtreeExpand")));
     }
 }

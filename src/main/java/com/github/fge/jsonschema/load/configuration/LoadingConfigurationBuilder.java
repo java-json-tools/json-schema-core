@@ -191,7 +191,7 @@ public final class LoadingConfigurationBuilder
         schemaRedirects.put(sourceURI, destinationURI);
         if (sourceURI.equals(destinationURI))
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getMessage("loadingCfg.redirectToSelf"))
+                .setMessage(BUNDLE.getMessage("loadingCfg.redirectToSelf"))
                 .put("uri", sourceURI));
         return this;
     }
@@ -218,7 +218,7 @@ public final class LoadingConfigurationBuilder
         final URI key = getLocator(uri);
         if (preloadedSchemas.containsKey(key))
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getMessage("loadingCfg.duplicateURI"))
+                .setMessage(BUNDLE.getMessage("loadingCfg.duplicateURI"))
                 .put("uri", key));
         preloadedSchemas.put(key, schema);
         return this;
@@ -265,7 +265,7 @@ public final class LoadingConfigurationBuilder
             new URI(scheme, "x", "y");
         } catch (URISyntaxException ignored) {
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getMessage("loadingCfg.illegalScheme"))
+                .setMessage(BUNDLE.getMessage("loadingCfg.illegalScheme"))
                 .put("scheme", scheme));
         }
 
@@ -279,7 +279,7 @@ public final class LoadingConfigurationBuilder
             ref = JsonRef.fromString(input);
             if (!ref.isAbsolute())
                 throw new JsonReferenceError(new ProcessingMessage()
-                    .message(BUNDLE.getMessage("jsonRef.notAbsolute"))
+                    .setMessage(BUNDLE.getMessage("jsonRef.notAbsolute"))
                     .put("input", ref));
             return ref.getLocator();
         } catch (JsonReferenceException e) {

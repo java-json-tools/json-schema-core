@@ -109,7 +109,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public ProcessorChain<IN, OUT> failOnError()
     {
         return failOnError(new ProcessingMessage()
-            .message(BUNDLE.getMessage("processing.chainStopped")));
+            .setMessage(BUNDLE.getMessage("processing.chainStopped")));
     }
 
     /**

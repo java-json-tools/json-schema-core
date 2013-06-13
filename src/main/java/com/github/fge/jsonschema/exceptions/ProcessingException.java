@@ -45,7 +45,7 @@ public class ProcessingException
 
     public ProcessingException(final String message)
     {
-        this(new ProcessingMessage().message(message)
+        this(new ProcessingMessage().setMessage(message)
             .setLogLevel(LogLevel.FATAL));
     }
 
@@ -57,7 +57,7 @@ public class ProcessingException
     public ProcessingException(final String message, final Throwable e)
     {
         processingMessage = new ProcessingMessage().setLogLevel(LogLevel.FATAL)
-            .message(message).put("exceptionClass", e.getClass().getName())
+            .setMessage(message).put("exceptionClass", e.getClass().getName())
             .put("exceptionMessage", e.getMessage());
     }
 

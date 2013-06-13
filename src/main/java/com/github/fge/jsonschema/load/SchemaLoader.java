@@ -141,7 +141,7 @@ public final class SchemaLoader
 
         if (!ref.isAbsolute())
             throw new ProcessingException(new ProcessingMessage()
-                .message(BUNDLE.getMessage("refProcessing.uriNotAbsolute"))
+                .setMessage(BUNDLE.getMessage("refProcessing.uriNotAbsolute"))
                 .put("uri", ref));
 
         final URI realURI = ref.toURI();

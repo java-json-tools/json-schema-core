@@ -87,7 +87,7 @@ public final class URIManager
 
         if (!target.isAbsolute())
             throw new ProcessingException(new ProcessingMessage()
-                .message(BUNDLE.getMessage("refProcessing.uriNotAbsolute"))
+                .setMessage(BUNDLE.getMessage("refProcessing.uriNotAbsolute"))
                 .put("uri", uri));
 
         final String scheme = target.getScheme();
@@ -96,7 +96,7 @@ public final class URIManager
 
         if (downloader == null)
             throw new ProcessingException(new ProcessingMessage()
-                .message(BUNDLE.getMessage("refProcessing.unhandledScheme"))
+                .setMessage(BUNDLE.getMessage("refProcessing.unhandledScheme"))
                 .put("uri", uri).put("scheme", scheme));
 
         final InputStream in;
@@ -106,11 +106,11 @@ public final class URIManager
             return READER.readTree(in);
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
-                .message(BUNDLE.getMessage("refProcessing.uriNotJson"))
+                .setMessage(BUNDLE.getMessage("refProcessing.uriNotJson"))
                 .put("uri", uri).put("parsingMessage", e.getOriginalMessage()));
         } catch (IOException e) {
             throw new ProcessingException(new ProcessingMessage()
-                .message(BUNDLE.getMessage("refProcessing.uriIOError"))
+                .setMessage(BUNDLE.getMessage("refProcessing.uriIOError"))
                 .put("uri", uri).put("exceptionMessage", e.getMessage()));
         }
     }

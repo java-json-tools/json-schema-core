@@ -205,7 +205,7 @@ public abstract class JsonRef
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
             throw new JsonReferenceException(new ProcessingMessage()
-                .message(BUNDLE.getMessage("jsonRef.invalidURI"))
+                .setMessage(BUNDLE.getMessage("jsonRef.invalidURI"))
                 .put("input", s), e);
         }
     }

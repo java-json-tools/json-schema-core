@@ -40,7 +40,7 @@ public final class ProcessingExceptionTest
     public void processingExceptionMessageIsSameAsProcessingMessage()
     {
         final ProcessingMessage message = new ProcessingMessage()
-            .message(FOO);
+            .setMessage(FOO);
         final ProcessingException exception = new ProcessingException(message);
         assertEquals(exception.getMessage(), FOO);
     }
