@@ -239,6 +239,17 @@ public final class ProcessingMessageTest
         assertEquals(message.getMessage(), format);
     }
 
+    @Test
+    public void messageInRawJsonReflectsArguments()
+    {
+        final ProcessingMessage message = new ProcessingMessage()
+            .setMessage("Hello %s!").putArgument("greeted", "world");
+
+        assertEquals(message.asJson().get("message").textValue(),
+            "Hello world!");
+
+    }
+
     private static final class Foo
         extends ProcessingException
     {

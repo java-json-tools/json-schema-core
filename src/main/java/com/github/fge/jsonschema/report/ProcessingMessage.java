@@ -87,20 +87,8 @@ public final class ProcessingMessage
      */
     public String getMessage()
     {
-        final JsonNode node = map.get("message");
-        if (node == null)
-            return "(no message)";
-
-        final String message = node.textValue();
-
-        if (args.isEmpty())
-            return message;
-
-        try {
-            return new Formatter().format(message, args.toArray()).toString();
-        } catch (IllegalFormatException ignored) {
-            return message;
-        }
+        return map.containsKey("message") ? map.get("message").textValue()
+            : "(no message)";
     }
 
     /**
@@ -335,6 +323,15 @@ public final class ProcessingMessage
     {
         if (key != null)
             args.add(value);
+        if (!map.containsKey("message"))
+            return;
+        final String fmt = map.get("message").textValue();
+        try {
+            final String formatted = new Formatter()
+                .format(fmt, args.toArray()).toString();
+            map.put("message", FACTORY.textNode(formatted));
+        } catch (IllegalFormatException ignored) {
+        }
     }
 
     /**
