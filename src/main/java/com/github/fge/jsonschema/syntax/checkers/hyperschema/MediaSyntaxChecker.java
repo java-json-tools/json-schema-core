@@ -55,7 +55,8 @@ public final class MediaSyntaxChecker
             value = subNode.textValue();
             if (value == null)
                 report.error(newMsg(tree, bundle, "hsMediaInvalidEncodingType")
-                    .put("expected", NodeType.STRING).put("found", type));
+                    .put("expected", NodeType.STRING)
+                    .putArgument("found", type));
             else if (!BINARY_ENCODINGS.contains(value.toLowerCase()))
                 report.error(newMsg(tree, bundle, "hsMediaInvalidEncoding")
                     .put("value", value));

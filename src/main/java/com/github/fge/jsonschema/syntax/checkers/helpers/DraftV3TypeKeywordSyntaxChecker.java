@@ -60,10 +60,11 @@ public final class DraftV3TypeKeywordSyntaxChecker
         final JsonNode node = tree.getNode().get(keyword);
 
         if (node.isTextual()) {
-            if (!typeIsValid(node.textValue()))
+            final String found = node.textValue();
+            if (!typeIsValid(found))
                 report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
-                    .put("valid", EnumSet.allOf(NodeType.class))
-                    .put("found", node));
+                    .putArgument("found", found)
+                    .putArgument("valid", EnumSet.allOf(NodeType.class)));
             return;
         }
 
@@ -84,16 +85,16 @@ public final class DraftV3TypeKeywordSyntaxChecker
             }
             if (type != STRING) {
                 report.error(newMsg(tree, bundle, "incorrectElementType")
-                    .put("index", index)
-                    .put("expected", EnumSet.of(OBJECT, STRING))
-                    .put("found", type));
+                    .putArgument("index", index)
+                    .putArgument("expected", EnumSet.of(OBJECT, STRING))
+                    .putArgument("found", type));
                 continue;
             }
             if (!typeIsValid(element.textValue()))
                 report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
                     .put("index", index)
-                    .put("valid", EnumSet.allOf(NodeType.class))
-                    .put("found", element));
+                    .putArgument("found", element.textValue())
+                    .putArgument("valid", EnumSet.allOf(NodeType.class)));
         }
 
         if (!uniqueItems)

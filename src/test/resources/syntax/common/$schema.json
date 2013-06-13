@@ -15,7 +15,8 @@
             "message": "uriNotNormalized",
             "msgData": {
                 "value": "/a/b/../c#"
-            }
+            },
+            "msgParams": [ "value" ]
         },
         {
             "schema": { "$schema": "foo://bar/baz#/~1var~1lib~1mysql" },

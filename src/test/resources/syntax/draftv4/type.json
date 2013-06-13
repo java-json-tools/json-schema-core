@@ -7,7 +7,8 @@
             "msgData": {
                 "valid": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
                 "found": "foo"
-            }
+            },
+            "msgParams": [ "found", "valid" ]
         },
         {
             "schema": { "type": [] },
@@ -23,7 +24,8 @@
                 "index": 1,
                 "expected": "string",
                 "found": "number"
-            }
+            },
+            "msgParams": [ "index", "expected", "found" ]
         },
         {
             "schema": { "type": [ "array", "strin", "object" ] },
@@ -33,7 +35,8 @@
                 "index": 1,
                 "valid": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
                 "found": "strin"
-            }
+            },
+            "msgParams": [ "found", "valid" ]
         },
         {
             "schema": { "type": [ "array", "array" ] },

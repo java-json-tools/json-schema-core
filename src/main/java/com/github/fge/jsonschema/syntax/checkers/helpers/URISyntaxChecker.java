@@ -54,7 +54,7 @@ public final class URISyntaxChecker
             final URI uri = new URI(s);
             if (!uri.equals(uri.normalize()))
                 report.error(newMsg(tree, bundle, "uriNotNormalized")
-                    .put("value", s));
+                    .putArgument("value", s));
         } catch (URISyntaxException ignored) {
             report.error(newMsg(tree, bundle, "invalidUri")
                 .putArgument("value", s));

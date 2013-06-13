@@ -11,7 +11,8 @@
             "msgData": {
                 "expected": "string",
                 "found": "boolean"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {

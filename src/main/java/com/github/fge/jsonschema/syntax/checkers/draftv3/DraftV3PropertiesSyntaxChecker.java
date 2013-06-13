@@ -70,8 +70,8 @@ public final class DraftV3PropertiesSyntaxChecker
             type = NodeType.getNodeType(required);
             if (type != NodeType.BOOLEAN) {
                 report.error(newMsg(tree, bundle, "draftv3PropertiesRequired")
-                    .put("property", member).put("expected", NodeType.BOOLEAN)
-                    .put("found", type));
+                    .putArgument("property", member).putArgument("found", type)
+                    .put("expected", NodeType.BOOLEAN));
             }
         }
     }

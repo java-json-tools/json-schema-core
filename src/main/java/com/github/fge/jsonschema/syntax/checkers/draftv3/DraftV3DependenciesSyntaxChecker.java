@@ -65,8 +65,9 @@ public final class DraftV3DependenciesSyntaxChecker
 
         if (type != NodeType.ARRAY) {
             report.error(newMsg(tree, bundle, "incorrectDependencyValue")
-                .put("property", name).put("expected", dependencyTypes)
-                .put("found", type));
+                .putArgument("property", name)
+                .putArgument("expected", dependencyTypes)
+                .putArgument("found", type));
             return;
         }
 
@@ -94,9 +95,9 @@ public final class DraftV3DependenciesSyntaxChecker
             if (type == NodeType.STRING)
                 continue;
             report.error(newMsg(tree, bundle, "incorrectElementType")
-                .put("property", name).put("index", index)
-                .put("expected", EnumSet.of(NodeType.STRING))
-                .put("found", type));
+                .put("property", name).putArgument("index", index)
+                .putArgument("expected", EnumSet.of(NodeType.STRING))
+                .putArgument("found", type));
         }
 
         /*

@@ -309,7 +309,7 @@ public abstract class SyntaxCheckersTest
             case INTEGER:
                 return value.bigIntegerValue();
             case NUMBER:
-                return value.decimalValue();
+                return value.decimalValue().toPlainString();
             case NULL:
                 return value;
             case BOOLEAN:

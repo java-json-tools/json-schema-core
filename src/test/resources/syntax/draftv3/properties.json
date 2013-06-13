@@ -28,7 +28,8 @@
                 "property": "p",
                 "expected": "boolean",
                 "found": "string"
-            }
+            },
+            "msgParams": [ "property", "found" ]
         }
     ],
     "pointerTests": [

@@ -72,7 +72,7 @@ public final class DraftV4TypeSyntaxChecker
             final String s = node.textValue();
             if (NodeType.fromName(s) == null)
                 report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
-                    .put("valid", ALL_TYPES).put("found", s));
+                    .putArgument("found", s).putArgument("valid", ALL_TYPES));
             return;
         }
 
@@ -95,14 +95,16 @@ public final class DraftV4TypeSyntaxChecker
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             if (type != NodeType.STRING) {
                 report.error(newMsg(tree, bundle, "incorrectElementType")
-                    .put("index", index).put("expected", NodeType.STRING)
-                    .put("found", type));
+                    .putArgument("index", index)
+                    .putArgument("expected", NodeType.STRING)
+                    .putArgument("found", type));
                 continue;
             }
-            if (NodeType.fromName(element.textValue()) == null)
+            final String found = element.textValue();
+            if (NodeType.fromName(found) == null)
                 report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
-                    .put("index", index).put("valid", ALL_TYPES)
-                    .put("found", element));
+                    .put("index", index).putArgument("found", found)
+                    .putArgument("valid", ALL_TYPES));
         }
 
         if (!uniqueElements)

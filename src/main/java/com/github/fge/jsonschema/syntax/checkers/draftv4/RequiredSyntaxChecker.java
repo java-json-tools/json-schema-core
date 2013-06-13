@@ -81,9 +81,9 @@ public final class RequiredSyntaxChecker
             type = NodeType.getNodeType(element);
             if (type != NodeType.STRING)
                 report.error(newMsg(tree, bundle, "incorrectElementType")
-                    .put("index", index)
-                    .put("expected", EnumSet.of(NodeType.STRING))
-                    .put("found", type)
+                    .putArgument("index", index)
+                    .putArgument("expected", EnumSet.of(NodeType.STRING))
+                    .putArgument("found", type)
                 );
         }
 

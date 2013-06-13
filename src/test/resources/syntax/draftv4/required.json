@@ -14,7 +14,8 @@
                 "index": 1,
                 "expected": [ "string" ],
                 "found": "object"
-            }
+            },
+            "msgParams": [ "index", "expected", "found" ]
         },
         {
             "schema": { "required": [ "a", "a" ] },

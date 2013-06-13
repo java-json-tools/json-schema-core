@@ -39,7 +39,8 @@
             "msgData": {
                 "valid": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
                 "found": "hammer"
-            }
+            },
+            "msgParams": [ "found", "valid" ]
         },
         {
             "schema": { "disallow": [ "boolean", 32.2, "object" ] },
@@ -49,7 +50,8 @@
                 "index": 1,
                 "expected": [ "object", "string" ],
                 "found": "number"
-            }
+            },
+            "msgParams": [ "index", "expected", "found" ]
         },
         {
             "schema": { "disallow": [ "array", "strin", "object" ] },
@@ -59,7 +61,8 @@
                 "index": 1,
                 "valid": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
                 "found": "strin"
-            }
+            },
+            "msgParams": [ "found", "valid" ]
         },
         {
             "schema": {

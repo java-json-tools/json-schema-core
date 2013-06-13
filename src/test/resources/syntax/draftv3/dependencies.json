@@ -10,7 +10,8 @@
                 "property": "p",
                 "expected": [ "array", "object", "string" ],
                 "found": "null"
-            }
+            },
+            "msgParams": [ "property", "expected", "found" ]
         },
         {
             "schema": {
@@ -35,7 +36,8 @@
                 "index": 1,
                 "expected": [ "string" ],
                 "found": "boolean"
-            }
+            },
+            "msgParams": [ "index", "expected", "found" ]
         },
         {
             "schema": {
