@@ -81,6 +81,39 @@ public final class ProcessingMessage
     }
 
     /**
+     * Get the main message
+     *
+     * @return the main message as a string
+     */
+    public String getMessage()
+    {
+        final JsonNode node = map.get("message");
+        if (node == null)
+            return "(no message)";
+
+        final String message = node.textValue();
+
+        if (args.isEmpty())
+            return message;
+
+        try {
+            return new Formatter().format(message, args.toArray()).toString();
+        } catch (IllegalFormatException ignored) {
+            return message;
+        }
+    }
+
+    /**
+     * Get the log level for this message
+     *
+     * @return the log level
+     */
+    public LogLevel getLogLevel()
+    {
+        return level;
+    }
+
+    /**
      * Set the exception provider for that particular message
      *
      * @param exceptionProvider the exception provider
@@ -134,29 +167,6 @@ public final class ProcessingMessage
     public <T> ProcessingMessage message(final T value)
     {
         return put("message", value);
-    }
-
-    /**
-     * Get the main message
-     *
-     * @return the main message as a string
-     */
-    public String getMessage()
-    {
-        final JsonNode node = map.get("message");
-        if (node == null)
-            return "(no message)";
-
-        final String message = node.textValue();
-
-        if (args.isEmpty())
-            return message;
-
-        try {
-            return new Formatter().format(message, args.toArray()).toString();
-        } catch (IllegalFormatException ignored) {
-            return message;
-        }
     }
 
     /**
@@ -263,16 +273,6 @@ public final class ProcessingMessage
         if (key != null)
             args.add(value);
         return put(key, value);
-    }
-
-    /**
-     * Get the log level for this message
-     *
-     * @return the log level
-     */
-    public LogLevel getLogLevel()
-    {
-        return level;
     }
 
     /**
