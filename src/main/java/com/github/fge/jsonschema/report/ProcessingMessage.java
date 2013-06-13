@@ -114,22 +114,6 @@ public final class ProcessingMessage
     }
 
     /**
-     * Set the main message
-     *
-     * <p>The value type can be anything. It is your responsibility to make sure
-     * that {@link Object#toString()} is implemented correctly!</p>
-     *
-     * @param value the value
-     * @param <T> the type of the value
-     * @return this
-     */
-    public <T> ProcessingMessage setMessage(final T value)
-    {
-        args.clear();
-        return put("message", value);
-    }
-
-    /**
      * Set the log level for this message
      *
      * @param level the log level
@@ -165,7 +149,7 @@ public final class ProcessingMessage
      * @param message the message as a string
      * @return this
      * @deprecated use {@link #setMessage(String)} instead; will be removed in
-     * 1.2.0.
+     * 1.1.7.
      */
     @Deprecated
     public ProcessingMessage message(final String message)
@@ -182,8 +166,7 @@ public final class ProcessingMessage
      * @param value the value
      * @param <T> the type of the value
      * @return this
-     * @deprecated use {@link #setMessage(Object)} instead; will be removed in
-     * 1.2.0
+     * @deprecated Will be removed in 1.1.7
      */
     @Deprecated
     public <T> ProcessingMessage message(final T value)
