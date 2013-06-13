@@ -107,7 +107,7 @@ public abstract class AbstractSyntaxChecker
 
         if (!types.contains(type)) {
             report.error(newMsg(tree, bundle, "incorrectType")
-                .put("expected", types).put("found", type));
+                .putArgument("found", type).putArgument("expected", types));
             return;
         }
 

@@ -168,8 +168,9 @@ public abstract class SyntaxCheckersTest
         verify(report).error(captor.capture());
 
         final ProcessingMessage msg = captor.getValue();
-        assertMessage(msg)
-            .isSyntaxError(keyword, BUNDLE.getMessage("incorrectType"), tree)
+        final String message = BUNDLE.printf("incorrectType", type,
+            EnumSet.complementOf(invalidTypes));
+        assertMessage(msg).isSyntaxError(keyword, message, tree)
             .hasField("expected", EnumSet.complementOf(invalidTypes))
             .hasField("found", type);
     }
@@ -188,13 +189,17 @@ public abstract class SyntaxCheckersTest
 
         String msg;
         JsonNode msgNode;
+        JsonNode msgParams;
+        JsonNode msgData;
 
         for (final JsonNode node: valueTests) {
             msgNode = node.get("message");
+            msgParams = node.get("msgParams");
+            msgData = node.get("msgData");
             msg = msgNode == null ? null
-                : BUNDLE.getMessage(msgNode.textValue());
+                : buildMessage(msgNode.textValue(), msgParams, msgData);
             list.add(new Object[]{ node.get("schema"), msg,
-                node.get("valid").booleanValue(), node.get("msgData") });
+                node.get("valid").booleanValue(), msgData });
         }
         return list.iterator();
     }
@@ -275,5 +280,47 @@ public abstract class SyntaxCheckersTest
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
         schema.put(keyword, node);
         return new CanonicalSchemaTree(schema);
+    }
+
+    private static String buildMessage(final String key, final JsonNode params,
+        final JsonNode data)
+    {
+        final ProcessingMessage message = new ProcessingMessage()
+            .setMessage(BUNDLE.getMessage(key));
+        if (params != null) {
+            String name;
+            JsonNode value;
+            for (final JsonNode node: params) {
+                name = node.textValue();
+                value = data.get(name);
+                message.putArgument(name, valueToArgument(value));
+            }
+        }
+        return message.getMessage();
+    }
+
+    private static Object valueToArgument(final JsonNode value)
+    {
+        final NodeType type = NodeType.getNodeType(value);
+
+        switch (type) {
+            case STRING:
+                return value.textValue();
+            case INTEGER:
+                return value.bigIntegerValue();
+            case NUMBER:
+                return value.decimalValue();
+            case NULL:
+                return value;
+            case BOOLEAN:
+                return value.booleanValue();
+            case ARRAY:
+                final List<Object> list = Lists.newArrayList();
+                for (final JsonNode element: value)
+                    list.add(valueToArgument(element));
+                return list;
+            default:
+                throw new UnsupportedOperationException();
+        }
     }
 }

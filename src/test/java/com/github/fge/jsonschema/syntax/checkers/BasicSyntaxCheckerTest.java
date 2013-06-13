@@ -50,6 +50,8 @@ public final class BasicSyntaxCheckerTest
     private static final MessageBundle BUNDLE = SyntaxMessageBundle.get();
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String KEYWORD = "foo";
+    private static final EnumSet<NodeType> VALID_TYPES
+        = EnumSet.of(ARRAY, INTEGER, STRING);
 
     @DataProvider
     public Iterator<Object[]> validTypes()
@@ -82,6 +84,7 @@ public final class BasicSyntaxCheckerTest
     public void syntaxCheckingFailsOnInvalidTypes(final JsonNode node)
         throws ProcessingException
     {
+        final NodeType type = NodeType.getNodeType(node);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
         final SchemaTree tree = new CanonicalSchemaTree(schema);
@@ -98,7 +101,7 @@ public final class BasicSyntaxCheckerTest
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
-            .hasMessage(BUNDLE.getMessage("incorrectType"))
+            .hasMessage(BUNDLE.printf("incorrectType", type, VALID_TYPES))
             .hasField("domain", "syntax")
             .hasField("expected", EnumSet.of(ARRAY, INTEGER, STRING))
             .hasField("found", NodeType.getNodeType(node));
