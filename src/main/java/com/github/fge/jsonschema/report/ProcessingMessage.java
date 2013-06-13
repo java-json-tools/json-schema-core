@@ -222,6 +222,12 @@ public final class ProcessingMessage
         return this;
     }
 
+    public ProcessingMessage putArgument(final String key, final JsonNode value)
+    {
+        addArgument(key, value);
+        return put(key, value);
+    }
+
     /**
      * Add a key/value pair to this message
      *
@@ -232,6 +238,12 @@ public final class ProcessingMessage
     public ProcessingMessage put(final String key, final AsJson asJson)
     {
         return put(key, asJson.asJson());
+    }
+
+    public ProcessingMessage putArgument(final String key, final AsJson asJson)
+    {
+        addArgument(key, asJson.asJson());
+        return put(key, asJson);
     }
 
     /**
@@ -258,6 +270,12 @@ public final class ProcessingMessage
         return put(key, FACTORY.numberNode(value));
     }
 
+    public ProcessingMessage putArgument(final String key, final int value)
+    {
+        addArgument(key, value);
+        return put(key, value);
+    }
+
     /**
      * Add a key/value pair to this message
      *
@@ -274,6 +292,12 @@ public final class ProcessingMessage
         return value == null
             ? putNull(key)
             : put(key, FACTORY.textNode(value.toString()));
+    }
+
+    public <T> ProcessingMessage putArgument(final String key, final T value)
+    {
+        addArgument(key, value);
+        return put(key, value);
     }
 
     /**
@@ -300,11 +324,17 @@ public final class ProcessingMessage
         return put(key, node);
     }
 
-    public ProcessingMessage putArgument(final String key, final Object value)
+    public <T> ProcessingMessage putArgument(final String key,
+        final Iterable<T> values)
+    {
+        addArgument(key, values);
+        return put(key, values);
+    }
+
+    private void addArgument(final String key, final Object value)
     {
         if (key != null)
             args.add(value);
-        return put(key, value);
     }
 
     /**
