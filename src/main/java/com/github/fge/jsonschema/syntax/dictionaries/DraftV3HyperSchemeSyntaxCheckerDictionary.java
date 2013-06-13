@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 /**
  * Draft v3 specific syntax checkers
  */
+//TODO rename
 public final class DraftV3HyperSchemeSyntaxCheckerDictionary
 {
     private static final Dictionary<SyntaxChecker> DICTIONARY;
