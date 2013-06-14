@@ -25,6 +25,6 @@ public final class ExclusiveMaximumSyntaxCheckerTest
     public ExclusiveMaximumSyntaxCheckerTest()
         throws JsonProcessingException
     {
-        super("exclusiveMinimum");
+        super("exclusiveMaximum");
     }
 }
