@@ -3,7 +3,7 @@
         {
             "schema": { "minProperties": 23909128390918209380192 },
             "valid": false,
-            "message": "integerTooLarge",
+            "message": "common.integerTooLarge",
             "msgData": {
                 "max": 2147483647
             }
@@ -11,7 +11,7 @@
         {
             "schema": { "minProperties": -1 },
             "valid": false,
-            "message": "integerIsNegative",
+            "message": "common.integerIsNegative",
             "msgData": {}
         },
         {

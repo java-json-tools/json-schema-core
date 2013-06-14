@@ -62,7 +62,8 @@ public final class DraftV3TypeKeywordSyntaxChecker
         if (node.isTextual()) {
             final String found = node.textValue();
             if (!typeIsValid(found))
-                report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
+                report.error(newMsg(tree, bundle,
+                    "common.typeDisallow.primitiveType.unknown")
                     .putArgument("found", found)
                     .putArgument("valid", EnumSet.allOf(NodeType.class)));
             return;
@@ -84,21 +85,23 @@ public final class DraftV3TypeKeywordSyntaxChecker
                 continue;
             }
             if (type != STRING) {
-                report.error(newMsg(tree, bundle, "incorrectElementType")
+                report.error(newMsg(tree, bundle,
+                    "common.array.element.incorrectType")
                     .putArgument("index", index)
                     .putArgument("expected", EnumSet.of(OBJECT, STRING))
                     .putArgument("found", type));
                 continue;
             }
             if (!typeIsValid(element.textValue()))
-                report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
+                report.error(newMsg(tree, bundle,
+                    "common.typeDisallow.primitiveType.unknown")
                     .put("index", index)
                     .putArgument("found", element.textValue())
                     .putArgument("valid", EnumSet.allOf(NodeType.class)));
         }
 
         if (!uniqueItems)
-            report.error(newMsg(tree, bundle, "elementsNotUnique"));
+            report.error(newMsg(tree, bundle, "common.array.duplicateElements"));
     }
 
     private static boolean typeIsValid(final String s)

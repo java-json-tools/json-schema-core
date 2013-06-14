@@ -3,7 +3,7 @@
         {
             "schema": { "anyOf": [] },
             "valid": false,
-            "message": "emptyArray",
+            "message": "common.array.empty",
             "msgData": {}
         }
     ],

@@ -54,6 +54,6 @@ public final class ExclusiveMaximumSyntaxChecker
         throws ProcessingException
     {
         if (!tree.getNode().has("maximum"))
-            report.error(newMsg(tree, bundle, "exclusiveMaximum"));
+            report.error(newMsg(tree, bundle, "common.exclusiveMaximum"));
     }
 }

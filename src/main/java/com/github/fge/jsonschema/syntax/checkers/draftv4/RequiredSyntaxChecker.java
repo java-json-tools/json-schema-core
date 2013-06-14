@@ -65,7 +65,7 @@ public final class RequiredSyntaxChecker
         final int size = node.size();
 
         if (size == 0) {
-            report.error(newMsg(tree, bundle, "emptyArray"));
+            report.error(newMsg(tree, bundle, "common.array.empty"));
             return;
         }
 
@@ -80,7 +80,8 @@ public final class RequiredSyntaxChecker
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             type = NodeType.getNodeType(element);
             if (type != NodeType.STRING)
-                report.error(newMsg(tree, bundle, "incorrectElementType")
+                report.error(newMsg(tree, bundle,
+                    "common.array.element.incorrectType")
                     .putArgument("index", index)
                     .putArgument("expected", EnumSet.of(NodeType.STRING))
                     .putArgument("found", type)
@@ -88,6 +89,6 @@ public final class RequiredSyntaxChecker
         }
 
         if (!uniqueElements)
-            report.error(newMsg(tree, bundle, "elementsNotUnique"));
+            report.error(newMsg(tree, bundle, "common.array.duplicateElements"));
     }
 }

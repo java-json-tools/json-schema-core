@@ -23,7 +23,7 @@
                 "disallow": "hammer"
             },
             "valid": false,
-            "message": "incorrectPrimitiveType",
+            "message": "common.typeDisallow.primitiveType.unknown",
             "msgData": {
                 "valid": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
                 "found": "hammer"
@@ -33,7 +33,7 @@
         {
             "schema": { "disallow": [ "boolean", 32.2, "object" ] },
             "valid": false,
-            "message": "incorrectElementType",
+            "message": "common.array.element.incorrectType",
             "msgData": {
                 "index": 1,
                 "expected": [ "object", "string" ],
@@ -44,7 +44,7 @@
         {
             "schema": { "disallow": [ "array", "strin", "object" ] },
             "valid": false,
-            "message": "incorrectPrimitiveType",
+            "message": "common.typeDisallow.primitiveType.unknown",
             "msgData": {
                 "index": 1,
                 "valid": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
@@ -57,7 +57,7 @@
                 "disallow": [ "string", "string" ]
             },
             "valid": false,
-            "message": "elementsNotUnique",
+            "message": "common.array.duplicateElements",
             "msgData": {}
         }
     ],

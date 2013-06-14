@@ -52,6 +52,6 @@ public final class DraftV4ItemsSyntaxChecker
         final JsonNode node = getNode(tree);
 
         if (node.isArray() && node.size() == 0)
-            report.error(newMsg(tree, bundle, "emptyArray"));
+            report.error(newMsg(tree, bundle, "common.array.empty"));
     }
 }

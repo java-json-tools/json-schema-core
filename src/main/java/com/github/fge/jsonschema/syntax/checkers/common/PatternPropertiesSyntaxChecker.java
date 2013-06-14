@@ -62,7 +62,8 @@ public final class PatternPropertiesSyntaxChecker
 
         for (final String s: Ordering.natural().sortedCopy(set))
             if (!RhinoHelper.regexIsValid(s))
-                report.error(newMsg(tree, bundle, "invalidRegexMemberName")
+                report.error(newMsg(tree, bundle,
+                    "patternProperties.member.notRegex")
                     .putArgument("propertyName", s));
     }
 }

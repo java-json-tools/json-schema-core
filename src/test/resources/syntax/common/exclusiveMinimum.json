@@ -3,7 +3,7 @@
         {
             "schema": { "exclusiveMinimum": false },
             "valid": false,
-            "message": "exclusiveMinimum",
+            "message": "common.exclusiveMinimum",
             "msgData": {}
         },
         {

@@ -3,13 +3,13 @@
         {
             "schema": { "required": [] },
             "valid": false,
-            "message": "emptyArray",
+            "message": "common.array.empty",
             "msgData": {}
         },
         {
             "schema": { "required": [ "a", { "$ref": "#" } ] },
             "valid": false,
-            "message": "incorrectElementType",
+            "message": "common.array.element.incorrectType",
             "msgData": {
                 "index": 1,
                 "expected": [ "string" ],
@@ -20,7 +20,7 @@
         {
             "schema": { "required": [ "a", "a" ] },
             "valid": false,
-            "message": "elementsNotUnique",
+            "message": "common.array.duplicateElements",
             "msgData": {}
         },
         {

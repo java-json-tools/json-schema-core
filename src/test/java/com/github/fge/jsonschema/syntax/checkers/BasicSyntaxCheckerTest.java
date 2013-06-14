@@ -101,7 +101,7 @@ public final class BasicSyntaxCheckerTest
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
-            .hasMessage(BUNDLE.printf("incorrectType", type, VALID_TYPES))
+            .hasMessage(BUNDLE.printf("common.incorrectType", type, VALID_TYPES))
             .hasField("domain", "syntax")
             .hasField("expected", EnumSet.of(ARRAY, INTEGER, STRING))
             .hasField("found", NodeType.getNodeType(node));

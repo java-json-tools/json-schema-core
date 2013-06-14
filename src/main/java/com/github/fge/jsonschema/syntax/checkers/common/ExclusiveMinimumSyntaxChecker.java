@@ -54,6 +54,6 @@ public final class ExclusiveMinimumSyntaxChecker
         throws ProcessingException
     {
         if (!tree.getNode().has("minimum"))
-            report.error(newMsg(tree, bundle, "exclusiveMinimum"));
+            report.error(newMsg(tree, bundle, "common.exclusiveMinimum"));
     }
 }

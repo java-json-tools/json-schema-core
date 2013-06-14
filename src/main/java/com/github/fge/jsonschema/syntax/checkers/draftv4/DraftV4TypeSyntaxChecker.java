@@ -71,7 +71,8 @@ public final class DraftV4TypeSyntaxChecker
         if (node.isTextual()) {
             final String s = node.textValue();
             if (NodeType.fromName(s) == null)
-                report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
+                report.error(newMsg(tree, bundle,
+                    "common.typeDisallow.primitiveType.unknown")
                     .putArgument("found", s).putArgument("valid", ALL_TYPES));
             return;
         }
@@ -79,7 +80,7 @@ public final class DraftV4TypeSyntaxChecker
         final int size = node.size();
 
         if (size == 0) {
-            report.error(newMsg(tree, bundle, "emptyArray"));
+            report.error(newMsg(tree, bundle, "common.array.empty"));
             return;
         }
 
@@ -94,7 +95,8 @@ public final class DraftV4TypeSyntaxChecker
             type = NodeType.getNodeType(element);
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             if (type != NodeType.STRING) {
-                report.error(newMsg(tree, bundle, "incorrectElementType")
+                report.error(newMsg(tree, bundle,
+                    "common.array.element.incorrectType")
                     .putArgument("index", index)
                     .putArgument("expected", NodeType.STRING)
                     .putArgument("found", type));
@@ -102,12 +104,13 @@ public final class DraftV4TypeSyntaxChecker
             }
             final String found = element.textValue();
             if (NodeType.fromName(found) == null)
-                report.error(newMsg(tree, bundle, "incorrectPrimitiveType")
+                report.error(newMsg(tree, bundle,
+                    "common.typeDisallow.primitiveType.unknown")
                     .put("index", index).putArgument("found", found)
                     .putArgument("valid", ALL_TYPES));
         }
 
         if (!uniqueElements)
-            report.error(newMsg(tree, bundle, "elementsNotUnique"));
+            report.error(newMsg(tree, bundle, "common.array.duplicateElements"));
     }
 }

@@ -23,7 +23,7 @@
                 }
             },
             "valid": false,
-            "message": "draftv3PropertiesRequired",
+            "message": "draftv3.properties.required.incorrectType",
             "msgData": {
                 "property": "p",
                 "expected": "boolean",

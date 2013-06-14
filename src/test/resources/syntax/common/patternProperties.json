@@ -7,7 +7,7 @@
                 }
             },
             "valid": false,
-            "message": "invalidRegexMemberName",
+            "message": "patternProperties.member.notRegex",
             "msgData": {
                 "propertyName": "a++"
             },

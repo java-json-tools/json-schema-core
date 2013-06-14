@@ -53,10 +53,10 @@ public final class URISyntaxChecker
         try {
             final URI uri = new URI(s);
             if (!uri.equals(uri.normalize()))
-                report.error(newMsg(tree, bundle, "uriNotNormalized")
+                report.error(newMsg(tree, bundle, "common.uri.notNormalized")
                     .putArgument("value", s));
         } catch (URISyntaxException ignored) {
-            report.error(newMsg(tree, bundle, "invalidUri")
+            report.error(newMsg(tree, bundle, "common.uri.invalid")
                 .putArgument("value", s));
         }
     }

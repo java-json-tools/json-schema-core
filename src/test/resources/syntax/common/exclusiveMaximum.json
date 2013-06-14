@@ -3,7 +3,7 @@
         {
             "schema": { "exclusiveMaximum": false },
             "valid": false,
-            "message": "exclusiveMaximum",
+            "message": "common.exclusiveMaximum",
             "msgData": {}
         },
         {

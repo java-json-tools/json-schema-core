@@ -50,7 +50,7 @@ public final class SchemaArraySyntaxChecker
         final int size = getNode(tree).size();
 
         if (size == 0) {
-            report.error(newMsg(tree, bundle, "emptyArray"));
+            report.error(newMsg(tree, bundle, "common.array.empty"));
             return;
         }
 

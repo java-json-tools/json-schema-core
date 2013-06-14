@@ -3,7 +3,7 @@
         {
             "schema": { "id": "+23:" },
             "valid": false,
-            "message": "invalidUri",
+            "message": "common.uri.invalid",
             "msgData": {
                 "value": "+23:"
             },
@@ -12,7 +12,7 @@
         {
             "schema": { "id": "/a/b/../c#" },
             "valid": false,
-            "message": "uriNotNormalized",
+            "message": "common.uri.notNormalized",
             "msgData": {
                 "value": "/a/b/../c#"
             },

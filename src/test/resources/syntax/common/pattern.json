@@ -3,7 +3,7 @@
         {
             "schema": { "pattern": "a++" },
             "valid": false,
-            "message": "invalidRegexValue",
+            "message": "common.invalidRegex",
             "msgData": {
                 "value": "a++"
             },

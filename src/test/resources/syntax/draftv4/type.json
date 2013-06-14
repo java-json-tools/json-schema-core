@@ -3,7 +3,7 @@
         {
             "schema": { "type": "foo" },
             "valid": false,
-            "message": "incorrectPrimitiveType",
+            "message": "common.typeDisallow.primitiveType.unknown",
             "msgData": {
                 "valid": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
                 "found": "foo"
@@ -13,13 +13,13 @@
         {
             "schema": { "type": [] },
             "valid": false,
-            "message": "emptyArray",
+            "message": "common.array.empty",
             "msgData": {}
         },
         {
             "schema": { "type": [ "boolean", 32.2, "object" ] },
             "valid": false,
-            "message": "incorrectElementType",
+            "message": "common.array.element.incorrectType",
             "msgData": {
                 "index": 1,
                 "expected": "string",
@@ -30,7 +30,7 @@
         {
             "schema": { "type": [ "array", "strin", "object" ] },
             "valid": false,
-            "message": "incorrectPrimitiveType",
+            "message": "common.typeDisallow.primitiveType.unknown",
             "msgData": {
                 "index": 1,
                 "valid": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
@@ -41,7 +41,7 @@
         {
             "schema": { "type": [ "array", "array" ] },
             "valid": false,
-            "message": "elementsNotUnique",
+            "message": "common.array.duplicateElements",
             "msgData": {}
         },
         {

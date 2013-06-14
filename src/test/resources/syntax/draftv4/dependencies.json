@@ -5,7 +5,7 @@
                 "dependencies": { "p": null }
             },
             "valid": false,
-            "message": "incorrectDependencyValue",
+            "message": "common.dependencies.value.incorrectType",
             "msgData": {
                 "property": "p",
                 "expected": [ "array", "object" ],
@@ -18,7 +18,7 @@
                 "dependencies": { "p": [] }
             },
             "valid": false,
-            "message": "emptyArray",
+            "message": "common.array.empty",
             "msgData": {
                 "property": "p"
             }
@@ -28,7 +28,7 @@
                 "dependencies": { "p": [ "a", false ] }
             },
             "valid": false,
-            "message": "incorrectElementType",
+            "message": "common.array.element.incorrectType",
             "msgData": {
                 "property": "p",
                 "index": 1,
@@ -42,7 +42,7 @@
                 "dependencies": { "p": [ "a", "a" ] }
             },
             "valid": false,
-            "message": "elementsNotUnique",
+            "message": "common.array.duplicateElements",
             "msgData": {
                 "property": "p"
             }

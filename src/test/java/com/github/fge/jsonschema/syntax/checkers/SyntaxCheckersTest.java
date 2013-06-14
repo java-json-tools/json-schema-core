@@ -168,7 +168,7 @@ public abstract class SyntaxCheckersTest
         verify(report).error(captor.capture());
 
         final ProcessingMessage msg = captor.getValue();
-        final String message = BUNDLE.printf("incorrectType", type,
+        final String message = BUNDLE.printf("common.incorrectType", type,
             EnumSet.complementOf(invalidTypes));
         assertMessage(msg).isSyntaxError(keyword, message, tree)
             .hasField("expected", EnumSet.complementOf(invalidTypes))

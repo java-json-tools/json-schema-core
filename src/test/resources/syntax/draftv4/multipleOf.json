@@ -3,7 +3,7 @@
         {
             "schema": { "multipleOf": 0 },
             "valid": false,
-            "message": "illegalDivisor",
+            "message": "common.divisor.notPositive",
             "msgData": {
                 "found": 0
             }
@@ -11,7 +11,7 @@
         {
             "schema": { "multipleOf": -2 },
             "valid": false,
-            "message": "illegalDivisor",
+            "message": "common.divisor.notPositive",
             "msgData": {
                 "found": -2
             }
@@ -21,7 +21,7 @@
                 "multipleOf": -0.00000000000000000000000000000000000000000000001
             },
             "valid": false,
-            "message": "illegalDivisor",
+            "message": "common.divisor.notPositive",
             "msgData": {
                 "found": -0.00000000000000000000000000000000000000000000001
             }

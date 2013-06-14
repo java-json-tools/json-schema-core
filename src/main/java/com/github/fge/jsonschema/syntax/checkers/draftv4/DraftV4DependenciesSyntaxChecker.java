@@ -61,7 +61,8 @@ public final class DraftV4DependenciesSyntaxChecker
         type = NodeType.getNodeType(node);
 
         if (type != NodeType.ARRAY) {
-            report.error(newMsg(tree, bundle, "incorrectDependencyValue")
+            report.error(newMsg(tree, bundle,
+                "common.dependencies.value.incorrectType")
                 .putArgument("property", name)
                 .putArgument("expected", dependencyTypes)
                 .putArgument("found", type));
@@ -71,7 +72,7 @@ public final class DraftV4DependenciesSyntaxChecker
         final int size = node.size();
 
         if (size == 0) {
-            report.error(newMsg(tree, bundle, "emptyArray")
+            report.error(newMsg(tree, bundle, "common.array.empty")
                 .put("property", name));
             return;
         }
@@ -87,14 +88,15 @@ public final class DraftV4DependenciesSyntaxChecker
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
             if (type == NodeType.STRING)
                 continue;
-            report.error(newMsg(tree, bundle, "incorrectElementType")
+            report.error(newMsg(tree, bundle,
+                "common.array.element.incorrectType")
                 .put("property", name).putArgument("index", index)
                 .putArgument("expected", EnumSet.of(NodeType.STRING))
                 .putArgument("found", type));
         }
 
         if (!uniqueElements)
-            report.error(newMsg(tree, bundle, "elementsNotUnique")
+            report.error(newMsg(tree, bundle, "common.array.duplicateElements")
                 .put("property", name));
     }
 }

@@ -51,7 +51,7 @@ public final class DivisorSyntaxChecker
         final BigDecimal divisor = node.decimalValue();
 
         if (divisor.compareTo(BigDecimal.ZERO) <= 0)
-            report.error(newMsg(tree, bundle, "illegalDivisor")
+            report.error(newMsg(tree, bundle, "common.divisor.notPositive")
                 .put("found", node));
     }
 }
