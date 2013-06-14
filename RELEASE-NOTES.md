@@ -1,7 +1,15 @@
+### 1.1.6
+
+* `ProcessingMessage` can now have parameterized messages.
+* Reorganize core/syntax bundles, improve.
+* Make some syntax messages output parameterized messages.
+* Remove deprecated code.
+* Improvements to pom.xml.
+
 ### 1.1.5
 
 * Use [msg-simple](https://github.com/fge/msg-simple) for all message needs, get
-* rid of old enums.
+  rid of old enums.
 * Syntax validation messages can be modified.
 * Schema walking API changes.
 
