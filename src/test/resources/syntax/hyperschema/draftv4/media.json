@@ -23,8 +23,10 @@
             "valid": false,
             "message": "hsMediaInvalidEncoding",
             "msgData": {
-                "value": "foo"
-            }
+                "value": "foo",
+                "valid": [ "7bit", "8bit", "binary", "quoted-printable", "base64" ]
+            },
+            "msgParams": [ "value", "valid" ]
         },
         {
             "schema": {
@@ -46,7 +48,8 @@
             "msgData": {
                 "expected": "string",
                 "found": "integer"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {
@@ -59,7 +62,8 @@
             "message": "hsMediaInvalidType",
             "msgData": {
                 "value": "foo"
-            }
+            },
+            "msgParams": [ "value" ]
         },
         {
             "schema": {

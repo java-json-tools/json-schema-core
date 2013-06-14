@@ -10,7 +10,8 @@
                 "index": 0,
                 "expected": "object",
                 "found": "integer"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {
@@ -22,7 +23,8 @@
                 "index": 0,
                 "required": [ "href", "rel" ],
                 "missing": [ "href" ]
-            }
+            },
+            "msgParams": [ "missing" ]
         },
         {
             "schema": {
@@ -34,7 +36,8 @@
                 "index": 0,
                 "expected": "string",
                 "found": "number"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {
@@ -46,7 +49,8 @@
                 "index": 0,
                 "expected": "string",
                 "found": "number"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {
@@ -55,8 +59,10 @@
             "valid": false,
             "message": "hsLinksLdoHrefIllegal",
             "msgData": {
-                "index": 0
-            }
+                "index": 0,
+                "value": "foo{"
+            },
+            "msgParams": [ "value" ]
         },
         {
             "schema": {
@@ -68,7 +74,8 @@
                 "index": 0,
                 "expected": "string",
                 "found": "array"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {
@@ -80,7 +87,8 @@
                 "index": 0,
                 "expected": "string",
                 "found": "null"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {
@@ -89,8 +97,10 @@
             "valid": false,
             "message": "hsLinksLdoMediatypeIllegal",
             "msgData": {
-                "index": 0
-            }
+                "index": 0,
+                "value": "meh"
+            },
+            "msgParams": [ "value" ]
         },
         {
             "schema": {
@@ -102,7 +112,8 @@
                 "index": 0,
                 "expected": "string",
                 "found": "object"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {
@@ -114,7 +125,8 @@
                 "index": 0,
                 "expected": "string",
                 "found": "array"
-            }
+            },
+            "msgParams": [ "found" ]
         },
         {
             "schema": {
@@ -123,8 +135,10 @@
             "valid": false,
             "message": "hsLinksLdoEnctypeIllegal",
             "msgData": {
-                "index": 0
-            }
+                "index": 0,
+                "value": "meh"
+            },
+            "msgParams": [ "value" ]
         }
     ],
     "pointerTests": [
