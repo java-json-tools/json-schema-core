@@ -44,7 +44,26 @@ import java.util.Map;
  * <p>Internally, a processing message has a {@link Map} whose keys are strings
  * and values are {@link JsonNode}s. Note that all methods altering the message
  * contents accept {@code null}: in this case, the value for that key will be a
- * {@link NullNode}.</p>
+ * {@link NullNode}. If you submit null <i>keys</i>, the whole value will be
+ * <b>ignored</b>.</p>
+ *
+ * <p>Some methods to append contents to a message accept arbitrary inputs: in
+ * this case, it is your responsibility to ensure that these inputs have a
+ * correct implementation of {@link Object#toString()}.</p>
+ *
+ * <p>You can use formatted strings as messages using the capabilities of {@link
+ * Formatter}; in order to pass arguments to the different placeholders, you
+ * will then use the {@code .putArgument()} methods instead of {@code .put()}.
+ * Arguments will appear in the order you submit them.</p>
+ *
+ * <p>Please note that if you do:</p>
+ *
+ * <pre>
+ *     message.setMessage("foo %s").putArgument("something", "here")
+ *         .setMessage("another %s message")
+ * </pre>
+ *
+ * <p>then the argument list is <b>cleared</b>.</p>
  *
  * <p>You can alter the behaviour of a processing message in two ways: its log
  * level and its {@link ExceptionProvider} (used in {@link #asException()}.</p>
@@ -60,10 +79,19 @@ public final class ProcessingMessage
 
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
+    /**
+     * This is where all key/value pairs go
+     */
     private final Map<String, JsonNode> map = Maps.newLinkedHashMap();
 
+    /**
+     * Argument list for Formatter
+     */
     private final List<Object> args = Lists.newArrayList();
 
+    /**
+     * Exception provider
+     */
     private ExceptionProvider exceptionProvider
         = SimpleExceptionProvider.getInstance();
 
@@ -181,6 +209,7 @@ public final class ProcessingMessage
      *
      * <p>Note that if the key is {@code null}, the content is <b>ignored</b>.
      * </p>
+     *
      * @param key the key
      * @param value the value as a {@link JsonNode}
      * @return this
@@ -195,6 +224,13 @@ public final class ProcessingMessage
         return this;
     }
 
+    /**
+     * Add a key/value pair to this message, which is also a formatter argument
+     *
+     * @param key the key
+     * @param value the value
+     * @return this
+     */
     public ProcessingMessage putArgument(final String key, final JsonNode value)
     {
         addArgument(key, value);
@@ -213,6 +249,13 @@ public final class ProcessingMessage
         return put(key, asJson.asJson());
     }
 
+    /**
+     * Add a key/value pair to this message, which is also a formatter argument
+     *
+     * @param key the key
+     * @param asJson the value
+     * @return this
+     */
     public ProcessingMessage putArgument(final String key, final AsJson asJson)
     {
         addArgument(key, asJson.asJson());
@@ -243,6 +286,13 @@ public final class ProcessingMessage
         return put(key, FACTORY.numberNode(value));
     }
 
+    /**
+     * Add a key/value pair to this message, which is also a formatter argument
+     *
+     * @param key the key
+     * @param value the value
+     * @return this
+     */
     public ProcessingMessage putArgument(final String key, final int value)
     {
         addArgument(key, value);
@@ -267,6 +317,14 @@ public final class ProcessingMessage
             : put(key, FACTORY.textNode(value.toString()));
     }
 
+    /**
+     * Add a key/value pair to this message, which is also a formatter argument
+     *
+     * @param key the key
+     * @param value the value
+     * @param <T> the type of the value
+     * @return this
+     */
     public <T> ProcessingMessage putArgument(final String key, final T value)
     {
         addArgument(key, value);
@@ -297,6 +355,16 @@ public final class ProcessingMessage
         return put(key, node);
     }
 
+    /**
+     * Add a key/value pair to this message, which is also a formatter argument
+     *
+     * <p>Note that the collection will not be "exploded" into its individual
+     * arguments.</p>
+     *
+     * @param key the key
+     * @param values the collection of values
+     * @return this
+     */
     public <T> ProcessingMessage putArgument(final String key,
         final Iterable<T> values)
     {
