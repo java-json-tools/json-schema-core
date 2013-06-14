@@ -5,7 +5,7 @@
                 "links": [ 1 ]
             },
             "valid": false,
-            "message": "hsLinksLdoBadType",
+            "message": "draftv4.ldo.incorrectType",
             "msgData": {
                 "index": 0,
                 "expected": "object",
@@ -18,7 +18,7 @@
                 "links": [ { "rel": "self" } ]
             },
             "valid": false,
-            "message": "hsLinksLdoMissingReq",
+            "message": "draftv4.ldo.missingRequired",
             "msgData": {
                 "index": 0,
                 "required": [ "href", "rel" ],
@@ -31,7 +31,7 @@
                 "links": [ { "rel": 1.0, "href": "foo" } ]
             },
             "valid": false,
-            "message": "hsLinksLdoRelWrongType",
+            "message": "draftv4.ldo.rel.incorrectType",
             "msgData": {
                 "index": 0,
                 "expected": "string",
@@ -44,7 +44,7 @@
                 "links": [ { "href": 1.0, "rel": "foo" } ]
             },
             "valid": false,
-            "message": "hsLinksLdoHrefWrongType",
+            "message": "draftv4.ldo.href.incorrectType",
             "msgData": {
                 "index": 0,
                 "expected": "string",
@@ -57,7 +57,7 @@
                 "links": [ { "href": "foo{", "rel": "foo" } ]
             },
             "valid": false,
-            "message": "hsLinksLdoHrefIllegal",
+            "message": "draftv4.ldo.href.notURITemplate",
             "msgData": {
                 "index": 0,
                 "value": "foo{"
@@ -69,7 +69,7 @@
                 "links": [ { "href": "foo", "rel": "foo", "title": [] } ]
             },
             "valid": false,
-            "message": "hsLinksLdoTitleWrongType",
+            "message": "draftv4.ldo.title.incorrectType",
             "msgData": {
                 "index": 0,
                 "expected": "string",
@@ -82,7 +82,7 @@
                 "links": [ { "href": "foo", "rel": "foo", "mediaType": null } ]
             },
             "valid": false,
-            "message": "hsLinksLdoMediatypeWrongType",
+            "message": "draftv4.ldo.mediaType.incorrectType",
             "msgData": {
                 "index": 0,
                 "expected": "string",
@@ -95,7 +95,7 @@
                 "links": [ { "href": "foo", "rel": "foo", "mediaType": "meh" } ]
             },
             "valid": false,
-            "message": "hsLinksLdoMediatypeIllegal",
+            "message": "draftv4.ldo.mediaType.notMediaType",
             "msgData": {
                 "index": 0,
                 "value": "meh"
@@ -107,7 +107,7 @@
                 "links": [ { "href": "foo", "rel": "foo", "method": {} } ]
             },
             "valid": false,
-            "message": "hsLinksLdoMethodWrongType",
+            "message": "draftv4.ldo.method.incorrectType",
             "msgData": {
                 "index": 0,
                 "expected": "string",
@@ -120,7 +120,7 @@
                 "links": [ { "href": "foo", "rel": "foo", "encType": [] } ]
             },
             "valid": false,
-            "message": "hsLinksLdoEnctypeWrongType",
+            "message": "draftv4.ldo.enctype.incorrectType",
             "msgData": {
                 "index": 0,
                 "expected": "string",
@@ -133,7 +133,7 @@
                 "links": [ { "href": "foo", "rel": "foo", "encType": "meh" } ]
             },
             "valid": false,
-            "message": "hsLinksLdoEnctypeIllegal",
+            "message": "draftv4.ldo.enctype.notMediaType",
             "msgData": {
                 "index": 0,
                 "value": "meh"

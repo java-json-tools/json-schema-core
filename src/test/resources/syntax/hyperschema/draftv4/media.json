@@ -7,7 +7,7 @@
                 }
             },
             "valid": false,
-            "message": "hsMediaInvalidEncodingType",
+            "message": "draftv4.media.binaryEncoding.incorrectType",
             "msgData": {
                 "expected": "string",
                 "found": "boolean"
@@ -21,7 +21,7 @@
                 }
             },
             "valid": false,
-            "message": "hsMediaInvalidEncoding",
+            "message": "draftv4.media.binaryEncoding.invalid",
             "msgData": {
                 "value": "foo",
                 "valid": [ "7bit", "8bit", "binary", "quoted-printable", "base64" ]
@@ -44,7 +44,7 @@
                 }
             },
             "valid": false,
-            "message": "hsMediaInvalidTypeType",
+            "message": "draftv4.media.type.incorrectType",
             "msgData": {
                 "expected": "string",
                 "found": "integer"
@@ -59,7 +59,7 @@
                 }
             },
             "valid": false,
-            "message": "hsMediaInvalidType",
+            "message": "draftv4.media.type.notMediaType",
             "msgData": {
                 "value": "foo"
             },
