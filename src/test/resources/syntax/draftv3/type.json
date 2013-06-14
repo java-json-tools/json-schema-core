@@ -20,18 +20,6 @@
         },
         {
             "schema": {
-                "type": false
-            },
-            "valid": false,
-            "message": "incorrectType",
-            "msgData": {
-                "expected": [ "array", "string" ],
-                "found": "boolean"
-            },
-            "msgParams": [ "found", "expected" ]
-        },
-        {
-            "schema": {
                 "type": "hammer"
             },
             "valid": false,
