@@ -29,7 +29,10 @@ import java.util.Iterator;
  * <p>This report forwards all its logged messages to another report and only
  * changes (and retains) its success status to {@code false} if a message is
  * logged at the error level.</p>
+ *
+ * @deprecated does not work properly; will be removed in 1.1.7.
  */
+@Deprecated
 @NotThreadSafe
 public final class ForwardingReport
     implements ProcessingReport
