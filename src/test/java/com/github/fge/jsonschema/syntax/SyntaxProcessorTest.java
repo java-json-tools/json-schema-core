@@ -87,7 +87,7 @@ public final class SyntaxProcessorTest
                 final SchemaTree tree)
                 throws ProcessingException
             {
-                report.error(new ProcessingMessage().message(ERRMSG));
+                report.error(new ProcessingMessage().setMessage(ERRMSG));
             }
         });
 
