@@ -31,7 +31,7 @@ import java.net.URI;
  *
  * <ul>
  *     <li>their location (what is used in {@code $schema}),</li>
- *     <li>the meta schema (as a {@link JsonNode}.</li>
+ *     <li>the meta schema (as a {@link JsonNode}).</li>
  * </ul>
  */
 public enum SchemaVersion
