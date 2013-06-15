@@ -308,9 +308,7 @@ public abstract class SyntaxCheckersTest
                 return value.textValue();
             case INTEGER:
                 return value.bigIntegerValue();
-            case NUMBER:
-                return value.decimalValue().toPlainString();
-            case NULL:
+            case NUMBER: case NULL:
                 return value;
             case BOOLEAN:
                 return value.booleanValue();
