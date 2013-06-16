@@ -10,6 +10,30 @@ import com.github.fge.jsonschema.walk.SchemaListener;
 
 public final class Preprocessing
 {
+    /*
+     * PREPROCESSING ALGORITHM
+     *
+     * This part is supposed to happen _before_ the validation processor is
+     * built. The goal is to provide the minimal processor available given the
+     * schema.
+     *
+     * First do a syntax check on the schema. This will allow to detect invalid
+     * schemas (in which case we don't continue at all), but also the case where
+     * unknown keywords are spotted; in this case, full processor as it is now.
+     * NOTE: could be eventually improved.
+     *
+     * Second, walk the schema and see if there are any JSON References in it.
+     * If there is none, return a simple, "identity" processor.
+     *
+     * If there are JSON References and they are all local, try and expand with
+     * a "local only" (no external schemas involved) ref resolver. If it
+     * succeeds, return a simple, "identity" processor. If it fails, there are
+     * recursive or lossy expansions, in this case return a processor with a
+     * Map<JsonPointer, JsonPointer> recording the mappings of found pointers.
+     *
+     * If there are JSON References pointing outside of the schema, return the
+     * full processor.
+     */
     private static final class SchemaPreprocessor
         implements SchemaListener<PreprocessorType>
     {
@@ -87,11 +111,5 @@ public final class Preprocessing
         INTERNALREFS,
         FULL,
         ;
-
-        private static PreprocessorType worstOf(final PreprocessorType t1,
-            final PreprocessorType t2)
-        {
-            return t1.compareTo(t2) >= 0 ? t1 : t2;
-        }
     }
 }
