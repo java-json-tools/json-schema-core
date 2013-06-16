@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -37,6 +38,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import org.mockito.ArgumentCaptor;
@@ -54,7 +56,8 @@ import static org.mockito.Mockito.*;
 
 public final class SyntaxProcessorTest
 {
-    private static final MessageBundle BUNDLE = SyntaxMessageBundle.get();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaSyntaxMessageBundle.class);
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String K1 = "k1";
     private static final String K2 = "k2";

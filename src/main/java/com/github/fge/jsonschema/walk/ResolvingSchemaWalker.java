@@ -28,11 +28,11 @@ import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
@@ -63,20 +63,26 @@ public final class ResolvingSchemaWalker
     private static final MessageBundle BUNDLE
         = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    private static final ProcessingMessage MESSAGE = new ProcessingMessage()
-        .setMessage(SyntaxMessageBundle.get().getMessage("core.invalidSchema"))
-        .setExceptionProvider(new ExceptionProvider()
-        {
-            @Override
-            public ProcessingException doException(
-                final ProcessingMessage message)
-            {
-                return new InvalidSchemaException(message);
-            }
-        });
-
     private static final Equivalence<SchemaTree> EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();
+
+    private static final ProcessingMessage MESSAGE;
+
+    static {
+        final MessageBundle bundle
+            = MessageBundleFactory.getBundle(JsonSchemaSyntaxMessageBundle.class);
+        MESSAGE = new ProcessingMessage()
+            .setMessage(bundle.getMessage("core.invalidSchema"))
+            .setExceptionProvider(new ExceptionProvider()
+            {
+                @Override
+                public ProcessingException doException(
+                    final ProcessingMessage message)
+                {
+                    return new InvalidSchemaException(message);
+                }
+            });
+    }
 
     private final Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
         processor;

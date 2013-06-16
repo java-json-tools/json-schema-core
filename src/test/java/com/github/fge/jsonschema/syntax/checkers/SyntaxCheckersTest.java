@@ -30,12 +30,13 @@ import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
@@ -55,7 +56,8 @@ import static org.testng.Assert.*;
 
 public abstract class SyntaxCheckersTest
 {
-    private static final MessageBundle BUNDLE = SyntaxMessageBundle.get();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaSyntaxMessageBundle.class);
 
     /*
      * The keyword

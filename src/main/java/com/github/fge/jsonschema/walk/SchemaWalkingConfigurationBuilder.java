@@ -21,7 +21,7 @@ import com.github.fge.Thawed;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.walk.collectors.DraftV4PointerCollectorDictionary;
@@ -45,7 +45,8 @@ public final class SchemaWalkingConfigurationBuilder
         collectors = DraftV4PointerCollectorDictionary.get();
         checkers = DraftV4SyntaxCheckerDictionary.get();
         loadingCfg = LoadingConfiguration.byDefault();
-        bundle = SyntaxMessageBundle.get();
+        bundle = MessageBundleFactory
+            .getBundle(JsonSchemaSyntaxMessageBundle.class);
     }
 
     SchemaWalkingConfigurationBuilder(final SchemaWalkingConfiguration cfg)
