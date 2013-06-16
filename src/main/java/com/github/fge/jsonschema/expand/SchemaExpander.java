@@ -60,7 +60,7 @@ public final class SchemaExpander
             return;
         }
 
-        final JsonPointer parent = getParent(path);
+        final JsonPointer parent = path.parent();
         final String token = getLastToken(path);
         final JsonNode parentNode = parent.get(baseNode);
         final NodeType type = NodeType.getNodeType(parentNode);
@@ -103,23 +103,6 @@ public final class SchemaExpander
     public SchemaTree getValue()
     {
         return new CanonicalSchemaTree(baseRef, baseNode);
-    }
-
-    private static JsonPointer buildPointer(
-        final List<TokenResolver<JsonNode>> list)
-    {
-        JsonPointer ret = JsonPointer.empty();
-        for (final TokenResolver<JsonNode> tokenResolver: list)
-            ret = ret.append(tokenResolver.getToken().getRaw());
-        return ret;
-    }
-
-    private static JsonPointer getParent(final JsonPointer ptr)
-    {
-        final List<TokenResolver<JsonNode>> list = Lists.newArrayList(ptr);
-        final int size = list.size();
-
-        return buildPointer(list.subList(0, size - 1));
     }
 
     private static String getLastToken(final JsonPointer ptr)
