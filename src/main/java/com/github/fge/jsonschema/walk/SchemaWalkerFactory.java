@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  *
  * @see SchemaWalkerProcessor
  */
-public interface SchemaWalkerProvider
+public interface SchemaWalkerFactory
 {
     SchemaWalker newWalker(final SchemaTree tree);
 }

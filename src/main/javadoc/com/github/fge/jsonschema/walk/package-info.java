@@ -25,8 +25,8 @@
  *
  * <p>You can also use a walker as a processor, namely {@link
  * com.github.fge.jsonschema.walk.SchemaWalkerProcessor}, in which case you must
- * provide both a {@link com.github.fge.jsonschema.walk.SchemaWalkerProvider}
- * and a {@link com.github.fge.jsonschema.walk.SchemaListenerProvider}. A new
+ * provide both a {@link com.github.fge.jsonschema.walk.SchemaWalkerFactory}
+ * and a {@link com.github.fge.jsonschema.walk.SchemaListenerFactory}. A new
  * walker and listener will be created for each call to {@code .process()}, and
  * the product of the listener will be returned wrappted into a {@link
  * com.github.fge.jsonschema.util.ValueHolder}.</p>

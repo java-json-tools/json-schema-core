@@ -22,7 +22,7 @@ package com.github.fge.jsonschema.walk;
  *
  * @param <T> the value type produced by provided listeners
  */
-public interface SchemaListenerProvider<T>
+public interface SchemaListenerFactory<T>
 {
     /**
      * Instantiate, and return, a new schema walker listener

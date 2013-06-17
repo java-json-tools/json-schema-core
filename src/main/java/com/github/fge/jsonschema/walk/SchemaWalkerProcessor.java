@@ -27,8 +27,8 @@ import com.github.fge.jsonschema.util.ValueHolder;
  * Schema walking processor
  *
  * <p>This processor requires that you provide both a {@link
- * SchemaWalkerProvider}, to build a schema walker out of a {@link SchemaTree},
- * and a {@link SchemaListenerProvider}, to build a schema listener.</p>
+ * SchemaWalkerFactory}, to build a schema walker out of a {@link SchemaTree},
+ * and a {@link SchemaListenerFactory}, to build a schema listener.</p>
  *
  * <p>When processing an input, a new walker and a new listener will be built,
  * and the schema will be processed. The return value of the listener will then
@@ -39,29 +39,29 @@ import com.github.fge.jsonschema.util.ValueHolder;
 public final class SchemaWalkerProcessor<T>
     extends RawProcessor<SchemaTree, T>
 {
-    private final SchemaWalkerProvider walkerProvider;
-    private final SchemaListenerProvider<T> listenerProvider;
+    private final SchemaWalkerFactory walkerFactory;
+    private final SchemaListenerFactory<T> listenerFactory;
 
     /**
      * Constructor
      *
-     * @param walkerProvider a {@link SchemaWalker} provider
-     * @param listenerProvider a {@link SchemaListener} provider
+     * @param walkerFactory a {@link SchemaWalker} provider
+     * @param listenerFactory a {@link SchemaListener} provider
      */
-    public SchemaWalkerProcessor(final SchemaWalkerProvider walkerProvider,
-        final SchemaListenerProvider<T> listenerProvider)
+    public SchemaWalkerProcessor(final SchemaWalkerFactory walkerFactory,
+        final SchemaListenerFactory<T> listenerFactory)
     {
         super("schema", "value");
-        this.walkerProvider = walkerProvider;
-        this.listenerProvider = listenerProvider;
+        this.walkerFactory = walkerFactory;
+        this.listenerFactory = listenerFactory;
     }
 
     @Override
     public T rawProcess(final ProcessingReport report, final SchemaTree input)
         throws ProcessingException
     {
-        final SchemaWalker walker = walkerProvider.newWalker(input);
-        final SchemaListener<T> listener = listenerProvider.newListener();
+        final SchemaWalker walker = walkerFactory.newWalker(input);
+        final SchemaListener<T> listener = listenerFactory.newListener();
         walker.walk(listener, report);
         return listener.getValue();
     }
