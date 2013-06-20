@@ -21,15 +21,15 @@ public abstract class SchemaWalker2
         pointerCollectors.putAll(dict.entries());
     }
 
-    public final void accept(final SchemaTree tree,
-        final SchemaVisitor visitor)
+    public final <T> void accept(final SchemaTree tree,
+        final SchemaVisitor<T> visitor)
         throws ProcessingException
     {
         doWalk(tree, visitor, JsonPointer.empty());
     }
 
-    private void doWalk(final SchemaTree tree, final SchemaVisitor visitor,
-        final JsonPointer pointer)
+    private <T> void doWalk(final SchemaTree tree,
+        final SchemaVisitor<T> visitor, final JsonPointer pointer)
         throws ProcessingException
     {
         final SchemaTree newTree;
@@ -50,5 +50,6 @@ public abstract class SchemaWalker2
         visitor.exitingPath(pointer);
     }
 
-    protected abstract SchemaTree resolveTree(final SchemaTree tree);
+    protected abstract SchemaTree resolveTree(final SchemaTree tree)
+        throws ProcessingException;
 }
