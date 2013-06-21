@@ -82,7 +82,7 @@ public final class LoadingConfigurationBuilderTest
         } catch (LoadingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasField("scheme", scheme)
-                .hasMessage(BUNDLE.getMessage("loadingCfg.illegalScheme"));
+                .hasMessage(BUNDLE.printf("loadingCfg.illegalScheme", scheme));
         }
     }
 
@@ -135,7 +135,7 @@ public final class LoadingConfigurationBuilderTest
             final URI uri = JsonRef.fromString(SAMPLE_ABSOLUTE_REF).toURI();
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasField("uri", uri)
-                .hasMessage(BUNDLE.getMessage("loadingCfg.redirectToSelf"));
+                .hasMessage(BUNDLE.printf("loadingCfg.redirectToSelf", uri));
         }
     }
 
@@ -161,10 +161,9 @@ public final class LoadingConfigurationBuilderTest
         try {
             cfg.preloadSchema(input, JacksonUtils.nodeFactory().objectNode());
             fail("No exception thrown!!");
-        } catch (LoadingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasField("uri", input)
-                .hasMessage(BUNDLE.getMessage("loadingCfg.duplicateURI"));
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.printf("loadingCfg.duplicateURI", input));
         }
     }
 

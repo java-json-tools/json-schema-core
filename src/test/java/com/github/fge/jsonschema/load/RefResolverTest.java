@@ -55,7 +55,7 @@ public final class RefResolverTest
             fail("No exception thrown!");
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("refProcessing.refLoop"));
+                .hasMessage(BUNDLE.printf("refProcessing.refLoop", "#"));
         }
     }
 
@@ -73,7 +73,7 @@ public final class RefResolverTest
             fail("No exception thrown!");
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("refProcessing.danglingRef"));
+                .hasMessage(BUNDLE.printf("refProcessing.danglingRef", "#/a"));
         }
     }
 }

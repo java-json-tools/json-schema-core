@@ -69,7 +69,7 @@ public final class JsonRefTest
         } catch (JsonReferenceException e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message)
-                .hasMessage(BUNDLE.getMessage("jsonRef.invalidURI"))
+                .hasMessage(BUNDLE.printf("jsonRef.invalidURI", input))
                 .hasField("input", input)
                 .hasField("exceptionClass", URISyntaxException.class.getName());
         }

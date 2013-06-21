@@ -209,7 +209,7 @@ public final class LoadingConfigurationBuilder
         if (sourceURI.equals(destinationURI))
             throw new LoadingConfigurationError(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("loadingCfg.redirectToSelf"))
-                .put("uri", sourceURI));
+                .putArgument("uri", sourceURI));
         return this;
     }
 
@@ -224,20 +224,18 @@ public final class LoadingConfigurationBuilder
      * @param uri the URI to use
      * @param schema the schema
      * @return this
-     * @throws LoadingConfigurationError the URI is null and/or not an absolute
-     * JSON Reference, or the node is null
+     * @throws NullPointerException the URI or schema is null
+     * @throws IllegalArgumentException a schema already exists at this URI
      * @see JsonRef
      */
     public LoadingConfigurationBuilder preloadSchema(final String uri,
         final JsonNode schema)
     {
         BUNDLE.checkNotNull(schema, "loadingCfg.nullSchema");
+        // TODO: check where the test for relative URIs is done
         final URI key = getLocator(uri);
-        if (preloadedSchemas.containsKey(key))
-            throw new LoadingConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("loadingCfg.duplicateURI"))
-                .put("uri", key));
-        preloadedSchemas.put(key, schema);
+        BUNDLE.checkArgumentPrintf(preloadedSchemas.put(key, schema) == null,
+            "loadingCfg.duplicateURI", key);
         return this;
     }
 
@@ -283,7 +281,7 @@ public final class LoadingConfigurationBuilder
         } catch (URISyntaxException ignored) {
             throw new LoadingConfigurationError(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("loadingCfg.illegalScheme"))
-                .put("scheme", scheme));
+                .putArgument("scheme", scheme));
         }
 
         return scheme;
@@ -297,7 +295,7 @@ public final class LoadingConfigurationBuilder
             if (!ref.isAbsolute())
                 throw new JsonReferenceError(new ProcessingMessage()
                     .setMessage(BUNDLE.getMessage("jsonRef.notAbsolute"))
-                    .put("input", ref));
+                    .putArgument("input", ref));
             return ref.getLocator();
         } catch (JsonReferenceException e) {
             throw new JsonReferenceError(e.getProcessingMessage());

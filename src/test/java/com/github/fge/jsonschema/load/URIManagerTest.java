@@ -61,7 +61,8 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("refProcessing.unhandledScheme"))
+                .hasMessage(BUNDLE.printf("refProcessing.unhandledScheme",
+                    "bar", uri))
                 .hasField("scheme", "bar").hasField("uri", uri)
                 .hasLevel(LogLevel.FATAL);
         }
@@ -85,7 +86,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("refProcessing.uriIOError"))
+                .hasMessage(BUNDLE.printf("refProcessing.uriIOError", uri))
                 .hasField("uri", uri).hasLevel(LogLevel.FATAL)
                 .hasField("exceptionMessage", "foo");
         }
@@ -110,7 +111,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("refProcessing.uriNotJson"))
+                .hasMessage(BUNDLE.printf("refProcessing.uriNotJson", uri))
                 .hasTextField("parsingMessage").hasLevel(LogLevel.FATAL)
                 .hasField("uri", uri);
         }

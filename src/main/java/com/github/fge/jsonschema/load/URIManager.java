@@ -97,7 +97,7 @@ public final class URIManager
         if (downloader == null)
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("refProcessing.unhandledScheme"))
-                .put("uri", uri).put("scheme", scheme));
+                .putArgument("scheme", scheme).putArgument("uri", uri));
 
         final InputStream in;
 
@@ -107,11 +107,13 @@ public final class URIManager
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("refProcessing.uriNotJson"))
-                .put("uri", uri).put("parsingMessage", e.getOriginalMessage()));
+                .putArgument("uri", uri)
+                .put("parsingMessage", e.getOriginalMessage()));
         } catch (IOException e) {
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("refProcessing.uriIOError"))
-                .put("uri", uri).put("exceptionMessage", e.getMessage()));
+                .putArgument("uri", uri)
+                .put("exceptionMessage", e.getMessage()));
         }
     }
 }

@@ -105,7 +105,8 @@ public final class SchemaLoaderTest
             fail("No exception thrown!");
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("refProcessing.uriNotAbsolute"))
+                .hasMessage(BUNDLE.printf("refProcessing.uriNotAbsolute",
+                    target))
                 .hasLevel(LogLevel.FATAL).hasField("uri", target);
         }
     }
