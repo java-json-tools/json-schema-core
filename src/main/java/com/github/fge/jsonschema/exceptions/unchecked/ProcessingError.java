@@ -25,7 +25,10 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
  *
  * <p>This exception is used to signify that an anomalous processor usage has
  * occurred.</p>
+ *
+ * @deprecated do not use anymore. Will be removed in 1.1.8.
  */
+@Deprecated
 public class ProcessingError
     extends RuntimeException
 {
