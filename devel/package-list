@@ -6,6 +6,7 @@ com.github.fge.jsonschema.library
 com.github.fge.jsonschema.load
 com.github.fge.jsonschema.load.configuration
 com.github.fge.jsonschema.messages
+com.github.fge.jsonschema.preprocessing
 com.github.fge.jsonschema.processing
 com.github.fge.jsonschema.ref
 com.github.fge.jsonschema.report
