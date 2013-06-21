@@ -27,6 +27,7 @@ public final class JsonSchemaSyntaxMessageBundle
     @Override
     public MessageBundle getBundle()
     {
-        return PropertiesBundle.forPath("com/github/fg/jsonschema/core/syntax");
+        return PropertiesBundle
+            .forPath("com/github/fge/jsonschema/core/syntax");
     }
 }

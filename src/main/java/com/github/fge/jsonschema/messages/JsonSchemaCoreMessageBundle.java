@@ -27,6 +27,6 @@ public final class JsonSchemaCoreMessageBundle
     @Override
     public MessageBundle getBundle()
     {
-        return PropertiesBundle.forPath("com/github/fg/jsonschema/core/core");
+        return PropertiesBundle.forPath("com/github/fge/jsonschema/core/core");
     }
 }
