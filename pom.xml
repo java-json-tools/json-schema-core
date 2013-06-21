@@ -19,7 +19,7 @@
     <groupId>com.github.fge</groupId>
     <artifactId>json-schema-core</artifactId>
     <name>json-schema-core</name>
-    <version>1.1.7</version>
+    <version>1.1.8-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>Core processing architecture for json-schema-validator</description>
     <url>https://github.com/fge/json-schema-core</url>
