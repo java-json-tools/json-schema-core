@@ -1,3 +1,11 @@
+### 1.1.7
+
+* Update msg-simple dependency.
+* Fix gross mistake with message bundles loading.
+* Make core error messages more informational.
+* Get rid of all inheritors of `ProcessingError`; mark the latter as deprecated.
+* Skeleton code for new schema walking logic.
+
 ### 1.1.6
 
 * `ProcessingMessage` can now have parameterized messages.
