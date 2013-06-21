@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.load.DefaultDownloadersDictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
@@ -30,7 +29,6 @@ import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Maps;
@@ -129,8 +127,8 @@ public final class LoadingConfigurationBuilder
      * @param scheme the scheme
      * @param downloader the downloader
      * @return this
-     * @throws LoadingConfigurationError scheme is null or illegal
-     * @throws NullPointerException downloader is null
+     * @throws NullPointerException scheme or downloader is null
+     * @throws IllegalArgumentException illegal scheme
      */
     public LoadingConfigurationBuilder addScheme(final String scheme,
         final URIDownloader downloader)
@@ -177,13 +175,12 @@ public final class LoadingConfigurationBuilder
      *
      * @param dereferencing the dereferencing mode
      * @return this
-     * @throws LoadingConfigurationError dereferencing mode is null
+     * @throws NullPointerException dereferencing mode is null
      */
     public LoadingConfigurationBuilder dereferencing(
         final Dereferencing dereferencing)
     {
-        BUNDLE.checkNotNull(dereferencing,
-            "loadingCfg.nullDereferencingMode");
+        BUNDLE.checkNotNull(dereferencing, "loadingCfg.nullDereferencingMode");
         this.dereferencing = dereferencing;
         return this;
     }
@@ -194,9 +191,8 @@ public final class LoadingConfigurationBuilder
      * @param source URI of the source schema
      * @param destination URI to redirect to
      * @return this
-     * @throws LoadingConfigurationError either the source or destination
-     * URIs are null or not absolute JSON References; or source and destination
-     * are the same
+     * @throws NullPointerException source or destination is null
+     * @throws IllegalArgumentException source and destination are the same URI
      * @see JsonRef
      */
     public LoadingConfigurationBuilder addSchemaRedirect(final String source,
@@ -205,10 +201,8 @@ public final class LoadingConfigurationBuilder
         final URI sourceURI = getLocator(source);
         final URI destinationURI = getLocator(destination);
         schemaRedirects.put(sourceURI, destinationURI);
-        if (sourceURI.equals(destinationURI))
-            throw new LoadingConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("loadingCfg.redirectToSelf"))
-                .putArgument("uri", sourceURI));
+        BUNDLE.checkArgumentPrintf(!sourceURI.equals(destinationURI),
+            "loadingCfg.redirectToSelf", sourceURI);
         return this;
     }
 
@@ -245,16 +239,15 @@ public final class LoadingConfigurationBuilder
      *
      * @param schema the schema
      * @return this
-     * @throws LoadingConfigurationError the schema is null, or it has no {@code
-     * id}, or its {@code id} is not an absolute JSON Reference
+     * @throws NullPointerException schema is null
+     * @throws IllegalArgumentException schema has no {@code id}, or its {@code
+     * id} is not an absolute JSON Reference
      * @see JsonRef
      */
     public LoadingConfigurationBuilder preloadSchema(final JsonNode schema)
     {
         final JsonNode node = schema.path("id");
-        if (!node.isTextual())
-            throw new LoadingConfigurationError(
-                BUNDLE.getMessage("loadingCfg.noIDInSchema"));
+        BUNDLE.checkArgument(node.isTextual(), "loadingCfg.noIDInSchema");
         return preloadSchema(node.textValue(), schema);
     }
 
@@ -272,15 +265,12 @@ public final class LoadingConfigurationBuilder
     private static String checkScheme(final String scheme)
     {
         BUNDLE.checkNotNull(scheme, "loadingCfg.nullScheme");
-        if (scheme.isEmpty())
-            throw new LoadingConfigurationError(
-                BUNDLE.getMessage("loadingCfg.emptyScheme"));
+        BUNDLE.checkArgument(!scheme.isEmpty(), "loadingCfg.emptyScheme");
         try {
             new URI(scheme, "x", "y");
         } catch (URISyntaxException ignored) {
-            throw new LoadingConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("loadingCfg.illegalScheme"))
-                .putArgument("scheme", scheme));
+            throw new IllegalArgumentException(
+                BUNDLE.printf("loadingCfg.illegalScheme", scheme));
         }
 
         return scheme;

@@ -21,11 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.Test;
@@ -33,7 +31,6 @@ import org.testng.annotations.Test;
 import java.net.URI;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -66,9 +63,9 @@ public final class LoadingConfigurationBuilderTest
         try {
             cfg.addScheme("", downloader);
             fail("No exception thrown!!");
-        } catch (LoadingConfigurationError e) {
-            assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("loadingCfg.emptyScheme"));
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("loadingCfg.emptyScheme"));
         }
     }
 
@@ -79,10 +76,9 @@ public final class LoadingConfigurationBuilderTest
         try {
             cfg.addScheme(scheme, downloader);
             fail("No exception thrown!!");
-        } catch (LoadingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasField("scheme", scheme)
-                .hasMessage(BUNDLE.printf("loadingCfg.illegalScheme", scheme));
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.printf("loadingCfg.illegalScheme", scheme));
         }
     }
 
@@ -131,11 +127,10 @@ public final class LoadingConfigurationBuilderTest
         try {
             cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, SAMPLE_ABSOLUTE_REF);
             fail("No exception thrown!!");
-        } catch (LoadingConfigurationError e) {
+        } catch (IllegalArgumentException e) {
             final URI uri = JsonRef.fromString(SAMPLE_ABSOLUTE_REF).toURI();
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasField("uri", uri)
-                .hasMessage(BUNDLE.printf("loadingCfg.redirectToSelf", uri));
+            assertEquals(e.getMessage(),
+                BUNDLE.printf("loadingCfg.redirectToSelf", uri));
         }
     }
 
@@ -173,10 +168,9 @@ public final class LoadingConfigurationBuilderTest
         try {
             cfg.preloadSchema(JacksonUtils.nodeFactory().objectNode());
             fail("No exception thrown!!");
-        } catch (LoadingConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getMessage("loadingCfg.noIDInSchema"));
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+               BUNDLE.getMessage("loadingCfg.noIDInSchema"));
         }
     }
 }
