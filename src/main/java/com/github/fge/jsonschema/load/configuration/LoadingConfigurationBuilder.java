@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.load.DefaultDownloadersDictionary;
@@ -162,7 +161,7 @@ public final class LoadingConfigurationBuilder
      * @param input the namespace
      * @return this
      * @throws NullPointerException input is null
-     * @throws JsonReferenceError input is not an absolute JSON Reference
+     * @throws IllegalArgumentException input is not an absolute JSON Reference
      * @see JsonRef
      */
     public LoadingConfigurationBuilder setNamespace(final String input)
@@ -292,13 +291,11 @@ public final class LoadingConfigurationBuilder
         final JsonRef ref;
         try {
             ref = JsonRef.fromString(input);
-            if (!ref.isAbsolute())
-                throw new JsonReferenceError(new ProcessingMessage()
-                    .setMessage(BUNDLE.getMessage("jsonRef.notAbsolute"))
-                    .putArgument("input", ref));
-            return ref.getLocator();
         } catch (JsonReferenceException e) {
-            throw new JsonReferenceError(e.getProcessingMessage());
+            throw new IllegalArgumentException(e.getMessage());
         }
+        BUNDLE.checkArgumentPrintf(ref.isAbsolute(), "jsonRef.notAbsolute",
+            ref);
+        return ref.getLocator();
     }
 }
