@@ -1,0 +1,156 @@
+import java.lang.reflect.Modifier;
+
+/*
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Lesser GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * Lesser GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Common settings for all projects
+ */
+
+group = "com.github.fge";
+
+project.ext {
+    gitrwscm = sprintf("git@github.com:fge/%s", name);
+    gitroscm = sprintf("https://github.com/fge/%s.git", name);
+    projectURL = sprintf("https://github.com/fge/%s", name);
+};
+
+apply(plugin: "java");
+apply(plugin: "maven");
+apply(plugin: "signing");
+apply(plugin: "osgi");
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.6";
+}
+
+/*
+ * We have to redefine these for compatibility with IDEA: unfortunately it
+ * cannot include separate directories for classes and resources...
+ */
+project.ext {
+    sourceSets.main.output.classesDir = "build/classes";
+    sourceSets.main.output.resourcesDir = "build/classes";
+    sourceSets.test.output.classesDir = "build/test-classes";
+    sourceSets.test.output.resourcesDir = "build/test-classes";
+};
+
+/*
+ * Project-specific settings. Unfortunately we cannot put the name in there!
+ */
+version = "1.1.8-SNAPSHOT";
+sourceCompatibility = "1.6";
+targetCompatibility = "1.6"; // defaults to sourceCompatibility
+
+project.ext {
+    description = "Core processing architecture for json-schema-validator";
+};
+
+/*
+ * ServiceLoader support
+ */
+
+project.ext {
+    serviceClasses = [
+        "com.github.fge.msgsimple.serviceloader.MessageBundleProvider"
+    ];
+};
+
+project.ext {
+    dotClass = ".class";
+    classpathURI = sourceSets.main.output.classesDir.canonicalFile.toURI();
+    serviceMap = new HashMap<Class<?>, List<String>>();
+    tree = fileTree(classpathURI.path)
+        .filter({ it.isFile() && it.name.endsWith(dotClass); }); // FileTree
+    resourceURI = sourceSets.main.output.resourcesDir.canonicalFile.toURI()
+        .resolve("META-INF/services/"); // Ending '/' is critical!
+};
+
+task generateServiceFiles(dependsOn: compileJava) << {
+    if (!project.hasProperty("serviceClasses"))
+        return;
+    if (serviceClasses.empty)
+        return;
+    project.ext({
+        runtimeURLs = sourceSets.main.runtimeClasspath.collect({
+            it.toURI().toURL()
+        }) as URL[];
+        classLoader = URLClassLoader.newInstance(runtimeURLs);
+    });
+    serviceClasses.each() {
+        serviceMap.put(classLoader.loadClass(it), new ArrayList<String>());
+    };
+    tree.each() {
+        File candidate ->
+            serviceMap.each() {
+                key, value ->
+                    final String className = toClassName(candidate);
+                    if (isImplementationOf(key, className))
+                        value.add(className);
+            }
+    };
+    createServicesDirectory();
+    serviceMap.each() {
+        name, list ->
+            if (list.empty)
+                return;
+            final String path = resourceURI.resolve(name.canonicalName)
+                .getPath();
+            new File(path).withWriter {
+                out -> list.each() { out.writeLine(it); }
+            };
+    };
+}
+
+/*
+ * Support methods for the generateServiceFiles task
+ */
+
+void createServicesDirectory()
+{
+    final File file = new File(resourceURI.getPath());
+    if (file.exists()) {
+        if (!file.directory)
+            throw new IOException("file " + file + " exists but is not a directory");
+        return;
+    }
+    if (!file.mkdirs())
+        throw new IOException("failed to create META-INF/services directory");
+}
+
+String toClassName(final File file)
+{
+    final URI uri = file.canonicalFile.toURI();
+    final String path = classpathURI.relativize(uri).getPath();
+    return path.substring(0, path.length() - dotClass.length())
+        .replace("/", ".");
+}
+
+boolean isImplementationOf(final Class<?> baseClass, final String className)
+{
+    final Class<?> c = classLoader.loadClass(className);
+    final int modifiers = c.modifiers;
+    if (c.anonymousClass)
+        return false;
+    if (c.interface)
+        return false;
+    if (c.enum)
+        return false;
+    if (Modifier.isAbstract(modifiers))
+        return false;
+    return Modifier.isPublic(modifiers) && baseClass.isAssignableFrom(c);
+}

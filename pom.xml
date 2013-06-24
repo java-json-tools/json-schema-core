@@ -14,6 +14,17 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<!--
+    ** WARNING ** WARNING ** WARNING ** WARNING ** WARNING ** WARNING **
+
+    DO NOT USE THIS FILE ANYMORE, IT IS OBSOLETE
+
+    This project now uses Gradle for build.
+
+    This file will be REMOVED IN VERSION 1.2. You have been warned!
+
+    ** WARNING ** WARNING ** WARNING ** WARNING ** WARNING ** WARNING **
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.fge</groupId>

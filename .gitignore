@@ -1,5 +1,6 @@
 *.iml
 target
 .idea
-META-INF
-out
+build
+.gradle
+
