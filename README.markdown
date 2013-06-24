@@ -3,6 +3,9 @@
 The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.
 
+**NOTE**: this package has no Maven support anymore; see file BUILD.md for more
+details.
+
 ## What this is
 
 This package was first extracted from the [json-schema-validator

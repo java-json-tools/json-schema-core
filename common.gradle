@@ -38,6 +38,10 @@ task wrapper(type: Wrapper) {
     gradleVersion = "1.6";
 }
 
+task pom << {
+    pom {}.writeTo("${projectDir}/pom.xml");
+}
+
 /*
  * We have to redefine these for compatibility with IDEA: unfortunately it
  * cannot include separate directories for classes and resources...
