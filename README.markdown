@@ -40,9 +40,18 @@ The current development verson is **1.1.7**
 Since 1.1.x, you can also download the jars on
 [Bintray](https://bintray.com/fge/maven/json-schema-core).
 
-## Maven artifact
+## Using this project for gradle/maven
 
-Replace `your-version-here` with the appropriate version:
+For gradle, use:
+
+```
+dependencies {
+    compile(group: "com.github.fge", name: "json-shema-core",
+        version: "your.version");
+}
+```
+
+For maven:
 
 ```xml
 <dependency>
