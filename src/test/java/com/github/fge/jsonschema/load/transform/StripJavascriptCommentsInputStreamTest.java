@@ -29,7 +29,7 @@ public final class StripJavascriptCommentsInputStreamTest
         generateInputWriter.println(" * multiline comment");
         generateInputWriter.println(" */");
         generateInputWriter.println("{ // line comment");
-        generateInputWriter.println("\"key\"/* multiline comment */, \"value\" // line comment");
+        generateInputWriter.println("\"key\"/* multiline comment */: \"value\" // line comment");
         generateInputWriter.print("} // line comment");
         generateInputWriter.close();
 
@@ -38,7 +38,7 @@ public final class StripJavascriptCommentsInputStreamTest
         BufferedReader filteredInputReader = new BufferedReader(new InputStreamReader(filteredInputStream));
         assertEquals(filteredInputReader.readLine().trim(), "");
         assertEquals(filteredInputReader.readLine().trim(), "{");
-        assertEquals(filteredInputReader.readLine().trim(), "\"key\", \"value\"");
+        assertEquals(filteredInputReader.readLine().trim(), "\"key\": \"value\"");
         assertEquals(filteredInputReader.readLine().trim(), "}");
         assertEquals(filteredInputReader.readLine(), null);
     }
