@@ -91,6 +91,11 @@ public final class LoadingConfigurationBuilder
     final Map<URI, JsonNode> preloadedSchemas;
 
     /**
+     * Strip Javascript comments from downloaded schema
+     */
+    boolean stripJavascriptComments;
+
+    /**
      * Return a new, default mutable loading configuration
      *
      * @see LoadingConfiguration#newBuilder()
@@ -104,6 +109,7 @@ public final class LoadingConfigurationBuilder
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
             preloadedSchemas.put(version.getLocation(), version.getSchema());
+        stripJavascriptComments = false;
     }
 
     /**
@@ -119,6 +125,7 @@ public final class LoadingConfigurationBuilder
         dereferencing = cfg.dereferencing;
         schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
+        stripJavascriptComments = cfg.stripJavascriptComments;
     }
 
     /**
@@ -249,6 +256,21 @@ public final class LoadingConfigurationBuilder
         final JsonNode node = schema.path("id");
         BUNDLE.checkArgument(node.isTextual(), "loadingCfg.noIDInSchema");
         return preloadSchema(node.textValue(), schema);
+    }
+
+    /**
+     * Set stripJavascriptComments configuration.
+     *
+     * <p>Enable this if non-standard Javascript comments appear in the JSON schemas.</p>
+     *
+     * @param stripJavascriptComments
+     * @return this
+     * @see URIManager
+     */
+    public LoadingConfigurationBuilder setStripJavascriptComments(boolean stripJavascriptComments)
+    {
+        this.stripJavascriptComments = stripJavascriptComments;
+        return this;
     }
 
     /**

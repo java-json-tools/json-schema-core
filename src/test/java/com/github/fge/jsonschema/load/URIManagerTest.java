@@ -172,4 +172,31 @@ public final class URIManagerTest
          */
         assertEquals(actual, expected);
     }
+
+    @Test
+    void testStripJavascriptComments()
+        throws IOException, ProcessingException
+    {
+        // get resource URIs for stripped and commented sources
+        final String strippedSource = "resource:/load/transform/stripped-source.json";
+        final URI strippedSourceURI = JsonRef.fromString(strippedSource).getLocator();
+        final String commentedSource = "resource:/load/transform/commented-source.json";
+        final URI commentedSourceURI = JsonRef.fromString(commentedSource).getLocator();
+
+        // get URIManager configured to strip comments
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+                .setStripJavascriptComments(true).freeze();
+        final URIManager manager = new URIManager(cfg);
+
+        // load JSON nodes from sources using stripping manager
+        final JsonNode strippedJSON = manager.getContent(strippedSourceURI);
+        final JsonNode commentedJSON = manager.getContent(commentedSourceURI);
+
+        // validate correctness of loaded equivalent sources
+        assertTrue(strippedJSON.has("key"));
+        assertEquals("value", strippedJSON.get("key").asText());
+        assertTrue(commentedJSON.has("key"));
+        assertEquals("value", commentedJSON.get("key").asText());
+        assertEquals(strippedJSON, commentedJSON);
+    }
 }
