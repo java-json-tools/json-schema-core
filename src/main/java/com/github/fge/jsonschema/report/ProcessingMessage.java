@@ -430,9 +430,10 @@ public final class ProcessingMessage
     public String toString()
     {
         final Map<String, JsonNode> tmp = Maps.newLinkedHashMap(map);
-        final String message = tmp.remove("message").textValue();
+        final JsonNode node = tmp.remove("message");
+        final String message = node == null ? "(no message)": node.textValue();
         final StringBuilder sb = new StringBuilder().append(level).append(": ");
-        sb.append(message == null ? "(no message)" : message);
+        sb.append(message);
         for (final Map.Entry<String, JsonNode> entry: tmp.entrySet())
             sb.append("\n    ").append(entry.getKey()).append(": ")
                 .append(entry.getValue());

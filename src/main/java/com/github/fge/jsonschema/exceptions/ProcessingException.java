@@ -72,6 +72,11 @@ public class ProcessingException
     @Override
     public final String getMessage()
     {
+        return processingMessage.toString();
+    }
+
+    public final String getShortMessage()
+    {
         return processingMessage.getMessage();
     }
 

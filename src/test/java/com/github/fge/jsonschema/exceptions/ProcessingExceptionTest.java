@@ -42,7 +42,7 @@ public final class ProcessingExceptionTest
         final ProcessingMessage message = new ProcessingMessage()
             .setMessage(FOO);
         final ProcessingException exception = new ProcessingException(message);
-        assertEquals(exception.getMessage(), FOO);
+        assertEquals(exception.getMessage(), message.toString());
     }
 
     @Test
