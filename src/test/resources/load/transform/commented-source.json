@@ -1,0 +1,6 @@
+/**
+ * multiline comment
+ */
+{ // line comment
+    "key"/* inline multiline comment */: "value" // line comment
+} // line comment

@@ -92,6 +92,13 @@ public final class LoadingConfiguration
     final Map<URI, JsonNode> preloadedSchemas;
 
     /**
+     * Strip Javascript comments from downloaded schemas
+     *
+     * @see URIManager
+     */
+    final boolean stripJavascriptComments;
+
+    /**
      * Create a new, default, mutable configuration instance
      *
      * @return a {@link LoadingConfigurationBuilder}
@@ -127,6 +134,7 @@ public final class LoadingConfiguration
         dereferencing = cfg.dereferencing;
         schemaRedirects = ImmutableMap.copyOf(cfg.schemaRedirects);
         preloadedSchemas = ImmutableMap.copyOf(cfg.preloadedSchemas);
+        stripJavascriptComments = cfg.stripJavascriptComments;
     }
 
     /**
@@ -177,6 +185,16 @@ public final class LoadingConfiguration
     public Map<URI, JsonNode> getPreloadedSchemas()
     {
         return preloadedSchemas;
+    }
+
+    /**
+     * Return the stripJavascriptComments mode used for this configuration
+     *
+     * @return the stripJavascriptComments mode
+     */
+    public boolean isStripJavascriptComments()
+    {
+        return stripJavascriptComments;
     }
 
     /**

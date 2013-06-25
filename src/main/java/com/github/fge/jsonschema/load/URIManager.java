@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.load.transform.StripJavascriptCommentsInputStream;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -58,6 +59,8 @@ public final class URIManager
 
     private final Map<URI, URI> schemaRedirects;
 
+    private final boolean stripJavascriptComments;
+
     public URIManager()
     {
         this(LoadingConfiguration.byDefault());
@@ -67,6 +70,7 @@ public final class URIManager
     {
         downloaders = cfg.getDownloaders().entries();
         schemaRedirects = cfg.getSchemaRedirects();
+        stripJavascriptComments = cfg.isStripJavascriptComments();
     }
 
     /**
@@ -99,10 +103,10 @@ public final class URIManager
                 .setMessage(BUNDLE.getMessage("refProcessing.unhandledScheme"))
                 .putArgument("scheme", scheme).putArgument("uri", uri));
 
-        final InputStream in;
-
         try {
-            in = downloader.fetch(target);
+            InputStream in = downloader.fetch(target);
+            if (stripJavascriptComments)
+                in = new StripJavascriptCommentsInputStream(in);
             return READER.readTree(in);
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
