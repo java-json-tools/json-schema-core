@@ -3,4 +3,5 @@ target
 .idea
 build
 .gradle
+out
 
