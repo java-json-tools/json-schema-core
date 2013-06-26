@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
@@ -114,7 +113,7 @@ public final class SchemaLoader
      * @param schema the schema
      * @return a new tree
      * @see Dereferencing#newTree(JsonNode)
-     * @throws ProcessingError schema is null
+     * @throws NullPointerException schema is null
      */
     public SchemaTree load(final JsonNode schema)
     {
