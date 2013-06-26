@@ -205,6 +205,7 @@ public final class URIManagerTest
     public void managerIgnoresAttemptToRemoveAutoCloseSource()
         throws IOException, ProcessingException
     {
+        // FIXME: worked even with the culprit feature disabled??
         final String content = "{\"hello\":false} 32";
         final URIDownloader downloader = mock(URIDownloader.class);
         final ByteArrayInputStream stream
