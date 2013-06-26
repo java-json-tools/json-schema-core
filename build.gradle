@@ -1,3 +1,5 @@
+import java.lang.reflect.Modifier
+
 /*
  * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
@@ -14,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-apply(from: "common.gradle");
 
 /*
  * This has to be here... It will not be taken into account in common.gradle!
@@ -32,7 +33,14 @@ buildscript {
             version: "0.2-rc2");
     }
 };
+
+apply(plugin: "java");
+apply(plugin: "maven");
+apply(plugin: "signing");
+apply(plugin: "osgi");
 apply(plugin: "fatjar");
+
+apply(from: "project.gradle");
 
 /*
  * Repositories to use
@@ -40,54 +48,6 @@ apply(plugin: "fatjar");
 repositories {
     mavenCentral();
 }
-
-/*
- * Project-specific settings. Unfortunately we cannot put the name in there!
- */
-group = "com.github.fge";
-version = "1.1.8-SNAPSHOT";
-sourceCompatibility = "1.6";
-targetCompatibility = "1.6"; // defaults to sourceCompatibility
-
-project.ext {
-    description = "Core processing architecture for json-schema-validator";
-};
-
-project.ext {
-    serviceClasses = [
-        "com.github.fge.msgsimple.serviceloader.MessageBundleProvider"
-    ];
-};
-
-/*
- * List of dependencies
- *
- * Transitive is sort of like Maven"s provided, except it won"t find its way
- * into runtime dependencies
- */
-dependencies {
-    compile(group: "com.github.fge", name: "jackson-coreutils",
-        version: "1.2");
-    compile(group: "com.github.fge", name: "uri-template", version: "0.5");
-    // Remove when uri-template is updated
-    compile(group: "com.github.fge", name: "msg-simple", version: "0.7");
-    compile(group: "org.mozilla", name: "rhino", version: "1.7R4");
-    compile(group: "com.google.code.findbugs", name: "jsr305", version: "2.0.1") {
-        transitive = true
-    };
-    testCompile(group: "org.testng", name: "testng", version: "6.8") {
-        exclude(group: "junit", module: "junit");
-        exclude(group: "org.beanshell", module: "bsh");
-        exclude(group: "org.yaml", module: "snakeyaml");
-    };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "1.9.5");
-    testCompile(group: "org.easytesting", name: "fest-assert", version: "1.4");
-}
-
-javadoc.options.links("http://docs.oracle.com/javase/6/docs/api");
-javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc");
-javadoc.options.links("http://fasterxml.github.com/jackson-databind/javadoc/2.2.0");
-javadoc.options.links("http://docs.guava-libraries.googlecode.com/git/javadoc");
 
 /*
  * Necessary! Otherwise TestNG will not be used...
@@ -119,10 +79,6 @@ fatJar {
     classifier = "full";
 }
 
-processResources {
-    dependsOn(generateServiceFiles);
-}
-
 artifacts {
     archives jar;
     archives sourcesJar;
@@ -130,50 +86,221 @@ artifacts {
 // bad idea:    archives fatJar;
 }
 
-signing {
-    sign configurations.archives;
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.6";
+}
+
+task pom << {
+    pom {}.writeTo("${projectDir}/pom.xml");
+}
+
+project.ext {
+    dotClass = ".class";
+    classpathURI = sourceSets.main.output.classesDir.canonicalFile.toURI();
+    serviceMap = new HashMap<Class<?>, List<String>>();
+    tree = fileTree(classpathURI.path)
+        .filter({ it.isFile() && it.name.endsWith(dotClass); }); // FileTree
+    resourceURI = sourceSets.main.output.resourcesDir.canonicalFile.toURI()
+        .resolve("META-INF/services/"); // Ending '/' is critical!
+}
+
+task generateServiceFiles(dependsOn: compileJava) << {
+    if (!project.hasProperty("serviceClasses"))
+        return;
+    if (serviceClasses.empty)
+        return;
+    project.ext({
+        runtimeURLs = sourceSets.main.runtimeClasspath.collect({
+            it.toURI().toURL()
+        }) as URL[];
+        classLoader = URLClassLoader.newInstance(runtimeURLs);
+    });
+    serviceClasses.each() {
+        serviceMap.put(classLoader.loadClass(it), new ArrayList<String>());
+    };
+    tree.each() {
+        File candidate ->
+            serviceMap.each() {
+                key, value ->
+                    final String className = toClassName(candidate);
+                    if (isImplementationOf(key, className))
+                        value.add(className);
+            }
+    };
+    createServicesDirectory();
+    serviceMap.each() {
+        name, list ->
+            if (list.empty)
+                return;
+            final String path = resourceURI.resolve(name.canonicalName)
+                .getPath();
+            new File(path).withWriter {
+                out -> list.each() { out.writeLine(it); }
+            };
+    };
+}
+
+processResources {
+    dependsOn(generateServiceFiles);
+}
+
+
+/*
+ * We have to redefine these for compatibility with IDEA: unfortunately it
+ * cannot include separate directories for classes and resources...
+ */
+project.ext {
+    ideaPath = new File("out").canonicalFile;
+    ideaProd = new File("out/production/${name}").canonicalFile;
+    ideaTest = new File("out/test/${name}").canonicalFile;
+}
+
+/*
+ * We have to do that, otherwise IDEA won't see the generated service files
+ */
+task prepareIdea(dependsOn: testClasses) << {
+    if (ideaPath.exists())
+        delete(ideaPath);
+    ideaProd.mkdirs();
+    ideaTest.mkdirs();
+    copy {
+        from(sourceSets.main.output.classesDir);
+        from(sourceSets.main.output.resourcesDir);
+        into(ideaProd);
+    };
+    copy {
+        from(sourceSets.test.output.classesDir);
+        from(sourceSets.test.output.resourcesDir);
+        into(ideaTest);
+    };
+}
+
+/*
+ * Support methods for the generateServiceFiles task
+ */
+
+void createServicesDirectory()
+{
+    final File file = new File(resourceURI.getPath());
+    if (file.exists()) {
+        if (!file.directory)
+            throw new IOException("file " + file + " exists but is not a directory");
+        return;
+    }
+    if (!file.mkdirs())
+        throw new IOException("failed to create META-INF/services directory");
+}
+
+String toClassName(final File file)
+{
+    final URI uri = file.canonicalFile.toURI();
+    final String path = classpathURI.relativize(uri).getPath();
+    return path.substring(0, path.length() - dotClass.length())
+        .replace("/", ".");
+}
+
+boolean isImplementationOf(final Class<?> baseClass, final String className)
+{
+    final Class<?> c = classLoader.loadClass(className);
+    final int modifiers = c.modifiers;
+    if (c.anonymousClass)
+        return false;
+    if (c.interface)
+        return false;
+    if (c.enum)
+        return false;
+    if (Modifier.isAbstract(modifiers))
+        return false;
+    return Modifier.isPublic(modifiers) && baseClass.isAssignableFrom(c);
+}
+
+/*
+ * SIGNING
+ */
+
+project.ext {
+    gitrwscm = sprintf("git@github.com:fge/%s", name);
+    gitroscm = sprintf("https://github.com/fge/%s.git", name);
+    projectURL = sprintf("https://github.com/fge/%s", name);
+    sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
+    sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
+};
+
+task checkSigningRequirements << {
+    def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
+    def noDice = false;
+    requiredProperties.each {
+        if (!project.hasProperty(it)) {
+            noDice = true;
+            System.err.printf("property \"%s\" is not defined!")
+        }
+    }
+    if (noDice)
+        throw new IllegalStateException("missing required properties for " +
+            "upload");
 }
 
 uploadArchives {
+    dependsOn(checkSigningRequirements);
     repositories {
         mavenDeployer {
             beforeDeployment {
                 MavenDeployment deployment -> signing.signPom(deployment);
             }
 
-            repository(url: sonatypeRepoURI) {
+            repository(url: "${sonatypeStaging}") {
                 authentication(userName: sonatypeUsername,
                     password: sonatypePassword);
             }
 
-            pom.project {
-                name "${name}";
-                packaging "bundle";
-                description "${description}";
-                url "${projectURL}";
-
-                scm {
-                    url "${gitrwscm}";
-                    connection "${gitrwscm}";
-                    developerConnection "${gitroscm}";
-                }
-
-                licenses {
-                    license {
-                        name "Lesser General Public License, version 3 or greater";
-                        url "http://www.gnu.org/licenses/lgpl.html";
-                        distribution "repo";
-                    }
-                }
-
-                developers {
-                    developer {
-                        id "fge";
-                        name "Francis Galiegue";
-                        email "fgaliegue@gmail.com";
-                    }
-                }
+            snapshotRepository(url: "${sonatypeSnapshots}") {
+                authentication(userName: sonatypeUsername,
+                    password: sonatypePassword);
             }
         }
     }
 }
+
+/*
+ * Configure pom.xml on install, uploadArchives
+ */
+[
+    install.repositories.mavenInstaller,
+    uploadArchives.repositories.mavenDeployer
+]*.pom*.whenConfigured { pom ->
+    pom.project {
+        name "${name}";
+        packaging "jar";
+        description "${description}";
+        url "${projectURL}";
+
+        scm {
+            url "${gitrwscm}";
+            connection "${gitrwscm}";
+            developerConnection "${gitroscm}";
+        }
+
+        licenses {
+            license {
+                name "Lesser General Public License, version 3 or greater";
+                url "http://www.gnu.org/licenses/lgpl.html";
+                distribution "repo";
+            }
+        }
+
+        developers {
+            developer {
+                id "fge";
+                name "Francis Galiegue";
+                email "fgaliegue@gmail.com";
+            }
+        }
+    }
+}
+
+ext.forRelease = !version.endsWith("-SNAPSHOT");
+signing {
+    required { forRelease && gradle.taskGraph.hasTask("uploadArchives") };
+    sign configurations.archives;
+}
+
