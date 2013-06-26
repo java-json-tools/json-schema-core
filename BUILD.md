@@ -18,6 +18,8 @@ below:
 ./gradlew clean test
 # Build a full jar -- will be generated in build/libs/*-full.jar
 ./gradlew clean fatjar
+# Build a standard jar
+./gradlew clean jar
 ```
 
 If you try and play around with Gradle configuration files, in order to be
@@ -37,4 +39,24 @@ details.
 
 While you can adapt this file to work for you, please beware that it is _not_
 supported by the author anymore.
+
+## Usage in JetBrains IDEA
+
+This package relies on service files to be generated. As such, IDEA's builtin
+compiler does not do the job properly.
+
+The build files add a task to support preparing the classes/resource files
+(production as well as test) where IDEA expects them by default:
+
+* production files in out/production/{projectName};
+* test files in out/test/{projectName}.
+
+As such, before any run/test configurations, you should configure IDEA so that
+it run this command:
+
+```
+./gradlew prepareIdea
+```
+
+It will correctly generate all service files/compile everything/etc.
 
