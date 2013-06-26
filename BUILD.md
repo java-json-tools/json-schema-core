@@ -20,6 +20,8 @@ below:
 ./gradlew clean fatjar
 # Build a standard jar
 ./gradlew clean jar
+# Install the jar/sources/javadoc into your local maven repository
+./gradlew clean install
 ```
 
 If you try and play around with Gradle configuration files, in order to be
