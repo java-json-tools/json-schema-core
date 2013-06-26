@@ -21,8 +21,6 @@ import java.lang.reflect.Modifier;
  * Common settings for all projects
  */
 
-group = "com.github.fge";
-
 project.ext {
     gitrwscm = sprintf("git@github.com:fge/%s", name);
     gitroscm = sprintf("https://github.com/fge/%s.git", name);
@@ -53,25 +51,8 @@ project.ext {
 };
 
 /*
- * Project-specific settings. Unfortunately we cannot put the name in there!
- */
-version = "1.1.8-SNAPSHOT";
-sourceCompatibility = "1.6";
-targetCompatibility = "1.6"; // defaults to sourceCompatibility
-
-project.ext {
-    description = "Core processing architecture for json-schema-validator";
-};
-
-/*
  * ServiceLoader support
  */
-
-project.ext {
-    serviceClasses = [
-        "com.github.fge.msgsimple.serviceloader.MessageBundleProvider"
-    ];
-};
 
 project.ext {
     dotClass = ".class";

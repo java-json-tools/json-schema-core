@@ -42,6 +42,24 @@ repositories {
 }
 
 /*
+ * Project-specific settings. Unfortunately we cannot put the name in there!
+ */
+group = "com.github.fge";
+version = "1.1.8-SNAPSHOT";
+sourceCompatibility = "1.6";
+targetCompatibility = "1.6"; // defaults to sourceCompatibility
+
+project.ext {
+    description = "Core processing architecture for json-schema-validator";
+};
+
+project.ext {
+    serviceClasses = [
+        "com.github.fge.msgsimple.serviceloader.MessageBundleProvider"
+    ];
+};
+
+/*
  * List of dependencies
  *
  * Transitive is sort of like Maven"s provided, except it won"t find its way
