@@ -21,7 +21,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
@@ -52,11 +51,11 @@ public final class URIManager
     private static final MessageBundle BUNDLE
         = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    private static final ObjectReader READER = JacksonUtils.getReader();
-
     private final Map<String, URIDownloader> downloaders;
 
     private final Map<URI, URI> schemaRedirects;
+
+    private final ObjectReader objectReader;
 
     public URIManager()
     {
@@ -67,6 +66,7 @@ public final class URIManager
     {
         downloaders = cfg.getDownloaders().entries();
         schemaRedirects = cfg.getSchemaRedirects();
+        objectReader = cfg.getObjectReader();
     }
 
     /**
@@ -103,7 +103,7 @@ public final class URIManager
 
         try {
             in = downloader.fetch(target);
-            return READER.readTree(in);
+            return objectReader.readTree(in);
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("refProcessing.uriNotJson"))

@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.load.configuration;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
@@ -35,6 +36,7 @@ import com.google.common.collect.Maps;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.EnumSet;
 import java.util.Map;
 
 /**
@@ -91,6 +93,14 @@ public final class LoadingConfigurationBuilder
     final Map<URI, JsonNode> preloadedSchemas;
 
     /**
+     * Set of JsonParser features to be enabled while loading schemas
+     *
+     * <p>The set of JavaParser features used to construct ObjectMapper/
+     * ObjectReader instances used to load schemas</p>
+     */
+    final EnumSet<JsonParser.Feature> jsonParserFeatures;
+
+    /**
      * Return a new, default mutable loading configuration
      *
      * @see LoadingConfiguration#newBuilder()
@@ -104,6 +114,7 @@ public final class LoadingConfigurationBuilder
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
             preloadedSchemas.put(version.getLocation(), version.getSchema());
+        jsonParserFeatures = EnumSet.noneOf(JsonParser.Feature.class);
     }
 
     /**
@@ -119,6 +130,7 @@ public final class LoadingConfigurationBuilder
         dereferencing = cfg.dereferencing;
         schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
+        jsonParserFeatures = EnumSet.copyOf(cfg.jsonParserFeatures);
     }
 
     /**
@@ -249,6 +261,24 @@ public final class LoadingConfigurationBuilder
         final JsonNode node = schema.path("id");
         BUNDLE.checkArgument(node.isTextual(), "loadingCfg.noIDInSchema");
         return preloadSchema(node.textValue(), schema);
+    }
+
+    /**
+     * Add a JsonParser feature
+     *
+     * <p>Use this option to enable non-standard JSON schema source including
+     * comments, single quotes, unquoted field names, etc.</p>
+     *
+     * @param jsonParserFeature the JsonParser feature to enable
+     * @throws NullPointerException jsonParserFeature is null
+     * @return this
+     * @see JsonParser.Feature
+     */
+    public LoadingConfigurationBuilder addJsonParserFeature(final JsonParser.Feature jsonParserFeature)
+    {
+        BUNDLE.checkNotNull(jsonParserFeature, "loadingCfg.nullJsonParserFeature");
+        jsonParserFeatures.add(jsonParserFeature);
+        return this;
     }
 
     /**
