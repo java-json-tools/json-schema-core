@@ -39,6 +39,8 @@ import java.net.URISyntaxException;
 import java.util.EnumSet;
 import java.util.Map;
 
+import static com.fasterxml.jackson.core.JsonParser.Feature;
+
 /**
  * Loading configuration (mutable instance)
  *
@@ -272,7 +274,7 @@ public final class LoadingConfigurationBuilder
      * @param feature the JsonParser feature to enable
      * @throws NullPointerException feature is null
      * @return this
-     * @see JsonParser.Feature
+     * @see Feature
      */
     public LoadingConfigurationBuilder addParserFeature(
         final JsonParser.Feature feature)
