@@ -55,7 +55,7 @@ public final class URIManager
 
     private final Map<URI, URI> schemaRedirects;
 
-    private final ObjectReader objectReader;
+    private final ObjectReader reader;
 
     public URIManager()
     {
@@ -66,7 +66,7 @@ public final class URIManager
     {
         downloaders = cfg.getDownloaders().entries();
         schemaRedirects = cfg.getSchemaRedirects();
-        objectReader = cfg.getObjectReader();
+        reader = cfg.getObjectReader();
     }
 
     /**
@@ -103,7 +103,7 @@ public final class URIManager
 
         try {
             in = downloader.fetch(target);
-            return objectReader.readTree(in);
+            return reader.readTree(in);
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("refProcessing.uriNotJson"))
