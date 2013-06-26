@@ -180,23 +180,24 @@ public final class URIManagerTest
         throws IOException, ProcessingException
     {
         // get resource URIs for standard and nonstandard sources
-        final String standardSource = "resource:/load/standard-source.json";
-        final URI standardSourceURI = JsonRef.fromString(standardSource).getLocator();
-        final String nonstandardSource = "resource:/load/nonstandard-source.json";
-        final URI nonstandardSourceURI = JsonRef.fromString(nonstandardSource).getLocator();
+        final String wellFormed = "resource:/load/standard-source.json";
+        final URI uri1 = JsonRef.fromString(wellFormed).getLocator();
+        final String illFormed = "resource:/load/nonstandard-source.json";
+        final URI uri2 = JsonRef.fromString(illFormed).getLocator();
 
         // get URIManager configured to parse nonstandard sources
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-                .addJsonParserFeature(JsonParser.Feature.ALLOW_COMMENTS)
-                .addJsonParserFeature(JsonParser.Feature.ALLOW_SINGLE_QUOTES)
-                .addJsonParserFeature(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES).freeze();
+            .addParserFeature(JsonParser.Feature.ALLOW_COMMENTS)
+            .addParserFeature(JsonParser.Feature.ALLOW_SINGLE_QUOTES)
+            .addParserFeature(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
+            .freeze();
         final URIManager manager = new URIManager(cfg);
 
         // load JSON nodes from sources using nonstandard manager
-        final JsonNode standardJSON = manager.getContent(standardSourceURI);
-        final JsonNode nonstandardJSON = manager.getContent(nonstandardSourceURI);
+        final JsonNode node1 = manager.getContent(uri1);
+        final JsonNode node2 = manager.getContent(uri2);
 
         // validate correctness of loaded equivalent sources
-        assertTrue(JsonNumEquals.getInstance().equivalent(standardJSON, nonstandardJSON));
+        assertTrue(JsonNumEquals.getInstance().equivalent(node1, node2));
     }
 }

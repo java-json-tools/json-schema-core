@@ -103,7 +103,7 @@ public final class LoadingConfiguration
      * <p>The set of JavaParser features used to construct ObjectMapper/
      * ObjectReader instances used to load schemas</p>
      */
-    final EnumSet<JsonParser.Feature> jsonParserFeatures;
+    final EnumSet<JsonParser.Feature> parserFeatures;
 
     /**
      * ObjectReader configured with enabled JsonParser features
@@ -151,12 +151,13 @@ public final class LoadingConfiguration
         dereferencing = cfg.dereferencing;
         schemaRedirects = ImmutableMap.copyOf(cfg.schemaRedirects);
         preloadedSchemas = ImmutableMap.copyOf(cfg.preloadedSchemas);
-        jsonParserFeatures = EnumSet.copyOf(cfg.jsonParserFeatures);
+        parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
         objectReader = constructObjectReader();
     }
 
     /**
-     * Construct JacksonUtils compatible ObjectReader using frozen JsonParser features.
+     * Construct JacksonUtils compatible ObjectReader using frozen JsonParser
+     * features.
      *
      * TODO: move implementation to JacksonUtils
      *
@@ -170,8 +171,8 @@ public final class LoadingConfiguration
                 .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
 
         // enable JsonParser feature configurations
-        for (JsonParser.Feature jsonParserFeature : jsonParserFeatures)
-            mapper.configure(jsonParserFeature, true);
+        for (JsonParser.Feature feature : parserFeatures)
+            mapper.configure(feature, true);
         return mapper.reader();
     }
 

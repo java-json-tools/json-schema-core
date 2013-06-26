@@ -98,7 +98,7 @@ public final class LoadingConfigurationBuilder
      * <p>The set of JavaParser features used to construct ObjectMapper/
      * ObjectReader instances used to load schemas</p>
      */
-    final EnumSet<JsonParser.Feature> jsonParserFeatures;
+    final EnumSet<JsonParser.Feature> parserFeatures;
 
     /**
      * Return a new, default mutable loading configuration
@@ -114,7 +114,7 @@ public final class LoadingConfigurationBuilder
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
             preloadedSchemas.put(version.getLocation(), version.getSchema());
-        jsonParserFeatures = EnumSet.noneOf(JsonParser.Feature.class);
+        parserFeatures = EnumSet.noneOf(JsonParser.Feature.class);
     }
 
     /**
@@ -130,7 +130,7 @@ public final class LoadingConfigurationBuilder
         dereferencing = cfg.dereferencing;
         schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
-        jsonParserFeatures = EnumSet.copyOf(cfg.jsonParserFeatures);
+        parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
     }
 
     /**
@@ -269,20 +269,37 @@ public final class LoadingConfigurationBuilder
      * <p>Use this option to enable non-standard JSON schema source including
      * comments, single quotes, unquoted field names, etc.</p>
      *
-     * @param jsonParserFeature the JsonParser feature to enable
-     * @throws NullPointerException jsonParserFeature is null
+     * @param feature the JsonParser feature to enable
+     * @throws NullPointerException feature is null
      * @return this
      * @see JsonParser.Feature
      */
-    public LoadingConfigurationBuilder addJsonParserFeature(final JsonParser.Feature jsonParserFeature)
+    public LoadingConfigurationBuilder addParserFeature(
+        final JsonParser.Feature feature)
     {
-        BUNDLE.checkNotNull(jsonParserFeature, "loadingCfg.nullJsonParserFeature");
-        jsonParserFeatures.add(jsonParserFeature);
+        BUNDLE.checkNotNull(feature, "loadingCfg.nullJsonParserFeature");
+        parserFeatures.add(feature);
         return this;
     }
 
     /**
-     * freeze this configuration
+     * Remove a JSON parser feature
+     *
+     * @param feature the feature to remove
+     * @throws NullPointerException feature is null
+     * @return this
+     * @see #addParserFeature(JsonParser.Feature)
+     */
+    public LoadingConfigurationBuilder removeParserFeature(
+        final JsonParser.Feature feature)
+    {
+        BUNDLE.checkNotNull(feature, "loadingCfg.nullJsonParserFeature");
+        parserFeatures.remove(feature);
+        return this;
+    }
+
+    /**
+     * Freeze this configuration
      *
      * @return a frozen copy of this builder
      */
