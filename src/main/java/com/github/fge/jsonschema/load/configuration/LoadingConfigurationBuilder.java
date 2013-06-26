@@ -303,6 +303,9 @@ public final class LoadingConfigurationBuilder
     /**
      * Remove a JSON parser feature
      *
+     * <p>Note that attempts to remove {@link Feature#AUTO_CLOSE_SOURCE} will
+     * be ignored for safety reasons.</p>
+     *
      * @param feature the feature to remove
      * @throws NullPointerException feature is null
      * @return this
@@ -312,7 +315,8 @@ public final class LoadingConfigurationBuilder
         final JsonParser.Feature feature)
     {
         BUNDLE.checkNotNull(feature, "loadingCfg.nullJsonParserFeature");
-        parserFeatures.remove(feature);
+        if (feature != JsonParser.Feature.AUTO_CLOSE_SOURCE)
+            parserFeatures.remove(feature);
         return this;
     }
 
