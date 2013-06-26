@@ -200,4 +200,24 @@ public final class URIManagerTest
         // validate correctness of loaded equivalent sources
         assertTrue(JsonNumEquals.getInstance().equivalent(node1, node2));
     }
+
+    @Test
+    public void managerIgnoresAttemptToRemoveAutoCloseSource()
+        throws IOException, ProcessingException
+    {
+        final String content = "{\"hello\":false} 32";
+        final URIDownloader downloader = mock(URIDownloader.class);
+        final ByteArrayInputStream stream
+            = spy(new ByteArrayInputStream(content.getBytes()));
+        when(downloader.fetch(any(URI.class))).thenReturn(stream);
+
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .addScheme("foo", downloader)
+            .removeParserFeature(JsonParser.Feature.AUTO_CLOSE_SOURCE)
+            .freeze();
+
+        final URIManager manager = new URIManager(cfg);
+        manager.getContent(URI.create("foo://bar"));
+        verify(stream).close();
+    }
 }
