@@ -17,9 +17,14 @@
 
 package com.github.fge.jsonschema.load.configuration;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.Frozen;
 import com.github.fge.Thawed;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
@@ -30,6 +35,7 @@ import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.google.common.collect.ImmutableMap;
 
 import java.net.URI;
+import java.util.EnumSet;
 import java.util.Map;
 
 /**
@@ -92,6 +98,24 @@ public final class LoadingConfiguration
     final Map<URI, JsonNode> preloadedSchemas;
 
     /**
+     * Set of JsonParser features to be enabled while loading schemas
+     *
+     * <p>The set of JavaParser features used to construct ObjectMapper/
+     * ObjectReader instances used to load schemas</p>
+     */
+    final EnumSet<JsonParser.Feature> jsonParserFeatures;
+
+    /**
+     * ObjectReader configured with enabled JsonParser features
+     *
+     * <p>Object reader configured using enabled JsonParser features and
+     * minimum requirements enforced by JacksonUtils.</p>
+     *
+     * @see JacksonUtils#getReader()
+     */
+    final ObjectReader objectReader;
+
+    /**
      * Create a new, default, mutable configuration instance
      *
      * @return a {@link LoadingConfigurationBuilder}
@@ -127,6 +151,28 @@ public final class LoadingConfiguration
         dereferencing = cfg.dereferencing;
         schemaRedirects = ImmutableMap.copyOf(cfg.schemaRedirects);
         preloadedSchemas = ImmutableMap.copyOf(cfg.preloadedSchemas);
+        jsonParserFeatures = EnumSet.copyOf(cfg.jsonParserFeatures);
+        objectReader = constructObjectReader();
+    }
+
+    /**
+     * Construct JacksonUtils compatible ObjectReader using frozen JsonParser features.
+     *
+     * TODO: move implementation to JacksonUtils
+     *
+     * @return configured ObjectReader
+     * @see JacksonUtils#getReader()
+     */
+    private ObjectReader constructObjectReader()
+    {
+        // JacksonUtils compatible ObjectMapper configuration
+        final ObjectMapper mapper = new ObjectMapper()
+                .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+
+        // enable JsonParser feature configurations
+        for (JsonParser.Feature jsonParserFeature : jsonParserFeatures)
+            mapper.configure(jsonParserFeature, true);
+        return mapper.reader();
     }
 
     /**
@@ -177,6 +223,16 @@ public final class LoadingConfiguration
     public Map<URI, JsonNode> getPreloadedSchemas()
     {
         return preloadedSchemas;
+    }
+
+    /**
+     * Return configured ObjectReader
+     *
+     * @return the ObjectReader
+     */
+    public ObjectReader getObjectReader()
+    {
+        return objectReader;
     }
 
     /**

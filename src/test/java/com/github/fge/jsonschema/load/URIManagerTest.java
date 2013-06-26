@@ -17,8 +17,10 @@
 
 package com.github.fge.jsonschema.load;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
@@ -171,5 +173,30 @@ public final class URIManagerTest
          * Finally, ensure the correctness of the downloaded content.
          */
         assertEquals(actual, expected);
+    }
+
+    @Test
+    void managerParsesNonstandardJSON()
+        throws IOException, ProcessingException
+    {
+        // get resource URIs for standard and nonstandard sources
+        final String standardSource = "resource:/load/standard-source.json";
+        final URI standardSourceURI = JsonRef.fromString(standardSource).getLocator();
+        final String nonstandardSource = "resource:/load/nonstandard-source.json";
+        final URI nonstandardSourceURI = JsonRef.fromString(nonstandardSource).getLocator();
+
+        // get URIManager configured to parse nonstandard sources
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+                .addJsonParserFeature(JsonParser.Feature.ALLOW_COMMENTS)
+                .addJsonParserFeature(JsonParser.Feature.ALLOW_SINGLE_QUOTES)
+                .addJsonParserFeature(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES).freeze();
+        final URIManager manager = new URIManager(cfg);
+
+        // load JSON nodes from sources using nonstandard manager
+        final JsonNode standardJSON = manager.getContent(standardSourceURI);
+        final JsonNode nonstandardJSON = manager.getContent(nonstandardSourceURI);
+
+        // validate correctness of loaded equivalent sources
+        assertTrue(JsonNumEquals.getInstance().equivalent(standardJSON, nonstandardJSON));
     }
 }
