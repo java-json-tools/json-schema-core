@@ -53,6 +53,22 @@ public final class LoadingConfigurationBuilder
         = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
+     * Default JsonParser feature set. Unfortunately, Jackson does not use
+     * EnumSets to collect them, so we have to do that...
+     */
+    private static final EnumSet<JsonParser.Feature> DEFAULT_PARSER_FEATURES;
+
+    static {
+        final int i = JsonParser.Feature.collectDefaults();
+
+        DEFAULT_PARSER_FEATURES = EnumSet.noneOf(JsonParser.Feature.class);
+
+        for (final JsonParser.Feature feature: JsonParser.Feature.values())
+            if ((i & (1 << feature.ordinal())) != 0)
+                DEFAULT_PARSER_FEATURES.add(feature);
+    }
+
+    /**
      * The empty, default namespace
      */
     private static final URI EMPTY_NAMESPACE = URI.create("#");
@@ -116,7 +132,7 @@ public final class LoadingConfigurationBuilder
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
             preloadedSchemas.put(version.getLocation(), version.getSchema());
-        parserFeatures = defaultFeatures();
+        parserFeatures = EnumSet.copyOf(DEFAULT_PARSER_FEATURES);
     }
 
     /**
@@ -337,22 +353,4 @@ public final class LoadingConfigurationBuilder
             ref);
         return ref.getLocator();
     }
-
-    /*
-     * We have to work around Jackson not using EnumSets :(
-     */
-    private static EnumSet<JsonParser.Feature> defaultFeatures()
-    {
-        final int i = JsonParser.Feature.collectDefaults();
-
-        final EnumSet<JsonParser.Feature> ret
-            = EnumSet.noneOf(JsonParser.Feature.class);
-
-        for (final JsonParser.Feature feature: JsonParser.Feature.values())
-            if ((i & (1 << feature.ordinal())) != 0)
-                ret.add(feature);
-
-        return ret;
-    }
-
 }
