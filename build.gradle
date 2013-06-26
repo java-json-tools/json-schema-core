@@ -230,7 +230,7 @@ task checkSigningRequirements << {
     def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
     def noDice = false;
     requiredProperties.each {
-        if (!project.hasProperty(it)) {
+        if (project.properties[it] == null) {
             noDice = true;
             System.err.printf("property \"%s\" is not defined!")
         }
@@ -249,13 +249,17 @@ uploadArchives {
             }
 
             repository(url: "${sonatypeStaging}") {
-                authentication(userName: sonatypeUsername,
-                    password: sonatypePassword);
+                authentication(
+                    userName: project.properties["sonatypeUsername"],
+                    password: project.properties["sonatypePassword"]
+                );
             }
 
             snapshotRepository(url: "${sonatypeSnapshots}") {
-                authentication(userName: sonatypeUsername,
-                    password: sonatypePassword);
+                authentication(
+                    userName: project.properties["sonatypeUsername"],
+                    password: project.properties["sonatypePassword"]
+                );
             }
         }
     }
