@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.Frozen;
 import com.github.fge.Thawed;
 import com.github.fge.jackson.JacksonUtils;
@@ -167,8 +166,7 @@ public final class LoadingConfiguration
     private ObjectReader constructObjectReader()
     {
         // JacksonUtils compatible ObjectMapper configuration
-        final JsonNodeFactory factory = JsonNodeFactory.withExactBigDecimals(false);
-        final ObjectMapper mapper = new ObjectMapper().setNodeFactory(factory)
+        final ObjectMapper mapper = new ObjectMapper()
                 .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
 
         // enable JsonParser feature configurations

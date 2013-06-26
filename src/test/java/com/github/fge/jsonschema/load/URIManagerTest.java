@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.load;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
@@ -175,7 +176,7 @@ public final class URIManagerTest
     }
 
     @Test
-    void testNonStandardJsonSources()
+    void managerParsesNonstandardJSON()
         throws IOException, ProcessingException
     {
         // get resource URIs for standard and nonstandard sources
@@ -186,9 +187,9 @@ public final class URIManagerTest
 
         // get URIManager configured to parse nonstandard sources
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-                .enable(JsonParser.Feature.ALLOW_COMMENTS)
-                .enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES)
-                .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES).freeze();
+                .addJsonParserFeature(JsonParser.Feature.ALLOW_COMMENTS)
+                .addJsonParserFeature(JsonParser.Feature.ALLOW_SINGLE_QUOTES)
+                .addJsonParserFeature(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES).freeze();
         final URIManager manager = new URIManager(cfg);
 
         // load JSON nodes from sources using nonstandard manager
@@ -196,10 +197,6 @@ public final class URIManagerTest
         final JsonNode nonstandardJSON = manager.getContent(nonstandardSourceURI);
 
         // validate correctness of loaded equivalent sources
-        assertTrue(standardJSON.has("key"));
-        assertEquals("value", standardJSON.get("key").asText());
-        assertTrue(nonstandardJSON.has("key"));
-        assertEquals("value", nonstandardJSON.get("key").asText());
-        assertEquals(standardJSON, nonstandardJSON);
+        assertTrue(JsonNumEquals.getInstance().equivalent(standardJSON, nonstandardJSON));
     }
 }

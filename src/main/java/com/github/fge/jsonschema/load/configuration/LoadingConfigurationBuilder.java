@@ -264,7 +264,7 @@ public final class LoadingConfigurationBuilder
     }
 
     /**
-     * Enable a JsonParser feature
+     * Add a JsonParser feature
      *
      * <p>Use this option to enable non-standard JSON schema source including
      * comments, single quotes, unquoted field names, etc.</p>
@@ -274,7 +274,7 @@ public final class LoadingConfigurationBuilder
      * @return this
      * @see JsonParser.Feature
      */
-    public LoadingConfigurationBuilder enable(final JsonParser.Feature jsonParserFeature)
+    public LoadingConfigurationBuilder addJsonParserFeature(final JsonParser.Feature jsonParserFeature)
     {
         BUNDLE.checkNotNull(jsonParserFeature, "loadingCfg.nullJsonParserFeature");
         jsonParserFeatures.add(jsonParserFeature);
