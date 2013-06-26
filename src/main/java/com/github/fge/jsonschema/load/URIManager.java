@@ -74,13 +74,14 @@ public final class URIManager
      *
      * @param uri the URI
      * @return the content
+     * @throws NullPointerException provided URI is null
      * @throws ProcessingException scheme is not registered, failed to get
      * content, or content is not JSON
      */
     public JsonNode getContent(final URI uri)
         throws ProcessingException
     {
-        Preconditions.checkNotNull(uri, "null URI");
+        BUNDLE.checkNotNull(uri, "jsonRef.nullURI");
 
         final URI target = schemaRedirects.containsKey(uri)
             ? schemaRedirects.get(uri) : uri;
