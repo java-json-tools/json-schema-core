@@ -47,10 +47,9 @@ task pom << {
  * cannot include separate directories for classes and resources...
  */
 project.ext {
-    sourceSets.main.output.classesDir = "build/classes";
-    sourceSets.main.output.resourcesDir = "build/classes";
-    sourceSets.test.output.classesDir = "build/test-classes";
-    sourceSets.test.output.resourcesDir = "build/test-classes";
+    ideaPath = new File("out").canonicalFile;
+    ideaProd = new File("out/production/${name}").canonicalFile;
+    ideaTest = new File("out/test/${name}").canonicalFile;
 };
 
 /*
@@ -157,4 +156,24 @@ boolean isImplementationOf(final Class<?> baseClass, final String className)
     if (Modifier.isAbstract(modifiers))
         return false;
     return Modifier.isPublic(modifiers) && baseClass.isAssignableFrom(c);
+}
+
+/*
+ * We have to do that, otherwise IDEA won't see the generated service files
+ */
+task prepareIdea(dependsOn: testClasses) << {
+    if (ideaPath.exists())
+        delete(ideaPath);
+    ideaProd.mkdirs();
+    ideaTest.mkdirs();
+    copy {
+        from(sourceSets.main.output.classesDir);
+        from(sourceSets.main.output.resourcesDir);
+        into(ideaProd);
+    };
+    copy {
+        from(sourceSets.test.output.classesDir);
+        from(sourceSets.test.output.resourcesDir);
+        into(ideaTest);
+    };
 }
