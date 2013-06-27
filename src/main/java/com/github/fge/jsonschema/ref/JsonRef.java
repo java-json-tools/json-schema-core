@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.google.common.base.Optional;
 
 import javax.annotation.concurrent.Immutable;
 import java.net.URI;
@@ -132,12 +133,10 @@ public abstract class JsonRef
     {
         final String scheme = uri.getScheme();
         final String ssp = uri.getSchemeSpecificPart();
-        final String uriFragment = uri.getFragment();
-
         /*
          * Account for URIs with no fragment: substitute an empty one
          */
-        final String realFragment = uriFragment == null ? "" : uriFragment;
+        final String fragment = Optional.fromNullable(uri.getFragment()).or("");
 
         /*
          * Compute the fragment
@@ -145,8 +144,8 @@ public abstract class JsonRef
         boolean isLegal = true;
         JsonPointer ptr;
         try {
-            ptr = realFragment.isEmpty() ? JsonPointer.empty()
-                : new JsonPointer(realFragment);
+            ptr = fragment.isEmpty() ? JsonPointer.empty()
+                : new JsonPointer(fragment);
         } catch (JsonPointerException ignored) {
             ptr = null;
             isLegal = false;
@@ -155,7 +154,7 @@ public abstract class JsonRef
         pointer = ptr;
 
         try {
-            this.uri = new URI(scheme, ssp, realFragment);
+            this.uri = new URI(scheme, ssp, fragment);
             locator = new URI(scheme, ssp, "");
             asString = this.uri.toString();
             hashCode = asString.hashCode();
