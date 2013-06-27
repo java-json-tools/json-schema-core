@@ -30,6 +30,7 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
+import com.github.fge.jsonschema.load.uri.URITransformer;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.google.common.collect.ImmutableMap;
@@ -71,12 +72,7 @@ public final class LoadingConfiguration
      */
     final Dictionary<URIDownloader> downloaders;
 
-    /**
-     * Loading URI namespace
-     *
-     * @see SchemaLoader
-     */
-    final URI namespace;
+    final URITransformer transformer;
 
     /**
      * Dereferencing mode
@@ -86,11 +82,6 @@ public final class LoadingConfiguration
      * @see InlineSchemaTree
      */
     final Dereferencing dereferencing;
-
-    /**
-     * Schema redirections
-     */
-    final Map<URI, URI> schemaRedirects;
 
     /**
      * Map of preloaded schemas
@@ -141,17 +132,16 @@ public final class LoadingConfiguration
     /**
      * Create a frozen loading configuration from a thawed one
      *
-     * @param cfg the thawed configuration
+     * @param builder the thawed configuration
      * @see LoadingConfigurationBuilder#freeze()
      */
-    LoadingConfiguration(final LoadingConfigurationBuilder cfg)
+    LoadingConfiguration(final LoadingConfigurationBuilder builder)
     {
-        downloaders = cfg.downloaders.freeze();
-        namespace = cfg.namespace;
-        dereferencing = cfg.dereferencing;
-        schemaRedirects = ImmutableMap.copyOf(cfg.schemaRedirects);
-        preloadedSchemas = ImmutableMap.copyOf(cfg.preloadedSchemas);
-        parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
+        downloaders = builder.downloaders.freeze();
+        transformer = builder.transformer;
+        dereferencing = builder.dereferencing;
+        preloadedSchemas = ImmutableMap.copyOf(builder.preloadedSchemas);
+        parserFeatures = EnumSet.copyOf(builder.parserFeatures);
         objectReader = constructObjectReader();
     }
 
@@ -186,14 +176,9 @@ public final class LoadingConfiguration
         return downloaders;
     }
 
-    /**
-     * Return the URI namespace
-     *
-     * @return the namespace
-     */
-    public URI getNamespace()
+    public URITransformer getTransformer()
     {
-        return namespace;
+        return transformer;
     }
 
     /**
@@ -204,16 +189,6 @@ public final class LoadingConfiguration
     public Dereferencing getDereferencing()
     {
         return dereferencing;
-    }
-
-    /**
-     * Return the map of schema redirects
-     *
-     * @return an immutable map of schema redirects
-     */
-    public Map<URI, URI> getSchemaRedirects()
-    {
-        return schemaRedirects;
     }
 
     /**

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.load.uri.URITransformer;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -56,10 +57,7 @@ public final class SchemaLoader
      */
     private final URIManager manager;
 
-    /**
-     * The default namespace
-     */
-    private final JsonRef namespace;
+    private final URITransformer transformer;
 
     /**
      * Schema cache
@@ -80,7 +78,7 @@ public final class SchemaLoader
      */
     public SchemaLoader(final LoadingConfiguration cfg)
     {
-        namespace = JsonRef.fromURI(cfg.getNamespace());
+        transformer = cfg.getTransformer();
         dereferencing = cfg.getDereferencing();
         manager = new URIManager(cfg);
         cache = CacheBuilder.newBuilder()
@@ -136,7 +134,7 @@ public final class SchemaLoader
     public SchemaTree get(final URI uri)
         throws ProcessingException
     {
-        final JsonRef ref = namespace.resolve(JsonRef.fromURI(uri));
+        final JsonRef ref = JsonRef.fromURI(transformer.transform(uri));
 
         if (!ref.isAbsolute())
             throw new ProcessingException(new ProcessingMessage()

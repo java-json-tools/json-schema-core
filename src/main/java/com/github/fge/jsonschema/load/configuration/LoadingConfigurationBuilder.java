@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
+import com.github.fge.jsonschema.load.uri.URITransformer;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -69,11 +70,6 @@ public final class LoadingConfigurationBuilder
     }
 
     /**
-     * The empty, default namespace
-     */
-    private static final URI EMPTY_NAMESPACE = URI.create("#");
-
-    /**
      * Mutable dictionary of URI downloaders
      *
      * @see URIDownloader
@@ -81,12 +77,7 @@ public final class LoadingConfigurationBuilder
      */
     final DictionaryBuilder<URIDownloader> downloaders;
 
-    /**
-     * Loading default namespace
-     *
-     * @see SchemaLoader
-     */
-    URI namespace;
+    URITransformer transformer;
 
     /**
      * Dereferencing mode
@@ -94,11 +85,6 @@ public final class LoadingConfigurationBuilder
      * @see SchemaLoader
      */
     Dereferencing dereferencing;
-
-    /**
-     * List of schema redirects
-     */
-    final Map<URI, URI> schemaRedirects;
 
     /**
      * List of preloaded schemas
@@ -126,9 +112,8 @@ public final class LoadingConfigurationBuilder
     LoadingConfigurationBuilder()
     {
         downloaders = DefaultDownloadersDictionary.get().thaw();
-        namespace = EMPTY_NAMESPACE;
+        transformer = URITransformer.byDefault();
         dereferencing = Dereferencing.CANONICAL;
-        schemaRedirects = Maps.newHashMap();
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
             preloadedSchemas.put(version.getLocation(), version.getSchema());
@@ -144,9 +129,8 @@ public final class LoadingConfigurationBuilder
     LoadingConfigurationBuilder(final LoadingConfiguration cfg)
     {
         downloaders = cfg.downloaders.thaw();
-        namespace = cfg.namespace;
+        transformer = cfg.transformer;
         dereferencing = cfg.dereferencing;
-        schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
     }
@@ -183,6 +167,14 @@ public final class LoadingConfigurationBuilder
         return this;
     }
 
+    public LoadingConfigurationBuilder setURITransformer(
+        final URITransformer transformer)
+    {
+        this.transformer = BUNDLE.checkNotNull(transformer,
+            "loadingCfg.nullURITransformer");
+        return this;
+    }
+
     /**
      * Set the default namespace for that loading configuration
      *
@@ -190,11 +182,14 @@ public final class LoadingConfigurationBuilder
      * @return this
      * @throws NullPointerException input is null
      * @throws IllegalArgumentException input is not an absolute JSON Reference
-     * @see JsonRef
+     *
+     * @deprecated use {@link #setURITransformer(URITransformer)} instead; will
+     * disappear in 1.1.9.
      */
+    @Deprecated
     public LoadingConfigurationBuilder setNamespace(final String input)
     {
-        namespace = getLocator(input);
+        transformer = transformer.thaw().setNamespace(input).freeze();
         return this;
     }
 
@@ -223,16 +218,16 @@ public final class LoadingConfigurationBuilder
      * @return this
      * @throws NullPointerException source or destination is null
      * @throws IllegalArgumentException source and destination are the same URI
-     * @see JsonRef
+     *
+     * @deprecated use {@link #setURITransformer(URITransformer)} instead; will
+     * be removed in 1.1.9.
      */
+    @Deprecated
     public LoadingConfigurationBuilder addSchemaRedirect(final String source,
         final String destination)
     {
-        final URI sourceURI = getLocator(source);
-        final URI destinationURI = getLocator(destination);
-        schemaRedirects.put(sourceURI, destinationURI);
-        BUNDLE.checkArgumentPrintf(!sourceURI.equals(destinationURI),
-            "loadingCfg.redirectToSelf", sourceURI);
+        transformer = transformer.thaw().addSchemaRedirect(source, destination)
+            .freeze();
         return this;
     }
 
@@ -255,7 +250,6 @@ public final class LoadingConfigurationBuilder
         final JsonNode schema)
     {
         BUNDLE.checkNotNull(schema, "loadingCfg.nullSchema");
-        // TODO: check where the test for relative URIs is done
         final URI key = getLocator(uri);
         BUNDLE.checkArgumentPrintf(preloadedSchemas.put(key, schema) == null,
             "loadingCfg.duplicateURI", key);

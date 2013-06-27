@@ -21,10 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.SchemaVersion;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Lists;
@@ -43,8 +41,6 @@ public final class LoadingConfigurationBuilderTest
 {
     private static final MessageBundle BUNDLE
         = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
-
-    private static final String SAMPLE_ABSOLUTE_REF = "x://y";
 
     private final URIDownloader downloader = mock(URIDownloader.class);
     private final LoadingConfigurationBuilder cfg
@@ -108,34 +104,6 @@ public final class LoadingConfigurationBuilderTest
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
                 BUNDLE.getMessage("loadingCfg.nullDereferencingMode"));
-        }
-    }
-
-    @Test
-    public void redirectionsAreActuallyRegisteredAndConvertedToJsonRefs()
-        throws JsonReferenceException
-    {
-        final String dest = "z://t#";
-        final JsonRef sourceRef = JsonRef.fromString(SAMPLE_ABSOLUTE_REF);
-        final JsonRef destinationRef = JsonRef.fromString(dest);
-        cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, dest);
-
-        final LoadingConfiguration frozen = cfg.freeze();
-        assertEquals(frozen.getSchemaRedirects().get(sourceRef.getLocator()),
-            destinationRef.getLocator());
-    }
-
-    @Test
-    public void cannotRedirectToSelf()
-        throws JsonReferenceException
-    {
-        try {
-            cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, SAMPLE_ABSOLUTE_REF);
-            fail("No exception thrown!!");
-        } catch (IllegalArgumentException e) {
-            final URI uri = JsonRef.fromString(SAMPLE_ABSOLUTE_REF).toURI();
-            assertEquals(e.getMessage(),
-                BUNDLE.printf("loadingCfg.redirectToSelf", uri));
         }
     }
 
