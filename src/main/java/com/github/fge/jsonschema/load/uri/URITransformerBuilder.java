@@ -45,8 +45,7 @@ public final class URITransformerBuilder
     public URITransformerBuilder setNamespace(final String uri)
     {
         BUNDLE.checkNotNull(uri, "uriTransform.nullInput");
-        namespace = toPathURI(URI.create(uri));
-        return this;
+        return setNamespace(URI.create(uri));
     }
 
     public URITransformerBuilder addSchemaRedirect(final URI from,
@@ -68,8 +67,7 @@ public final class URITransformerBuilder
         BUNDLE.checkNotNull(to, "uriTransform.nullInput");
         final URI src = URI.create(from);
         final URI dst = URI.create(to);
-        schemaRedirects.put(toSchemaURI(src), toSchemaURI(dst));
-        return this;
+        return addSchemaRedirect(src, dst);
     }
 
     public URITransformerBuilder addPathRedirect(final URI from,
@@ -91,8 +89,7 @@ public final class URITransformerBuilder
         BUNDLE.checkNotNull(to, "uriTransform.nullInput");
         final URI src = URI.create(from);
         final URI dst = URI.create(to);
-        pathRedirects.put(toPathURI(src), toPathURI(dst));
-        return this;
+        return addPathRedirect(src, dst);
     }
 
     @Override
