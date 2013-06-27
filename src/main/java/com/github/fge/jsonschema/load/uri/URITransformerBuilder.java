@@ -54,7 +54,10 @@ public final class URITransformerBuilder
     {
         BUNDLE.checkNotNull(from, "uriTransform.nullInput");
         BUNDLE.checkNotNull(to, "uriTransform.nullInput");
-        schemaRedirects.put(toSchemaURI(from), toSchemaURI(to));
+        final URI key = toSchemaURI(from);
+        final URI value = toSchemaURI(to);
+        if (!key.equals(value))
+            schemaRedirects.put(key, value);
         return this;
     }
 
@@ -74,7 +77,10 @@ public final class URITransformerBuilder
     {
         BUNDLE.checkNotNull(from, "uriTransform.nullInput");
         BUNDLE.checkNotNull(to, "uriTransform.nullInput");
-        pathRedirects.put(toPathURI(from), toPathURI(to));
+        final URI key = toPathURI(from);
+        final URI value = toPathURI(to);
+        if (!key.equals(value))
+            pathRedirects.put(key, value);
         return this;
     }
 
