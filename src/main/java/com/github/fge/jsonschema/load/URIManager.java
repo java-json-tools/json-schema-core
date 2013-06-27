@@ -27,7 +27,6 @@ import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
-import com.google.common.base.Preconditions;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,8 +52,6 @@ public final class URIManager
 
     private final Map<String, URIDownloader> downloaders;
 
-    private final Map<URI, URI> schemaRedirects;
-
     private final ObjectReader reader;
 
     public URIManager()
@@ -65,7 +62,6 @@ public final class URIManager
     public URIManager(final LoadingConfiguration cfg)
     {
         downloaders = cfg.getDownloaders().entries();
-        schemaRedirects = cfg.getSchemaRedirects();
         reader = cfg.getObjectReader();
     }
 
@@ -83,15 +79,12 @@ public final class URIManager
     {
         BUNDLE.checkNotNull(uri, "jsonRef.nullURI");
 
-        final URI target = schemaRedirects.containsKey(uri)
-            ? schemaRedirects.get(uri) : uri;
-
-        if (!target.isAbsolute())
+        if (!uri.isAbsolute())
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("refProcessing.uriNotAbsolute"))
                 .put("uri", uri));
 
-        final String scheme = target.getScheme();
+        final String scheme = uri.getScheme();
 
         final URIDownloader downloader = downloaders.get(scheme);
 
@@ -103,7 +96,7 @@ public final class URIManager
         final InputStream in;
 
         try {
-            in = downloader.fetch(target);
+            in = downloader.fetch(uri);
             return reader.readTree(in);
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
