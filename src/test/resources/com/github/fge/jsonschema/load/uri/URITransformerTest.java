@@ -17,6 +17,10 @@ public final class URITransformerTest
         = URI.create("http://my.site/schemas/");
     private static final URI DSTPATH
         = URI.create("resource:/com/mycompany/schemas/");
+    private static final URI SRCPATH2
+        = URI.create("http://json-schema.org/");
+    private static final URI DSTPATH2
+        = URI.create("file:/usr/share/json-schema/schemas/");
 
     private URITransformerBuilder builder;
 
@@ -56,6 +60,10 @@ public final class URITransformerTest
         to = from;
         list.add(new Object[] { URI.create(from), URI.create(to)});
 
+        from = "http://json-schema.org/draft-04/schema#";
+        to = "file:/usr/share/json-schema/schemas/draft-04/schema#";
+        list.add(new Object[] { URI.create(from), URI.create(to)});
+
         return list.iterator();
     }
 
@@ -63,7 +71,8 @@ public final class URITransformerTest
     public void pathRedirectionsWork(final URI from, final URI to)
     {
         final URITransformer transformer
-            = builder.addPathRedirect(SRCPATH, DSTPATH).freeze();
+            = builder.addPathRedirect(SRCPATH, DSTPATH)
+                .addPathRedirect(SRCPATH2, DSTPATH2).freeze();
 
         assertEquals(transformer.transform(from), to);
     }
