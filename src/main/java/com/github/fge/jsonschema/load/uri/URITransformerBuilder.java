@@ -103,6 +103,8 @@ public final class URITransformerBuilder
         final JsonRef ref = JsonRef.fromURI(normalized);
         BUNDLE.checkArgumentPrintf(ref.isAbsolute(),
             "uriTransform.notAbsoluteRef", uri);
+        BUNDLE.checkArgumentPrintf(!normalized.getPath().endsWith("/"),
+            "uriTransform.endingSlash", uri);
         return ref.getLocator();
     }
 
