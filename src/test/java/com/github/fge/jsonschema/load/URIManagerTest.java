@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
@@ -117,62 +116,6 @@ public final class URIManagerTest
                 .hasTextField("parsingMessage").hasLevel(LogLevel.FATAL)
                 .hasField("uri", uri);
         }
-    }
-
-    @Test
-    public void URIRedirectionIsFollowed()
-        throws IOException, ProcessingException
-    {
-        /*
-         * The content we return
-         */
-        final JsonNode expected = JacksonUtils.nodeFactory().objectNode()
-            .put("hello", "world");
-        final InputStream sampleStream
-            = new ByteArrayInputStream(expected.toString().getBytes());
-
-        /*
-         * We need to build both the source URI and destination URI. As they are
-         * both transformed to valid JSON References internally, we also build
-         * JsonRef-compatible URIs (ie, with a fragment, even empty).
-         *
-         * The user, however, may supply URIs which are not JsonRef-compatible.
-         */
-        final String source = "http://some.site/schema.json";
-        final String destination = "foo://real/location.json";
-        final URI sourceURI = JsonRef.fromString(source).getLocator();
-        final URI destinationURI = JsonRef.fromString(destination).getLocator();
-
-        /*
-         * Build another mock for the original source URI protocol, make it
-         * return the same thing as the target URI. Register both downloaders.
-         */
-        when(mock.fetch(destinationURI)).thenReturn(sampleStream);
-        final URIDownloader httpMock = mock(URIDownloader.class);
-        when(httpMock.fetch(sourceURI)).thenReturn(sampleStream);
-
-        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .addScheme("http", httpMock).addScheme("foo", mock)
-            .addSchemaRedirect(source, destination).freeze();
-
-        final URIManager manager = new URIManager(cfg);
-
-        /*
-         * Get the original source...
-         */
-        final JsonNode actual = manager.getContent(sourceURI);
-
-        /*
-         * And verify that it has been downloaded from the target, not the
-         * source
-         */
-        verify(httpMock, never()).fetch(any(URI.class));
-        verify(mock).fetch(destinationURI);
-
-        /*
-         * Finally, ensure the correctness of the downloaded content.
-         */
-        assertEquals(actual, expected);
     }
 
     @Test
