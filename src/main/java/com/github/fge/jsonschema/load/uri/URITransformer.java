@@ -1,9 +1,11 @@
 package com.github.fge.jsonschema.load.uri;
 
 import com.github.fge.Frozen;
+import com.github.fge.jsonschema.ref.JsonRef;
 import com.google.common.collect.ImmutableMap;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 public final class URITransformer
@@ -34,19 +36,32 @@ public final class URITransformer
 
     public URI transform(final URI source)
     {
-        URI ret = namespace.resolve(source).normalize();
-        URI relative;
+        URI uri = namespace.resolve(source).normalize();
+        final String fragment = uri.getFragment();
 
-        for (final Map.Entry<URI, URI> entry: pathRedirects.entrySet()) {
-            relative = entry.getKey().relativize(ret);
-            if (!relative.equals(ret))
-                ret = entry.getValue().resolve(relative);
+        try {
+            uri = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), null);
+        } catch (URISyntaxException e) {
+            throw new IllegalStateException("How did I get there??", e);
         }
 
-        if (schemaRedirects.containsKey(ret))
-            ret = schemaRedirects.get(ret);
+        for (final Map.Entry<URI, URI> entry: pathRedirects.entrySet()) {
+            final URI relative = entry.getKey().relativize(uri);
+            if (!relative.equals(uri))
+                uri = entry.getValue().resolve(relative);
+        }
 
-        return ret;
+        uri = JsonRef.fromURI(uri).getLocator();
+
+        if (schemaRedirects.containsKey(uri))
+            uri = schemaRedirects.get(uri);
+
+        try {
+            return new URI(uri.getScheme(), uri.getSchemeSpecificPart(),
+                fragment);
+        } catch (URISyntaxException e) {
+            throw new IllegalStateException("How did I get there??", e);
+        }
     }
 
     @Override

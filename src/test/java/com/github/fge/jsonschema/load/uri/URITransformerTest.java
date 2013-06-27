@@ -21,6 +21,14 @@ public final class URITransformerTest
         = URI.create("http://json-schema.org/");
     private static final URI DSTPATH2
         = URI.create("file:/usr/share/json-schema/schemas/");
+    private static final URI SRCSCHEMA1
+        = URI.create("http://my.site/schemas/schema1.json");
+    private static final URI DSTSCHEMA1
+        = URI.create("ftp://schemas.org/pub/fge/schema1.json");
+    private static final URI SRCSCHEMA2
+        = URI.create("http://json-schema.org/draft-03/schema");
+    private static final URI DSTSCHEMA2
+        = URI.create("resource:/draftv3/schema");
 
     private URITransformerBuilder builder;
 
@@ -72,7 +80,38 @@ public final class URITransformerTest
     {
         final URITransformer transformer
             = builder.addPathRedirect(SRCPATH, DSTPATH)
-                .addPathRedirect(SRCPATH2, DSTPATH2).freeze();
+            .addPathRedirect(SRCPATH2, DSTPATH2).freeze();
+
+        assertEquals(transformer.transform(from), to);
+    }
+
+    @DataProvider
+    public Iterator<Object[]> schemaRedirectionData()
+    {
+        final List<Object[]> list = Lists.newArrayList();
+
+        list.add(new Object[] { SRCSCHEMA1, DSTSCHEMA1 });
+        list.add(new Object[] { SRCSCHEMA2, DSTSCHEMA2 });
+
+        list.add(new Object[] {
+            URI.create("http://my.site/schemas/schema2.json"),
+            URI.create("http://my.site/schemas/schema2.json")
+        });
+
+        list.add(new Object[] {
+            SRCSCHEMA1.resolve("#/definitions/a"),
+            DSTSCHEMA1.resolve("#/definitions/a")
+        });
+
+        return list.iterator();
+    }
+
+    @Test(dataProvider = "schemaRedirectionData")
+    public void schemaRedirectionsWork(final URI from, final URI to)
+    {
+        final URITransformer transformer
+            = builder.addSchemaRedirect(SRCSCHEMA1, DSTSCHEMA1)
+            .addSchemaRedirect(SRCSCHEMA2, DSTSCHEMA2).freeze();
 
         assertEquals(transformer.transform(from), to);
     }
