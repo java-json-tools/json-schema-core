@@ -34,7 +34,19 @@ public final class URITransformer
 
     public URI transform(final URI source)
     {
-        return null;
+        URI ret = namespace.resolve(source).normalize();
+        URI relative;
+
+        for (final Map.Entry<URI, URI> entry: pathRedirects.entrySet()) {
+            relative = entry.getKey().relativize(ret);
+            if (!relative.equals(ret))
+                ret = entry.getValue().resolve(relative);
+        }
+
+        if (schemaRedirects.containsKey(ret))
+            ret = schemaRedirects.get(ret);
+
+        return ret;
     }
 
     @Override
