@@ -106,9 +106,7 @@ public final class DraftV3TypeKeywordSyntaxChecker
 
     private static boolean typeIsValid(final String s)
     {
-        if (ANY.equals(s))
-            return true;
+        return ANY.equals(s) || NodeType.fromName(s) != null;
 
-        return NodeType.fromName(s) != null;
     }
 }
