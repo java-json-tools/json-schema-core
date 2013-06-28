@@ -34,10 +34,9 @@ _really sure_ that your modifications are accounted for, add the
 
 ## Important note to Maven users
 
-While there exists a possiblity to generate a `pom.xml` (using `./gradlew pom`),
-such a pom.xml will not work reliably because of the dependency of this package
-on the correct generation of META-INF/services/ files. See legacy/pom.xml for
-details.
+Maven will not work reliably because of the dependency of this package on the
+correct generation of META-INF/services/ files. A hack has been found but it
+remains a hack. See legacy/pom.xml for details.
 
 While you can adapt this file to work for you, please beware that it is _not_
 supported by the author anymore.

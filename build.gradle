@@ -40,6 +40,7 @@ apply(plugin: "signing");
 apply(plugin: "osgi");
 apply(plugin: "fatjar");
 apply(plugin: "idea");
+apply(plugin: "eclipse");
 
 apply(from: "project.gradle");
 
