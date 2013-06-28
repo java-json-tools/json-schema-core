@@ -33,6 +33,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +47,7 @@ public final class SyntaxProcessor
     private final MessageBundle bundle;
     private final Map<String, SyntaxChecker> checkers;
 
+    @Inject
     public SyntaxProcessor(final MessageBundle bundle,
         final Dictionary<SyntaxChecker> dict)
     {
