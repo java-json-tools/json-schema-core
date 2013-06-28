@@ -18,6 +18,9 @@
 /**
  * Schema walker, listener and processor
  *
+ * <p><b>Please refrain from using these classes at the moment:</b> the API will
+ * soon change.</p>
+ *
  * <p>Using classes in this package, you can create a {@link
  * com.github.fge.jsonschema.walk.SchemaListener} instance, attach it to a
  * {@link com.github.fge.jsonschema.walk.SchemaWalker} and generate a custom
