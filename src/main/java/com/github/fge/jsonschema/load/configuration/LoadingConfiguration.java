@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.load.configuration;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -157,11 +156,10 @@ public final class LoadingConfiguration
     private ObjectReader constructObjectReader()
     {
         // JacksonUtils compatible ObjectMapper configuration
-        final ObjectMapper mapper = new ObjectMapper()
-                .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+        final ObjectMapper mapper = JacksonUtils.newMapper();
 
         // enable JsonParser feature configurations
-        for (JsonParser.Feature feature : parserFeatures)
+        for (final JsonParser.Feature feature : parserFeatures)
             mapper.configure(feature, true);
         return mapper.reader();
     }
