@@ -31,6 +31,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.SchemaListener;
+import com.google.common.annotations.Beta;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -38,6 +39,7 @@ import com.google.common.collect.Queues;
 import java.util.Deque;
 import java.util.List;
 
+@Beta
 public final class SchemaExpander
     implements SchemaListener<SchemaTree>
 {

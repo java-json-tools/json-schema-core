@@ -8,11 +8,13 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
+import com.google.common.annotations.Beta;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import java.io.IOException;
 
+@Beta
 public class DraftV4SyntaxModule
     extends AbstractSyntaxModule
 {

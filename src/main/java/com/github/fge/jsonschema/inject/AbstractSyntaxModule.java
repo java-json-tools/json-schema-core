@@ -7,9 +7,11 @@ import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundleBuilder;
 import com.github.fge.msgsimple.load.MessageBundles;
+import com.google.common.annotations.Beta;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 
+@Beta
 public abstract class AbstractSyntaxModule
     extends AbstractModule
 {
