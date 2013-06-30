@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -40,7 +40,7 @@ import static org.testng.Assert.*;
 public final class LoadingConfigurationBuilderTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final URIDownloader downloader = mock(URIDownloader.class);
     private final LoadingConfigurationBuilder cfg

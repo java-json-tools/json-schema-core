@@ -37,7 +37,7 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 
@@ -60,7 +60,7 @@ public final class ResolvingSchemaWalker
     extends SchemaWalker
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final Equivalence<SchemaTree> EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();

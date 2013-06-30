@@ -2,7 +2,7 @@ package com.github.fge.jsonschema.load.uri;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Lists;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -17,7 +17,7 @@ import static org.testng.Assert.*;
 public final class URITransformerBuilderTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final URI DUMMY = URI.create("");
 

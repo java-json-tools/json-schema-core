@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -64,7 +64,7 @@ import javax.annotation.concurrent.Immutable;
 public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * The resulting processor

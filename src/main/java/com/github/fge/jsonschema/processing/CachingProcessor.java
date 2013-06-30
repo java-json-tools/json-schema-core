@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.equivalence.Equivalences;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -49,7 +49,7 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     implements Processor<IN, OUT>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * The wrapped processor

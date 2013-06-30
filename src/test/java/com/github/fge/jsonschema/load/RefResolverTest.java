@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
@@ -36,7 +36,7 @@ import static org.testng.Assert.*;
 public final class RefResolverTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final RefResolver processor = new RefResolver(null);
     private final ProcessingReport report = mock(ProcessingReport.class);

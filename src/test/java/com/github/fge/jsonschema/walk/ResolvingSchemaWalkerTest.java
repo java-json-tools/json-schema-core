@@ -31,7 +31,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.testng.annotations.Test;
@@ -43,7 +43,7 @@ import static org.testng.Assert.*;
 public final class ResolvingSchemaWalkerTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     @Test
     public void listenerIsCalledAppropriatelyOnTreeChange()

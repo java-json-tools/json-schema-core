@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Optional;
 
 import javax.annotation.concurrent.Immutable;
@@ -76,7 +76,7 @@ import java.net.URISyntaxException;
 public abstract class JsonRef
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * The empty URI

@@ -6,7 +6,7 @@ import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundleBuilder;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 
@@ -14,7 +14,7 @@ public abstract class AbstractSyntaxModule
     extends AbstractModule
 {
     protected static final MessageBundle BASE_BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaSyntaxMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaSyntaxMessageBundle.class);
 
     protected final DictionaryBuilder<SyntaxChecker> checkers
         = Dictionary.newBuilder();

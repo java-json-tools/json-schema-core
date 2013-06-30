@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 
 /**
  * Wrapper class over a processing result
@@ -44,7 +44,7 @@ import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 public final class ProcessingResult<R extends MessageProvider>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final ProcessingReport report;
     private final R result;

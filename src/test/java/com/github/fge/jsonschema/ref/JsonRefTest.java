@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.Test;
 
 import java.net.URISyntaxException;
@@ -32,7 +32,7 @@ import static org.testng.Assert.*;
 public final class JsonRefTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     @Test
     public void cannotCreateRefFromNullURI()

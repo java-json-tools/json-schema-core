@@ -32,7 +32,7 @@ import com.github.fge.jsonschema.load.uri.URITransformer;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Maps;
 
 import java.net.URI;
@@ -40,7 +40,7 @@ import java.net.URISyntaxException;
 import java.util.EnumSet;
 import java.util.Map;
 
-import static com.fasterxml.jackson.core.JsonParser.Feature;
+import static com.fasterxml.jackson.core.JsonParser.*;
 
 /**
  * Loading configuration (mutable instance)
@@ -51,7 +51,7 @@ public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * Default JsonParser feature set. Unfortunately, Jackson does not use

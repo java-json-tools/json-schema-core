@@ -27,13 +27,13 @@ import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDiction
 import com.github.fge.jsonschema.walk.collectors.DraftV4PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 
 public final class SchemaWalkingConfigurationBuilder
     implements Thawed<SchemaWalkingConfiguration>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     Dictionary< PointerCollector > collectors;
     Dictionary<SyntaxChecker> checkers;
@@ -45,8 +45,7 @@ public final class SchemaWalkingConfigurationBuilder
         collectors = DraftV4PointerCollectorDictionary.get();
         checkers = DraftV4SyntaxCheckerDictionary.get();
         loadingCfg = LoadingConfiguration.byDefault();
-        bundle = MessageBundleFactory
-            .getBundle(JsonSchemaSyntaxMessageBundle.class);
+        bundle = MessageBundles.getBundle(JsonSchemaSyntaxMessageBundle.class);
     }
 
     SchemaWalkingConfigurationBuilder(final SchemaWalkingConfiguration cfg)

@@ -38,7 +38,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import org.mockito.ArgumentCaptor;
@@ -57,7 +57,7 @@ import static org.mockito.Mockito.*;
 public final class SyntaxProcessorTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaSyntaxMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaSyntaxMessageBundle.class);
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String K1 = "k1";
     private static final String K2 = "k2";

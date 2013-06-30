@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
@@ -41,7 +41,7 @@ import static org.testng.Assert.*;
 public final class SchemaLoaderTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final byte[] BYTES = JacksonUtils.nodeFactory().objectNode()
         .toString().getBytes();

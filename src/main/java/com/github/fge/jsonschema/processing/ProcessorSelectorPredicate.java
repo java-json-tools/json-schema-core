@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.processing;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 
@@ -39,7 +39,7 @@ import java.util.Map;
 public final class ProcessorSelectorPredicate<IN extends MessageProvider, OUT extends MessageProvider>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * The predicate

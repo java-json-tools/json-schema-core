@@ -31,7 +31,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -49,7 +49,7 @@ import static org.mockito.Mockito.*;
 public final class BasicSyntaxCheckerTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaSyntaxMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaSyntaxMessageBundle.class);
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String KEYWORD = "foo";
     private static final EnumSet<NodeType> VALID_TYPES
