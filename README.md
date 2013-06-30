@@ -3,8 +3,8 @@
 The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.
 
-**NOTE**: this package has no Maven support anymore; see file BUILD.md for more
-details.
+**NOTE**: this package uses [Gradle](http://www.gradle.org) as a build system. See file `BUILD.md`
+for details.
 
 ## What this is
 
@@ -17,7 +17,7 @@ processing chains for anything JSON related, and JSON Schema related in particul
 this package can be used, for instance, to perform the following:
 
 * check the syntax of a JSON Schema;
-* walk a JSON Schema and plug a listener into the walking process.
+* walk a JSON Schema and plug a listener into the walking process (BETA).
 
 More details on this library can be found
 [here](https://github.com/fge/json-schema-core/wiki/Architecture). Future plans can be viewed
@@ -33,7 +33,7 @@ The current stable verson is **1.0.2**
 ([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog),
 [Javadoc](http://fge.github.io/json-schema-core/stable/index.html)).
 
-The current development verson is **1.1.7**
+The current development verson is **1.1.8**
 ([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog.devel),
 [Javadoc](http://fge.github.io/json-schema-core/devel/index.html)).
 
@@ -46,8 +46,7 @@ For gradle, use:
 
 ```
 dependencies {
-    compile(group: "com.github.fge", name: "json-shema-core",
-        version: "your.version");
+    compile(group: "com.github.fge", name: "json-shema-core", version: "your.version");
 }
 ```
 
@@ -57,7 +56,7 @@ For maven:
 <dependency>
     <groupId>com.github.fge</groupId>
     <artifactId>json-schema-core</artifactId>
-    <version>your-version-here</version>
+    <version>your-version</version>
 </dependency>
 ```
 
