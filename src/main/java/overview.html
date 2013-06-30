@@ -149,22 +149,6 @@ purposes:</p>
 <p>All aspects of schema loading are controlled via a {@link
 com.github.fge.jsonschema.load.configuration.LoadingConfiguration} instance.</p>
 
-<h1>Exceptions</h1>
-
-<p>This package has a set of both checked and unchecked exceptions. Checked
-exceptions are all subclasses of {@link
-com.github.fge.jsonschema.exceptions.ProcessingException}, while unchecked
-exceptions are subclasses of {@link
-com.github.fge.jsonschema.exceptions.unchecked.ProcessingError}.</p>
-
-<p>Unchecked exceptions are thrown when a misconfiguration occurs, therefore
-always before the processing actually takes place. This mostly occurs when
-a null input is provided to methods which do not accept it, and prevents {@link
-java.lang.NullPointerException}s to be thrown when processing.</p>
-
-<p>All the exception infrastructure is in the following package: {@link
-com.github.fge.jsonschema.exceptions}.</p>
-
 <h1>Regular expressions</h1>
 
 <p>JSON Schema requires that regular expressions obey the ECMA 262 regular
