@@ -1,3 +1,14 @@
+### 1.1.8
+
+* Allow to read JSON Schemas from non standard JSON files (comments etc),
+  courtesy of [Randy Watler](https://github.com/rwatler).
+* Rework schema walking code; mark as `@Beta`.
+* Fix javadoc generation.
+* Update msg-simple dependency; remove `ServiceLoader` support.
+* Add path redirections in addition to schema redirections in a new
+  `URITransformer` class.
+* Many dependency updates (jackson-coreutils, uri-template, etc etc).
+
 ### 1.1.7
 
 * Update msg-simple dependency.
@@ -25,9 +36,9 @@
 
 * Convert all error messages to use a Java resource bundle.
 * Maven artifact is now OSGi ready (thanks to [Matt
-* Bishop](https://github.com/mbishop)).
+  Bishop](https://github.com/mbishop)).
 * Full hyperschema syntax validation support (as a result, added dependency on
-* [uri-template](https://github.com/fge/uri-template)).
+  [uri-template](https://github.com/fge/uri-template)).
 
 ### 1.1.3
 
