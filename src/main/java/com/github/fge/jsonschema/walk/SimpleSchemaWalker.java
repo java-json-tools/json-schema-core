@@ -39,10 +39,11 @@ public final class SimpleSchemaWalker
     }
 
     @Override
-    public <T> void resolveTree(final SchemaListener<T> listener,
+    protected SchemaTree resolveTree(final SchemaTree tree,
         final ProcessingReport report)
         throws ProcessingException
     {
+        return tree;
     }
 
     @Override

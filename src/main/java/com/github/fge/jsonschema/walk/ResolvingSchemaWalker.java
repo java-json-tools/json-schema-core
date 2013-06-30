@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -68,8 +69,10 @@ public final class ResolvingSchemaWalker
     private static final ProcessingMessage MESSAGE;
 
     static {
+        final MessageBundle bundle
+            = MessageBundles.getBundle(JsonSchemaSyntaxMessageBundle.class);
         MESSAGE = new ProcessingMessage()
-            .setMessage(BUNDLE.getMessage("core.invalidSchema"))
+            .setMessage(bundle.getMessage("core.invalidSchema"))
             .setExceptionProvider(new ExceptionProvider()
             {
                 @Override
@@ -103,17 +106,15 @@ public final class ResolvingSchemaWalker
     }
 
     @Override
-    public <T> void resolveTree(final SchemaListener<T> listener,
+    protected SchemaTree resolveTree(final SchemaTree tree,
         final ProcessingReport report)
         throws ProcessingException
     {
-        final SchemaTree newTree = processor.process(report,
+        final SchemaTree ret = processor.process(report,
             ValueHolder.hold("schema", tree)).getValue();
-        if (EQUIVALENCE.equivalent(tree, newTree))
-            return;
-        checkTrees(tree, newTree);
-        listener.onTreeChange(tree, newTree);
-        tree = newTree;
+        if (!EQUIVALENCE.equivalent(tree, ret))
+            checkTrees(tree, ret);
+        return ret;
     }
 
     @Override

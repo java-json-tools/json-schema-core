@@ -19,15 +19,19 @@ package com.github.fge.jsonschema.expand;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.SchemaListener;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 
@@ -37,8 +41,12 @@ import java.util.List;
 public final class SchemaExpander
     implements SchemaListener<SchemaTree>
 {
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonNumEquals.getInstance();
+
     private final JsonRef baseRef;
-    private JsonNode baseNode;
+    private JsonNode baseNode = MissingNode.getInstance();
+    private JsonNode currentNode;
 
     private JsonPointer path = JsonPointer.empty();
     private final Deque<JsonPointer> paths = Queues.newArrayDeque();
@@ -50,20 +58,49 @@ public final class SchemaExpander
     }
 
     @Override
-    public void onTreeChange(final SchemaTree oldTree,
-        final SchemaTree newTree)
+    public void enteringPath(final JsonPointer path,
+        final ProcessingReport report)
         throws ProcessingException
     {
-        final JsonNode newNode = newTree.getNode().deepCopy();
+        paths.push(path);
+        this.path = path;
+        currentNode = path.get(baseNode);
+    }
+
+    @Override
+    public void visiting(final SchemaTree schemaTree,
+        final ProcessingReport report)
+        throws ProcessingException
+    {
+        /*
+         * Check whether our current node is equal to the current node of the
+         * provided tree. If it is, nothing to do.
+         */
+        final JsonNode node = schemaTree.getNode();
+        if (EQUIVALENCE.equivalent(node, currentNode))
+            return;
+
+        /*
+         * If not, make a copy of it.
+         */
+        final JsonNode newNode = node.deepCopy();
+
+        /*
+         * If this is the root, just replace unconditionally.
+         */
         if (path.isEmpty()) {
-            baseNode = newNode;
+            baseNode = currentNode = newNode;
             return;
         }
 
+        /*
+         * Otherwise, get the parent of the current node, replace it.
+         */
         final JsonPointer parent = path.parent();
         final String token = getLastToken(path);
         final JsonNode parentNode = parent.get(baseNode);
         final NodeType type = NodeType.getNodeType(parentNode);
+
         switch (type) {
             case OBJECT:
                 ((ObjectNode) parentNode).put(token, newNode);
@@ -75,28 +112,20 @@ public final class SchemaExpander
                 throw new IllegalStateException("was expecting an object or" +
                     " an array");
         }
+
+        /*
+         * Finally, update our current node.
+         */
+        currentNode = path.get(baseNode);
     }
 
     @Override
-    public void onWalk(final SchemaTree tree)
+    public void exitingPath(final JsonPointer path,
+        final ProcessingReport report)
         throws ProcessingException
     {
-    }
-
-    @Override
-    public void onEnter(final JsonPointer pointer)
-        throws ProcessingException
-    {
-        final JsonPointer ptr = path.append(pointer);
-        paths.push(path);
-        path = ptr;
-    }
-
-    @Override
-    public void onExit(final JsonPointer pointer)
-        throws ProcessingException
-    {
-        path = paths.pop();
+        this.path = paths.pop();
+        currentNode = this.path.get(baseNode);
     }
 
     @Override

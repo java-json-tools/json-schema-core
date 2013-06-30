@@ -77,53 +77,45 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        doWalk(JsonPointer.empty(), listener, report);
+        walkTree(JsonPointer.empty(), tree, listener, report);
     }
 
-    /**
-     * Change the current tree to another tree, if any
-     *
-     * @param listener the listener
-     * @param report the report
-     * @param <T> type of value produced by the listener
-     * @throws ProcessingException processing failure
-     * @see ResolvingSchemaWalker
-     */
-    public abstract <T> void resolveTree(final SchemaListener<T> listener,
+    protected abstract SchemaTree resolveTree(final SchemaTree tree,
         final ProcessingReport report)
         throws ProcessingException;
 
-    private <T> void doWalk(final JsonPointer pwd,
+    private <T> void walkTree(final JsonPointer pwd, final SchemaTree tree,
         final SchemaListener<T> listener, final ProcessingReport report)
         throws ProcessingException
     {
-        listener.onEnter(pwd);
-        resolveTree(listener, report);
-        listener.onWalk(tree);
-
-        final Map<String, PointerCollector> map = Maps.newTreeMap();
-        map.putAll(collectors);
-
-        map.keySet().retainAll(Sets.newHashSet(tree.getNode().fieldNames()));
+        listener.enteringPath(pwd, report);
+        final SchemaTree resolvedTree = resolveTree(tree, report);
+        listener.visiting(resolvedTree, report);
 
         /*
-         * Collect pointers for further processing.
+         * Grab pointer collectors
+         */
+        final Map<String, PointerCollector> map = Maps.newTreeMap();
+
+        map.putAll(collectors);
+        map.keySet().retainAll(Sets.newHashSet(
+            resolvedTree.getNode().fieldNames()));
+
+        /*
+         * Collect pointers to visit next
          */
         final List<JsonPointer> pointers = Lists.newArrayList();
         for (final PointerCollector collector: map.values())
-            collector.collect(pointers, tree);
+            collector.collect(pointers, resolvedTree);
 
         /*
-         * Operate on these pointers.
+         * Now, visit the collected set of pointers
          */
-        SchemaTree current;
-        for (final JsonPointer pointer: pointers) {
-            current = tree;
-            tree = tree.append(pointer);
-            doWalk(pointer, listener, report);
-            tree = current;
+        for (final JsonPointer ptr: pointers) {
+            walkTree(pwd.append(ptr), resolvedTree.append(ptr), listener,
+                report);
         }
-        listener.onExit(pwd);
+        listener.exitingPath(pwd, report);
     }
 
     @Override

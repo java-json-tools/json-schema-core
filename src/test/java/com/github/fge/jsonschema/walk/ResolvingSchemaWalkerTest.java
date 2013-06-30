@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.SchemaWalkingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.DevNullProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -74,20 +75,15 @@ public final class ResolvingSchemaWalkerTest
         final InOrder order = inOrder(listener);
         final ArgumentCaptor<SchemaTree> captor
             = ArgumentCaptor.forClass(SchemaTree.class);
-        final ArgumentCaptor<SchemaTree> captor2
-            = ArgumentCaptor.forClass(SchemaTree.class);
 
         walker.walk(listener, report);
 
-        order.verify(listener).onEnter(JsonPointer.empty());
-        order.verify(listener).onTreeChange(same(tree), captor.capture());
-        order.verify(listener).onWalk(captor2.capture());
-        order.verify(listener).onExit(JsonPointer.empty());
+        order.verify(listener).enteringPath(JsonPointer.empty(), report);
+        order.verify(listener).visiting(captor.capture(), same(report));
+        order.verify(listener).exitingPath(JsonPointer.empty(), report);
 
         final SchemaTree subTree = captor.getValue();
-        final SchemaTree subTree2 = captor2.getValue();
         assertEquals(subTree.getNode(), schema2);
-        assertSame(subTree, subTree2);
     }
 
     @Test
@@ -176,8 +172,10 @@ public final class ResolvingSchemaWalkerTest
             walker.walk(listener, report);
             fail("No exception thrown!!");
         } catch (InvalidSchemaException e) {
+            final MessageBundle bundle
+                = MessageBundles.getBundle(JsonSchemaSyntaxMessageBundle.class);
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("core.invalidSchema"));
+                .hasMessage(bundle.getMessage("core.invalidSchema"));
         }
     }
 }

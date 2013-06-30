@@ -25,12 +25,14 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
 import com.google.common.base.Equivalence;
 import org.testng.annotations.Test;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.*;
 
 public final class SchemaExpanderTest
@@ -84,11 +86,12 @@ public final class SchemaExpanderTest
         // OK, this is cheating but it works
         final JsonPointer ptr = JsonPointer.of(foo);
         final SchemaTree newTree = new CanonicalSchemaTree(baz);
+        final ProcessingReport report = mock(ProcessingReport.class);
 
         final SchemaExpander expander = new SchemaExpander(orig);
-        expander.onEnter(ptr);
-        expander.onTreeChange(null, newTree);
-        expander.onExit(ptr);
+        expander.enteringPath(ptr, report);
+        expander.visiting(newTree, report);
+        expander.exitingPath(ptr, report);
 
         assertTrue(EQUIVALENCE.equivalent(expander.getValue(), expected));
     }

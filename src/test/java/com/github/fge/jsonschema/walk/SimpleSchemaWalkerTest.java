@@ -75,7 +75,7 @@ public final class SimpleSchemaWalkerTest
 
         walker.walk(listener, report);
         final InOrder order = inOrder(listener);
-        order.verify(listener).onWalk(same(tree));
+        order.verify(listener).visiting(same(tree), same(report));
     }
 
     @Test
@@ -94,8 +94,8 @@ public final class SimpleSchemaWalkerTest
         final SchemaWalker walker = new SimpleSchemaWalker(tree, cfg);
 
         walker.walk(listener, report);
-        verify(collector1).collect(anyCollectionOf(JsonPointer.class),
-            same(tree));
+        verify(collector1)
+            .collect(anyCollectionOf(JsonPointer.class), same(tree));
         verify(collector2, never()).collect(anyCollectionOf(JsonPointer.class),
             any(SchemaTree.class));
     }
@@ -136,12 +136,14 @@ public final class SimpleSchemaWalkerTest
         walker.walk(listener, report);
 
         final InOrder order = inOrder(listener);
-        order.verify(listener).onEnter(eq(JsonPointer.empty()));
-        order.verify(listener).onWalk(same(tree));
-        order.verify(listener).onEnter(same(pointer));
-        order.verify(listener).onWalk(captor.capture());
-        order.verify(listener).onExit(same(pointer));
-        order.verify(listener).onExit(eq(JsonPointer.empty()));
+        order.verify(listener)
+            .enteringPath(eq(JsonPointer.empty()), same(report));
+        order.verify(listener).visiting(same(tree), same(report));
+        order.verify(listener).enteringPath(eq(pointer), same(report));
+        order.verify(listener).visiting(captor.capture(), same(report));
+        order.verify(listener).exitingPath(eq(pointer), same(report));
+        order.verify(listener)
+            .exitingPath(eq(JsonPointer.empty()), same(report));
 
         final SchemaTree subTree = captor.getValue();
         assertEquals(subTree.getNode(), subNode);

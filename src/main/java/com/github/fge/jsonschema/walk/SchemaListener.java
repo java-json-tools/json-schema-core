@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
 /**
@@ -34,12 +35,16 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  * <p>For one subtree, the order in which events are called are:</p>
  *
  * <ul>
- *     <li>{@link #onEnter(JsonPointer)} (visiting a subtree);</li>
- *     <li>{@link #onTreeChange(SchemaTree, SchemaTree)} (only if {@link
- *     ResolvingSchemaWalker} is used);</li>
- *     <li>{@link #onWalk(SchemaTree)};</li>
- *     <li>{@link #onExit(JsonPointer)} (exiting a subtree).</li>
+ *     <li>{@link #enteringPath(JsonPointer, ProcessingReport)} (JsonPointer)}
+ *     (visiting a subtree);</li>
+ *     <li>{@link #visiting(SchemaTree, ProcessingReport)} (SchemaTree)};</li>
+ *     <li>{@link #exitingPath(JsonPointer, ProcessingReport)} (JsonPointer)}
+ *     (exiting a subtree).</li>
  * </ul>
+ *
+ * <p>Note that in the event of ref resolution (using a {@link
+ * ResolvingSchemaWalker}), when visiting a tree, the visited tree is the
+ * resulting tree of ref resolution, not the original tree.</p>
  *
  * <p>For instance, if we consider this schema:</p>
  *
@@ -54,12 +59,12 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  *
  * <pre>
  *     // Note: JSON Pointers used for both pointers and trees
- *     listener.onEnter("");
- *     listener.onWalk("");
- *     listener.onEnter("/items");
- *     listener.onWalk("/items");
- *     listener.onExit();
- *     listener.onExit();
+ *     listener.enteringPath("", report);
+ *     listener.visiting("", report);
+ *     listener.enteringPath("/items", report);
+ *     listener.visiting("/items", report);
+ *     listener.exitingPath("/items");
+ *     listener.exitingPath("");
  * </pre>
  *
  * @param <T> the value type produced by this listener
@@ -67,42 +72,33 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 public interface SchemaListener<T>
 {
     /**
-     *  Method called when the walking process changes trees
+     * Method called when entering a path in the schema
      *
-     * @param oldTree the old tree
-     * @param newTree the new tree
+     * @param path the entered path
+     * @param report the report to use
      * @throws ProcessingException processing failure
-     * @see ResolvingSchemaWalker
      */
-    void onTreeChange(final SchemaTree oldTree, final SchemaTree newTree)
+    void enteringPath(final JsonPointer path, final ProcessingReport report)
         throws ProcessingException;
 
     /**
-     * Method called when the current tree node is walked
+     * Method called when visiting the tree at the current path
      *
-     * @param tree the current tree
+     * @param schemaTree the visited tree
+     * @param report the report to use
      * @throws ProcessingException processing failure
      */
-    void onWalk(final SchemaTree tree)
+    void visiting(final SchemaTree schemaTree, final ProcessingReport report)
         throws ProcessingException;
 
     /**
-     * Method called when the walker changes pointer into the currently walked
-     * tree
+     * Method called when exiting a path in the schema
      *
-     * @param pointer the <b>relative</b> pointer into the tree
+     * @param path the exited path
+     * @param report the report to use
      * @throws ProcessingException processing failure
      */
-    void onEnter(final JsonPointer pointer)
-        throws ProcessingException;
-
-    /**
-     * Method called when the walking process exits a subtree
-     *
-     * @param pointer the <b>relative</b> pointer into the tree
-     * @throws ProcessingException processing failure
-     */
-    void onExit(final JsonPointer pointer)
+    void exitingPath(final JsonPointer path, final ProcessingReport report)
         throws ProcessingException;
 
     /**
