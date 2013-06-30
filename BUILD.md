@@ -28,6 +28,17 @@ _really sure_ that your modifications are accounted for, add the
 ./gradlew --recompile-scripts test
 ```
 
+### Note about testing
+
+When you invoke Gradle tasks such as `install`, for instance, Gradle will _not_
+run tests by default; you therefore have to tell it to run tests explicitly:
+
+```
+./gradlew clean test install
+```
+
+The same holds true for the `jar` target, for instance.
+
 ## Note to Maven users
 
 There exists a possiblity to generate a `pom.xml` (using `./gradlew pom`), which
