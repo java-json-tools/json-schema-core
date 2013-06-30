@@ -72,6 +72,15 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource;
 }
 
+/*
+ * Javadoc: we need to tell where the overview.html is, it will not pick it up
+ * automatically...
+ */
+
+javadoc {
+    options.overview = "src/main/java/overview.html";
+}
+
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = "javadoc";
     from javadoc.destinationDir;
