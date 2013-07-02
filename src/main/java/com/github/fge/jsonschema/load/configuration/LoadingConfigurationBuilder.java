@@ -65,7 +65,7 @@ public final class LoadingConfigurationBuilder
         DEFAULT_PARSER_FEATURES = EnumSet.noneOf(JsonParser.Feature.class);
 
         for (final JsonParser.Feature feature: JsonParser.Feature.values())
-            if ((i & (1 << feature.ordinal())) != 0)
+            if (feature.enabledByDefault())
                 DEFAULT_PARSER_FEATURES.add(feature);
     }
 
