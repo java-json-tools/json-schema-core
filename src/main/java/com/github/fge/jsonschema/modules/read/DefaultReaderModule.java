@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.read;
+package com.github.fge.jsonschema.modules.read;
 
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.google.common.annotations.Beta;

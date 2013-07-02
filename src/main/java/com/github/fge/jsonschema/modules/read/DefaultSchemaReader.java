@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.read;
+package com.github.fge.jsonschema.modules.read;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
