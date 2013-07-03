@@ -21,7 +21,8 @@ public final class URITransformerBuilder
 
     URI namespace = EMPTY;
 
-    final Map<URI, URI> pathRedirects = Maps.newHashMap();
+    final PathRedirectMapBuilder pathRedirects
+        = new PathRedirectMapBuilder();
 
     final Map<URI, URI> schemaRedirects = Maps.newHashMap();
 
@@ -77,12 +78,7 @@ public final class URITransformerBuilder
     public URITransformerBuilder addPathRedirect(final URI from,
         final URI to)
     {
-        final URI key = URIUtils.normalizeURI(from);
-        URIUtils.checkPathURI(key);
-        final URI value = URIUtils.normalizeURI(to);
-        URIUtils.checkPathURI(value);
-        if (!key.equals(value))
-            pathRedirects.put(key, value);
+        pathRedirects.put(from, to);
         return this;
     }
 
@@ -91,9 +87,7 @@ public final class URITransformerBuilder
     {
         BUNDLE.checkNotNull(from, "uriTransform.nullInput");
         BUNDLE.checkNotNull(to, "uriTransform.nullInput");
-        final URI src = URI.create(from);
-        final URI dst = URI.create(to);
-        return addPathRedirect(src, dst);
+        return addPathRedirect(URI.create(from), URI.create(to));
     }
 
     @Override

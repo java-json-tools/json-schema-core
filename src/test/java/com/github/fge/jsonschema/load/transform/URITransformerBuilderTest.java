@@ -93,42 +93,6 @@ public final class URITransformerBuilderTest
         }
     }
 
-    @Test
-    public void nullPathsAreNotAccepted()
-    {
-        try {
-            builder.addPathRedirect(null, DUMMY);
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
-        }
-
-        try {
-            builder.addPathRedirect(URI.create("foo://bar/"), null);
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
-        }
-
-        try {
-            builder.addPathRedirect(null, "");
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
-        }
-
-        try {
-            builder.addPathRedirect("foo://bar/", null);
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
-        }
-    }
-
     @Test(dataProvider = "invalidPathURIs")
     public void cannotSetNonPathURIs(final String uri, final String key)
     {

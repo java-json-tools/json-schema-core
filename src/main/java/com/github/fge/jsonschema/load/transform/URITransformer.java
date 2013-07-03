@@ -30,7 +30,7 @@ public final class URITransformer
     URITransformer(final URITransformerBuilder builder)
     {
         namespace = builder.namespace;
-        pathRedirects = ImmutableMap.copyOf(builder.pathRedirects);
+        pathRedirects = builder.pathRedirects.build();
         schemaRedirects = ImmutableMap.copyOf(builder.schemaRedirects);
     }
 
