@@ -31,12 +31,12 @@ import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.load.uri.URITransformer;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Maps;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.EnumSet;
 import java.util.Map;
 
@@ -147,7 +147,9 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder addScheme(final String scheme,
         final URIDownloader downloader)
     {
-        downloaders.addEntry(checkScheme(scheme), downloader);
+        final String realScheme = URIUtils.normalizeScheme(scheme);
+        URIUtils.checkScheme(realScheme);
+        downloaders.addEntry(realScheme, downloader);
         return this;
     }
 
@@ -323,20 +325,6 @@ public final class LoadingConfigurationBuilder
     public LoadingConfiguration freeze()
     {
         return new LoadingConfiguration(this);
-    }
-
-    private static String checkScheme(final String scheme)
-    {
-        BUNDLE.checkNotNull(scheme, "loadingCfg.nullScheme");
-        BUNDLE.checkArgument(!scheme.isEmpty(), "loadingCfg.emptyScheme");
-        try {
-            new URI(scheme, "x", "y");
-        } catch (URISyntaxException ignored) {
-            throw new IllegalArgumentException(
-                BUNDLE.printf("loadingCfg.illegalScheme", scheme));
-        }
-
-        return scheme;
     }
 
     private static URI getLocator(final String input)
