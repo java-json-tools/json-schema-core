@@ -53,10 +53,12 @@ public final class URITransformerBuilder
     public URITransformerBuilder addSchemaRedirect(final URI from,
         final URI to)
     {
-        BUNDLE.checkNotNull(from, "uriTransform.nullInput");
-        BUNDLE.checkNotNull(to, "uriTransform.nullInput");
-        final URI key = toSchemaURI(from);
-        final URI value = toSchemaURI(to);
+        URI key = URIUtils.normalizeURI(from);
+        URIUtils.checkSchemaURI(key);
+        URI value = URIUtils.normalizeURI(to);
+        URIUtils.checkSchemaURI(value);
+        key = JsonRef.fromURI(key).getLocator();
+        value = JsonRef.fromURI(value).getLocator();
         if (!key.equals(value))
             schemaRedirects.put(key, value);
         return this;
@@ -98,18 +100,5 @@ public final class URITransformerBuilder
     public URITransformer freeze()
     {
         return new URITransformer(this);
-    }
-
-    private static URI toSchemaURI(final URI uri)
-    {
-        final URI normalized = uri.normalize();
-        BUNDLE.checkArgumentPrintf(normalized.isAbsolute(),
-            "uriTransform.notAbsolute", uri);
-        final JsonRef ref = JsonRef.fromURI(normalized);
-        BUNDLE.checkArgumentPrintf(ref.isAbsolute(),
-            "uriTransform.notAbsoluteRef", uri);
-        BUNDLE.checkArgumentPrintf(!normalized.getPath().endsWith("/"),
-            "uriTransform.endingSlash", uri);
-        return ref.getLocator();
     }
 }

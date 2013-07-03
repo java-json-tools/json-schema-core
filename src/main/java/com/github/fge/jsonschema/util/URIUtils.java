@@ -1,6 +1,7 @@
 package com.github.fge.jsonschema.util;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.CharMatcher;
@@ -125,6 +126,23 @@ public final class URIUtils
         }
     };
 
+    private static final ArgumentChecker<URI> SCHEMAURI_CHECKER
+        = new ArgumentChecker<URI>()
+    {
+        @Override
+        public void check(@Nullable final URI argument)
+        {
+            BUNDLE.checkNotNull(argument, "uriTransform.nullInput");
+            BUNDLE.checkArgumentPrintf(argument.isAbsolute(),
+                "uriTransform.notAbsolute", argument);
+            final JsonRef ref = JsonRef.fromURI(argument);
+            BUNDLE.checkArgumentPrintf(ref.isAbsolute(),
+                "uriTransform.notAbsoluteRef", argument);
+            BUNDLE.checkArgumentPrintf(!argument.getPath().endsWith("/"),
+                "uriTransform.endingSlash", argument);
+        }
+    };
+
     private URIUtils()
     {
     }
@@ -191,5 +209,15 @@ public final class URIUtils
     public static void checkPathURI(final URI uri)
     {
         PATHURI_CHECKER.check(uri);
+    }
+
+    public static ArgumentChecker<URI> schemaURIChecker()
+    {
+        return SCHEMAURI_CHECKER;
+    }
+
+    public static void checkSchemaURI(final URI uri)
+    {
+        SCHEMAURI_CHECKER.check(uri);
     }
 }

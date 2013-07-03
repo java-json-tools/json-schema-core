@@ -175,7 +175,7 @@ public final class URITransformerBuilderTest
         }
 
         try {
-            builder.addSchemaRedirect(URI.create("foo://bar/"), null);
+            builder.addSchemaRedirect(URI.create("foo://bar"), null);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
