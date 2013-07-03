@@ -86,19 +86,22 @@ public abstract class ArgumentChecker<T>
     }
 
     /**
-     * Combine this argument checker with another checker
+     * Combine argument checkers together
      *
-     * <p>This returns a <b>new</b> argument checker. Note that checkers are
-     * called in order ({@code this}, then {@code other}).</p>
+     * <p>Note that checkers are called in order.</p>
      *
-     * @param other the other checker
+     * @param checkers list of checkers
      * @return a new argument checker combining this checker and the other
-     * @throws NullPointerException other checker is null
+     * @throws NullPointerException one of the checkers is null; or a null
+     * checker array has been passed as an argument.
      */
-    public final ArgumentChecker<T> and(final ArgumentChecker<T> other)
+    public static <X> ArgumentChecker<X> combine(
+        final ArgumentChecker<X>... checkers)
     {
-        BUNDLE.checkNotNull(other, "argChecker.nullChecker");
-        return new CombinedArgumentChecker<T>(this, other);
+        BUNDLE.checkNotNull(checkers, "argChecker.nullChecker");
+        for (final ArgumentChecker<X> checker: checkers)
+            BUNDLE.checkNotNull(checker, "argChecker.nullChecker");
+        return new CombinedArgumentChecker<X>(checkers);
     }
 
     /**
@@ -110,24 +113,21 @@ public abstract class ArgumentChecker<T>
      */
     public abstract void check(@Nullable final T argument);
 
-    private static final class CombinedArgumentChecker<T>
-        extends ArgumentChecker<T>
+    private static final class CombinedArgumentChecker<X>
+        extends ArgumentChecker<X>
     {
-        private final ArgumentChecker<T> first;
-        private final ArgumentChecker<T> second;
+        private final ArgumentChecker<X>[] checkers;
 
-        private CombinedArgumentChecker(final ArgumentChecker<T> first,
-            final ArgumentChecker<T> second)
+        private CombinedArgumentChecker(final ArgumentChecker<X>... checkers)
         {
-            this.first = first;
-            this.second = second;
+            this.checkers = checkers;
         }
 
         @Override
-        public void check(@Nullable final T argument)
+        public void check(@Nullable final X argument)
         {
-            first.check(argument);
-            second.check(argument);
+            for (final ArgumentChecker<X> checker: checkers)
+                checker.check(argument);
         }
     }
 }
