@@ -39,6 +39,9 @@ public final class URIUtils
             .or(CharMatcher.anyOf("+-.")).precomputed();
     }
 
+    /*
+     * NORMALIZERS
+     */
     private static final Function<String, String> LOWERCASE
         = new Function<String, String>()
     {
@@ -50,6 +53,37 @@ public final class URIUtils
         }
     };
 
+    private static final Function<URI, URI> URI_NORMALIZER
+        = new Function<URI, URI>()
+        {
+            @Nullable
+            @Override
+            public URI apply(@Nullable final URI input)
+            {
+                if (input == null)
+                    return null;
+
+                final URI uri = input.normalize();
+
+                final String scheme = uri.getScheme();
+                final String userinfo = uri.getUserInfo();
+                final String host = uri.getHost();
+                final int port = uri.getPort();
+                final String path = uri.getPath();
+                final String query = uri.getQuery();
+                final String fragment = uri.getFragment();
+
+                try {
+                    return new URI(LOWERCASE.apply(scheme), userinfo,
+                        LOWERCASE.apply(host), port, path, query, fragment);
+                } catch (URISyntaxException e) {
+                    throw new IllegalStateException("How did I get there??", e);
+                }
+            }
+        };
+    /*
+     * CHECKERS
+     */
     private static final ArgumentChecker<String> SCHEME_CHECKER
         = new ArgumentChecker<String>()
     {
@@ -102,33 +136,7 @@ public final class URIUtils
      */
     public static Function<URI, URI> uriNormalizer()
     {
-        return new Function<URI, URI>()
-        {
-            @Nullable
-            @Override
-            public URI apply(@Nullable final URI input)
-            {
-                if (input == null)
-                    return null;
-
-                final URI uri = input.normalize();
-
-                final String scheme = uri.getScheme();
-                final String userinfo = uri.getUserInfo();
-                final String host = uri.getHost();
-                final int port = uri.getPort();
-                final String path = uri.getPath();
-                final String query = uri.getQuery();
-                final String fragment = uri.getFragment();
-
-                try {
-                    return new URI(LOWERCASE.apply(scheme), userinfo,
-                        LOWERCASE.apply(host), port, path, query, fragment);
-                } catch (URISyntaxException e) {
-                    throw new IllegalStateException("How did I get there??", e);
-                }
-            }
-        };
+        return URI_NORMALIZER;
     }
 
     /**
@@ -139,7 +147,7 @@ public final class URIUtils
      */
     public static URI normalizeURI(@Nullable final URI uri)
     {
-        return uriNormalizer().apply(uri);
+        return URI_NORMALIZER.apply(uri);
     }
 
     public static ArgumentChecker<String> schemeChecker()
@@ -149,7 +157,7 @@ public final class URIUtils
 
     public static void checkScheme(final String scheme)
     {
-        schemeChecker().check(scheme);
+        SCHEME_CHECKER.check(scheme);
     }
 
 }
