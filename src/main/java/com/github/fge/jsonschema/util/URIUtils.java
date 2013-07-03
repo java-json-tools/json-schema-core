@@ -81,6 +81,7 @@ public final class URIUtils
                 }
             }
         };
+
     /*
      * CHECKERS
      */
@@ -99,6 +100,24 @@ public final class URIUtils
                 throw new IllegalArgumentException(errmsg);
             if (!SCHEME_LEGAL.matchesAllOf(argument))
                 throw new IllegalArgumentException(errmsg);
+        }
+    };
+
+    private static final ArgumentChecker<URI> PATHURI_CHECKER
+        = new ArgumentChecker<URI>()
+    {
+        @Override
+        public void check(@Nullable final URI argument)
+        {
+            BUNDLE.checkNotNull(argument, "uriTransform.nullInput");
+            BUNDLE.checkArgumentPrintf(argument.isAbsolute(),
+                "uriTransform.notAbsolute", argument);
+            BUNDLE.checkArgumentPrintf(argument.getFragment() == null,
+                "uriTransform.fragmentNotNull", argument);
+            BUNDLE.checkArgumentPrintf(argument.getQuery() == null,
+                "uriTransform.queryNotNull", argument);
+            BUNDLE.checkArgumentPrintf(argument.getPath().endsWith("/"),
+                "uriTransform.noEndingSlash", argument);
         }
     };
 
@@ -160,4 +179,13 @@ public final class URIUtils
         SCHEME_CHECKER.check(scheme);
     }
 
+    public static ArgumentChecker<URI> pathURIChecker()
+    {
+        return PATHURI_CHECKER;
+    }
+
+    public static void checkPathURI(final URI uri)
+    {
+        PATHURI_CHECKER.check(uri);
+    }
 }

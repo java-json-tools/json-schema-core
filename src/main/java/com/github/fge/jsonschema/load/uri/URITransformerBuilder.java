@@ -3,6 +3,7 @@ package com.github.fge.jsonschema.load.uri;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Maps;
@@ -37,8 +38,9 @@ public final class URITransformerBuilder
 
     public URITransformerBuilder setNamespace(final URI uri)
     {
-        BUNDLE.checkNotNull(uri, "uriTransform.nullInput");
-        namespace = toPathURI(uri);
+        final URI normalized = URIUtils.normalizeURI(uri);
+        URIUtils.checkPathURI(normalized);
+        namespace = normalized;
         return this;
     }
 
@@ -73,10 +75,10 @@ public final class URITransformerBuilder
     public URITransformerBuilder addPathRedirect(final URI from,
         final URI to)
     {
-        BUNDLE.checkNotNull(from, "uriTransform.nullInput");
-        BUNDLE.checkNotNull(to, "uriTransform.nullInput");
-        final URI key = toPathURI(from);
-        final URI value = toPathURI(to);
+        final URI key = URIUtils.normalizeURI(from);
+        URIUtils.checkPathURI(key);
+        final URI value = URIUtils.normalizeURI(to);
+        URIUtils.checkPathURI(value);
         if (!key.equals(value))
             pathRedirects.put(key, value);
         return this;
@@ -109,19 +111,5 @@ public final class URITransformerBuilder
         BUNDLE.checkArgumentPrintf(!normalized.getPath().endsWith("/"),
             "uriTransform.endingSlash", uri);
         return ref.getLocator();
-    }
-
-    private static URI toPathURI(final URI uri)
-    {
-        final URI normalized = uri.normalize();
-        BUNDLE.checkArgumentPrintf(normalized.isAbsolute(),
-            "uriTransform.notAbsolute", uri);
-        BUNDLE.checkArgumentPrintf(uri.getFragment() == null,
-            "uriTransform.fragmentNotNull", uri);
-        BUNDLE.checkArgumentPrintf(uri.getQuery() == null,
-            "uriTransform.queryNotNull", uri);
-        BUNDLE.checkArgumentPrintf(uri.getPath().endsWith("/"),
-            "uriTransform.noEndingSlash", uri);
-        return normalized;
     }
 }
