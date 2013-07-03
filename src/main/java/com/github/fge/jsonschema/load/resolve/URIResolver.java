@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.modules.resolve;
+package com.github.fge.jsonschema.load.resolve;
 
 import com.google.common.annotations.Beta;
 
