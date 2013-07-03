@@ -66,8 +66,12 @@ public final class URIUtils
                 final URI uri = input.normalize();
 
                 final String scheme = uri.getScheme();
-                final String userinfo = uri.getUserInfo();
                 final String host = uri.getHost();
+
+                if (scheme == null && host == null)
+                    return uri;
+
+                final String userinfo = uri.getUserInfo();
                 final int port = uri.getPort();
                 final String path = uri.getPath();
                 final String query = uri.getQuery();
