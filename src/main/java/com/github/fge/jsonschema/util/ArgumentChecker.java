@@ -90,18 +90,19 @@ public abstract class ArgumentChecker<T>
      *
      * <p>Note that checkers are called in order.</p>
      *
-     * @param checkers list of checkers
+     * @param first first checker
+     * @param other list of checkers
      * @return a new argument checker combining this checker and the other
-     * @throws NullPointerException one of the checkers is null; or a null
-     * checker array has been passed as an argument.
+     * @throws NullPointerException one of the checkers is null.
      */
     public static <X> ArgumentChecker<X> combine(
-        final ArgumentChecker<X>... checkers)
+        final ArgumentChecker<X> first,
+        final ArgumentChecker<X>... other)
     {
-        BUNDLE.checkNotNull(checkers, "argChecker.nullChecker");
-        for (final ArgumentChecker<X> checker: checkers)
+        BUNDLE.checkNotNull(first, "argChecker.nullChecker");
+        for (final ArgumentChecker<X> checker: other)
             BUNDLE.checkNotNull(checker, "argChecker.nullChecker");
-        return new CombinedArgumentChecker<X>(checkers);
+        return new CombinedArgumentChecker<X>(first, other);
     }
 
     /**
@@ -116,17 +117,21 @@ public abstract class ArgumentChecker<T>
     private static final class CombinedArgumentChecker<X>
         extends ArgumentChecker<X>
     {
-        private final ArgumentChecker<X>[] checkers;
+        private final ArgumentChecker<X> first;
+        private final ArgumentChecker<X>[] other;
 
-        private CombinedArgumentChecker(final ArgumentChecker<X>... checkers)
+        private CombinedArgumentChecker(final ArgumentChecker<X> first,
+            final ArgumentChecker<X>... other)
         {
-            this.checkers = checkers;
+            this.first = first;
+            this.other = other;
         }
 
         @Override
         public void check(@Nullable final X argument)
         {
-            for (final ArgumentChecker<X> checker: checkers)
+            first.check(argument);
+            for (final ArgumentChecker<X> checker: other)
                 checker.check(argument);
         }
     }
