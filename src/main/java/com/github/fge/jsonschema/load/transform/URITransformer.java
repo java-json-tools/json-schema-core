@@ -2,7 +2,7 @@ package com.github.fge.jsonschema.load.transform;
 
 import com.github.fge.Frozen;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.google.common.collect.ImmutableMap;
+import com.github.fge.jsonschema.util.URIUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,12 +31,12 @@ public final class URITransformer
     {
         namespace = builder.namespace;
         pathRedirects = builder.pathRedirects.build();
-        schemaRedirects = ImmutableMap.copyOf(builder.schemaRedirects);
+        schemaRedirects = builder.schemaRedirects.build();
     }
 
     public URI transform(final URI source)
     {
-        URI uri = namespace.resolve(source).normalize();
+        URI uri = URIUtils.normalizeURI(namespace.resolve(source));
         final String fragment = uri.getFragment();
 
         try {

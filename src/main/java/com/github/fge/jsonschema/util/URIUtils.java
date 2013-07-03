@@ -6,6 +6,7 @@ import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 
 import javax.annotation.Nullable;
 import java.net.URI;
@@ -86,6 +87,25 @@ public final class URIUtils
                 }
             }
         };
+
+    private static final Function<URI, URI> SCHEMAURI_NORMALIZER
+        = new Function<URI, URI>()
+    {
+        @Nullable
+        @Override
+        public URI apply(@Nullable final URI input)
+        {
+            final URI uri = URI_NORMALIZER.apply(input);
+            if (uri == null)
+                return null;
+            try {
+                return new URI(uri.getScheme(), uri.getSchemeSpecificPart(),
+                    Optional.fromNullable(uri.getFragment()).or(""));
+            } catch (URISyntaxException e) {
+                throw new RuntimeException("How did I get there??", e);
+            }
+        }
+    };
 
     /*
      * CHECKERS
@@ -189,6 +209,16 @@ public final class URIUtils
     public static URI normalizeURI(@Nullable final URI uri)
     {
         return URI_NORMALIZER.apply(uri);
+    }
+
+    public static Function<URI, URI> schemaURINormalizer()
+    {
+        return SCHEMAURI_NORMALIZER;
+    }
+
+    public static URI toSchemaURI(@Nullable final URI uri)
+    {
+        return SCHEMAURI_NORMALIZER.apply(uri);
     }
 
     public static ArgumentChecker<String> schemeChecker()

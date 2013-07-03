@@ -127,42 +127,6 @@ public final class URITransformerBuilderTest
         }
     }
 
-    @Test
-    public void cannotSetNonNullSchemaRedirects()
-    {
-        try {
-            builder.addSchemaRedirect(null, DUMMY);
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
-        }
-
-        try {
-            builder.addSchemaRedirect(URI.create("foo://bar"), null);
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
-        }
-
-        try {
-            builder.addSchemaRedirect(null, "");
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
-        }
-
-        try {
-            builder.addSchemaRedirect("foo://bar/", null);
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
-        }
-    }
-
     @DataProvider
     public Iterator<Object[]> invalidSchemaURIs()
     {

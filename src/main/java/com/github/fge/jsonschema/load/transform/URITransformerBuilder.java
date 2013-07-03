@@ -2,14 +2,11 @@ package com.github.fge.jsonschema.load.transform;
 
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import com.google.common.collect.Maps;
 
 import java.net.URI;
-import java.util.Map;
 
 public final class URITransformerBuilder
     implements Thawed<URITransformer>
@@ -24,7 +21,8 @@ public final class URITransformerBuilder
     final PathRedirectMapBuilder pathRedirects
         = new PathRedirectMapBuilder();
 
-    final Map<URI, URI> schemaRedirects = Maps.newHashMap();
+    final SchemaRedirectMapBuilder schemaRedirects
+        = new SchemaRedirectMapBuilder();
 
     URITransformerBuilder()
     {
@@ -54,14 +52,7 @@ public final class URITransformerBuilder
     public URITransformerBuilder addSchemaRedirect(final URI from,
         final URI to)
     {
-        URI key = URIUtils.normalizeURI(from);
-        URIUtils.checkSchemaURI(key);
-        URI value = URIUtils.normalizeURI(to);
-        URIUtils.checkSchemaURI(value);
-        key = JsonRef.fromURI(key).getLocator();
-        value = JsonRef.fromURI(value).getLocator();
-        if (!key.equals(value))
-            schemaRedirects.put(key, value);
+        schemaRedirects.put(from, to);
         return this;
     }
 
@@ -70,9 +61,7 @@ public final class URITransformerBuilder
     {
         BUNDLE.checkNotNull(from, "uriTransform.nullInput");
         BUNDLE.checkNotNull(to, "uriTransform.nullInput");
-        final URI src = URI.create(from);
-        final URI dst = URI.create(to);
-        return addSchemaRedirect(src, dst);
+        return addSchemaRedirect(URI.create(from), URI.create(to));
     }
 
     public URITransformerBuilder addPathRedirect(final URI from,
