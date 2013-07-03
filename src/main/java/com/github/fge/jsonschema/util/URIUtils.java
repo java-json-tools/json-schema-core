@@ -6,6 +6,17 @@ import javax.annotation.Nullable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Utility class for URI normalization
+ *
+ * <p>RFC 3986, sections 3.1 and 3.2.2, says that normalized schemes and
+ * hostnames are normalized to lowercase; unfortunately, Java's {@link
+ * URI#normalize()} does not go as far as the RFC says, and leaves the scheme
+ * and host parts of the URI intact.</p>
+ *
+ * <p>This class provides methods to fully normalize both schemes and URIs,
+ * and {@link Function}s to perform these normalizations.</p>
+ */
 public final class URIUtils
 {
     private static final Function<String, String> LOWERCASE
@@ -23,16 +34,34 @@ public final class URIUtils
     {
     }
 
+    /**
+     * Return a {@link Function} performing URI scheme normalization, as per RFC
+     * 3986, section 3.1
+     *
+     * @return a function
+     */
     public static Function<String, String> schemeNormalizer()
     {
         return LOWERCASE;
     }
 
-    public static String normalizeScheme(final String scheme)
+    /**
+     * Normalize a scheme according to RFC 3986, section 3.1
+     *
+     * @param scheme the scheme
+     * @return the normalized scheme
+     */
+    public static String normalizeScheme(@Nullable final String scheme)
     {
         return LOWERCASE.apply(scheme);
     }
 
+    /**
+     * Return a {@link Function} performing full URI normalization, as per RFC
+     * 3986
+     *
+     * @return a function
+     */
     public static Function<URI, URI> uriNormalizer()
     {
         return new Function<URI, URI>()
@@ -64,7 +93,13 @@ public final class URIUtils
         };
     }
 
-    public static URI normalizeURI(final URI uri)
+    /**
+     * Fully normalize a URI as per RFC 3986
+     *
+     * @param uri the URI
+     * @return the fully normalized URI
+     */
+    public static URI normalizeURI(@Nullable final URI uri)
     {
         return uriNormalizer().apply(uri);
     }
