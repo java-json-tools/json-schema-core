@@ -1,5 +1,9 @@
 package com.github.fge.jsonschema.util;
 
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.load.MessageBundles;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 
 import javax.annotation.Nullable;
@@ -19,6 +23,22 @@ import java.net.URISyntaxException;
  */
 public final class URIUtils
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
+
+    /*
+     * ASCII letters, and whatever is legal in a URI scheme
+     */
+    private static final CharMatcher ALPHA;
+    private static final CharMatcher SCHEME_LEGAL;
+
+    static {
+        ALPHA = CharMatcher.inRange('a', 'z')
+            .or(CharMatcher.inRange('A', 'Z')).precomputed();
+        SCHEME_LEGAL = ALPHA.or(CharMatcher.inRange('0', '9'))
+            .or(CharMatcher.anyOf("+-.")).precomputed();
+    }
+
     private static final Function<String, String> LOWERCASE
         = new Function<String, String>()
     {
@@ -27,6 +47,27 @@ public final class URIUtils
         public String apply(@Nullable final String input)
         {
             return input == null ? null : input.toLowerCase();
+        }
+    };
+
+    /*
+     * Will be combined with .notNull(), therefore remove @Nullable annotation
+     * to avoid warnings
+     */
+    private static final ArgumentChecker<String> SCHEME_CHECKER
+        = new ArgumentChecker<String>()
+    {
+        @Override
+        public void check(final String argument)
+        {
+            final String errmsg = BUNDLE.printf("loadingCfg.illegalScheme",
+                argument);
+            if (argument.isEmpty())
+                throw new IllegalArgumentException(errmsg);
+            if (!ALPHA.matches(argument.charAt(0)))
+                throw new IllegalArgumentException(errmsg);
+            if (!SCHEME_LEGAL.matchesAllOf(argument))
+                throw new IllegalArgumentException(errmsg);
         }
     };
 
@@ -103,4 +144,18 @@ public final class URIUtils
     {
         return uriNormalizer().apply(uri);
     }
+
+    @SuppressWarnings("unchecked")
+    public static ArgumentChecker<String> schemeChecker()
+    {
+        final ArgumentChecker<String> nullChecker = ArgumentChecker
+            .notNull(BUNDLE.getMessage("loadingCfg.nullScheme"));
+        return ArgumentChecker.combine(nullChecker, SCHEME_CHECKER);
+    }
+
+    public static void checkScheme(final String scheme)
+    {
+        schemeChecker().check(scheme);
+    }
+
 }
