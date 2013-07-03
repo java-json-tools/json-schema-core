@@ -90,7 +90,7 @@ public final class URIUtils
         @Override
         public void check(@Nullable final String argument)
         {
-            BUNDLE.checkNotNull("loadingCfg.nullScheme", argument);
+            BUNDLE.checkNotNull(argument, "loadingCfg.nullScheme");
             final String errmsg = BUNDLE.printf("loadingCfg.illegalScheme",
                 argument);
             if (argument.isEmpty())

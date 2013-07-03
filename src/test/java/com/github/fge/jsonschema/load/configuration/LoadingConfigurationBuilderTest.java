@@ -59,18 +59,6 @@ public final class LoadingConfigurationBuilderTest
     }
 
     @Test
-    public void cannotRegisterEmptyScheme()
-    {
-        try {
-            cfg.addScheme("", downloader);
-            fail("No exception thrown!!");
-        } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("loadingCfg.emptyScheme"));
-        }
-    }
-
-    @Test
     public void cannotRegisterIllegalScheme()
     {
         final String scheme = "+24";
