@@ -50,16 +50,13 @@ public final class URIUtils
         }
     };
 
-    /*
-     * Will be combined with .notNull(), therefore remove @Nullable annotation
-     * to avoid warnings
-     */
     private static final ArgumentChecker<String> SCHEME_CHECKER
         = new ArgumentChecker<String>()
     {
         @Override
-        public void check(final String argument)
+        public void check(@Nullable final String argument)
         {
+            BUNDLE.checkNotNull("loadingCfg.nullScheme", argument);
             final String errmsg = BUNDLE.printf("loadingCfg.illegalScheme",
                 argument);
             if (argument.isEmpty())
@@ -145,12 +142,9 @@ public final class URIUtils
         return uriNormalizer().apply(uri);
     }
 
-    @SuppressWarnings("unchecked")
     public static ArgumentChecker<String> schemeChecker()
     {
-        final ArgumentChecker<String> nullChecker = ArgumentChecker
-            .notNull(BUNDLE.getMessage("loadingCfg.nullScheme"));
-        return ArgumentChecker.combine(nullChecker, SCHEME_CHECKER);
+        return SCHEME_CHECKER;
     }
 
     public static void checkScheme(final String scheme)

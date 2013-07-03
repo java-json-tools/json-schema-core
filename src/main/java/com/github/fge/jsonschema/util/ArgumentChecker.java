@@ -86,26 +86,6 @@ public abstract class ArgumentChecker<T>
     }
 
     /**
-     * Combine argument checkers together
-     *
-     * <p>Note that checkers are called in order.</p>
-     *
-     * @param first first checker
-     * @param other list of checkers
-     * @return a new argument checker combining this checker and the other
-     * @throws NullPointerException one of the checkers is null.
-     */
-    public static <X> ArgumentChecker<X> combine(
-        final ArgumentChecker<X> first,
-        final ArgumentChecker<X>... other)
-    {
-        BUNDLE.checkNotNull(first, "argChecker.nullChecker");
-        for (final ArgumentChecker<X> checker: other)
-            BUNDLE.checkNotNull(checker, "argChecker.nullChecker");
-        return new CombinedArgumentChecker<X>(first, other);
-    }
-
-    /**
      * Check the sanity of an argument
      *
      * @param argument the argument
@@ -113,26 +93,4 @@ public abstract class ArgumentChecker<T>
      * checks
      */
     public abstract void check(@Nullable final T argument);
-
-    private static final class CombinedArgumentChecker<X>
-        extends ArgumentChecker<X>
-    {
-        private final ArgumentChecker<X> first;
-        private final ArgumentChecker<X>[] other;
-
-        private CombinedArgumentChecker(final ArgumentChecker<X> first,
-            final ArgumentChecker<X>... other)
-        {
-            this.first = first;
-            this.other = other;
-        }
-
-        @Override
-        public void check(@Nullable final X argument)
-        {
-            first.check(argument);
-            for (final ArgumentChecker<X> checker: other)
-                checker.check(argument);
-        }
-    }
 }
