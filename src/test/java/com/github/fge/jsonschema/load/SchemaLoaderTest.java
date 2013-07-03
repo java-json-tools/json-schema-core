@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.load;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.load.uri.URITransformer;
+import com.github.fge.jsonschema.load.transform.URITransformer;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;

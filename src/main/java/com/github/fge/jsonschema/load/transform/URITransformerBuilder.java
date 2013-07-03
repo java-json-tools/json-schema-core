@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.uri;
+package com.github.fge.jsonschema.load.transform;
 
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;

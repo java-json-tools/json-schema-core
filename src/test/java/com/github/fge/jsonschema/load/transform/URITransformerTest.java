@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.uri;
+package com.github.fge.jsonschema.load.transform;
 
 import com.google.common.collect.Lists;
 import org.testng.annotations.BeforeMethod;
