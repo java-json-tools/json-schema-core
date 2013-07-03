@@ -25,6 +25,7 @@ import com.github.fge.Frozen;
 import com.github.fge.Thawed;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
@@ -64,12 +65,12 @@ public final class LoadingConfiguration
     implements Frozen<LoadingConfigurationBuilder>
 {
     /**
-     * Dictionary for URI downloaders
+     * Map of URI downloaders
      *
      * @see URIDownloader
      * @see URIManager
      */
-    final Dictionary<URIDownloader> downloaders;
+    final Map<String, URIDownloader> downloaders;
 
     final URITransformer transformer;
 
@@ -136,7 +137,7 @@ public final class LoadingConfiguration
      */
     LoadingConfiguration(final LoadingConfigurationBuilder builder)
     {
-        downloaders = builder.downloaders.freeze();
+        downloaders = builder.downloaders.build();
         transformer = builder.transformer;
         dereferencing = builder.dereferencing;
         preloadedSchemas = ImmutableMap.copyOf(builder.preloadedSchemas);
@@ -168,10 +169,33 @@ public final class LoadingConfiguration
      * Return the dictionary of URI downloaders
      *
      * @return an immutable {@link Dictionary}
+     *
+     * @deprecated use {@link #getDownloaderMap()} instead. Will disappear in
+     * 1.1.10.
      */
+    @Deprecated
     public Dictionary<URIDownloader> getDownloaders()
     {
-        return downloaders;
+        final DictionaryBuilder<URIDownloader> builder
+            = Dictionary.newBuilder();
+
+        for (final Map.Entry<String, URIDownloader> entry:
+            downloaders.entrySet())
+            builder.addEntry(entry.getKey(), entry.getValue());
+
+        return builder.freeze();
+    }
+
+    /**
+     * Return the map of downloaders for this configuration
+     *
+     * @return an {@link ImmutableMap} of downloaders
+     *
+     * @since 1.1.9
+     */
+    public Map<String, URIDownloader> getDownloaderMap()
+    {
+        return downloaders; // ImmutableMap
     }
 
     public URITransformer getTransformer()

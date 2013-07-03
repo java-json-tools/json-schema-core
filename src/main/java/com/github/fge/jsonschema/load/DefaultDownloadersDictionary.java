@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.load;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.load.resolve.URIDownloadersMapBuilder;
 
 /**
  * Dictionary of default supported URI schemes
@@ -36,7 +37,11 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
  *
  * @see DefaultURIDownloader
  * @see ResourceURIDownloader
+ *
+ * @deprecated use {@link URIDownloadersMapBuilder} instead. Will be removed in
+ * 1.1.10.
  */
+@Deprecated
 public final class DefaultDownloadersDictionary
 {
     private static final Dictionary<URIDownloader> DICTIONARY;

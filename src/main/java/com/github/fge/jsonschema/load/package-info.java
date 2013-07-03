@@ -28,7 +28,7 @@
  * schemas it does not already know of.</p>
  *
  * <p>Note that you can configure the latter to support an arbitrary set of URI
- * schemes. The default supported set is defined in {@link
- * com.github.fge.jsonschema.load.DefaultDownloadersDictionary}.</p>
+ * schemes, or remove support for schemes you don't want to support (for
+ * security reasons or otherwise).</p>
  */
 package com.github.fge.jsonschema.load;

@@ -22,16 +22,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.load.DefaultDownloadersDictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
+import com.github.fge.jsonschema.load.resolve.URIDownloadersMapBuilder;
 import com.github.fge.jsonschema.load.transform.URITransformer;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Maps;
@@ -70,12 +68,14 @@ public final class LoadingConfigurationBuilder
     }
 
     /**
-     * Mutable dictionary of URI downloaders
+     * Mutable map of URI downloaders
      *
      * @see URIDownloader
      * @see URIManager
+     * @see URIDownloadersMapBuilder
      */
-    final DictionaryBuilder<URIDownloader> downloaders;
+    final URIDownloadersMapBuilder downloaders
+        = new URIDownloadersMapBuilder();
 
     URITransformer transformer;
 
@@ -111,7 +111,6 @@ public final class LoadingConfigurationBuilder
      */
     LoadingConfigurationBuilder()
     {
-        downloaders = DefaultDownloadersDictionary.get().thaw();
         transformer = URITransformer.byDefault();
         dereferencing = Dereferencing.CANONICAL;
         preloadedSchemas = Maps.newHashMap();
@@ -128,7 +127,7 @@ public final class LoadingConfigurationBuilder
      */
     LoadingConfigurationBuilder(final LoadingConfiguration cfg)
     {
-        downloaders = cfg.downloaders.thaw();
+        downloaders.putAll(cfg.downloaders);
         transformer = cfg.transformer;
         dereferencing = cfg.dereferencing;
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
@@ -147,9 +146,7 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder addScheme(final String scheme,
         final URIDownloader downloader)
     {
-        final String realScheme = URIUtils.normalizeScheme(scheme);
-        URIUtils.checkScheme(realScheme);
-        downloaders.addEntry(realScheme, downloader);
+        downloaders.put(scheme, downloader);
         return this;
     }
 
@@ -165,7 +162,7 @@ public final class LoadingConfigurationBuilder
          * No checks for null or anything there: adding entries will have been
          * filtered out anyway, so no harm.
          */
-        downloaders.removeEntry(scheme);
+        downloaders.remove(scheme);
         return this;
     }
 

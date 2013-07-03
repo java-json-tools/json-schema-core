@@ -47,18 +47,6 @@ public final class LoadingConfigurationBuilderTest
         = LoadingConfiguration.newBuilder();
 
     @Test
-    public void cannotRegisterNullScheme()
-    {
-        try {
-            cfg.addScheme(null, downloader);
-            fail("No exception thrown!!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(),
-                BUNDLE.getMessage("loadingCfg.nullScheme"));
-        }
-    }
-
-    @Test
     public void cannotRegisterIllegalScheme()
     {
         final String scheme = "+24";
@@ -77,10 +65,10 @@ public final class LoadingConfigurationBuilderTest
         final String scheme = "foo";
 
         cfg.addScheme(scheme, downloader);
-        assertNotNull(cfg.freeze().getDownloaders().entries().get(scheme));
+        assertNotNull(cfg.freeze().getDownloaderMap().get(scheme));
 
         cfg.removeScheme(scheme);
-        assertNull(cfg.freeze().getDownloaders().entries().get(scheme));
+        assertNull(cfg.freeze().getDownloaderMap().get(scheme));
     }
 
     @Test

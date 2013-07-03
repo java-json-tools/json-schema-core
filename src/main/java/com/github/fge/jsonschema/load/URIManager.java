@@ -42,7 +42,6 @@ import java.util.Map;
  *
  * <p>Normally, you will never use this class directly.</p>
  *
- * @see DefaultDownloadersDictionary
  * @see SchemaLoader
  */
 public final class URIManager
@@ -61,7 +60,7 @@ public final class URIManager
 
     public URIManager(final LoadingConfiguration cfg)
     {
-        downloaders = cfg.getDownloaders().entries();
+        downloaders = cfg.getDownloaderMap();
         reader = cfg.getObjectReader();
     }
 
