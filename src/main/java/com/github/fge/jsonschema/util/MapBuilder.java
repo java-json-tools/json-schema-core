@@ -85,6 +85,12 @@ public abstract class MapBuilder<K, V>
         return this;
     }
 
+    public final MapBuilder<K, V> remove(final K key)
+    {
+        map.remove(key);
+        return this;
+    }
+
     /**
      * Put the contents from another map into this map builder
      *
