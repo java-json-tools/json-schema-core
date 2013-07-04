@@ -3,7 +3,10 @@ package com.github.fge.jsonschema.load.transform;
 import com.github.fge.Frozen;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.URIUtils;
+import com.google.common.annotations.Beta;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -25,6 +28,17 @@ public final class URITransformer
     public static URITransformer byDefault()
     {
         return new URITransformerBuilder().freeze();
+    }
+
+    @Inject
+    @Beta
+    URITransformer(final URI namespace,
+        @Named("schemaRedirects") final Map<URI, URI> schemaRedirects,
+        @Named("pathRedirects") final Map<URI, URI> pathRedirects)
+    {
+        this.namespace = namespace;
+        this.schemaRedirects = schemaRedirects;
+        this.pathRedirects = pathRedirects;
     }
 
     URITransformer(final URITransformerBuilder builder)
