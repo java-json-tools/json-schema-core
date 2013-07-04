@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Beta
 public final class DefaultURIResolver
-    extends URIResolver
+    implements URIResolver
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);

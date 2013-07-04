@@ -7,8 +7,8 @@ import java.io.InputStream;
 import java.net.URI;
 
 @Beta
-public abstract class URIResolver
+public interface URIResolver
 {
-    public abstract InputStream resolve(final URI uri)
+    InputStream resolve(final URI uri)
         throws IOException;
 }
