@@ -27,7 +27,7 @@ public final class DefaultReaderModule
 
     private final Dereferencing dereferencing;
     private final EnumSet<Feature> parserFeatures
-        = EnumSet.copyOf(DEFAULT_PARSER_FEATURES);
+        = EnumSet.noneOf(Feature.class);
 
     public DefaultReaderModule(final Dereferencing dereferencing,
         final Feature... features)
@@ -42,6 +42,8 @@ public final class DefaultReaderModule
     @Override
     protected SchemaReader newReader()
     {
-        return new DefaultSchemaReader(dereferencing, parserFeatures);
+        final EnumSet<Feature> features = EnumSet.copyOf(parserFeatures);
+        features.addAll(DEFAULT_PARSER_FEATURES);
+        return new DefaultSchemaReader(dereferencing, features);
     }
 }
