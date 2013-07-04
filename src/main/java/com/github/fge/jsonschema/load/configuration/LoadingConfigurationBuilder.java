@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
-import com.github.fge.jsonschema.load.resolve.URIDownloadersMapBuilder;
+import com.github.fge.jsonschema.load.resolve.URIDownloadersRegistry;
 import com.github.fge.jsonschema.load.transform.URITransformer;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -72,10 +72,10 @@ public final class LoadingConfigurationBuilder
      *
      * @see URIDownloader
      * @see URIManager
-     * @see URIDownloadersMapBuilder
+     * @see com.github.fge.jsonschema.load.resolve.URIDownloadersRegistry
      */
-    final URIDownloadersMapBuilder downloaders
-        = new URIDownloadersMapBuilder();
+    final URIDownloadersRegistry downloaders
+        = new URIDownloadersRegistry();
 
     URITransformer transformer;
 

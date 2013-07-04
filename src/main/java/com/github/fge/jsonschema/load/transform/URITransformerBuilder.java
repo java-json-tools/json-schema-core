@@ -18,11 +18,11 @@ public final class URITransformerBuilder
 
     URI namespace = EMPTY;
 
-    final PathRedirectMapBuilder pathRedirects
-        = new PathRedirectMapBuilder();
+    final PathRedirectRegistry pathRedirects
+        = new PathRedirectRegistry();
 
-    final SchemaRedirectMapBuilder schemaRedirects
-        = new SchemaRedirectMapBuilder();
+    final SchemaRedirectRegistry schemaRedirects
+        = new SchemaRedirectRegistry();
 
     URITransformerBuilder()
     {

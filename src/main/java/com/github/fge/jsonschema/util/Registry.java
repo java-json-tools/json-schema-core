@@ -21,7 +21,7 @@ import java.util.Map;
  * @since 1.1.9
  */
 @Beta
-public abstract class MapBuilder<K, V>
+public abstract class Registry<K, V>
 {
     protected static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
@@ -41,7 +41,7 @@ public abstract class MapBuilder<K, V>
      * @param valueChecker the value checker
      * @throws NullPointerException one normalizer or checker is null
      */
-    protected MapBuilder(final Function<K, K> keyNormalizer,
+    protected Registry(final Function<K, K> keyNormalizer,
         final ArgumentChecker<K> keyChecker,
         final Function<V, V> valueNormalizer,
         final ArgumentChecker<V> valueChecker)
@@ -68,7 +68,7 @@ public abstract class MapBuilder<K, V>
      * @throws NullPointerException the key or value is null
      * @throws IllegalArgumentException see {@link ArgumentChecker}
      */
-    public final MapBuilder<K, V> put(final K key, final V value)
+    public final Registry<K, V> put(final K key, final V value)
     {
         BUNDLE.checkNotNull(key, "mapBuilder.nullKey");
         BUNDLE.checkNotNull(value, "mapBuilder.nullValue");
@@ -85,7 +85,7 @@ public abstract class MapBuilder<K, V>
         return this;
     }
 
-    public final MapBuilder<K, V> remove(final K key)
+    public final Registry<K, V> remove(final K key)
     {
         map.remove(key);
         return this;
@@ -101,7 +101,7 @@ public abstract class MapBuilder<K, V>
      * @return this
      * @throws NullPointerException map is null
      */
-    public final MapBuilder<K, V> putAll(final Map<K, V> otherMap)
+    public final Registry<K, V> putAll(final Map<K, V> otherMap)
     {
         BUNDLE.checkNotNull(otherMap, "mapBuilder.nullMap");
 

@@ -20,7 +20,7 @@ public final class DefaultURIResolver
 
     private final Map<String, URIDownloader> downloaders;
 
-    public DefaultURIResolver(final URIDownloadersMapBuilder builder)
+    public DefaultURIResolver(final URIDownloadersRegistry builder)
     {
         downloaders = builder.build();
     }

@@ -1,14 +1,14 @@
 package com.github.fge.jsonschema.load.transform;
 
-import com.github.fge.jsonschema.util.MapBuilder;
+import com.github.fge.jsonschema.util.Registry;
 import com.github.fge.jsonschema.util.URIUtils;
 
 import java.net.URI;
 
-final class PathRedirectMapBuilder
-    extends MapBuilder<URI, URI>
+final class PathRedirectRegistry
+    extends Registry<URI, URI>
 {
-    PathRedirectMapBuilder()
+    PathRedirectRegistry()
     {
         super(URIUtils.uriNormalizer(), URIUtils.pathURIChecker(),
             URIUtils.uriNormalizer(), URIUtils.pathURIChecker());

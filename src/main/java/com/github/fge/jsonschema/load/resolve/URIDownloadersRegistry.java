@@ -4,7 +4,7 @@ import com.github.fge.jsonschema.load.DefaultURIDownloader;
 import com.github.fge.jsonschema.load.ResourceURIDownloader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.util.ArgumentChecker;
-import com.github.fge.jsonschema.util.MapBuilder;
+import com.github.fge.jsonschema.util.Registry;
 import com.github.fge.jsonschema.util.URIUtils;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Functions;
@@ -13,8 +13,8 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 @Beta
-public class URIDownloadersMapBuilder
-    extends MapBuilder<String, URIDownloader>
+public class URIDownloadersRegistry
+    extends Registry<String, URIDownloader>
 {
     private static final Map<String, URIDownloader> DEFAULT_DOWNLOADERS;
 
@@ -52,7 +52,7 @@ public class URIDownloadersMapBuilder
         DEFAULT_DOWNLOADERS = builder.build();
     }
 
-    public URIDownloadersMapBuilder()
+    public URIDownloadersRegistry()
     {
         super(URIUtils.schemeNormalizer(), URIUtils.schemeChecker(),
             Functions.<URIDownloader>identity(),

@@ -6,8 +6,8 @@ import com.google.common.annotations.Beta;
 public class DefaultURIResolverModule
     extends URIResolverModule
 {
-    protected final URIDownloadersMapBuilder downloaders
-        = new URIDownloadersMapBuilder();
+    protected final URIDownloadersRegistry downloaders
+        = new URIDownloadersRegistry();
 
     @Override
     public final URIResolver newResolver()

@@ -1,14 +1,14 @@
 package com.github.fge.jsonschema.load.transform;
 
-import com.github.fge.jsonschema.util.MapBuilder;
+import com.github.fge.jsonschema.util.Registry;
 import com.github.fge.jsonschema.util.URIUtils;
 
 import java.net.URI;
 
-final class SchemaRedirectMapBuilder
-    extends MapBuilder<URI, URI>
+final class SchemaRedirectRegistry
+    extends Registry<URI, URI>
 {
-    SchemaRedirectMapBuilder()
+    SchemaRedirectRegistry()
     {
         super(URIUtils.schemaURINormalizer(), URIUtils.schemaURIChecker(),
             URIUtils.schemaURINormalizer(), URIUtils.schemaURIChecker());
