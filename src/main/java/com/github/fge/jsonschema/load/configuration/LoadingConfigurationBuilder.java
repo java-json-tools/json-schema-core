@@ -72,7 +72,7 @@ public final class LoadingConfigurationBuilder
      *
      * @see URIDownloader
      * @see URIManager
-     * @see com.github.fge.jsonschema.load.resolve.URIDownloadersRegistry
+     * @see URIDownloadersRegistry
      */
     final URIDownloadersRegistry downloaders
         = new URIDownloadersRegistry();

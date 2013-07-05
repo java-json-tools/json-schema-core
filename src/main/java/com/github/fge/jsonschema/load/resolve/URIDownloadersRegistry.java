@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 @Beta
-final class URIDownloadersRegistry
+public final class URIDownloadersRegistry
     extends Registry<String, URIDownloader>
 {
     private static final Map<String, URIDownloader> DEFAULT_DOWNLOADERS;
@@ -49,7 +49,7 @@ final class URIDownloadersRegistry
         DEFAULT_DOWNLOADERS = builder.build();
     }
 
-    URIDownloadersRegistry()
+    public URIDownloadersRegistry()
     {
         super(URIUtils.schemeNormalizer(), URIUtils.schemeChecker(),
             Functions.<URIDownloader>identity(),
