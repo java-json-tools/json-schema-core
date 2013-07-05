@@ -1,6 +1,5 @@
 package com.github.fge.jsonschema.load.resolve;
 
-import com.github.fge.jsonschema.load.URIDownloader;
 import com.google.common.annotations.Beta;
 
 @Beta

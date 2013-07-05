@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.load;
+package com.github.fge.jsonschema.load.resolve;
 
 import java.io.IOException;
 import java.io.InputStream;

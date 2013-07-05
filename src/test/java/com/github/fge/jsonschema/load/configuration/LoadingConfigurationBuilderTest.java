@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.SchemaVersion;
-import com.github.fge.jsonschema.load.URIDownloader;
+import com.github.fge.jsonschema.load.resolve.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;

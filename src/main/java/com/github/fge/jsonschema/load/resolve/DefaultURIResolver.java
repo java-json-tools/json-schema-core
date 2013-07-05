@@ -1,6 +1,5 @@
 package com.github.fge.jsonschema.load.resolve;
 
-import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;

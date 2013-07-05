@@ -1,8 +1,5 @@
 package com.github.fge.jsonschema.load.resolve;
 
-import com.github.fge.jsonschema.load.DefaultURIDownloader;
-import com.github.fge.jsonschema.load.ResourceURIDownloader;
-import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.util.ArgumentChecker;
 import com.github.fge.jsonschema.util.Registry;
 import com.github.fge.jsonschema.util.URIUtils;
@@ -13,7 +10,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 @Beta
-public class URIDownloadersRegistry
+final class URIDownloadersRegistry
     extends Registry<String, URIDownloader>
 {
     private static final Map<String, URIDownloader> DEFAULT_DOWNLOADERS;
@@ -52,7 +49,7 @@ public class URIDownloadersRegistry
         DEFAULT_DOWNLOADERS = builder.build();
     }
 
-    public URIDownloadersRegistry()
+    URIDownloadersRegistry()
     {
         super(URIUtils.schemeNormalizer(), URIUtils.schemeChecker(),
             Functions.<URIDownloader>identity(),
@@ -61,7 +58,7 @@ public class URIDownloadersRegistry
     }
 
     @Override
-    protected final void checkEntry(final String key, final URIDownloader value)
+    protected void checkEntry(final String key, final URIDownloader value)
     {
     }
 }

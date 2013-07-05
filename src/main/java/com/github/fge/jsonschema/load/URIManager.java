@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.load.resolve.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -36,7 +37,7 @@ import java.util.Map;
 /**
  * Class to fetch JSON documents
  *
- * <p>This uses a map of {@link URIDownloader} instances to fetch the contents
+ * <p>This uses a map of {@link com.github.fge.jsonschema.load.resolve.URIDownloader} instances to fetch the contents
  * of a URI as an {@link InputStream}, then tries and turns this content into
  * JSON using an {@link ObjectMapper}.</p>
  *

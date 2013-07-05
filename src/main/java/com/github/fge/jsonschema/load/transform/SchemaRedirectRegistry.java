@@ -18,6 +18,6 @@ final class SchemaRedirectRegistry
     protected void checkEntry(final URI key, final URI value)
     {
         BUNDLE.checkArgumentPrintf(!key.equals(value),
-            "pathRedirect.selfRedirect", key);
+            "schemaRedirect.selfRedirect", key);
     }
 }

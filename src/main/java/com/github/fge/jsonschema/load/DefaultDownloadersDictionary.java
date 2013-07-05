@@ -19,6 +19,9 @@ package com.github.fge.jsonschema.load;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.load.resolve.DefaultURIDownloader;
+import com.github.fge.jsonschema.load.resolve.ResourceURIDownloader;
+import com.github.fge.jsonschema.load.resolve.URIDownloader;
 
 /**
  * Dictionary of default supported URI schemes
@@ -34,8 +37,8 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
  *     <li>{@code resource}</li>.
  * </ul>
  *
- * @see DefaultURIDownloader
- * @see ResourceURIDownloader
+ * @see com.github.fge.jsonschema.load.resolve.DefaultURIDownloader
+ * @see com.github.fge.jsonschema.load.resolve.ResourceURIDownloader
  *
  * @deprecated use {@link com.github.fge.jsonschema.load.resolve.URIDownloadersRegistry} instead. Will be removed in
  * 1.1.10.
