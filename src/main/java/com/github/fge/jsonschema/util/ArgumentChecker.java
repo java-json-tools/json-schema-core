@@ -11,8 +11,9 @@ import javax.annotation.Nullable;
  * An argument checker
  *
  * <p>The only method of this interface returns nothing; it is supposed to throw
- * an {@link IllegalArgumentException} or derivate if the argument supplied is
- * not legal.</p>
+ * a {@link RuntimeException} or derivate if the argument supplied is not legal.
+ * Typically, this will be {@link IllegalArgumentException} or, if you disallow
+ * null arguments, {@link NullPointerException}.</p>
  *
  * <p>Note that the argument to check <b>may</b> be {@code null}.</p>
  *
@@ -89,8 +90,7 @@ public abstract class ArgumentChecker<T>
      * Check the sanity of an argument
      *
      * @param argument the argument
-     * @throws IllegalArgumentException argument is not legal according to
-     * checks
+     * @throws RuntimeException see description
      */
     public abstract void check(@Nullable final T argument);
 }

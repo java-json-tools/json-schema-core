@@ -11,9 +11,9 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 
 /**
- * A map builder with key/value/pair normalization and checking
+ * A registry builder with key/value/pair normalization and checking
  *
- * <p>Note that all map builders reject null keys or values.</p>
+ * <p>Note that null keys or values are not allowed.</p>
  *
  * @param <K> type of the keys
  * @param <V> type of the values
@@ -57,7 +57,7 @@ public abstract class Registry<K, V>
     }
 
     /**
-     * Put a key/value pair in the map builder
+     * Add a key/value pair in this registry
      *
      * <p>Both the keys and values are first normalized, then checked; finally,
      * before insertion, the key/value pair is checked.</p>
@@ -85,12 +85,6 @@ public abstract class Registry<K, V>
         return this;
     }
 
-    public final Registry<K, V> remove(final K key)
-    {
-        map.remove(key);
-        return this;
-    }
-
     /**
      * Put the contents from another map into this map builder
      *
@@ -108,6 +102,29 @@ public abstract class Registry<K, V>
         for (final Map.Entry<K, V> entry: otherMap.entrySet())
             put(entry.getKey(), entry.getValue());
 
+        return this;
+    }
+
+    /**
+     * Remove one key and its associated value from the registry
+     *
+     * @param key the key to remove
+     * @return this
+     */
+    public final Registry<K, V> remove(final K key)
+    {
+        map.remove(key);
+        return this;
+    }
+
+    /**
+     * Clear all entries from this registry
+     *
+     * @return this
+     */
+    public final Registry<K, V> clear()
+    {
+        map.clear();
         return this;
     }
 
