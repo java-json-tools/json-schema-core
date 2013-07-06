@@ -32,12 +32,12 @@ public class URITranslatorModule
 
     protected final void addSchemaRedirect(final URI from, final URI to)
     {
-        pathRedirectRegistry.put(from, to);
+        schemaRedirectRegistry.put(from, to);
     }
 
     protected final void addPathRedirect(final URI from, final URI to)
     {
-        schemaRedirectRegistry.put(from, to);
+        pathRedirectRegistry.put(from, to);
     }
 
     @Override

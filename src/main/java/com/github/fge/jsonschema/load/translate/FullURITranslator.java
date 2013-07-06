@@ -1,6 +1,5 @@
 package com.github.fge.jsonschema.load.translate;
 
-import com.github.fge.Frozen;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.URIUtils;
 import com.google.common.annotations.Beta;
@@ -12,23 +11,13 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 public final class FullURITranslator
-    implements Frozen<URITranslatorBuilder>, URITranslator
+    implements URITranslator
 {
     final URI namespace;
 
     final Map<URI, URI> pathRedirects;
 
     final Map<URI, URI> schemaRedirects;
-
-    public static URITranslatorBuilder newBuilder()
-    {
-        return new URITranslatorBuilder();
-    }
-
-    public static URITranslator byDefault()
-    {
-        return new URITranslatorBuilder().freeze();
-    }
 
     @Inject
     @Beta
@@ -39,13 +28,6 @@ public final class FullURITranslator
         this.namespace = namespace;
         this.schemaRedirects = schemaRedirects;
         this.pathRedirects = pathRedirects;
-    }
-
-    FullURITranslator(final URITranslatorBuilder builder)
-    {
-        namespace = builder.namespace;
-        pathRedirects = builder.pathRedirects.build();
-        schemaRedirects = builder.schemaRedirects.build();
     }
 
     @Override
@@ -77,11 +59,5 @@ public final class FullURITranslator
         } catch (URISyntaxException e) {
             throw new IllegalStateException("How did I get there??", e);
         }
-    }
-
-    @Override
-    public URITranslatorBuilder thaw()
-    {
-        return new URITranslatorBuilder(this);
     }
 }

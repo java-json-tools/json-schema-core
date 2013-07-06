@@ -1,7 +1,8 @@
 package com.github.fge.jsonschema.load.translate;
 
 import com.google.common.collect.Lists;
-import org.testng.annotations.BeforeMethod;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -30,23 +31,18 @@ public final class URITranslatorTest
     private static final URI DSTSCHEMA2
         = URI.create("resource:/draftv3/schema");
 
-    private URITranslatorBuilder builder;
-
-    @BeforeMethod
-    public void initBuilder()
-    {
-        builder = FullURITranslator.newBuilder();
-    }
-
     @Test
     public void defaultTransformerNormalizesURIs()
     {
         final URI source = URI.create("foo:///bar/../baz");
         final URI expected = URI.create("foo:/baz");
 
-        final URITranslator transformer = builder.freeze();
+        final Injector injector
+            = Guice.createInjector(new URITranslatorModule());
+        final URITranslator translator
+            = injector.getInstance(FullURITranslator.class);
 
-        assertEquals(transformer.translate(source), expected);
+        assertEquals(translator.translate(source), expected);
     }
 
     @DataProvider
@@ -78,11 +74,17 @@ public final class URITranslatorTest
     @Test(dataProvider = "pathRedirectionData")
     public void pathRedirectionsWork(final URI from, final URI to)
     {
-        final URITranslator transformer
-            = builder.addPathRedirect(SRCPATH, DSTPATH)
-            .addPathRedirect(SRCPATH2, DSTPATH2).freeze();
+        final URITranslatorModule module = new URITranslatorModule()
+        {{
+            addPathRedirect(SRCPATH, DSTPATH);
+            addPathRedirect(SRCPATH2, DSTPATH2);
+        }};
+        final Injector injector = Guice.createInjector(module);
 
-        assertEquals(transformer.translate(from), to);
+        final URITranslator translator
+            = injector.getInstance(FullURITranslator.class);
+
+        assertEquals(translator.translate(from), to);
     }
 
     @DataProvider
@@ -109,10 +111,17 @@ public final class URITranslatorTest
     @Test(dataProvider = "schemaRedirectionData")
     public void schemaRedirectionsWork(final URI from, final URI to)
     {
-        final URITranslator transformer
-            = builder.addSchemaRedirect(SRCSCHEMA1, DSTSCHEMA1)
-            .addSchemaRedirect(SRCSCHEMA2, DSTSCHEMA2).freeze();
+        final URITranslatorModule module = new URITranslatorModule()
+        {{
+            addSchemaRedirect(SRCSCHEMA1, DSTSCHEMA1);
+            addSchemaRedirect(SRCSCHEMA2, DSTSCHEMA2);
+        }};
 
-        assertEquals(transformer.translate(from), to);
+        final Injector injector = Guice.createInjector(module);
+
+        final URITranslator translator
+            = injector.getInstance(FullURITranslator.class);
+
+        assertEquals(translator.translate(from), to);
     }
 }
