@@ -46,7 +46,7 @@ public final class URITranslatorTest
 
         final URITranslator transformer = builder.freeze();
 
-        assertEquals(transformer.transform(source), expected);
+        assertEquals(transformer.translate(source), expected);
     }
 
     @DataProvider
@@ -82,7 +82,7 @@ public final class URITranslatorTest
             = builder.addPathRedirect(SRCPATH, DSTPATH)
             .addPathRedirect(SRCPATH2, DSTPATH2).freeze();
 
-        assertEquals(transformer.transform(from), to);
+        assertEquals(transformer.translate(from), to);
     }
 
     @DataProvider
@@ -113,6 +113,6 @@ public final class URITranslatorTest
             = builder.addSchemaRedirect(SRCSCHEMA1, DSTSCHEMA1)
             .addSchemaRedirect(SRCSCHEMA2, DSTSCHEMA2).freeze();
 
-        assertEquals(transformer.transform(from), to);
+        assertEquals(transformer.translate(from), to);
     }
 }

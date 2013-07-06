@@ -48,7 +48,7 @@ public final class URITranslator
         schemaRedirects = builder.schemaRedirects.build();
     }
 
-    public URI transform(final URI source)
+    public URI translate(final URI source)
     {
         URI uri = URIUtils.normalizeURI(namespace.resolve(source));
         final String fragment = uri.getFragment();
