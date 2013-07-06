@@ -9,7 +9,7 @@ import com.github.fge.msgsimple.load.MessageBundles;
 import java.net.URI;
 
 public final class URITranslatorBuilder
-    implements Thawed<URITranslator>
+    implements Thawed<FullURITranslator>
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
@@ -28,7 +28,7 @@ public final class URITranslatorBuilder
     {
     }
 
-    URITranslatorBuilder(final URITranslator transformer)
+    URITranslatorBuilder(final FullURITranslator transformer)
     {
         namespace = transformer.namespace;
         pathRedirects.putAll(transformer.pathRedirects);
@@ -80,8 +80,8 @@ public final class URITranslatorBuilder
     }
 
     @Override
-    public URITranslator freeze()
+    public FullURITranslator freeze()
     {
-        return new URITranslator(this);
+        return new FullURITranslator(this);
     }
 }

@@ -35,7 +35,7 @@ public final class URITranslatorTest
     @BeforeMethod
     public void initBuilder()
     {
-        builder = URITranslator.newBuilder();
+        builder = FullURITranslator.newBuilder();
     }
 
     @Test
