@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.transform;
+package com.github.fge.jsonschema.load.translate;
 
 import com.github.fge.jsonschema.util.Registry;
 import com.github.fge.jsonschema.util.URIUtils;

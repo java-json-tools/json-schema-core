@@ -8,8 +8,8 @@ import java.util.EnumSet;
 import static com.fasterxml.jackson.core.JsonParser.*;
 
 @Beta
-public final class DefaultReaderModule
-    extends ReaderModule
+public final class DefaultSchemaReaderModule
+    extends SchemaReaderModule
 {
     /**
      * Default JsonParser feature set. Unfortunately, Jackson does not use
@@ -29,7 +29,7 @@ public final class DefaultReaderModule
     private final EnumSet<Feature> parserFeatures
         = EnumSet.noneOf(Feature.class);
 
-    public DefaultReaderModule(final Dereferencing dereferencing,
+    public DefaultSchemaReaderModule(final Dereferencing dereferencing,
         final Feature... features)
     {
         this.dereferencing = BUNDLE.checkNotNull(dereferencing,

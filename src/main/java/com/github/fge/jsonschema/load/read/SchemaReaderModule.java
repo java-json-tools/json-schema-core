@@ -8,7 +8,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 @Beta
-public abstract class ReaderModule
+public abstract class SchemaReaderModule
     extends AbstractModule
 {
     protected static final MessageBundle BUNDLE

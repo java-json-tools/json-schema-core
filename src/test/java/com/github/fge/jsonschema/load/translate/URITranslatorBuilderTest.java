@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.transform;
+package com.github.fge.jsonschema.load.translate;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -14,19 +14,19 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public final class URITransformerBuilderTest
+public final class URITranslatorBuilderTest
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final URI DUMMY = URI.create("");
 
-    private URITransformerBuilder builder;
+    private URITranslatorBuilder builder;
 
     @BeforeMethod
     public void initBuilder()
     {
-        builder = URITransformer.newBuilder();
+        builder = URITranslator.newBuilder();
     }
 
     @Test

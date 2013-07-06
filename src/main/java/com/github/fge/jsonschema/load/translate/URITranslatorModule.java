@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.transform;
+package com.github.fge.jsonschema.load.translate;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.util.URIUtils;
@@ -11,7 +11,7 @@ import com.google.inject.name.Names;
 import java.net.URI;
 import java.util.Map;
 
-public class URITransformerModule
+public class URITranslatorModule
     extends AbstractModule
 {
     private static final MessageBundle BUNDLE

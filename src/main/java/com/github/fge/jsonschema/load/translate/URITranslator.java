@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.transform;
+package com.github.fge.jsonschema.load.translate;
 
 import com.github.fge.Frozen;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -11,8 +11,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-public final class URITransformer
-    implements Frozen<URITransformerBuilder>
+public final class URITranslator
+    implements Frozen<URITranslatorBuilder>
 {
     final URI namespace;
 
@@ -20,19 +20,19 @@ public final class URITransformer
 
     final Map<URI, URI> schemaRedirects;
 
-    public static URITransformerBuilder newBuilder()
+    public static URITranslatorBuilder newBuilder()
     {
-        return new URITransformerBuilder();
+        return new URITranslatorBuilder();
     }
 
-    public static URITransformer byDefault()
+    public static URITranslator byDefault()
     {
-        return new URITransformerBuilder().freeze();
+        return new URITranslatorBuilder().freeze();
     }
 
     @Inject
     @Beta
-    URITransformer(final URI namespace,
+    URITranslator(final URI namespace,
         @Named("schemaRedirects") final Map<URI, URI> schemaRedirects,
         @Named("pathRedirects") final Map<URI, URI> pathRedirects)
     {
@@ -41,7 +41,7 @@ public final class URITransformer
         this.pathRedirects = pathRedirects;
     }
 
-    URITransformer(final URITransformerBuilder builder)
+    URITranslator(final URITranslatorBuilder builder)
     {
         namespace = builder.namespace;
         pathRedirects = builder.pathRedirects.build();
@@ -79,8 +79,8 @@ public final class URITransformer
     }
 
     @Override
-    public URITransformerBuilder thaw()
+    public URITranslatorBuilder thaw()
     {
-        return new URITransformerBuilder(this);
+        return new URITranslatorBuilder(this);
     }
 }

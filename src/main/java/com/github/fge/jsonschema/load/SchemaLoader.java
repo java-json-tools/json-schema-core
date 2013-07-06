@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
-import com.github.fge.jsonschema.load.transform.URITransformer;
+import com.github.fge.jsonschema.load.translate.URITranslator;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -57,7 +57,7 @@ public final class SchemaLoader
      */
     private final URIManager manager;
 
-    private final URITransformer transformer;
+    private final URITranslator transformer;
 
     /**
      * Schema cache

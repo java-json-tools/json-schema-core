@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.load.resolve.URIDownloader;
 import com.github.fge.jsonschema.load.resolve.URIDownloadersRegistry;
-import com.github.fge.jsonschema.load.transform.URITransformer;
+import com.github.fge.jsonschema.load.translate.URITranslator;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -77,7 +77,7 @@ public final class LoadingConfigurationBuilder
     final URIDownloadersRegistry downloaders
         = new URIDownloadersRegistry();
 
-    URITransformer transformer;
+    URITranslator translator;
 
     /**
      * Dereferencing mode
@@ -111,7 +111,7 @@ public final class LoadingConfigurationBuilder
      */
     LoadingConfigurationBuilder()
     {
-        transformer = URITransformer.byDefault();
+        translator = URITranslator.byDefault();
         dereferencing = Dereferencing.CANONICAL;
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
@@ -128,7 +128,7 @@ public final class LoadingConfigurationBuilder
     LoadingConfigurationBuilder(final LoadingConfiguration cfg)
     {
         downloaders.putAll(cfg.downloaders);
-        transformer = cfg.transformer;
+        translator = cfg.transformer;
         dereferencing = cfg.dereferencing;
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
@@ -166,10 +166,10 @@ public final class LoadingConfigurationBuilder
         return this;
     }
 
-    public LoadingConfigurationBuilder setURITransformer(
-        final URITransformer transformer)
+    public LoadingConfigurationBuilder setURITranslator(
+        final URITranslator translator)
     {
-        this.transformer = BUNDLE.checkNotNull(transformer,
+        this.translator = BUNDLE.checkNotNull(translator,
             "loadingCfg.nullURITransformer");
         return this;
     }
@@ -182,13 +182,13 @@ public final class LoadingConfigurationBuilder
      * @throws NullPointerException input is null
      * @throws IllegalArgumentException input is not an absolute JSON Reference
      *
-     * @deprecated use {@link #setURITransformer(URITransformer)} instead; will
+     * @deprecated use {@link #setURITranslator(URITranslator)} instead; will
      * disappear in 1.1.9.
      */
     @Deprecated
     public LoadingConfigurationBuilder setNamespace(final String input)
     {
-        transformer = transformer.thaw().setNamespace(input).freeze();
+        translator = translator.thaw().setNamespace(input).freeze();
         return this;
     }
 
@@ -218,14 +218,14 @@ public final class LoadingConfigurationBuilder
      * @throws NullPointerException source or destination is null
      * @throws IllegalArgumentException source and destination are the same URI
      *
-     * @deprecated use {@link #setURITransformer(URITransformer)} instead; will
+     * @deprecated use {@link #setURITranslator(URITranslator)} instead; will
      * be removed in 1.1.9.
      */
     @Deprecated
     public LoadingConfigurationBuilder addSchemaRedirect(final String source,
         final String destination)
     {
-        transformer = transformer.thaw().addSchemaRedirect(source, destination)
+        translator = translator.thaw().addSchemaRedirect(source, destination)
             .freeze();
         return this;
     }

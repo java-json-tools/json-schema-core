@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.transform;
+package com.github.fge.jsonschema.load.translate;
 
 import com.google.common.collect.Lists;
 import org.testng.annotations.BeforeMethod;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public final class URITransformerTest
+public final class URITranslatorTest
 {
     private static final URI SRCPATH
         = URI.create("http://my.site/schemas/");
@@ -30,12 +30,12 @@ public final class URITransformerTest
     private static final URI DSTSCHEMA2
         = URI.create("resource:/draftv3/schema");
 
-    private URITransformerBuilder builder;
+    private URITranslatorBuilder builder;
 
     @BeforeMethod
     public void initBuilder()
     {
-        builder = URITransformer.newBuilder();
+        builder = URITranslator.newBuilder();
     }
 
     @Test
@@ -44,7 +44,7 @@ public final class URITransformerTest
         final URI source = URI.create("foo:///bar/../baz");
         final URI expected = URI.create("foo:/baz");
 
-        final URITransformer transformer = builder.freeze();
+        final URITranslator transformer = builder.freeze();
 
         assertEquals(transformer.transform(source), expected);
     }
@@ -78,7 +78,7 @@ public final class URITransformerTest
     @Test(dataProvider = "pathRedirectionData")
     public void pathRedirectionsWork(final URI from, final URI to)
     {
-        final URITransformer transformer
+        final URITranslator transformer
             = builder.addPathRedirect(SRCPATH, DSTPATH)
             .addPathRedirect(SRCPATH2, DSTPATH2).freeze();
 
@@ -109,7 +109,7 @@ public final class URITransformerTest
     @Test(dataProvider = "schemaRedirectionData")
     public void schemaRedirectionsWork(final URI from, final URI to)
     {
-        final URITransformer transformer
+        final URITranslator transformer
             = builder.addSchemaRedirect(SRCSCHEMA1, DSTSCHEMA1)
             .addSchemaRedirect(SRCSCHEMA2, DSTSCHEMA2).freeze();
 
