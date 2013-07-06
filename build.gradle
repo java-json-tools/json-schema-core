@@ -59,12 +59,17 @@ test {
     }
 }
 
+jar {
+    duplicatesStrategy("exclude");
+}
+
 /*
  * Necessary to generate the source and javadoc jars
  */
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = "sources";
     from sourceSets.main.allSource;
+    duplicatesStrategy("exclude");
 }
 
 /*
@@ -79,10 +84,12 @@ javadoc {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = "javadoc";
     from javadoc.destinationDir;
+    duplicatesStrategy("exclude");
 }
 
 fatJar {
     classifier = "full";
+    duplicatesStrategy("exclude");
 }
 
 artifacts {
