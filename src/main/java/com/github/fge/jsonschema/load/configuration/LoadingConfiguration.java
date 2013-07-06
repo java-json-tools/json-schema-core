@@ -30,7 +30,7 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.load.resolve.URIDownloader;
-import com.github.fge.jsonschema.load.translate.URITranslator;
+import com.github.fge.jsonschema.load.transform.URITransformer;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.google.common.collect.ImmutableMap;
@@ -72,7 +72,7 @@ public final class LoadingConfiguration
      */
     final Map<String, URIDownloader> downloaders;
 
-    final URITranslator transformer;
+    final URITransformer transformer;
 
     /**
      * Dereferencing mode
@@ -138,7 +138,7 @@ public final class LoadingConfiguration
     LoadingConfiguration(final LoadingConfigurationBuilder builder)
     {
         downloaders = builder.downloaders.build();
-        transformer = builder.translator;
+        transformer = builder.transformer;
         dereferencing = builder.dereferencing;
         preloadedSchemas = ImmutableMap.copyOf(builder.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(builder.parserFeatures);
@@ -198,7 +198,7 @@ public final class LoadingConfiguration
         return downloaders; // ImmutableMap
     }
 
-    public URITranslator getTransformer()
+    public URITransformer getTransformer()
     {
         return transformer;
     }
