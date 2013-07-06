@@ -8,7 +8,7 @@ import java.util.EnumSet;
 import static com.fasterxml.jackson.core.JsonParser.*;
 
 @Beta
-public final class DefaultSchemaReaderModule
+public class DefaultSchemaReaderModule
     extends SchemaReaderModule
 {
     /**
@@ -25,25 +25,24 @@ public final class DefaultSchemaReaderModule
                 DEFAULT_PARSER_FEATURES.add(feature);
     }
 
-    private final Dereferencing dereferencing;
+    private Dereferencing dereferencing = Dereferencing.CANONICAL;
     private final EnumSet<Feature> parserFeatures
-        = EnumSet.noneOf(Feature.class);
+        = EnumSet.copyOf(DEFAULT_PARSER_FEATURES);
 
-    public DefaultSchemaReaderModule(final Dereferencing dereferencing,
-        final Feature... features)
+    protected final void setDereferencing(final Dereferencing dereferencing)
     {
         this.dereferencing = BUNDLE.checkNotNull(dereferencing,
             "loadingCfg.nullDereferencingMode");
-        for (final Feature feature: features)
-            parserFeatures.add(BUNDLE.checkNotNull(feature,
-                "loadingCfg.nullJsonParserFeature"));
+    }
+    protected final void addParserFeature(final Feature feature)
+    {
+        parserFeatures.add(BUNDLE.checkNotNull(feature,
+            "loadingCfg.nullJsonParserFeature"));
     }
 
     @Override
-    protected SchemaReader newReader()
+    protected final SchemaReader newReader()
     {
-        final EnumSet<Feature> features = EnumSet.copyOf(parserFeatures);
-        features.addAll(DEFAULT_PARSER_FEATURES);
-        return new DefaultSchemaReader(dereferencing, features);
+        return new DefaultSchemaReader(dereferencing, parserFeatures);
     }
 }
