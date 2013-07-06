@@ -56,10 +56,10 @@ repositories {
  * parameterized tests which I use a _lot_.
  */
 test {
-    useTestNG() {
-        useDefaultListeners = true;
-    };
-    testReport = false;
+    useTestNG();
+    reports {
+        junitXml.enabled = false;
+    }
 }
 
 /*
@@ -93,10 +93,6 @@ artifacts {
     archives sourcesJar;
     archives javadocJar;
 // bad idea:    archives fatJar;
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = "1.6";
 }
 
 task pom << {
