@@ -51,9 +51,6 @@ repositories {
 
 /*
  * Necessary! Otherwise TestNG will not be used...
- *
- * Also, we don't want gradle's default HTML report: it does not support
- * parameterized tests which I use a _lot_.
  */
 test {
     useTestNG();
@@ -117,7 +114,7 @@ task checkSigningRequirements << {
     requiredProperties.each {
         if (project.properties[it] == null) {
             noDice = true;
-            System.err.printf("property \"%s\" is not defined!")
+            System.err.printf("property \"%s\" is not defined!", it)
         }
     }
     if (noDice)
