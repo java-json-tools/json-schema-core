@@ -8,7 +8,7 @@ import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class URIUtilsTest
 {
