@@ -2,10 +2,7 @@ package com.github.fge.jsonschema.load.translate;
 
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.URIUtils;
-import com.google.common.annotations.Beta;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -19,11 +16,8 @@ public final class FullURITranslator
 
     final Map<URI, URI> schemaRedirects;
 
-    @Inject
-    @Beta
-    FullURITranslator(final URI namespace,
-        @Named("schemaRedirects") final Map<URI, URI> schemaRedirects,
-        @Named("pathRedirects") final Map<URI, URI> pathRedirects)
+    FullURITranslator(final URI namespace, final Map<URI, URI> schemaRedirects,
+        final Map<URI, URI> pathRedirects)
     {
         this.namespace = namespace;
         this.schemaRedirects = schemaRedirects;

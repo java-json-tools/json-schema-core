@@ -1,8 +1,6 @@
 package com.github.fge.jsonschema.load.translate;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -37,10 +35,8 @@ public final class URITranslatorTest
         final URI source = URI.create("foo:///bar/../baz");
         final URI expected = URI.create("foo:/baz");
 
-        final Injector injector
-            = Guice.createInjector(new URITranslatorModule());
-        final URITranslator translator
-            = injector.getInstance(FullURITranslator.class);
+        final URITranslatorModule module = new URITranslatorModule();
+        final URITranslator translator = module.getTranslator();
 
         assertEquals(translator.translate(source), expected);
     }
@@ -79,10 +75,8 @@ public final class URITranslatorTest
             addPathRedirect(SRCPATH, DSTPATH);
             addPathRedirect(SRCPATH2, DSTPATH2);
         }};
-        final Injector injector = Guice.createInjector(module);
 
-        final URITranslator translator
-            = injector.getInstance(FullURITranslator.class);
+        final URITranslator translator = module.getTranslator();
 
         assertEquals(translator.translate(from), to);
     }
@@ -117,10 +111,7 @@ public final class URITranslatorTest
             addSchemaRedirect(SRCSCHEMA2, DSTSCHEMA2);
         }};
 
-        final Injector injector = Guice.createInjector(module);
-
-        final URITranslator translator
-            = injector.getInstance(FullURITranslator.class);
+        final URITranslator translator = module.getTranslator();
 
         assertEquals(translator.translate(from), to);
     }

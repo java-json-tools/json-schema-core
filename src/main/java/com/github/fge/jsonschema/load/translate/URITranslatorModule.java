@@ -5,8 +5,7 @@ import com.github.fge.jsonschema.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
+import com.google.inject.Provides;
 
 import java.net.URI;
 import java.util.Map;
@@ -17,7 +16,9 @@ public class URITranslatorModule
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    private URI namespace = URI.create("");
+    private static final URI EMPTY = URI.create("");
+
+    private URI namespace = EMPTY;
     private final PathRedirectRegistry pathRedirectRegistry
         = new PathRedirectRegistry();
     private final SchemaRedirectRegistry schemaRedirectRegistry
@@ -27,7 +28,7 @@ public class URITranslatorModule
     {
         BUNDLE.checkNotNull(namespace, "uriTransform.nullInput");
         URIUtils.checkPathURI(namespace);
-        this.namespace = namespace;
+        this.namespace = URIUtils.normalizeURI(namespace);
     }
 
     protected final void addSchemaRedirect(final URI from, final URI to)
@@ -43,12 +44,23 @@ public class URITranslatorModule
     @Override
     protected final void configure()
     {
-        bind(URI.class).toInstance(namespace);
-        bind(new TypeLiteral<Map<URI, URI>>() {})
-            .annotatedWith(Names.named("pathRedirects"))
-            .toInstance(pathRedirectRegistry.build());
-        bind(new TypeLiteral<Map<URI, URI>>() {})
-            .annotatedWith(Names.named("schemaRedirects"))
-            .toInstance(schemaRedirectRegistry.build());
+    }
+
+    @Provides
+    public final URITranslator getTranslator()
+    {
+        final boolean hasNamespace = !EMPTY.equals(namespace);
+        final Map<URI, URI> schemaRedirects = schemaRedirectRegistry.build();
+        final Map<URI, URI> pathRedirects = pathRedirectRegistry.build();
+        final boolean hasRedirects
+            = !(schemaRedirects.isEmpty() && pathRedirects.isEmpty());
+
+        // If there are any kinds of redirects, return the full stuff
+        if (hasRedirects)
+            return new FullURITranslator(namespace, schemaRedirects,
+                pathRedirects);
+
+        return hasNamespace ? new NamespaceURITranslator(namespace)
+            : IdentityURITranslator.INSTANCE;
     }
 }
