@@ -10,11 +10,11 @@ import java.util.Map;
 public final class FullURITranslator
     implements URITranslator
 {
-    final URI namespace;
+    private final URI namespace;
 
-    final Map<URI, URI> pathRedirects;
+    private final Map<URI, URI> pathRedirects;
 
-    final Map<URI, URI> schemaRedirects;
+    private final Map<URI, URI> schemaRedirects;
 
     FullURITranslator(final URI namespace, final Map<URI, URI> schemaRedirects,
         final Map<URI, URI> pathRedirects)

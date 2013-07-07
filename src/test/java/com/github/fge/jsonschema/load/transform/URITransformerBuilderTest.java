@@ -19,8 +19,6 @@ public final class URITransformerBuilderTest
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    private static final URI DUMMY = URI.create("");
-
     private URITransformerBuilder builder;
 
     @BeforeMethod

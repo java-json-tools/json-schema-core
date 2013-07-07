@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * Class to fetch JSON documents
  *
- * <p>This uses a map of {@link com.github.fge.jsonschema.load.resolve.URIDownloader} instances to fetch the contents
+ * <p>This uses a map of {@link URIDownloader} instances to fetch the contents
  * of a URI as an {@link InputStream}, then tries and turns this content into
  * JSON using an {@link ObjectMapper}.</p>
  *

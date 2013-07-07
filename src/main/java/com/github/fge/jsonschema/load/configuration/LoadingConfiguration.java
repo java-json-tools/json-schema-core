@@ -104,7 +104,7 @@ public final class LoadingConfiguration
      *
      * @see JacksonUtils#getReader()
      */
-    final ObjectReader objectReader;
+    private final ObjectReader objectReader;
 
     /**
      * Create a new, default, mutable configuration instance
