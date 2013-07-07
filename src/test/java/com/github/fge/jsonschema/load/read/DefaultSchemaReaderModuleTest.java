@@ -1,6 +1,9 @@
 package com.github.fge.jsonschema.load.read;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.io.Closer;
 import org.testng.annotations.Test;
 
@@ -12,7 +15,44 @@ import static org.testng.Assert.*;
 
 public final class DefaultSchemaReaderModuleTest
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
+
     @Test
+    public void defaultReaderModuleRefusesNullDereferencing()
+    {
+        try {
+            new DefaultSchemaReaderModule() {
+                {
+                    setDereferencing(null);
+                }
+            };
+            fail("No exception thrown!");
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("loadingCfg.nullDereferencingMode"));
+        }
+    }
+
+    @Test
+    public void defaultReaderModuleRefusesNullParserOption()
+    {
+        try {
+            new DefaultSchemaReaderModule() {
+                {
+                    addParserFeature(null);
+                }
+            };
+            fail("No exception thrown!");
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("loadingCfg.nullJsonParserFeature"));
+        }
+    }
+
+
+
+    @Test(dependsOnMethods = "defaultReaderModuleRefusesNullParserOption")
     public void defaultReaderModuleAcknowledgesParserOptions()
         throws IOException
     {

@@ -34,6 +34,7 @@ public class DefaultSchemaReaderModule
         this.dereferencing = BUNDLE.checkNotNull(dereferencing,
             "loadingCfg.nullDereferencingMode");
     }
+
     protected final void addParserFeature(final Feature feature)
     {
         parserFeatures.add(BUNDLE.checkNotNull(feature,
