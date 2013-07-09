@@ -22,6 +22,7 @@ import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Optional;
@@ -177,7 +178,7 @@ public abstract class JsonRef
     {
         BUNDLE.checkNotNull(uri, "jsonRef.nullURI");
 
-        final URI normalized = uri.normalize();
+        final URI normalized = URIUtils.normalizeURI(uri);
 
         if (HASHONLY_URI.equals(normalized) || EMPTY_URI.equals(normalized))
             return EmptyJsonRef.getInstance();
