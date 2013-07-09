@@ -222,4 +222,26 @@ public final class SchemaTreeTest
         final SchemaTree tree = new CanonicalSchemaTree(testNode);
         assertEquals(tree.getDollarSchema(), ref);
     }
+
+    @Test
+    public void twoDifferentTreesHaveDifferentIds()
+        throws IOException
+    {
+        final JsonNode node = JsonLoader.fromResource("/draftv4/schema");
+        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree2 = new CanonicalSchemaTree(node);
+
+        assertNotEquals(tree.getId(), tree2.getId());
+    }
+
+    @Test
+    public void treeCreatedFromOtherTreeKeepsTheSameId()
+        throws IOException
+    {
+        final JsonNode node = JsonLoader.fromResource("/draftv4/schema");
+        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree2 = tree.append(JsonPointer.of("definitions"));
+
+        assertEquals(tree.getId(), tree2.getId());
+    }
 }
