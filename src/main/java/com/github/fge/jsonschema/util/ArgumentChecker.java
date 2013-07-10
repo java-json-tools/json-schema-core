@@ -38,7 +38,7 @@ public abstract class ArgumentChecker<T>
         return new ArgumentChecker<X>()
         {
             @Override
-            public void check(@Nullable final X argument)
+            public void check(final X argument)
             {
             }
         };

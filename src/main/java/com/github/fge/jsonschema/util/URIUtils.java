@@ -114,9 +114,8 @@ public final class URIUtils
         = new ArgumentChecker<String>()
     {
         @Override
-        public void check(@Nullable final String argument)
+        public void check(final String argument)
         {
-            BUNDLE.checkNotNull(argument, "loadingCfg.nullScheme");
             final String errmsg = BUNDLE.printf("loadingCfg.illegalScheme",
                 argument);
             if (argument.isEmpty())
@@ -132,9 +131,8 @@ public final class URIUtils
         = new ArgumentChecker<URI>()
     {
         @Override
-        public void check(@Nullable final URI argument)
+        public void check(final URI argument)
         {
-            BUNDLE.checkNotNull(argument, "uriChecks.nullInput");
             BUNDLE.checkArgumentPrintf(argument.isAbsolute(),
                 "uriChecks.notAbsolute", argument);
             BUNDLE.checkArgumentPrintf(argument.getFragment() == null,
@@ -150,9 +148,8 @@ public final class URIUtils
         = new ArgumentChecker<URI>()
     {
         @Override
-        public void check(@Nullable final URI argument)
+        public void check(final URI argument)
         {
-            BUNDLE.checkNotNull(argument, "uriChecks.nullInput");
             BUNDLE.checkArgumentPrintf(argument.isAbsolute(),
                 "uriChecks.notAbsolute", argument);
             final JsonRef ref = JsonRef.fromURI(argument);

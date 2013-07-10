@@ -38,6 +38,7 @@ public final class URITransformerBuilder
 
     public URITransformerBuilder setNamespace(final URI uri)
     {
+        BUNDLE.checkNotNull(uri, "uriChecks.nullInput");
         final URI normalized = URIUtils.normalizeURI(uri);
         URIUtils.checkPathURI(normalized);
         namespace = normalized;
@@ -53,6 +54,8 @@ public final class URITransformerBuilder
     public URITransformerBuilder addSchemaRedirect(final URI from,
         final URI to)
     {
+        BUNDLE.checkNotNull(from, "uriChecks.nullInput");
+        BUNDLE.checkNotNull(to, "uriChecks.nullInput");
         URI key = URIUtils.normalizeURI(from);
         URIUtils.checkSchemaURI(key);
         URI value = URIUtils.normalizeURI(to);
@@ -77,6 +80,8 @@ public final class URITransformerBuilder
     public URITransformerBuilder addPathRedirect(final URI from,
         final URI to)
     {
+        BUNDLE.checkNotNull(from, "uriChecks.nullInput");
+        BUNDLE.checkNotNull(to, "uriChecks.nullInput");
         final URI key = URIUtils.normalizeURI(from);
         URIUtils.checkPathURI(key);
         final URI value = URIUtils.normalizeURI(to);
