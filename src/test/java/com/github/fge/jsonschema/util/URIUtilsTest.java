@@ -1,5 +1,8 @@
 package com.github.fge.jsonschema.util;
 
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -12,6 +15,9 @@ import static org.testng.Assert.*;
 
 public final class URIUtilsTest
 {
+    private static final MessageBundle BUNDLE
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
+
     @DataProvider
     public Iterator<Object[]> schemeData()
     {
@@ -72,4 +78,75 @@ public final class URIUtilsTest
     {
         assertEquals(URIUtils.normalizeURI(orig), dst);
     }
+
+    @DataProvider
+    public Iterator<Object[]> invalidPathURIs()
+    {
+        final List<Object[]> list = Lists.newArrayList();
+
+        String uri;
+        String key;
+
+        key = "uriChecks.notAbsolute";
+        list.add(new Object[] { "", key });
+
+        uri = "foo://bar/#";
+        key = "uriChecks.fragmentNotNull";
+        list.add(new Object[] { uri, key });
+
+        uri = "foo://bar?baz=meh";
+        key = "uriChecks.queryNotNull";
+        list.add(new Object[] { uri, key });
+
+        uri = "foo://bar/baz";
+        key = "uriChecks.noEndingSlash";
+        list.add(new Object[] { uri, key });
+
+        return list.iterator();
+    }
+
+    @Test(dataProvider = "invalidPathURIs")
+    public void invalidPathURIsAreRejected(final String uri, final String key)
+    {
+        try {
+            URIUtils.checkPathURI(URI.create(uri));
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), BUNDLE.printf(key, uri));
+        }
+    }
+
+    @DataProvider
+    public Iterator<Object[]> invalidSchemaURIs()
+    {
+        final List<Object[]> list = Lists.newArrayList();
+
+        String uri;
+        String key;
+
+        key = "uriChecks.notAbsolute";
+        list.add(new Object[] { "", key });
+
+        uri = "foo://bar/#/a";
+        key = "uriChecks.notAbsoluteRef";
+        list.add(new Object[] { uri, key });
+
+        uri = "foo://bar/baz/";
+        key = "uriChecks.endingSlash";
+        list.add(new Object[] { uri, key });
+
+        return list.iterator();
+    }
+
+    @Test(dataProvider = "invalidSchemaURIs")
+    public void invalidSchemaURIsAreRejected(final String uri, final String key)
+    {
+        try {
+            URIUtils.checkSchemaURI(URI.create(uri));
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), BUNDLE.printf(key, uri));
+        }
+    }
+
 }
