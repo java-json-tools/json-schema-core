@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -33,11 +32,10 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.SchemaListener;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Equivalence;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Queues;
 
 import java.util.Deque;
-import java.util.List;
 
 @Beta
 public final class SchemaExpander
@@ -138,9 +136,6 @@ public final class SchemaExpander
 
     private static String getLastToken(final JsonPointer ptr)
     {
-        final List<TokenResolver<JsonNode>> list = Lists.newArrayList(ptr);
-        final int size = list.size();
-
-        return list.get(size - 1).getToken().getRaw();
+        return Iterables.getLast(ptr).getToken().getRaw();
     }
 }
