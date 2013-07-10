@@ -1,51 +1,15 @@
 package com.github.fge.jsonschema.keyword;
 
-import com.github.fge.jackson.NodeType;
-import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
-import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-
-import java.util.Collection;
-import java.util.EnumSet;
 
 public final class KeywordDescriptor
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
-
-    private static final SyntaxChecker SYNTAXCHECKER_ALWAYSTRUE
-        = new SyntaxChecker()
-    {
-        @Override
-        public EnumSet<NodeType> getValidTypes()
-        {
-            return EnumSet.allOf(NodeType.class);
-        }
-
-        @Override
-        public void checkSyntax(final Collection<JsonPointer> pointers,
-            final MessageBundle bundle, final ProcessingReport report,
-            final SchemaTree tree)
-            throws ProcessingException
-        {
-        }
-    };
-
-    private static final PointerCollector POINTERCOLLECTOR_NOPOINTERS
-        = new PointerCollector()
-    {
-        @Override
-        public void collect(final Collection<JsonPointer> pointers,
-            final SchemaTree tree)
-        {
-        }
-    };
 
     private final String name;
     private final PointerCollector pointerCollector;
@@ -81,8 +45,8 @@ public final class KeywordDescriptor
     public static final class Builder
     {
         private final String name;
-        private PointerCollector pointerCollector = POINTERCOLLECTOR_NOPOINTERS;
-        private SyntaxChecker syntaxChecker = SYNTAXCHECKER_ALWAYSTRUE;
+        private PointerCollector pointerCollector = null;
+        private SyntaxChecker syntaxChecker = null;
 
         private Builder(final String name)
         {
@@ -102,6 +66,14 @@ public final class KeywordDescriptor
             this.syntaxChecker = BUNDLE.checkNotNull(syntaxChecker,
                 "keywordDescriptor.nullSyntaxChecker");
             return this;
+        }
+
+        public KeywordDescriptor build()
+        {
+            if (pointerCollector != null)
+                BUNDLE.checkArgument(syntaxChecker != null,
+                    "keywordDescriptor.illegal");
+            return new KeywordDescriptor(this);
         }
     }
 }
