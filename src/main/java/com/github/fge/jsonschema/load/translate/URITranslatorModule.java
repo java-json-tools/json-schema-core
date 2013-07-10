@@ -26,7 +26,7 @@ public class URITranslatorModule
 
     protected final void setNamespace(final URI namespace)
     {
-        BUNDLE.checkNotNull(namespace, "uriTransform.nullInput");
+        BUNDLE.checkNotNull(namespace, "uriChecks.nullInput");
         URIUtils.checkPathURI(namespace);
         this.namespace = URIUtils.normalizeURI(namespace);
     }

@@ -46,7 +46,7 @@ public final class URITransformerBuilder
 
     public URITransformerBuilder setNamespace(final String uri)
     {
-        BUNDLE.checkNotNull(uri, "uriTransform.nullInput");
+        BUNDLE.checkNotNull(uri, "uriChecks.nullInput");
         return setNamespace(URI.create(uri));
     }
 
@@ -67,8 +67,8 @@ public final class URITransformerBuilder
     public URITransformerBuilder addSchemaRedirect(final String from,
         final String to)
     {
-        BUNDLE.checkNotNull(from, "uriTransform.nullInput");
-        BUNDLE.checkNotNull(to, "uriTransform.nullInput");
+        BUNDLE.checkNotNull(from, "uriChecks.nullInput");
+        BUNDLE.checkNotNull(to, "uriChecks.nullInput");
         final URI src = URI.create(from);
         final URI dst = URI.create(to);
         return addSchemaRedirect(src, dst);
@@ -89,8 +89,8 @@ public final class URITransformerBuilder
     public URITransformerBuilder addPathRedirect(final String from,
         final String to)
     {
-        BUNDLE.checkNotNull(from, "uriTransform.nullInput");
-        BUNDLE.checkNotNull(to, "uriTransform.nullInput");
+        BUNDLE.checkNotNull(from, "uriChecks.nullInput");
+        BUNDLE.checkNotNull(to, "uriChecks.nullInput");
         final URI src = URI.create(from);
         final URI dst = URI.create(to);
         return addPathRedirect(src, dst);

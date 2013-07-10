@@ -134,15 +134,15 @@ public final class URIUtils
         @Override
         public void check(@Nullable final URI argument)
         {
-            BUNDLE.checkNotNull(argument, "uriTransform.nullInput");
+            BUNDLE.checkNotNull(argument, "uriChecks.nullInput");
             BUNDLE.checkArgumentPrintf(argument.isAbsolute(),
-                "uriTransform.notAbsolute", argument);
+                "uriChecks.notAbsolute", argument);
             BUNDLE.checkArgumentPrintf(argument.getFragment() == null,
-                "uriTransform.fragmentNotNull", argument);
+                "uriChecks.fragmentNotNull", argument);
             BUNDLE.checkArgumentPrintf(argument.getQuery() == null,
-                "uriTransform.queryNotNull", argument);
+                "uriChecks.queryNotNull", argument);
             BUNDLE.checkArgumentPrintf(argument.getPath().endsWith("/"),
-                "uriTransform.noEndingSlash", argument);
+                "uriChecks.noEndingSlash", argument);
         }
     };
 
@@ -152,14 +152,14 @@ public final class URIUtils
         @Override
         public void check(@Nullable final URI argument)
         {
-            BUNDLE.checkNotNull(argument, "uriTransform.nullInput");
+            BUNDLE.checkNotNull(argument, "uriChecks.nullInput");
             BUNDLE.checkArgumentPrintf(argument.isAbsolute(),
-                "uriTransform.notAbsolute", argument);
+                "uriChecks.notAbsolute", argument);
             final JsonRef ref = JsonRef.fromURI(argument);
             BUNDLE.checkArgumentPrintf(ref.isAbsolute(),
-                "uriTransform.notAbsoluteRef", argument);
+                "uriChecks.notAbsoluteRef", argument);
             BUNDLE.checkArgumentPrintf(!argument.getPath().endsWith("/"),
-                "uriTransform.endingSlash", argument);
+                "uriChecks.endingSlash", argument);
         }
     };
 

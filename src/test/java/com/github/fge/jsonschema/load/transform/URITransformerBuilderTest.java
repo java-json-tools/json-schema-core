@@ -35,7 +35,7 @@ public final class URITransformerBuilderTest
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
+                BUNDLE.getMessage("uriChecks.nullInput"));
         }
 
         try {
@@ -43,7 +43,7 @@ public final class URITransformerBuilderTest
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getMessage("uriTransform.nullInput"));
+                BUNDLE.getMessage("uriChecks.nullInput"));
         }
     }
 
@@ -55,19 +55,19 @@ public final class URITransformerBuilderTest
         String uri;
         String key;
 
-        key = "uriTransform.notAbsolute";
+        key = "uriChecks.notAbsolute";
         list.add(new Object[] { "", key });
 
         uri = "foo://bar/#";
-        key = "uriTransform.fragmentNotNull";
+        key = "uriChecks.fragmentNotNull";
         list.add(new Object[] { uri, key });
 
         uri = "foo://bar?baz=meh";
-        key = "uriTransform.queryNotNull";
+        key = "uriChecks.queryNotNull";
         list.add(new Object[] { uri, key });
 
         uri = "foo://bar/baz";
-        key = "uriTransform.noEndingSlash";
+        key = "uriChecks.noEndingSlash";
         list.add(new Object[] { uri, key });
 
         return list.iterator();
@@ -133,15 +133,15 @@ public final class URITransformerBuilderTest
         String uri;
         String key;
 
-        key = "uriTransform.notAbsolute";
+        key = "uriChecks.notAbsolute";
         list.add(new Object[] { "", key });
 
         uri = "foo://bar/#/a";
-        key = "uriTransform.notAbsoluteRef";
+        key = "uriChecks.notAbsoluteRef";
         list.add(new Object[] { uri, key });
 
         uri = "foo://bar/baz/";
-        key = "uriTransform.endingSlash";
+        key = "uriChecks.endingSlash";
         list.add(new Object[] { uri, key });
 
         return list.iterator();
