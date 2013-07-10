@@ -1,10 +1,13 @@
 package com.github.fge.jsonschema.keyword;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.walk.collectors.PointerCollector;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.Test;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.*;
 
 public final class KeywordDescriptorTest
@@ -46,5 +49,32 @@ public final class KeywordDescriptorTest
             assertEquals(e.getMessage(),
                 BUNDLE.getMessage("keywordDescriptor.nullSyntaxChecker"));
         }
+    }
+
+    @Test
+    public void mustHaveSyntaxCheckerWithPointerCollector()
+    {
+        try {
+            KeywordDescriptor.withName("foo")
+                .setPointerCollector(mock(PointerCollector.class)).build();
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("keywordDescriptor.illegal"));
+        }
+    }
+
+    @Test
+    public void descriptorElementsAreRetrievable()
+    {
+        final String name = "foo";
+        final SyntaxChecker checker = mock(SyntaxChecker.class);
+        final PointerCollector collector = mock(PointerCollector.class);
+        final KeywordDescriptor descriptor = KeywordDescriptor.withName(name)
+            .setSyntaxChecker(checker).setPointerCollector(collector).build();
+
+        assertSame(descriptor.getName(), name);
+        assertSame(descriptor.getSyntaxChecker(), checker);
+        assertSame(descriptor.getPointerCollector(), collector);
     }
 }
