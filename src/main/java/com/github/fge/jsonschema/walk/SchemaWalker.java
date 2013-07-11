@@ -43,9 +43,6 @@ import java.util.Map;
  *
  * <p><b>Important</b>: the initial schema <b>must</b> be syntactically valid.
  * </p>
- *
- * @see SimpleSchemaWalker
- * @see ResolvingSchemaWalker
  */
 @Beta
 public abstract class SchemaWalker

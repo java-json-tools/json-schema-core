@@ -43,10 +43,6 @@ import com.google.common.annotations.Beta;
  *     (exiting a subtree).</li>
  * </ul>
  *
- * <p>Note that in the event of ref resolution (using a {@link
- * ResolvingSchemaWalker}), when visiting a tree, the visited tree is the
- * resulting tree of ref resolution, not the original tree.</p>
- *
  * <p>For instance, if we consider this schema:</p>
  *
  * <pre>
