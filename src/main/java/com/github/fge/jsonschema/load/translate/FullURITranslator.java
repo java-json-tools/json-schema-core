@@ -2,11 +2,13 @@ package com.github.fge.jsonschema.load.translate;
 
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.URIUtils;
+import com.google.common.annotations.Beta;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+@Beta
 public final class FullURITranslator
     implements URITranslator
 {

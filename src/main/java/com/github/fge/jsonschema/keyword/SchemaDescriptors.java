@@ -72,7 +72,7 @@ public final class SchemaDescriptors
             = mergeDicts(DraftV4HyperSchemaSyntaxCheckerDictionary.get(),
             DraftV4PointerCollectorDictionary.get());
 
-        builder.setLocator(SchemaVersion.DRAFTV4.getLocation());
+        builder.setLocator(SchemaVersion.DRAFTV4_HYPERSCHEMA.getLocation());
         for (final KeywordDescriptor descriptor: list)
             builder.addKeyword(descriptor);
         return builder.freeze();
@@ -85,7 +85,7 @@ public final class SchemaDescriptors
             = mergeDicts(DraftV3SyntaxCheckerDictionary.get(),
             DraftV3PointerCollectorDictionary.get());
 
-        builder.setLocator(SchemaVersion.DRAFTV4.getLocation());
+        builder.setLocator(SchemaVersion.DRAFTV3.getLocation());
         for (final KeywordDescriptor descriptor: list)
             builder.addKeyword(descriptor);
         return builder.freeze();

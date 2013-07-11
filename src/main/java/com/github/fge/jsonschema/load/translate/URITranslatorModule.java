@@ -4,12 +4,14 @@ import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
+import com.google.common.annotations.Beta;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 import java.net.URI;
 import java.util.Map;
 
+@Beta
 public class URITranslatorModule
     extends AbstractModule
 {

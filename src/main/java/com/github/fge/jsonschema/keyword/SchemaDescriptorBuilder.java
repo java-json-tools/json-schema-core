@@ -5,11 +5,13 @@ import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
+import com.google.common.annotations.Beta;
 import com.google.common.collect.Maps;
 
 import java.net.URI;
 import java.util.Map;
 
+@Beta
 public final class SchemaDescriptorBuilder
     implements Thawed<SchemaDescriptor>
 {

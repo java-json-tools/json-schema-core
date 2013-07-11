@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
 
 import javax.inject.Inject;
 import java.net.URI;
 import java.util.Map;
 
+@Beta
 public final class SchemaSelector
 {
     private final Map<URI, SchemaDescriptor> descriptors;
