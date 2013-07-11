@@ -84,5 +84,11 @@ public final class SchemaDescriptorTest
 
         assertEquals(descriptor.getSyntaxCheckers(),
             ImmutableMap.of(K1, checker1, K2, checker2));
+
+        final SchemaDescriptor descriptor2 = descriptor.thaw()
+            .removeKeyword("foo").freeze();
+
+        assertEquals(descriptor2.getSupportedKeywords(),
+            ImmutableSet.of(K1, K2));
     }
 }

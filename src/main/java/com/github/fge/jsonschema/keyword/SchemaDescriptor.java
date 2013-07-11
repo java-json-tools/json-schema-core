@@ -51,6 +51,11 @@ public final class SchemaDescriptor
         pointerCollectors = collectorBuilder.build();
     }
 
+    public URI getLocator()
+    {
+        return locator;
+    }
+
     public Set<String> getSupportedKeywords()
     {
         return keywords.keySet();
