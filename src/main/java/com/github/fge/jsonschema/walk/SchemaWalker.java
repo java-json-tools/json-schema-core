@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.keyword.SchemaDescriptor;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;
@@ -49,26 +48,32 @@ import java.util.Map;
 public abstract class SchemaWalker
 {
     /**
+     * The current schema tree being walked
+     */
+    protected SchemaTree tree;
+
+    /**
      * The list of pointer collectors
      */
     private final Map<String, PointerCollector> collectors;
 
-    protected SchemaWalker(final SchemaDescriptor descriptor)
+    protected SchemaWalker(final SchemaTree tree,
+        final SchemaWalkingConfiguration cfg)
     {
-        collectors = descriptor.getPointerCollectors();
+        this.tree = tree;
+        collectors = cfg.collectors.entries();
     }
 
     /**
      * Walk a tree with a listener
      *
-     * @param tree the tree
      * @param listener the listener
      * @param report the processing report to use
      * @param <T> the value type produced by the listener
      * @throws ProcessingException processing failure
      */
-    public final <T> void walk(final SchemaTree tree,
-        final SchemaListener<T> listener, final ProcessingReport report)
+    public final <T> void walk(final SchemaListener<T> listener,
+        final ProcessingReport report)
         throws ProcessingException
     {
         walkTree(JsonPointer.empty(), tree, listener, report);
@@ -84,8 +89,7 @@ public abstract class SchemaWalker
     {
         listener.enteringPath(pwd, report);
         final SchemaTree resolvedTree = resolveTree(tree, report);
-        if (!listener.visiting(resolvedTree, report))
-            return;
+        listener.visiting(resolvedTree, report);
 
         /*
          * Grab pointer collectors

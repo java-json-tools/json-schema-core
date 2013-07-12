@@ -68,7 +68,7 @@ public final class SchemaExpander
     }
 
     @Override
-    public boolean visiting(final SchemaTree schemaTree,
+    public void visiting(final SchemaTree schemaTree,
         final ProcessingReport report)
         throws ProcessingException
     {
@@ -78,7 +78,7 @@ public final class SchemaExpander
          */
         final JsonNode node = schemaTree.getNode();
         if (EQUIVALENCE.equivalent(node, currentNode))
-            return true;
+            return;
 
         /*
          * If not, make a copy of it.
@@ -90,7 +90,7 @@ public final class SchemaExpander
          */
         if (path.isEmpty()) {
             baseNode = currentNode = newNode;
-            return true;
+            return;
         }
 
         /*
@@ -117,7 +117,6 @@ public final class SchemaExpander
          * Finally, update our current node.
          */
         currentNode = path.get(baseNode);
-        return true;
     }
 
     @Override

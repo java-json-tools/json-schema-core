@@ -84,11 +84,9 @@ public interface SchemaListener<T>
      *
      * @param schemaTree the visited tree
      * @param report the report to use
-     * @return true if subtrees should also be visited
      * @throws ProcessingException processing failure
      */
-    boolean visiting(final SchemaTree schemaTree,
-        final ProcessingReport report)
+    void visiting(final SchemaTree schemaTree, final ProcessingReport report)
         throws ProcessingException;
 
     /**
