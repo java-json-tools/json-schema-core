@@ -5,6 +5,7 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.SchemaDescriptor;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
@@ -12,7 +13,6 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.SchemaListener;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -23,12 +23,14 @@ import java.util.Map;
 import java.util.Set;
 
 public final class SyntaxValidator
-    implements SchemaListener<Set<JsonPointer>>
+    implements SchemaListener<SchemaAnalysis>
 {
     private static final MessageBundle CORE_BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final Set<JsonPointer> visited = Sets.newHashSet();
+    private final ListProcessingReport messages = new ListProcessingReport();
+
     private final Set<String> supported;
     private final Map<String, SyntaxChecker> checkers;
     private final MessageBundle bundle;
@@ -61,7 +63,7 @@ public final class SyntaxValidator
             final ProcessingMessage message = new ProcessingMessage()
                 .setMessage(CORE_BUNDLE.getMessage("core.notASchema"))
                 .put("schema", schemaTree);
-            report.error(message);
+            messages.error(message);
             return;
         }
 
@@ -72,7 +74,7 @@ public final class SyntaxValidator
             final ProcessingMessage message = new ProcessingMessage()
                 .setMessage(CORE_BUNDLE.getMessage("core.unknownKeywords"))
                 .putArgument("ignored", Ordering.natural().sortedCopy(unknown));
-            report.warn(message);
+            messages.warn(message);
         }
 
         final List<JsonPointer> list = Lists.newArrayList();
@@ -80,7 +82,7 @@ public final class SyntaxValidator
             checkers.entrySet()) {
             if (!fields.contains(entry.getKey()))
                 continue;
-            entry.getValue().checkSyntax(list, bundle, report, schemaTree);
+            entry.getValue().checkSyntax(list, bundle, messages, schemaTree);
         }
     }
 
@@ -92,8 +94,8 @@ public final class SyntaxValidator
     }
 
     @Override
-    public Set<JsonPointer> getValue()
+    public SchemaAnalysis getValue()
     {
-        return ImmutableSet.copyOf(visited);
+        return new SchemaAnalysis(visited, messages);
     }
 }
