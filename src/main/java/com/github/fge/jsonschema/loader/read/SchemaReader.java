@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.registry.read;
+package com.github.fge.jsonschema.loader.read;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;

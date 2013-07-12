@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.registry.resolve;
+package com.github.fge.jsonschema.loader.resolve;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;

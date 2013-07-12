@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.registry.resolve;
+package com.github.fge.jsonschema.loader.resolve;
 
 import com.github.fge.jsonschema.util.ArgumentChecker;
 import com.github.fge.jsonschema.util.Registry;
