@@ -1,19 +1,15 @@
-package com.github.fge.jsonschema.walk;
+package com.github.fge.jsonschema.analyzer;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.SchemaDescriptor;
-import com.github.fge.jsonschema.keyword.SchemaDescriptors;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
-import com.github.fge.jsonschema.report.ConsoleProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.walk.SchemaListener;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.ImmutableSet;
@@ -22,24 +18,22 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class SchemaAnalyzer
+public final class SyntaxValidator
     implements SchemaListener<Set<JsonPointer>>
 {
     private static final MessageBundle CORE_BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
-
 
     private final Set<JsonPointer> visited = Sets.newHashSet();
     private final Set<String> supported;
     private final Map<String, SyntaxChecker> checkers;
     private final MessageBundle bundle;
 
-    public SchemaAnalyzer(final SchemaDescriptor descriptor,
+    public SyntaxValidator(final SchemaDescriptor descriptor,
         final MessageBundle bundle)
     {
         supported = descriptor.getSupportedKeywords();
@@ -101,21 +95,5 @@ public final class SchemaAnalyzer
     public Set<JsonPointer> getValue()
     {
         return ImmutableSet.copyOf(visited);
-    }
-
-    public static void main(final String... args)
-        throws IOException, ProcessingException
-    {
-        final MessageBundle bundle
-            = MessageBundles.getBundle(JsonSchemaSyntaxMessageBundle.class);
-        final SchemaDescriptor descriptor
-            = SchemaDescriptors.draftv4();
-        final ProcessingReport report = new ConsoleProcessingReport();
-        final SchemaWalker walker = new DefaultSchemaWalker(descriptor);
-        final SchemaListener<Set<JsonPointer>> listener
-            = new SchemaAnalyzer(descriptor, bundle);
-        final JsonNode node = JsonLoader.fromResource("/draftv3/schema");
-        final SchemaTree tree = new CanonicalSchemaTree(node);
-        walker.walk(tree, listener, report);
     }
 }
