@@ -36,10 +36,8 @@ public final class DraftV3TypeKeywordPointerCollector
         final SchemaTree tree)
     {
         final JsonNode node = getNode(tree);
-        /*
-         * No need to test if the node is an array: if it is not, Iterable
-         * returns an empty iterator.
-         */
+        if (!node.isArray())
+            return;
         final int size = node.size();
         for (int index = 0; index < size; index++)
             if (node.get(index).isObject())

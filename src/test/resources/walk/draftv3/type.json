@@ -27,5 +27,11 @@
             ]
         },
         "pointers": [ "/type/0", "/type/1", "/type/3" ]
+    },
+    {
+        "schema": {
+            "type": { "a": "b", "c": "d" }
+        },
+        "pointers": []
     }
 ]

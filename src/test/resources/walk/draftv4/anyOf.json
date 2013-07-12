@@ -2,5 +2,9 @@
     {
         "schema": { "anyOf": [ {}, null, "hello world" ] },
         "pointers": [ "/anyOf/0", "/anyOf/1", "/anyOf/2" ]
+    },
+    {
+        "schema": { "anyOf": { "a": "b" } },
+        "pointers": []
     }
 ]

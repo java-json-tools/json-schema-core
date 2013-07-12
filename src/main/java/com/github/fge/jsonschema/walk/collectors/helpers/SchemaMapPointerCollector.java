@@ -37,10 +37,11 @@ public final class SchemaMapPointerCollector
     public void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
-        final List<String> regexes
+        // OK to do that: fieldNames() is always empty for non objects
+        final List<String> fields
             = Lists.newArrayList(getNode(tree).fieldNames());
-        Collections.sort(regexes);
-        for (final String regex: regexes)
-            pointers.add(basePointer.append(regex));
+        Collections.sort(fields);
+        for (final String field: fields)
+            pointers.add(basePointer.append(field));
     }
 }

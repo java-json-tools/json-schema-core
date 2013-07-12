@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.walk.collectors.helpers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
@@ -34,7 +35,10 @@ public final class SchemaArrayPointerCollector
     public void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
-        final int size = getNode(tree).size();
+        final JsonNode node = getNode(tree);
+        if (!node.isArray())
+            return;
+        final int size = node.size();
         for(int index = 0; index < size; index++)
             pointers.add(basePointer.append(index));
     }

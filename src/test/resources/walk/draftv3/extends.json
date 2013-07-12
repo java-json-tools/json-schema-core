@@ -20,5 +20,9 @@
             "extends": []
         },
         "pointers": []
+    },
+    {
+        "schema": { "extends": "foobar" },
+        "pointers": []
     }
 ]

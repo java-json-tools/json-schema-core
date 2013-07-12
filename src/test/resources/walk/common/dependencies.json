@@ -11,5 +11,9 @@
             "/dependencies/a++",
             "/dependencies/b"
         ]
+    },
+    {
+        "schema": { "dependencies": "meh" },
+        "pointers": []
     }
 ]

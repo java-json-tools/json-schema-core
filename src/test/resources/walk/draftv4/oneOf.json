@@ -2,5 +2,9 @@
     {
         "schema": { "oneOf": [ {}, null, "hello world" ] },
         "pointers": [ "/oneOf/0", "/oneOf/1", "/oneOf/2" ]
+    },
+    {
+        "schema": { "oneOf": { "a": "b" } },
+        "pointers": []
     }
 ]

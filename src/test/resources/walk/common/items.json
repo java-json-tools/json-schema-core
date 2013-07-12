@@ -14,5 +14,11 @@
             ]
         },
         "pointers": [ "/items/0", "/items/1", "/items/2" ]
+    },
+    {
+        "schema": {
+            "items": 1
+        },
+        "pointers": []
     }
 ]
