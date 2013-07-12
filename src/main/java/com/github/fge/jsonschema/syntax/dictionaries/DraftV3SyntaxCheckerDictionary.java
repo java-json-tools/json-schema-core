@@ -23,9 +23,9 @@ import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3DependenciesSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3ItemsSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3PropertiesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3TypeKeywordSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.draftv3.ExtendsSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.DivisorSyntaxChecker;
-import com.github.fge.jsonschema.syntax.checkers.draftv3.DraftV3TypeKeywordSyntaxChecker;
 
 /**
  * Draft v3 specific syntax checkers

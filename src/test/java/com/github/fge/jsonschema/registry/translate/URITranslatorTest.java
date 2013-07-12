@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.translate;
+package com.github.fge.jsonschema.registry.translate;
 
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;

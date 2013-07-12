@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.translate;
+package com.github.fge.jsonschema.registry.translate;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.util.URIUtils;

@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.read;
+package com.github.fge.jsonschema.registry.read;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;

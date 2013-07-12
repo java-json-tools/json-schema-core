@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.translate;
+package com.github.fge.jsonschema.registry.translate;
 
 import com.github.fge.jsonschema.util.URIUtils;
 import com.google.common.annotations.Beta;

@@ -19,10 +19,10 @@ package com.github.fge.jsonschema.load;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.load.resolve.DefaultURIDownloader;
-import com.github.fge.jsonschema.load.resolve.ResourceURIDownloader;
-import com.github.fge.jsonschema.load.resolve.URIDownloader;
-import com.github.fge.jsonschema.load.resolve.URIDownloadersRegistry;
+import com.github.fge.jsonschema.registry.resolve.DefaultURIDownloader;
+import com.github.fge.jsonschema.registry.resolve.ResourceURIDownloader;
+import com.github.fge.jsonschema.registry.resolve.URIDownloader;
+import com.github.fge.jsonschema.registry.resolve.URIDownloadersRegistry;
 
 /**
  * Dictionary of default supported URI schemes
