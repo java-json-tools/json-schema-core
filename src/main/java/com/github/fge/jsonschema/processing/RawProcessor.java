@@ -63,8 +63,7 @@ public abstract class RawProcessor<IN, OUT>
      * @throws ProcessingException processing failure
      * @see #newMessage(Object)
      */
-    protected abstract OUT rawProcess(final ProcessingReport report,
-        final IN input)
+    protected abstract OUT rawProcess(ProcessingReport report, IN input)
         throws ProcessingException;
 
     @Override
