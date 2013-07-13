@@ -12,7 +12,14 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
 @Beta
-public @interface Needs
+public @interface InjectedWith
 {
-    Class<?>[] value();
+    Injection[] value();
+
+    public @interface Injection
+    {
+        Class<?> value();
+        Class<?>[] typeParameters()
+            default {};
+    }
 }
