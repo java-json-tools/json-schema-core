@@ -8,23 +8,35 @@ import com.google.common.primitives.Longs;
 @Beta
 final class SchemaKey
 {
+    private final SchemaTree tree;
     private final long id;
     private final JsonPointer ptr;
 
     static SchemaKey atRoot(final SchemaTree tree)
     {
-        return new SchemaKey(tree.getId(), JsonPointer.empty());
+        return new SchemaKey(tree, JsonPointer.empty());
     }
 
     static SchemaKey atPointer(final SchemaTree tree)
     {
-        return new SchemaKey(tree.getId(), tree.getPointer());
+        return new SchemaKey(tree);
     }
 
-    private SchemaKey(final long id, final JsonPointer ptr)
+    private SchemaKey(final SchemaTree tree, final JsonPointer ptr)
     {
-        this.id = id;
+        this.tree = tree;
+        id = tree.getId();
         this.ptr = ptr;
+    }
+
+    private SchemaKey(final SchemaTree tree)
+    {
+        this(tree, tree.getPointer());
+    }
+
+    SchemaTree getTree()
+    {
+        return tree;
     }
 
     @Override
