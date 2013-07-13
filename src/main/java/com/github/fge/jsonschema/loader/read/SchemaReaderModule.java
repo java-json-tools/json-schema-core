@@ -7,9 +7,12 @@ import com.google.common.annotations.Beta;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
+import javax.inject.Provider;
+
 @Beta
 public abstract class SchemaReaderModule
     extends AbstractModule
+    implements Provider<SchemaReader>
 {
     protected static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
@@ -21,6 +24,12 @@ public abstract class SchemaReaderModule
 
     @Provides
     public final SchemaReader getReader()
+    {
+        return newReader();
+    }
+
+    @Override
+    public final SchemaReader get()
     {
         return newReader();
     }

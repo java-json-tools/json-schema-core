@@ -8,6 +8,7 @@ import com.github.fge.jsonschema.loader.read.SchemaReader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.util.Needs;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.annotations.Beta;
@@ -19,6 +20,7 @@ import java.net.URI;
 import java.util.Map;
 
 @Beta
+@Needs({SchemaReader.class, URIDownloadersRegistry.class})
 final class DefaultSchemaLoader
     implements SchemaLoader
 {

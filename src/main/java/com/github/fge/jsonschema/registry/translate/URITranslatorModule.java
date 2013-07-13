@@ -8,12 +8,14 @@ import com.google.common.annotations.Beta;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
+import javax.inject.Provider;
 import java.net.URI;
 import java.util.Map;
 
 @Beta
 public class URITranslatorModule
     extends AbstractModule
+    implements Provider<URITranslator>
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
@@ -64,5 +66,11 @@ public class URITranslatorModule
 
         return hasNamespace ? new NamespaceURITranslator(namespace)
             : IdentityURITranslator.INSTANCE;
+    }
+
+    @Override
+    public final URITranslator get()
+    {
+        return getTranslator();
     }
 }
