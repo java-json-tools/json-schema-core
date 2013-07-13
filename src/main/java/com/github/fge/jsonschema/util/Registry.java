@@ -8,6 +8,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
+import javax.inject.Provider;
 import java.util.Map;
 
 /**
@@ -22,6 +23,7 @@ import java.util.Map;
  */
 @Beta
 public abstract class Registry<K, V>
+    implements Provider<Map<K, V>>
 {
     protected static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
@@ -139,6 +141,12 @@ public abstract class Registry<K, V>
     public final Map<K, V> build()
     {
         return ImmutableMap.copyOf(map);
+    }
+
+    @Override
+    public final Map<K, V> get()
+    {
+        return build();
     }
 
     protected abstract void checkEntry(final K key, final V value);
