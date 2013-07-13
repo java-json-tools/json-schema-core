@@ -15,41 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.loader.resolve;
+package com.github.fge.jsonschema.loader.downloaders;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URL;
 
 /**
- * Default URI downloader
- *
- * <p>{@link URL}'s API doc guarantees that an implementation can handle the
- * following schemes: {@code http}, {@code https}, {@code ftp}, {@code file}
- * and {@code jar}. This is what this downloader uses.</p>
- *
- * @see URL#openStream()
+ * URI downloader for a given scheme
  */
-public final class DefaultURIDownloader
-    implements URIDownloader
+public interface URIDownloader
 {
-    private static final URIDownloader INSTANCE
-        = new DefaultURIDownloader();
-
-    private DefaultURIDownloader()
-    {
-    }
-
-    public static URIDownloader getInstance()
-    {
-        return INSTANCE;
-    }
-
-    @Override
-    public InputStream fetch(final URI source)
-        throws IOException
-    {
-        return source.toURL().openStream();
-    }
+    /**
+     * Fetch the content at a given URI
+     *
+     * @param source the URI
+     * @return an {@link InputStream}
+     * @throws IOException unable to find an input stream
+     */
+    InputStream fetch(final URI source)
+        throws IOException;
 }

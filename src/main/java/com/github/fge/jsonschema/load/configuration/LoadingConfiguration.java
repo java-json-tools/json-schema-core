@@ -30,7 +30,7 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.load.transform.URITransformer;
-import com.github.fge.jsonschema.loader.resolve.URIDownloader;
+import com.github.fge.jsonschema.loader.downloaders.URIDownloader;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.google.common.collect.ImmutableMap;

@@ -21,11 +21,11 @@ package com.github.fge.jsonschema.load;
  * URI downloader for a given scheme
  *
  * @deprecated use {@link
- * com.github.fge.jsonschema.loader.resolve.URIDownloader} instead. Will be
+ * com.github.fge.jsonschema.loader.downloaders.URIDownloader} instead. Will be
  * removed in 1.1.10.
  */
 @Deprecated
 public interface URIDownloader
-    extends com.github.fge.jsonschema.loader.resolve.URIDownloader
+    extends com.github.fge.jsonschema.loader.downloaders.URIDownloader
 {
 }
