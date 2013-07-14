@@ -9,12 +9,14 @@ import com.google.common.collect.Maps;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
+import javax.inject.Provider;
 import java.net.URI;
 import java.util.Map;
 
 @Beta
 public class SchemaSelectorModule
     extends AbstractModule
+    implements Provider<SchemaSelector>
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
@@ -65,5 +67,13 @@ public class SchemaSelectorModule
     public final SchemaDescriptor getDefaultDescriptor()
     {
         return defaultDescriptor;
+    }
+
+    @Override
+    public final SchemaSelector get()
+    {
+        final Map<URI, SchemaDescriptor> descriptorMap
+            = ImmutableMap.copyOf(descriptors);
+        return new SchemaSelector(descriptorMap, defaultDescriptor);
     }
 }
