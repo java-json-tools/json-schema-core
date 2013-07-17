@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class SyntaxValidator
+public final class SchemaSyntaxListener
     implements SchemaListener<SchemaAnalysis>
 {
     private static final MessageBundle CORE_BUNDLE
@@ -35,7 +35,7 @@ public final class SyntaxValidator
     private final Map<String, SyntaxChecker> checkers;
     private final MessageBundle bundle;
 
-    public SyntaxValidator(final SchemaDescriptor descriptor,
+    public SchemaSyntaxListener(final SchemaDescriptor descriptor,
         final MessageBundle bundle)
     {
         supported = descriptor.getSupportedKeywords();

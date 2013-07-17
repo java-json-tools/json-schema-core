@@ -39,13 +39,13 @@ public class SchemaSelectorModule
         descriptors.put(descriptor.getLocator(), descriptor);
     }
 
-    public final void setDefaultDescriptor(final SchemaDescriptor descriptor)
+    protected final void setDefaultDescriptor(final SchemaDescriptor descriptor)
     {
         defaultDescriptor = BUNDLE.checkNotNull(descriptor,
             "schemaDescriptor.nullDescriptor");
     }
 
-    public final void addDescriptor(final SchemaDescriptor descriptor)
+    protected final void addDescriptor(final SchemaDescriptor descriptor)
     {
         final URI uri = descriptor.getLocator();
         BUNDLE.checkArgumentPrintf(descriptors.put(uri, descriptor) == null,

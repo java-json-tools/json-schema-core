@@ -72,8 +72,8 @@ public final class SchemaAnalyzer
             final SchemaTree tree = key.getTree();
             final SchemaDescriptor descriptor = selector.selectDescriptor(tree);
             final SchemaWalker walker = new DefaultSchemaWalker(descriptor);
-            final SyntaxValidator validator
-                = new SyntaxValidator(descriptor, bundle);
+            final SchemaSyntaxListener validator
+                = new SchemaSyntaxListener(descriptor, bundle);
             final ListProcessingReport report = new ListProcessingReport();
             walker.walk(tree, validator, report);
             return validator.getValue();
