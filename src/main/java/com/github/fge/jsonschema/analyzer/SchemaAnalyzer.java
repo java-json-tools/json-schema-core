@@ -17,6 +17,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.concurrent.ExecutionException;
 
 import static com.github.fge.jsonschema.util.InjectedWith.*;
@@ -31,7 +32,8 @@ public final class SchemaAnalyzer
     private final LoadingCache<SchemaKey, SchemaAnalysis> cache;
 
     @Inject
-    SchemaAnalyzer(final MessageBundle bundle, final SchemaSelector selector)
+    SchemaAnalyzer(@Named("syntaxMessages") final MessageBundle bundle,
+        final SchemaSelector selector)
     {
         cache = CacheBuilder.newBuilder()
             .build(new SchemaAnalyzerLoader(selector, bundle));

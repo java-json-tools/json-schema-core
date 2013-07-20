@@ -1,10 +1,10 @@
 package com.github.fge.jsonschema.analyzer;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.SchemaDescriptor;
-import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -12,7 +12,6 @@ import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.walk.SchemaListener;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -25,9 +24,6 @@ import java.util.Set;
 public final class SchemaSyntaxListener
     implements SchemaListener<SchemaAnalysis>
 {
-    private static final MessageBundle CORE_BUNDLE
-        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
-
     private final Set<JsonPointer> visited = Sets.newHashSet();
     private final ListProcessingReport messages = new ListProcessingReport();
 
@@ -61,7 +57,8 @@ public final class SchemaSyntaxListener
 
         if (!node.isObject()) {
             final ProcessingMessage message = new ProcessingMessage()
-                .setMessage(CORE_BUNDLE.getMessage("core.notASchema"))
+                .setMessage(bundle.getMessage("core.notASchema"))
+                .putArgument("found", NodeType.getNodeType(node))
                 .put("schema", schemaTree);
             messages.error(message);
             return;
@@ -72,7 +69,7 @@ public final class SchemaSyntaxListener
 
         if (!unknown.isEmpty()) {
             final ProcessingMessage message = new ProcessingMessage()
-                .setMessage(CORE_BUNDLE.getMessage("core.unknownKeywords"))
+                .setMessage(bundle.getMessage("core.unknownKeywords"))
                 .putArgument("ignored", Ordering.natural().sortedCopy(unknown));
             messages.warn(message);
         }
