@@ -9,7 +9,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 
 @Beta
-public final class SchemaAnalysis
+final class SchemaAnalysis
 {
     private final Set<JsonPointer> visited;
     private final ListProcessingReport report;
