@@ -8,15 +8,17 @@ import com.github.fge.jsonschema.registry.translate.URITranslatorModule;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.name.Names;
 
 public class JsonSchemaFactoryBuilder
 {
-    Module schemaSelectorModule;
-    Module schemaReaderModule;
-    Module uriTranslatorModule;
-    Module syntaxMessageBundleModule;
+    private Module schemaSelectorModule;
+    private Module schemaReaderModule;
+    private Module uriTranslatorModule;
+    private Module syntaxMessageBundleModule;
 
 
     JsonSchemaFactoryBuilder()
@@ -51,6 +53,10 @@ public class JsonSchemaFactoryBuilder
 
     public final JsonSchemaFactory build()
     {
-        return new JsonSchemaFactory(this);
+
+        final Injector injector = Guice.createInjector(schemaReaderModule,
+            schemaSelectorModule, uriTranslatorModule,
+            syntaxMessageBundleModule);
+        return new JsonSchemaFactory(injector);
     }
 }
