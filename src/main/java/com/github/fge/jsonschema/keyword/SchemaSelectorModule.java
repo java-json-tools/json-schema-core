@@ -1,5 +1,6 @@
 package com.github.fge.jsonschema.keyword;
 
+import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
@@ -39,15 +40,20 @@ public class SchemaSelectorModule
         descriptors.put(descriptor.getLocator(), descriptor);
     }
 
+    protected final void setDefaultVersion(final SchemaVersion version)
+    {
+
+    }
     protected final void setDefaultDescriptor(final SchemaDescriptor descriptor)
     {
-        defaultDescriptor = BUNDLE.checkNotNull(descriptor,
-            "schemaDescriptor.nullDescriptor");
+        addDescriptor(descriptor);
+        defaultDescriptor = descriptor;
     }
 
     protected final void addDescriptor(final SchemaDescriptor descriptor)
     {
-        final URI uri = descriptor.getLocator();
+        final URI uri = BUNDLE.checkNotNull(descriptor,
+            "schemaSelector.nullDescriptor").getLocator();
         BUNDLE.checkArgumentPrintf(descriptors.put(uri, descriptor) == null,
             "schemaSelector.duplicateSchema", uri);
     }

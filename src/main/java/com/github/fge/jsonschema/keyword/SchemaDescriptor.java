@@ -78,4 +78,10 @@ public final class SchemaDescriptor
     {
         return new SchemaDescriptorBuilder(this);
     }
+
+    @Override
+    public String toString()
+    {
+        return locator + " (" + keywords.size() + " keywords)";
+    }
 }
