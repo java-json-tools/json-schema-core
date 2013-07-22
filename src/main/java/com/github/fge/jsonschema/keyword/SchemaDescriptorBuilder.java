@@ -31,7 +31,7 @@ public final class SchemaDescriptorBuilder
         keywords.putAll(descriptor.keywords);
     }
 
-    SchemaDescriptorBuilder setLocator(final URI uri)
+    public SchemaDescriptorBuilder setLocator(final URI uri)
     {
         BUNDLE.checkNotNull(uri, "schemaDescriptor.nullLocator");
         final URI normalized = URIUtils.toSchemaURI(uri);
@@ -40,14 +40,15 @@ public final class SchemaDescriptorBuilder
         return this;
     }
 
-    SchemaDescriptorBuilder addKeyword(final KeywordDescriptor descriptor)
+    public SchemaDescriptorBuilder addKeyword(
+        final KeywordDescriptor descriptor)
     {
         BUNDLE.checkNotNull(descriptor, "schemaDescriptor.nullDescriptor");
         keywords.put(descriptor.getName(), descriptor);
         return this;
     }
 
-    SchemaDescriptorBuilder removeKeyword(final String name)
+    public SchemaDescriptorBuilder removeKeyword(final String name)
     {
         keywords.remove(name);
         return this;
