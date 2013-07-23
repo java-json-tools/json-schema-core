@@ -42,20 +42,19 @@ public class SchemaSelectorModule
 
     protected final void setDefaultVersion(final SchemaVersion version)
     {
-
-    }
-    protected final void setDefaultDescriptor(final SchemaDescriptor descriptor)
-    {
-        addDescriptor(descriptor);
-        defaultDescriptor = descriptor;
+        BUNDLE.checkNotNull(version, "schemaSelector.nullVersion");
+        defaultDescriptor = descriptors.get(version.getLocation());
     }
 
-    protected final void addDescriptor(final SchemaDescriptor descriptor)
+    protected final void addDescriptor(final SchemaDescriptor descriptor,
+        final boolean makeDefault)
     {
         final URI uri = BUNDLE.checkNotNull(descriptor,
             "schemaSelector.nullDescriptor").getLocator();
         BUNDLE.checkArgumentPrintf(descriptors.put(uri, descriptor) == null,
             "schemaSelector.duplicateSchema", uri);
+        if (makeDefault)
+            defaultDescriptor = descriptor;
     }
 
     @Override

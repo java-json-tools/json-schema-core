@@ -10,7 +10,7 @@ import java.net.URI;
 
 import static org.testng.Assert.*;
 
-public final class SchemaSelectorTest
+public final class SchemaSelectorModuleTest
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
@@ -19,7 +19,7 @@ public final class SchemaSelectorTest
     public void cannotInsertNullDescriptorInModule()
     {
         try {
-            new AddDescriptorModule(null);
+            new AddDescriptorModule(null, false);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
@@ -35,7 +35,7 @@ public final class SchemaSelectorTest
             .setLocator(location).freeze();
 
         try {
-            new AddDescriptorModule(descriptor);
+            new AddDescriptorModule(descriptor, false);
             fail("No exception thrown!");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(),
@@ -43,12 +43,30 @@ public final class SchemaSelectorTest
         }
     }
 
+    @Test
+    public void cannotSetNullDefaultVersion()
+    {
+        try {
+            new AddDescriptorModule(null);
+            fail("No exception thrown!");
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("schemaSelector.nullVersion"));
+        }
+    }
+
     private static final class AddDescriptorModule
         extends SchemaSelectorModule
     {
-        private AddDescriptorModule(final SchemaDescriptor descriptor)
+        private AddDescriptorModule(final SchemaDescriptor descriptor,
+            final boolean byDefault)
         {
-            addDescriptor(descriptor);
+            addDescriptor(descriptor, byDefault);
+        }
+
+        private AddDescriptorModule(final SchemaVersion version)
+        {
+            setDefaultVersion(version);
         }
     }
 }
