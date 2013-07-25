@@ -8,7 +8,6 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.InjectedWith;
 import com.google.common.annotations.Beta;
 import com.google.common.io.Closer;
 
@@ -18,13 +17,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.EnumSet;
 
-import static com.github.fge.jsonschema.util.InjectedWith.*;
-
 @Beta
-@InjectedWith({
-    @Injection(Dereferencing.class),
-    @Injection(value = EnumSet.class, typeParameters = JsonParser.Feature.class)
-})
 public final class DefaultSchemaReader
     extends SchemaReader
 {

@@ -7,7 +7,6 @@ import com.github.fge.jsonschema.keyword.SchemaSelector;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.InjectedWith;
 import com.github.fge.jsonschema.walk.DefaultSchemaWalker;
 import com.github.fge.jsonschema.walk.SchemaWalker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -20,13 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.concurrent.ExecutionException;
 
-import static com.github.fge.jsonschema.util.InjectedWith.*;
-
 @Beta
-@InjectedWith({
-    @Injection(MessageBundle.class),
-    @Injection(SchemaSelector.class)
-})
 public final class SchemaAnalyzer
 {
     private final LoadingCache<SchemaKey, SchemaAnalysis> cache;

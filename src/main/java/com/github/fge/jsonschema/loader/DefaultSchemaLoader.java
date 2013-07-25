@@ -8,7 +8,6 @@ import com.github.fge.jsonschema.loader.read.SchemaReader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.InjectedWith;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.annotations.Beta;
@@ -19,13 +18,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.util.InjectedWith.Injection;
-
 @Beta
-@InjectedWith({
-    @Injection(SchemaReader.class),
-    @Injection(URIDownloadersRegistry.class)
-})
 final class DefaultSchemaLoader
     implements SchemaLoader
 {
