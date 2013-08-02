@@ -1,7 +1,9 @@
 package com.github.fge.jsonschema.analyzer;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.KeywordDescriptor;
@@ -26,9 +28,9 @@ import org.testng.annotations.Test;
 import java.net.URI;
 import java.util.List;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class SchemaAnalyzerTest
 {
@@ -96,6 +98,48 @@ public final class SchemaAnalyzerTest
             same(tree));
     }
 
+    @Test(dependsOnMethods = "checkersAndCollectorsAreCalled")
+    public void sameTreeOnlyGetsAnalyzedOnce()
+        throws ProcessingException
+    {
+        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        node.put(K1, "");
+        node.put(K2, "");
+
+        final SchemaTree tree = new CanonicalSchemaTree(node);
+        analyzer.analyze(tree);
+        analyzer.analyze(tree);
+
+        verify(checker1, only()).checkSyntax(anyCollectionOf(JsonPointer.class),
+            same(BUNDLE), any(ProcessingReport.class), same(tree));
+        verify(checker2, only()).checkSyntax(anyCollectionOf(JsonPointer.class),
+            same(BUNDLE), any(ProcessingReport.class), same(tree));
+        verify(collector1, only()).collect(anyCollectionOf(JsonPointer.class),
+            same(tree));
+        verify(collector2, only()).collect(anyCollectionOf(JsonPointer.class),
+            same(tree));
+
+    }
+
+    @Test(dependsOnMethods = "checkersAndCollectorsAreCalled")
+    public void onlyKeywordsPresentInSchemaAreAnalyzed()
+        throws ProcessingException
+    {
+        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        node.put(K1, "");
+
+        final SchemaTree tree = new CanonicalSchemaTree(node);
+        analyzer.analyze(tree);
+        analyzer.analyze(tree);
+
+        verify(checker1, only()).checkSyntax(anyCollectionOf(JsonPointer.class),
+            same(BUNDLE), any(ProcessingReport.class), same(tree));
+        verify(collector1, only()).collect(anyCollectionOf(JsonPointer.class),
+            same(tree));
+        verifyZeroInteractions(checker2, collector2);
+
+    }
+
     @Test
     public void unknownKeywordsAreReported()
         throws ProcessingException
@@ -116,6 +160,25 @@ public final class SchemaAnalyzerTest
         assertMessage(msg).hasLevel(LogLevel.WARNING)
             .hasMessage(BUNDLE.printf("core.unknownKeywords", l))
             .hasField("ignored", l);
+    }
+
+    @Test
+    public void nonObjectsGetRejectedImmediately()
+        throws ProcessingException
+    {
+        final JsonNode node = JacksonUtils.nodeFactory().arrayNode();
+        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final ProcessingReport report = analyzer.analyze(tree);
+
+        final List<ProcessingMessage> list
+            = Lists.newArrayList(report);
+
+        assertEquals(list.size(), 1);
+        final ProcessingMessage msg = list.get(0);
+        final NodeType type = NodeType.ARRAY;
+        assertMessage(msg).hasLevel(LogLevel.ERROR).hasField("found", type)
+            .hasMessage(BUNDLE.printf("core.notASchema", type));
+        verifyZeroInteractions(checker1, collector1, checker2, collector2);
     }
 }
 

@@ -69,6 +69,7 @@ public final class SchemaSyntaxListener
 
         if (!unknown.isEmpty()) {
             final ProcessingMessage message = new ProcessingMessage()
+                .put("domain", "syntax")
                 .setMessage(bundle.getMessage("core.unknownKeywords"))
                 .putArgument("ignored", Ordering.natural().sortedCopy(unknown));
             messages.warn(message);
