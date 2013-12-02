@@ -131,6 +131,12 @@ public final class SchemaLoaderTest
 
         registry.get(uri);
         verify(mock, never()).fetch(uri);
+
+        //even if cache is disabled
+        final LoadingConfiguration cfgNoCache = cfg.thaw().setEnableCache(false).freeze();
+        final SchemaLoader registryNoCache = new SchemaLoader(cfgNoCache);
+        registry.get(uri);
+        verify(mock, never()).fetch(uri);        
     }
 
     @Test
@@ -156,4 +162,29 @@ public final class SchemaLoaderTest
         loader.get(uri);
         verify(downloader, times(1)).fetch(uri);
     }
+    
+    @Test
+    public void schemasCacheCanBeDisabled()
+        throws ProcessingException, IOException
+    {
+        final URI uri = URI.create("foo:/baz#");
+        final URIDownloader downloader = spy(new URIDownloader()
+        {
+            @Override
+            public InputStream fetch(final URI source)
+                throws IOException
+            {
+                return new ByteArrayInputStream(BYTES);
+            }
+        });
+
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .addScheme("foo", downloader).setEnableCache(false).freeze();
+        final SchemaLoader loader = new SchemaLoader(cfg);
+
+        loader.get(uri);
+        loader.get(uri);
+        verify(downloader, times(2)).fetch(uri);
+    }
+    
 }

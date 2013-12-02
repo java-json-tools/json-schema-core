@@ -76,6 +76,11 @@ public final class LoadingConfigurationBuilder
         = new URIDownloadersRegistry();
 
     URITransformer transformer;
+  
+    /**
+     * Loaded schemas are cached by default
+     */
+    boolean enableCache = true;
 
     /**
      * Dereferencing mode
@@ -130,8 +135,19 @@ public final class LoadingConfigurationBuilder
         dereferencing = cfg.dereferencing;
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
+        enableCache = cfg.enableCache;
     }
 
+    /**
+     * 
+     * @param enableCache if loaded schemas have to be cached
+     * @return this
+     */
+    public LoadingConfigurationBuilder setEnableCache(boolean enableCache) {
+        this.enableCache = enableCache;
+        return this;
+    }
+    
     /**
      * Add a new URI downloader
      *
