@@ -47,6 +47,7 @@ import java.util.Map;
  * <ul>
  *     <li>what schemas should be preloaded;</li>
  *     <li>what URI schemes should be supported;</li>
+ *     <li>if we want to cache loaded schemas.</li>
  *     <li>set a default namespace for loading schemas from URIs;</li>
  *     <li>add redirections from one schema URI to another;</li>
  *     <li>what dereferencing mode should be used.</li>
@@ -73,6 +74,11 @@ public final class LoadingConfiguration
     final Map<String, URIDownloader> downloaders;
 
     final URITransformer transformer;
+    
+    /**
+     * If we have to cache loaded schemas, note that this do not affect preloadedSchema that are always cached
+     */
+    final boolean enableCache;
 
     /**
      * Dereferencing mode
@@ -143,6 +149,7 @@ public final class LoadingConfiguration
         preloadedSchemas = ImmutableMap.copyOf(builder.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(builder.parserFeatures);
         objectReader = constructObjectReader();
+        enableCache = builder.enableCache;
     }
 
     /**
@@ -231,6 +238,16 @@ public final class LoadingConfiguration
     public ObjectReader getObjectReader()
     {
         return objectReader;
+    }
+    
+    /**
+     * Return if we want to cache loaded schema or not
+     * note that this do not affect preloadedSchema that are always cached
+     * 
+     * @return if the cache has to be enabled
+     */
+    public boolean getEnableCache() {
+        return enableCache;
     }
 
     /**

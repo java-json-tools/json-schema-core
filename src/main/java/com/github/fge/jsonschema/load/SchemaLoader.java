@@ -29,11 +29,13 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheBuilderSpec;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.net.URI;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -60,10 +62,13 @@ public final class SchemaLoader
     private final URITransformer transformer;
 
     /**
+     * True if we cache loaded schemas, note that preloadedSchemas are always cached
+     */
+    private final boolean cacheEnabled;
+    /**
      * Schema cache
      */
     private final LoadingCache<URI, JsonNode> cache;
-
     /**
      * Our dereferencing mode
      */
@@ -81,17 +86,21 @@ public final class SchemaLoader
         transformer = cfg.getTransformer();
         dereferencing = cfg.getDereferencing();
         manager = new URIManager(cfg);
-        cache = CacheBuilder.newBuilder()
-            .build(new CacheLoader<URI, JsonNode>()
-            {
-                @Override
-                public JsonNode load(final URI key)
-                    throws ProcessingException
+        cacheEnabled = cfg.getEnableCache();
+        
+        final Map<URI, JsonNode> preloadedSchemas = cfg.getPreloadedSchemas();        
+        final CacheBuilder cacheBuilder = (cacheEnabled) ? CacheBuilder.newBuilder() : CacheBuilder.from(CacheBuilderSpec.disableCaching());
+        
+        cache = cacheBuilder.build(new CacheLoader<URI, JsonNode>()
                 {
-                    return manager.getContent(key);
-                }
-            });
-        cache.putAll(cfg.getPreloadedSchemas());
+                    @Override
+                    public JsonNode load(final URI key)
+                        throws ProcessingException
+                    {                      
+                        JsonNode preloadedNode = preloadedSchemas.get(key);                        
+                        return (preloadedNode != null) ? preloadedNode : manager.getContent(key);
+                    }
+                });
     }
 
     /**
