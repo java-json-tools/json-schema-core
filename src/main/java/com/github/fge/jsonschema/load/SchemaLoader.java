@@ -32,6 +32,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheBuilderSpec;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.net.URI;
@@ -59,16 +60,25 @@ public final class SchemaLoader
      */
     private final URIManager manager;
 
+    /**
+     * The URI transformer
+     */
     private final URITransformer transformer;
 
     /**
      * Schema cache
      */
     private final LoadingCache<URI, JsonNode> cache;
+
     /**
      * Our dereferencing mode
      */
     private final Dereferencing dereferencing;
+
+    /**
+     * Map of preloaded schemas
+     */
+    private final Map<URI, JsonNode> preloadedSchemas;
 
     /**
      * Create a new schema loader with a given loading configuration
@@ -82,8 +92,8 @@ public final class SchemaLoader
         transformer = cfg.getTransformer();
         dereferencing = cfg.getDereferencing();
         manager = new URIManager(cfg);
+        preloadedSchemas = ImmutableMap.copyOf(cfg.getPreloadedSchemas());
 
-        final Map<URI, JsonNode> preloadedSchemas = cfg.getPreloadedSchemas();        
         final CacheBuilder<Object, Object> cacheBuilder = cfg.getEnableCache()
             ? CacheBuilder.newBuilder()
             : CacheBuilder.from(CacheBuilderSpec.disableCaching());
@@ -94,8 +104,7 @@ public final class SchemaLoader
                     public JsonNode load(final URI key)
                         throws ProcessingException
                     {                      
-                        final JsonNode ret = preloadedSchemas.get(key);
-                        return ret != null ? ret : manager.getContent(key);
+                        return manager.getContent(key);
                     }
                 });
     }
@@ -150,7 +159,9 @@ public final class SchemaLoader
         final URI realURI = ref.toURI();
 
         try {
-            final JsonNode node = cache.get(realURI);
+            JsonNode node = preloadedSchemas.get(realURI);
+            if (node == null)
+                node = cache.get(realURI);
             return dereferencing.newTree(ref, node);
         } catch (ExecutionException e) {
             throw (ProcessingException) e.getCause();
