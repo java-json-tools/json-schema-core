@@ -14,8 +14,8 @@ project.ext {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.fge", name: "jackson-coreutils", version: "1.4");
-    compile(group: "com.github.fge", name: "uri-template", version: "0.7");
+    compile(group: "com.github.fge", name: "jackson-coreutils", version: "1.5");
+    compile(group: "com.github.fge", name: "uri-template", version: "0.8");
     // FIXME: no javadoc
     compile(group: "org.mozilla", name: "rhino", version: "1.7R4");
     // TODO: make it "provided" when gradle adds support for it
@@ -24,7 +24,7 @@ dependencies {
         // Guice user mailing list says it's safe to exclude this one
         exclude(group: "org.sonatype.sisu.inject", module: "cglib");
     }
-    testCompile(group: "org.testng", name: "testng", version: "6.8.5") {
+    testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
         exclude(group: "org.yaml", module: "snakeyaml");
@@ -37,7 +37,7 @@ javadoc.options.links("http://docs.oracle.com/javase/6/docs/api");
 javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc");
 javadoc.options.links("http://fasterxml.github.com/jackson-databind/javadoc/2.2.0");
 javadoc.options.links("http://fasterxml.github.com/jackson-core/javadoc/2.2.0");
-javadoc.options.links("http://docs.guava-libraries.googlecode.com/git/javadoc");
+javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v16.0.1/javadoc");
 javadoc.options.links("http://fge.github.io/btf");
 javadoc.options.links("http://fge.github.io/msg-simple");
 javadoc.options.links("http://fge.github.io/jackson-coreutils");
