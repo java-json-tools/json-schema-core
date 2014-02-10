@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.load;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.load.transform.URITransformer;
 import com.github.fge.jsonschema.loader.downloaders.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
@@ -117,24 +118,27 @@ public final class SchemaLoaderTest
     }
 
     @Test
-    public void injectedSchemasAreNotFetchedAgain()
+    public void preloadedSchemasAreNotFetchedAgain()
         throws ProcessingException, IOException
     {
         final String location = "http://foo.bar/baz#";
         final URI uri = URI.create(location);
         final URIDownloader mock = mock(URIDownloader.class);
-        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .addScheme("http", mock)
-            .preloadSchema(location, JacksonUtils.nodeFactory().objectNode())
-            .freeze();
-        final SchemaLoader registry = new SchemaLoader(cfg);
+        final LoadingConfigurationBuilder builder = LoadingConfiguration
+            .newBuilder().addScheme("http", mock)
+            .preloadSchema(location, JacksonUtils.nodeFactory().objectNode());
 
+        LoadingConfiguration cfg;
+        SchemaLoader registry;
+
+        cfg = builder.freeze();
+        registry = new SchemaLoader(cfg);
         registry.get(uri);
         verify(mock, never()).fetch(uri);
 
         //even if cache is disabled
-        final LoadingConfiguration cfgNoCache = cfg.thaw().setEnableCache(false).freeze();
-        final SchemaLoader registryNoCache = new SchemaLoader(cfgNoCache);
+        cfg = builder.setEnableCache(false).freeze();
+        registry = new SchemaLoader(cfg);
         registry.get(uri);
         verify(mock, never()).fetch(uri);        
     }
