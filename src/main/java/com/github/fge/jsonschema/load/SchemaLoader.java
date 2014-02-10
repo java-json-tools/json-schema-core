@@ -62,10 +62,6 @@ public final class SchemaLoader
     private final URITransformer transformer;
 
     /**
-     * True if we cache loaded schemas, note that preloadedSchemas are always cached
-     */
-    private final boolean cacheEnabled;
-    /**
      * Schema cache
      */
     private final LoadingCache<URI, JsonNode> cache;
@@ -86,10 +82,11 @@ public final class SchemaLoader
         transformer = cfg.getTransformer();
         dereferencing = cfg.getDereferencing();
         manager = new URIManager(cfg);
-        cacheEnabled = cfg.getEnableCache();
-        
+
         final Map<URI, JsonNode> preloadedSchemas = cfg.getPreloadedSchemas();        
-        final CacheBuilder cacheBuilder = (cacheEnabled) ? CacheBuilder.newBuilder() : CacheBuilder.from(CacheBuilderSpec.disableCaching());
+        final CacheBuilder<Object, Object> cacheBuilder = cfg.getEnableCache()
+            ? CacheBuilder.newBuilder()
+            : CacheBuilder.from(CacheBuilderSpec.disableCaching());
         
         cache = cacheBuilder.build(new CacheLoader<URI, JsonNode>()
                 {
@@ -97,8 +94,8 @@ public final class SchemaLoader
                     public JsonNode load(final URI key)
                         throws ProcessingException
                     {                      
-                        JsonNode preloadedNode = preloadedSchemas.get(key);                        
-                        return (preloadedNode != null) ? preloadedNode : manager.getContent(key);
+                        final JsonNode ret = preloadedSchemas.get(key);
+                        return ret != null ? ret : manager.getContent(key);
                     }
                 });
     }
