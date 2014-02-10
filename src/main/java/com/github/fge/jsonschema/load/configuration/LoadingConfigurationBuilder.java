@@ -72,8 +72,7 @@ public final class LoadingConfigurationBuilder
      * @see URIManager
      * @see URIDownloadersRegistry
      */
-    final URIDownloadersRegistry downloaders
-        = new URIDownloadersRegistry();
+    final URIDownloadersRegistry downloaders = new URIDownloadersRegistry();
 
     URITransformer transformer;
   
@@ -101,9 +100,6 @@ public final class LoadingConfigurationBuilder
 
     /**
      * Set of JsonParser features to be enabled while loading schemas
-     *
-     * <p>The set of JavaParser features used to construct ObjectMapper/
-     * ObjectReader instances used to load schemas</p>
      */
     final EnumSet<JsonParser.Feature> parserFeatures;
 
@@ -139,11 +135,15 @@ public final class LoadingConfigurationBuilder
     }
 
     /**
+     * Should we enable caching of downloaded schemas
+     *
+     * <p>Note that this does <b>not</b> affect preloaded schemas</p>
      * 
      * @param enableCache if loaded schemas have to be cached
      * @return this
      */
-    public LoadingConfigurationBuilder setEnableCache(boolean enableCache) {
+    public LoadingConfigurationBuilder setEnableCache(final boolean enableCache)
+    {
         this.enableCache = enableCache;
         return this;
     }
