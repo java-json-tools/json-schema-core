@@ -18,8 +18,8 @@ dependencies {
     compile(group: "com.github.fge", name: "uri-template", version: "0.8");
     // FIXME: no javadoc
     compile(group: "org.mozilla", name: "rhino", version: "1.7R4");
-    // TODO: make it "provided" when gradle adds support for it
-    compile(group: "com.google.code.findbugs", name: "jsr305", version: "2.0.1");
+    provided(group: "com.google.code.findbugs", name: "jsr305",
+        version: "2.0.1");
     compile(group: "com.google.inject", name: "guice", version: "3.0") {
         // Guice user mailing list says it's safe to exclude this one
         exclude(group: "org.sonatype.sisu.inject", module: "cglib");
