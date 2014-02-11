@@ -149,5 +149,14 @@ public abstract class Registry<K, V>
         return build();
     }
 
+    /**
+     * Check the validity of the entry before submitting it
+     *
+     * <p>Note that the key and value are normalized when entering this
+     * method, and that they cannot be {@code null}.</p>
+     *
+     * @param key the normalized key
+     * @param value the normalized value
+     */
     protected abstract void checkEntry(final K key, final V value);
 }
