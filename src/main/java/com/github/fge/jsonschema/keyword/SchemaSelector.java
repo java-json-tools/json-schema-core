@@ -17,7 +17,7 @@ public final class SchemaSelector
     private final Map<URI, SchemaDescriptor> descriptors;
     private final SchemaDescriptor defaultDescriptor;
 
-    public SchemaSelector(final SchemaSelectorModule cfg)
+    public SchemaSelector(final SchemaSelectorConfiguration cfg)
     {
         defaultDescriptor = cfg.getDefaultDescriptor();
         descriptors = ImmutableMap.copyOf(cfg.getDescriptors());

@@ -9,7 +9,8 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.KeywordDescriptor;
 import com.github.fge.jsonschema.keyword.SchemaDescriptor;
 import com.github.fge.jsonschema.keyword.SchemaDescriptorBuilder;
-import com.github.fge.jsonschema.keyword.SchemaSelectorModule;
+import com.github.fge.jsonschema.keyword.SchemaSelector;
+import com.github.fge.jsonschema.keyword.SchemaSelectorConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -68,13 +69,11 @@ public final class SchemaAnalyzerTest
             .setPointerCollector(collector2).build();
         builder.addKeyword(descriptor);
 
-        final SchemaSelectorModule module = new SchemaSelectorModule() {
-            {
-                addDescriptor(builder.freeze(), true);
-            }
-        };
+        final SchemaSelectorConfiguration cfg
+            = SchemaSelectorConfiguration.newBuilder()
+                .addDescriptor(builder.freeze(), true).freeze();
 
-        analyzer = new SchemaAnalyzer(BUNDLE, module.get());
+        analyzer = new SchemaAnalyzer(BUNDLE, new SchemaSelector(cfg));
     }
 
     @Test

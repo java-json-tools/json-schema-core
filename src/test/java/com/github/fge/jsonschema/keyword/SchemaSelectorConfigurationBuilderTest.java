@@ -4,26 +4,31 @@ import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.net.URI;
 
 import static org.testng.Assert.*;
 
-public final class SchemaSelectorModuleTest
+public final class SchemaSelectorConfigurationBuilderTest
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
+
+    private SchemaSelectorConfigurationBuilder builder;
+
+    @BeforeMethod
+    public void init()
+    {
+        builder = SchemaSelectorConfiguration.newBuilder();
+    }
 
     @Test
     public void cannotInsertNullDescriptorInModule()
     {
         try {
-            new SchemaSelectorModule() {
-                {
-                    addDescriptor(null, false);
-                }
-            };
+            builder.addDescriptor(null, false);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
@@ -39,11 +44,7 @@ public final class SchemaSelectorModuleTest
             .setLocator(location).freeze();
 
         try {
-            new SchemaSelectorModule() {
-                {
-                    addDescriptor(descriptor, false);
-                }
-            };
+            builder.addDescriptor(descriptor, false);
             fail("No exception thrown!");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(),
@@ -55,11 +56,7 @@ public final class SchemaSelectorModuleTest
     public void cannotSetNullDefaultVersion()
     {
         try {
-            new SchemaSelectorModule() {
-                {
-                    setDefaultVersion(null);
-                }
-            };
+            builder.setDefaultVersion(null);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),

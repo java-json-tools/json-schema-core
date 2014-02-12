@@ -1,27 +1,32 @@
 package com.github.fge.jsonschema.keyword;
 
+import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import com.google.common.annotations.Beta;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.net.URI;
 import java.util.Map;
 
-@Beta
-public class SchemaSelectorModule
+public final class SchemaSelectorConfigurationBuilder
+    implements Thawed<SchemaSelectorConfiguration>
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    private final Map<URI, SchemaDescriptor> descriptors
-        = Maps.newHashMap();
-    private SchemaDescriptor defaultDescriptor;
+    final Map<URI, SchemaDescriptor> descriptors = Maps.newHashMap();
 
-    public SchemaSelectorModule()
+    SchemaDescriptor defaultDescriptor;
+
+    SchemaSelectorConfigurationBuilder(final SchemaSelectorConfiguration cfg)
+    {
+        descriptors.putAll(cfg.descriptors);
+        defaultDescriptor = cfg.defaultDescriptor;
+    }
+
+    SchemaSelectorConfigurationBuilder()
     {
         defaultDescriptor = SchemaDescriptors.byDefault();
 
@@ -35,14 +40,16 @@ public class SchemaSelectorModule
         descriptors.put(descriptor.getLocator(), descriptor);
     }
 
-    protected final void setDefaultVersion(final SchemaVersion version)
+    public SchemaSelectorConfigurationBuilder setDefaultVersion(
+        final SchemaVersion version)
     {
         BUNDLE.checkNotNull(version, "schemaSelector.nullVersion");
         defaultDescriptor = descriptors.get(version.getLocation());
+        return this;
     }
 
-    protected final void addDescriptor(final SchemaDescriptor descriptor,
-        final boolean makeDefault)
+    public SchemaSelectorConfigurationBuilder addDescriptor(
+        final SchemaDescriptor descriptor, final boolean makeDefault)
     {
         final URI uri = BUNDLE.checkNotNull(descriptor,
             "schemaSelector.nullDescriptor").getLocator();
@@ -50,22 +57,12 @@ public class SchemaSelectorModule
             "schemaSelector.duplicateSchema", uri);
         if (makeDefault)
             defaultDescriptor = descriptor;
+        return this;
     }
 
-    public final Map<URI, SchemaDescriptor> getDescriptors()
+    @Override
+    public SchemaSelectorConfiguration freeze()
     {
-        return ImmutableMap.copyOf(descriptors);
-    }
-
-    public final SchemaDescriptor getDefaultDescriptor()
-    {
-        return defaultDescriptor;
-    }
-
-    public final SchemaSelector get()
-    {
-        final Map<URI, SchemaDescriptor> descriptorMap
-            = ImmutableMap.copyOf(descriptors);
-        return new SchemaSelector(descriptorMap, defaultDescriptor);
+        return new SchemaSelectorConfiguration(this);
     }
 }

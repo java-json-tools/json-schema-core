@@ -35,11 +35,9 @@ public final class SchemaSelectorTest
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         node.put("$schema", locator.toString());
         final SchemaTree tree = new CanonicalSchemaTree(node);
-        final SchemaSelectorModule cfg = new SchemaSelectorModule() {
-            {
-                addDescriptor(DESCRIPTOR, false);
-            }
-        };
+        final SchemaSelectorConfiguration cfg
+            = SchemaSelectorConfiguration.newBuilder()
+                .addDescriptor(DESCRIPTOR, false).freeze();
         final SchemaSelector selector = new SchemaSelector(cfg);
         final SchemaDescriptor descriptor = selector.selectDescriptor(tree);
         assertSame(descriptor, DESCRIPTOR);
@@ -50,11 +48,9 @@ public final class SchemaSelectorTest
     {
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         final SchemaTree tree = new CanonicalSchemaTree(node);
-        final SchemaSelectorModule cfg = new SchemaSelectorModule() {
-            {
-                addDescriptor(DESCRIPTOR, true);
-            }
-        };
+        final SchemaSelectorConfiguration cfg
+            = SchemaSelectorConfiguration.newBuilder()
+                .addDescriptor(DESCRIPTOR, true).freeze();
         final SchemaSelector selector = new SchemaSelector(cfg);
         final SchemaDescriptor descriptor = selector.selectDescriptor(tree);
         assertSame(descriptor, DESCRIPTOR);
