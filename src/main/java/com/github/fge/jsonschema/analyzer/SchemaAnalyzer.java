@@ -15,8 +15,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.concurrent.ExecutionException;
 
 @Beta
@@ -24,9 +22,7 @@ public final class SchemaAnalyzer
 {
     private final LoadingCache<SchemaKey, SchemaAnalysis> cache;
 
-    @Inject
-    SchemaAnalyzer(@Named("syntaxMessages") final MessageBundle bundle,
-        final SchemaSelector selector)
+    SchemaAnalyzer(final MessageBundle bundle, final SchemaSelector selector)
     {
         cache = CacheBuilder.newBuilder()
             .build(new SchemaAnalyzerLoader(selector, bundle));

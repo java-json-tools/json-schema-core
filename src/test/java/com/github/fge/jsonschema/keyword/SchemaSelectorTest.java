@@ -5,7 +5,6 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.ImmutableList;
-import com.google.inject.Guice;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -36,13 +35,12 @@ public final class SchemaSelectorTest
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         node.put("$schema", locator.toString());
         final SchemaTree tree = new CanonicalSchemaTree(node);
-        final SchemaSelectorModule module = new SchemaSelectorModule() {
+        final SchemaSelectorModule cfg = new SchemaSelectorModule() {
             {
                 addDescriptor(DESCRIPTOR, false);
             }
         };
-        final SchemaSelector selector = Guice.createInjector(module)
-            .getInstance(SchemaSelector.class);
+        final SchemaSelector selector = new SchemaSelector(cfg);
         final SchemaDescriptor descriptor = selector.selectDescriptor(tree);
         assertSame(descriptor, DESCRIPTOR);
     }
@@ -52,13 +50,12 @@ public final class SchemaSelectorTest
     {
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         final SchemaTree tree = new CanonicalSchemaTree(node);
-        final SchemaSelectorModule module = new SchemaSelectorModule() {
+        final SchemaSelectorModule cfg = new SchemaSelectorModule() {
             {
                 addDescriptor(DESCRIPTOR, true);
             }
         };
-        final SchemaSelector selector = Guice.createInjector(module)
-            .getInstance(SchemaSelector.class);
+        final SchemaSelector selector = new SchemaSelector(cfg);
         final SchemaDescriptor descriptor = selector.selectDescriptor(tree);
         assertSame(descriptor, DESCRIPTOR);
     }

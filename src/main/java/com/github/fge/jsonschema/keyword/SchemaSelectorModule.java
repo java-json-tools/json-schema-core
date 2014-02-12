@@ -7,17 +7,12 @@ import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
 
-import javax.inject.Provider;
 import java.net.URI;
 import java.util.Map;
 
 @Beta
 public class SchemaSelectorModule
-    extends AbstractModule
-    implements Provider<SchemaSelector>
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
@@ -57,24 +52,16 @@ public class SchemaSelectorModule
             defaultDescriptor = descriptor;
     }
 
-    @Override
-    protected final void configure()
-    {
-    }
-
-    @Provides
     public final Map<URI, SchemaDescriptor> getDescriptors()
     {
         return ImmutableMap.copyOf(descriptors);
     }
 
-    @Provides
     public final SchemaDescriptor getDefaultDescriptor()
     {
         return defaultDescriptor;
     }
 
-    @Override
     public final SchemaSelector get()
     {
         final Map<URI, SchemaDescriptor> descriptorMap

@@ -6,8 +6,8 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
 
-import javax.inject.Inject;
 import java.net.URI;
 import java.util.Map;
 
@@ -17,7 +17,12 @@ public final class SchemaSelector
     private final Map<URI, SchemaDescriptor> descriptors;
     private final SchemaDescriptor defaultDescriptor;
 
-    @Inject
+    public SchemaSelector(final SchemaSelectorModule cfg)
+    {
+        defaultDescriptor = cfg.getDefaultDescriptor();
+        descriptors = ImmutableMap.copyOf(cfg.getDescriptors());
+    }
+
     SchemaSelector(final Map<URI, SchemaDescriptor> descriptors,
         final SchemaDescriptor defaultDescriptor)
     {
