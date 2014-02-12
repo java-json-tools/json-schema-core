@@ -213,7 +213,7 @@ public final class URIUtils
         return SCHEMAURI_NORMALIZER;
     }
 
-    public static URI toSchemaURI(@Nullable final URI uri)
+    public static URI normalizeSchemaURI(@Nullable final URI uri)
     {
         return SCHEMAURI_NORMALIZER.apply(uri);
     }

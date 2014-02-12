@@ -34,7 +34,7 @@ public final class SchemaDescriptorBuilder
     public SchemaDescriptorBuilder setLocator(final URI uri)
     {
         BUNDLE.checkNotNull(uri, "schemaDescriptor.nullLocator");
-        final URI normalized = URIUtils.toSchemaURI(uri);
+        final URI normalized = URIUtils.normalizeSchemaURI(uri);
         URIUtils.checkSchemaURI(normalized);
         locator = normalized;
         return this;

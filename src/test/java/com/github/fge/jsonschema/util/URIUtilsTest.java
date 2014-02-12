@@ -106,7 +106,7 @@ public final class URIUtilsTest
     @Test(dataProvider = "schemaURIs")
     public void schemaURIsAreCorrectlyNormalized(final URI orig, final URI dst)
     {
-        assertEquals(URIUtils.toSchemaURI(orig), dst);
+        assertEquals(URIUtils.normalizeSchemaURI(orig), dst);
     }
 
     @DataProvider
