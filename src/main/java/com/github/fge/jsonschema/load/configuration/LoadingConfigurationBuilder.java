@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIManager;
-import com.github.fge.jsonschema.load.transform.URITransformer;
+import com.github.fge.jsonschema.load.uri.URITranslatorConfiguration;
 import com.github.fge.jsonschema.loader.downloaders.URIDownloader;
 import com.github.fge.jsonschema.loader.downloaders.URIDownloadersRegistry;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
@@ -74,8 +74,8 @@ public final class LoadingConfigurationBuilder
      */
     final URIDownloadersRegistry downloaders = new URIDownloadersRegistry();
 
-    URITransformer transformer;
-  
+    URITranslatorConfiguration translatorCfg;
+
     /**
      * Loaded schemas are cached by default
      */
@@ -110,7 +110,7 @@ public final class LoadingConfigurationBuilder
      */
     LoadingConfigurationBuilder()
     {
-        transformer = URITransformer.byDefault();
+        translatorCfg = URITranslatorConfiguration.byDefault();
         dereferencing = Dereferencing.CANONICAL;
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
@@ -127,7 +127,7 @@ public final class LoadingConfigurationBuilder
     LoadingConfigurationBuilder(final LoadingConfiguration cfg)
     {
         downloaders.putAll(cfg.downloaders);
-        transformer = cfg.transformer;
+        translatorCfg = cfg.translatorCfg;
         dereferencing = cfg.dereferencing;
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
@@ -180,11 +180,10 @@ public final class LoadingConfigurationBuilder
         return this;
     }
 
-    public LoadingConfigurationBuilder setURITransformer(
-        final URITransformer transformer)
+    public LoadingConfigurationBuilder setURITranslatorConfiguration(
+        final URITranslatorConfiguration translatorCfg)
     {
-        this.transformer = BUNDLE.checkNotNull(transformer,
-            "loadingCfg.nullURITransformer");
+        this.translatorCfg = translatorCfg;
         return this;
     }
 
@@ -196,13 +195,14 @@ public final class LoadingConfigurationBuilder
      * @throws NullPointerException input is null
      * @throws IllegalArgumentException input is not an absolute JSON Reference
      *
-     * @deprecated use {@link #setURITransformer(URITransformer)} instead; will
-     * disappear in 1.1.9.
+     * @deprecated use a {@link URITranslatorConfiguration}  and
+     * {@link #setURITranslatorConfiguration(URITranslatorConfiguration)}
+     * instead; this method will disappear in 1.1.9.
      */
     @Deprecated
     public LoadingConfigurationBuilder setNamespace(final String input)
     {
-        transformer = transformer.thaw().setNamespace(input).freeze();
+        translatorCfg = translatorCfg.thaw().setNamespace(input).freeze();
         return this;
     }
 
@@ -232,15 +232,16 @@ public final class LoadingConfigurationBuilder
      * @throws NullPointerException source or destination is null
      * @throws IllegalArgumentException source and destination are the same URI
      *
-     * @deprecated use {@link #setURITransformer(URITransformer)} instead; will
-     * be removed in 1.1.9.
+     * @deprecated use a {@link URITranslatorConfiguration}  and
+     * {@link #setURITranslatorConfiguration(URITranslatorConfiguration)}
+     * instead; this method will disappear in 1.1.9.
      */
     @Deprecated
     public LoadingConfigurationBuilder addSchemaRedirect(final String source,
         final String destination)
     {
-        transformer = transformer.thaw().addSchemaRedirect(source, destination)
-            .freeze();
+        translatorCfg = translatorCfg.thaw()
+            .addSchemaRedirect(source, destination).freeze();
         return this;
     }
 

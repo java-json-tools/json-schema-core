@@ -21,7 +21,7 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
-import com.github.fge.jsonschema.load.transform.URITransformer;
+import com.github.fge.jsonschema.load.uri.URITranslatorConfiguration;
 import com.github.fge.jsonschema.loader.downloaders.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -66,10 +66,12 @@ public final class SchemaLoaderTest
         });
 
         final String namespace = "foo:///bar/../bar/";
-        final URITransformer transformer = URITransformer.newBuilder()
-            .setNamespace(namespace).freeze();
+        final URITranslatorConfiguration translatorCfg
+            = URITranslatorConfiguration.newBuilder()
+                .setNamespace(namespace).freeze();
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .addScheme("foo", downloader).setURITransformer(transformer)
+            .addScheme("foo", downloader)
+            .setURITranslatorConfiguration(translatorCfg)
             .freeze();
 
         final URI rootns = URI.create(namespace);

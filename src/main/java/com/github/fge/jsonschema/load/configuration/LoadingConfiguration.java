@@ -29,7 +29,7 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIManager;
-import com.github.fge.jsonschema.load.transform.URITransformer;
+import com.github.fge.jsonschema.load.uri.URITranslatorConfiguration;
 import com.github.fge.jsonschema.loader.downloaders.URIDownloader;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
@@ -73,7 +73,7 @@ public final class LoadingConfiguration
      */
     final Map<String, URIDownloader> downloaders;
 
-    final URITransformer transformer;
+    final URITranslatorConfiguration translatorCfg;
     
     /**
      * If we have to cache loaded schemas, note that this do not affect preloadedSchema that are always cached
@@ -144,7 +144,7 @@ public final class LoadingConfiguration
     LoadingConfiguration(final LoadingConfigurationBuilder builder)
     {
         downloaders = builder.downloaders.build();
-        transformer = builder.transformer;
+        translatorCfg = builder.translatorCfg;
         dereferencing = builder.dereferencing;
         preloadedSchemas = ImmutableMap.copyOf(builder.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(builder.parserFeatures);
@@ -205,9 +205,9 @@ public final class LoadingConfiguration
         return downloaders; // ImmutableMap
     }
 
-    public URITransformer getTransformer()
+    public URITranslatorConfiguration getTranslatorConfiguration()
     {
-        return transformer;
+        return translatorCfg;
     }
 
     /**

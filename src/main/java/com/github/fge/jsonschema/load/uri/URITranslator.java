@@ -1,42 +1,29 @@
-package com.github.fge.jsonschema.load.transform;
+package com.github.fge.jsonschema.load.uri;
 
-import com.github.fge.Frozen;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.util.URIUtils;
 import com.google.common.collect.ImmutableMap;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-public final class URITransformer
-    implements Frozen<URITransformerBuilder>
+public final class URITranslator
 {
-    final URI namespace;
+    private final URI namespace;
+    private final Map<URI, URI> pathRedirects;
+    private final Map<URI, URI> schemaRedirects;
 
-    final Map<URI, URI> pathRedirects;
-
-    final Map<URI, URI> schemaRedirects;
-
-    public static URITransformerBuilder newBuilder()
+    public URITranslator(final URITranslatorConfiguration cfg)
     {
-        return new URITransformerBuilder();
+        namespace = cfg.namespace;
+        pathRedirects = ImmutableMap.copyOf(cfg.pathRedirects);
+        schemaRedirects = ImmutableMap.copyOf(cfg.schemaRedirects);
     }
 
-    public static URITransformer byDefault()
+    public URI translate(final URI source)
     {
-        return new URITransformerBuilder().freeze();
-    }
-
-    URITransformer(final URITransformerBuilder builder)
-    {
-        namespace = builder.namespace;
-        pathRedirects = ImmutableMap.copyOf(builder.pathRedirects);
-        schemaRedirects = ImmutableMap.copyOf(builder.schemaRedirects);
-    }
-
-    public URI transform(final URI source)
-    {
-        URI uri = namespace.resolve(source).normalize();
+        URI uri = URIUtils.normalizeURI(namespace.resolve(source));
         final String fragment = uri.getFragment();
 
         try {
@@ -62,11 +49,5 @@ public final class URITransformer
         } catch (URISyntaxException e) {
             throw new IllegalStateException("How did I get there??", e);
         }
-    }
-
-    @Override
-    public URITransformerBuilder thaw()
-    {
-        return new URITransformerBuilder(this);
     }
 }

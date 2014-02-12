@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
-import com.github.fge.jsonschema.load.transform.URITransformer;
+import com.github.fge.jsonschema.load.uri.URITranslator;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -61,9 +61,9 @@ public final class SchemaLoader
     private final URIManager manager;
 
     /**
-     * The URI transformer
+     * The URI translator
      */
-    private final URITransformer transformer;
+    private final URITranslator translator;
 
     /**
      * Schema cache
@@ -89,7 +89,7 @@ public final class SchemaLoader
      */
     public SchemaLoader(final LoadingConfiguration cfg)
     {
-        transformer = cfg.getTransformer();
+        translator = new URITranslator(cfg.getTranslatorConfiguration());
         dereferencing = cfg.getDereferencing();
         manager = new URIManager(cfg);
         preloadedSchemas = ImmutableMap.copyOf(cfg.getPreloadedSchemas());
@@ -149,7 +149,7 @@ public final class SchemaLoader
     public SchemaTree get(final URI uri)
         throws ProcessingException
     {
-        final JsonRef ref = JsonRef.fromURI(transformer.transform(uri));
+        final JsonRef ref = JsonRef.fromURI(translator.translate(uri));
 
         if (!ref.isAbsolute())
             throw new ProcessingException(new ProcessingMessage()

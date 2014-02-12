@@ -1,7 +1,6 @@
-package com.github.fge.jsonschema.load.transform;
+package com.github.fge.jsonschema.load.uri;
 
 import com.google.common.collect.Lists;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -11,7 +10,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public final class URITransformerTest
+public final class URITranslatorTest
 {
     private static final URI SRCPATH
         = URI.create("http://my.site/schemas/");
@@ -30,23 +29,19 @@ public final class URITransformerTest
     private static final URI DSTSCHEMA2
         = URI.create("resource:/draftv3/schema");
 
-    private URITransformerBuilder builder;
-
-    @BeforeMethod
-    public void initBuilder()
-    {
-        builder = URITransformer.newBuilder();
-    }
+    private URITranslatorConfiguration cfg;
+    private URITranslator translator;
 
     @Test
-    public void defaultTransformerNormalizesURIs()
+    public void defaultTranslatorNormalizesURIs()
     {
         final URI source = URI.create("foo:///bar/../baz");
         final URI expected = URI.create("foo:/baz");
 
-        final URITransformer transformer = builder.freeze();
+        cfg = URITranslatorConfiguration.byDefault();
+        translator = new URITranslator(cfg);
 
-        assertEquals(transformer.transform(source), expected);
+        assertEquals(translator.translate(source), expected);
     }
 
     @DataProvider
@@ -78,11 +73,12 @@ public final class URITransformerTest
     @Test(dataProvider = "pathRedirectionData")
     public void pathRedirectionsWork(final URI from, final URI to)
     {
-        final URITransformer transformer
-            = builder.addPathRedirect(SRCPATH, DSTPATH)
+        cfg = URITranslatorConfiguration.newBuilder()
+            .addPathRedirect(SRCPATH, DSTPATH)
             .addPathRedirect(SRCPATH2, DSTPATH2).freeze();
+        translator = new URITranslator(cfg);
 
-        assertEquals(transformer.transform(from), to);
+        assertEquals(translator.translate(from), to);
     }
 
     @DataProvider
@@ -109,10 +105,10 @@ public final class URITransformerTest
     @Test(dataProvider = "schemaRedirectionData")
     public void schemaRedirectionsWork(final URI from, final URI to)
     {
-        final URITransformer transformer
-            = builder.addSchemaRedirect(SRCSCHEMA1, DSTSCHEMA1)
+        cfg = URITranslatorConfiguration.newBuilder()
+            .addSchemaRedirect(SRCSCHEMA1, DSTSCHEMA1)
             .addSchemaRedirect(SRCSCHEMA2, DSTSCHEMA2).freeze();
-
-        assertEquals(transformer.transform(from), to);
+        translator = new URITranslator(cfg);
+        assertEquals(translator.translate(from), to);
     }
 }
