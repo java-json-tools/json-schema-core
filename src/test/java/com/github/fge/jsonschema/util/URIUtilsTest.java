@@ -80,6 +80,36 @@ public final class URIUtilsTest
     }
 
     @DataProvider
+    public Iterator<Object[]> schemaURIs()
+    {
+        final List<Object[]> list = Lists.newArrayList();
+
+        String orig, dst;
+
+        orig = "a/b";
+        dst = "a/b#";
+        list.add(new Object[] { URI.create(orig), URI.create(dst) });
+
+        orig = "http://my.site/schema#definitions/foo";
+        dst = "http://my.site/schema#definitions/foo";
+        list.add(new Object[] { URI.create(orig), URI.create(dst) });
+
+        orig = "http://my.site/schema";
+        dst = "http://my.site/schema#";
+        list.add(new Object[] { URI.create(orig), URI.create(dst) });
+        list.add(new Object[] { null, null });
+
+        return list.iterator();
+    }
+
+
+    @Test(dataProvider = "schemaURIs")
+    public void schemaURIsAreCorrectlyNormalized(final URI orig, final URI dst)
+    {
+        assertEquals(URIUtils.toSchemaURI(orig), dst);
+    }
+
+    @DataProvider
     public Iterator<Object[]> invalidPathURIs()
     {
         final List<Object[]> list = Lists.newArrayList();
