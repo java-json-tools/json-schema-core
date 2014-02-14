@@ -1,7 +1,7 @@
 package com.github.fge.jsonschema.analyzer;
 
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.SchemaDescriptor;
 import com.github.fge.jsonschema.keyword.SchemaSelector;
 import com.github.fge.jsonschema.report.ListProcessingReport;

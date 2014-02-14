@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;

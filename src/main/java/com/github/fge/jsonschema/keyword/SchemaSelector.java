@@ -1,7 +1,7 @@
 package com.github.fge.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.annotations.Beta;

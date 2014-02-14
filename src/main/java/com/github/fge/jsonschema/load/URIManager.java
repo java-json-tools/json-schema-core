@@ -21,7 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.loader.downloaders.URIDownloader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;

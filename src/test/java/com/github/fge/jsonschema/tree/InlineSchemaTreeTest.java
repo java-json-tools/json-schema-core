@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;

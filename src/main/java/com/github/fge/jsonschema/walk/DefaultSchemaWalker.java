@@ -1,6 +1,6 @@
 package com.github.fge.jsonschema.walk;
 
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.SchemaDescriptor;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;

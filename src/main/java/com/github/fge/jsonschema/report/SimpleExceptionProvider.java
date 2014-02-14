@@ -17,8 +17,8 @@
 
 package com.github.fge.jsonschema.report;
 
-import com.github.fge.jsonschema.exceptions.ExceptionProvider;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ExceptionProvider;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 
 /**
  * An {@link ExceptionProvider} providing {@link ProcessingException} instances

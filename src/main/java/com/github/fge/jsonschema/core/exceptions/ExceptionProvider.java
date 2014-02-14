@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions;
+package com.github.fge.jsonschema.core.exceptions;
 
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.report.SimpleExceptionProvider;

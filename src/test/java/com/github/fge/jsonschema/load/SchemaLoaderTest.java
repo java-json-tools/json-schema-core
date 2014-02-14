@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.load;
 
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.load.uri.URITranslatorConfiguration;
