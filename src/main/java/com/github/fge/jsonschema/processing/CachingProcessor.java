@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.equivalence.Equivalences;
+import com.github.fge.jsonschema.core.util.equivalence.Equivalences;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Equivalence;

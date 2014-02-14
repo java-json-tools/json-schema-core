@@ -15,15 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package com.github.fge.jsonschema.core.util;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.tree.SchemaTree;
+
 /**
- * Various utility classes
+ * Interface implemented by classes having a JSON representation
  *
- * <p>{@link com.github.fge.jsonschema.util.RhinoHelper} is in charge of all
- * regex validation: as the standard dictates ECMA 262 regexes, using {@link
- * java.util.regex} is out of the question. See this class' description for more
- * details.</p>
- *
- * <p>There are other, various utility interfaces used elsewhere in the code.
- * </p>
+ * <p>This representation needs not be complete. For instance, {@link
+ * SchemaTree} implements it to provide an object with the summary of its main
+ * characteristics (loading URI, current pointer).</p>
  */
-package com.github.fge.jsonschema.util;
+public interface AsJson
+{
+    /**
+     * Return a JSON representation of this object
+     *
+     * @return a {@link JsonNode}
+     */
+    JsonNode asJson();
+}

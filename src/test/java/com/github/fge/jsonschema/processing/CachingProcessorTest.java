@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.equivalence.Equivalences;
+import com.github.fge.jsonschema.core.util.equivalence.Equivalences;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.BeforeMethod;

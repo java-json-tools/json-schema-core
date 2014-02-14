@@ -36,7 +36,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.ValueHolder;
+import com.github.fge.jsonschema.core.util.ValueHolder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Function;

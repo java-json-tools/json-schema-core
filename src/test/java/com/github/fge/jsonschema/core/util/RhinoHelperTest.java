@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util;
+package com.github.fge.jsonschema.core.util;
 
 import com.google.common.collect.ImmutableList;
 import org.testng.annotations.DataProvider;

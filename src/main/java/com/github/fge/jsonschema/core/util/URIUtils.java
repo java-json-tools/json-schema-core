@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.util;
+package com.github.fge.jsonschema.core.util;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;

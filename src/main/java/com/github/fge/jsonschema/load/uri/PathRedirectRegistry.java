@@ -1,8 +1,8 @@
 package com.github.fge.jsonschema.load.uri;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.util.Registry;
-import com.github.fge.jsonschema.util.URIUtils;
+import com.github.fge.jsonschema.core.util.Registry;
+import com.github.fge.jsonschema.core.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 

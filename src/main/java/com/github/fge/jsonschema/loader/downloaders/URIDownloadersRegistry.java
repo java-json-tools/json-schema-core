@@ -1,8 +1,8 @@
 package com.github.fge.jsonschema.loader.downloaders;
 
-import com.github.fge.jsonschema.util.ArgumentChecker;
-import com.github.fge.jsonschema.util.Registry;
-import com.github.fge.jsonschema.util.URIUtils;
+import com.github.fge.jsonschema.core.util.ArgumentChecker;
+import com.github.fge.jsonschema.core.util.Registry;
+import com.github.fge.jsonschema.core.util.URIUtils;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableMap;

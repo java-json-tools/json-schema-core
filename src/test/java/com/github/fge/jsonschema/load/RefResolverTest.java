@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.ValueHolder;
+import com.github.fge.jsonschema.core.util.ValueHolder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.Test;

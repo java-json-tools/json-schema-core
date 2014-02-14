@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.RhinoHelper;
+import com.github.fge.jsonschema.core.util.RhinoHelper;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;

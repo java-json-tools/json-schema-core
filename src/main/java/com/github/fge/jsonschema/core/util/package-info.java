@@ -15,21 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-final class SimpleValueHolder<T>
-    extends ValueHolder<T>
-{
-    SimpleValueHolder(final String name, final T value)
-    {
-        super(name, value);
-    }
-
-    @Override
-    protected JsonNode valueAsJson()
-    {
-        return FACTORY.textNode(value.getClass().getCanonicalName());
-    }
-}
+/**
+ * Various utility classes
+ *
+ * <p>{@link com.github.fge.jsonschema.core.util.RhinoHelper} is in charge of
+ * all regex validation: as the standard dictates ECMA 262 regexes, using {@link
+ * java.util.regex} is out of the question. See this class' description for more
+ * details.</p>
+ *
+ * <p>There are other, various utility interfaces used elsewhere in the code.
+ * </p>
+ */
+package com.github.fge.jsonschema.core.util;

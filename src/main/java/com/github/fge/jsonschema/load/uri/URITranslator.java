@@ -1,7 +1,7 @@
 package com.github.fge.jsonschema.load.uri;
 
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.util.URIUtils;
+import com.github.fge.jsonschema.core.util.URIUtils;
 import com.google.common.collect.ImmutableMap;
 
 import java.net.URI;

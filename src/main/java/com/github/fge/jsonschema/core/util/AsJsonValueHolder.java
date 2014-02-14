@@ -15,24 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util;
+package com.github.fge.jsonschema.core.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.tree.SchemaTree;
+
+import javax.annotation.concurrent.Immutable;
 
 /**
- * Interface implemented by classes having a JSON representation
+ * A specialized {@link ValueHolder} for values implementing {@link AsJson}
  *
- * <p>This representation needs not be complete. For instance, {@link
- * SchemaTree} implements it to provide an object with the summary of its main
- * characteristics (loading URI, current pointer).</p>
+ * @param <T> the type of the value
  */
-public interface AsJson
+@Immutable
+final class AsJsonValueHolder<T extends AsJson>
+    extends ValueHolder<T>
 {
-    /**
-     * Return a JSON representation of this object
-     *
-     * @return a {@link JsonNode}
-     */
-    JsonNode asJson();
+    AsJsonValueHolder(final String name, final T value)
+    {
+        super(name, value);
+    }
+
+    @Override
+    protected JsonNode valueAsJson()
+    {
+        return value.asJson();
+    }
 }

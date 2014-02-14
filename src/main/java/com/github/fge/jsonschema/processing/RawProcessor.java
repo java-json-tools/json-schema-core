@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.ValueHolder;
+import com.github.fge.jsonschema.core.util.ValueHolder;
 
 /**
  * Processor wrapper class

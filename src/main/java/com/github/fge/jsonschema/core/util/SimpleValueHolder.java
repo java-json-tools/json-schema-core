@@ -15,22 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util;
+package com.github.fge.jsonschema.core.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import javax.annotation.concurrent.Immutable;
-
-/**
- * A specialized {@link ValueHolder} for values implementing {@link AsJson}
- *
- * @param <T> the type of the value
- */
-@Immutable
-final class AsJsonValueHolder<T extends AsJson>
+final class SimpleValueHolder<T>
     extends ValueHolder<T>
 {
-    AsJsonValueHolder(final String name, final T value)
+    SimpleValueHolder(final String name, final T value)
     {
         super(name, value);
     }
@@ -38,6 +30,6 @@ final class AsJsonValueHolder<T extends AsJson>
     @Override
     protected JsonNode valueAsJson()
     {
-        return value.asJson();
+        return FACTORY.textNode(value.getClass().getCanonicalName());
     }
 }
