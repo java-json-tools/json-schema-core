@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.core.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;

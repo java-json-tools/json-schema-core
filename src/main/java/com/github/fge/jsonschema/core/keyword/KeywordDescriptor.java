@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.core.keyword;
 
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;

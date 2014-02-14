@@ -1,5 +1,8 @@
 package com.github.fge.jsonschema.keyword;
 
+import com.github.fge.jsonschema.core.keyword.KeywordDescriptor;
+import com.github.fge.jsonschema.core.schema.SchemaDescriptor;
+import com.github.fge.jsonschema.core.schema.SchemaDescriptorBuilder;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.walk.collectors.PointerCollector;

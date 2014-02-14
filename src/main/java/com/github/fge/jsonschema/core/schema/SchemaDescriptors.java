@@ -1,6 +1,7 @@
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.core.schema;
 
 import com.github.fge.jsonschema.SchemaVersion;
+import com.github.fge.jsonschema.core.keyword.KeywordDescriptor;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;

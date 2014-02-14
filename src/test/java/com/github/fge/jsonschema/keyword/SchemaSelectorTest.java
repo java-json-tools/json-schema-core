@@ -2,6 +2,9 @@ package com.github.fge.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jsonschema.core.schema.SchemaDescriptor;
+import com.github.fge.jsonschema.core.schema.SchemaSelector;
+import com.github.fge.jsonschema.core.schema.SchemaSelectorConfiguration;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.ImmutableList;

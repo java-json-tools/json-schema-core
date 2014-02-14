@@ -1,6 +1,8 @@
 package com.github.fge.jsonschema.keyword;
 
 import com.github.fge.jsonschema.SchemaVersion;
+import com.github.fge.jsonschema.core.schema.SchemaDescriptor;
+import com.github.fge.jsonschema.core.schema.SchemaDescriptors;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

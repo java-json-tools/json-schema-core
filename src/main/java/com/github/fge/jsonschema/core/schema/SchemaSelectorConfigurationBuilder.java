@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.core.schema;
 
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;

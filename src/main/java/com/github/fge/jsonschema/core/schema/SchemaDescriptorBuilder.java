@@ -1,6 +1,7 @@
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.core.schema;
 
 import com.github.fge.Thawed;
+import com.github.fge.jsonschema.core.keyword.KeywordDescriptor;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.core.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;

@@ -1,6 +1,9 @@
 package com.github.fge.jsonschema.keyword;
 
 import com.github.fge.jsonschema.SchemaVersion;
+import com.github.fge.jsonschema.core.schema.SchemaDescriptor;
+import com.github.fge.jsonschema.core.schema.SchemaSelectorConfiguration;
+import com.github.fge.jsonschema.core.schema.SchemaSelectorConfigurationBuilder;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
