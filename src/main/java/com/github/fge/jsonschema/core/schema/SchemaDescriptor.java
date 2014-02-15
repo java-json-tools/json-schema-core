@@ -17,8 +17,6 @@ public final class SchemaDescriptor
 {
     final URI locator;
     final Map<String, KeywordDescriptor> keywords;
-    private final Map<String, SyntaxChecker> syntaxCheckers;
-    private final Map<String, PointerCollector> pointerCollectors;
 
     public static SchemaDescriptorBuilder newBuilder()
     {
@@ -29,29 +27,6 @@ public final class SchemaDescriptor
     {
         locator = builder.locator;
         keywords = ImmutableMap.copyOf(builder.keywords);
-
-        final ImmutableMap.Builder<String, SyntaxChecker> checkerBuilder
-            = ImmutableMap.builder();
-        final ImmutableMap.Builder<String, PointerCollector> collectorBuilder
-            = ImmutableMap.builder();
-
-        String name;
-        SyntaxChecker checker;
-        PointerCollector collector;
-
-        for (final Map.Entry<String, KeywordDescriptor> entry:
-            keywords.entrySet()) {
-            name = entry.getKey();
-            checker = entry.getValue().getSyntaxChecker();
-            collector = entry.getValue().getPointerCollector();
-            if (checker != null)
-                checkerBuilder.put(name, checker);
-            if (collector != null)
-                collectorBuilder.put(name, collector);
-        }
-
-        syntaxCheckers = checkerBuilder.build();
-        pointerCollectors = collectorBuilder.build();
     }
 
     public URI getLocator()
@@ -66,12 +41,36 @@ public final class SchemaDescriptor
 
     public Map<String, SyntaxChecker> getSyntaxCheckers()
     {
-        return syntaxCheckers;
+        final ImmutableMap.Builder<String, SyntaxChecker> builder
+            = ImmutableMap.builder();
+
+        SyntaxChecker checker;
+
+        for (final Map.Entry<String, KeywordDescriptor> entry:
+            keywords.entrySet()) {
+            checker = entry.getValue().getSyntaxChecker();
+            if (checker != null)
+                builder.put(entry.getKey(), checker);
+        }
+
+        return builder.build();
     }
 
     public Map<String, PointerCollector> getPointerCollectors()
     {
-        return pointerCollectors;
+        final ImmutableMap.Builder<String, PointerCollector> builder
+            = ImmutableMap.builder();
+
+        PointerCollector collector;
+
+        for (final Map.Entry<String, KeywordDescriptor> entry:
+            keywords.entrySet()) {
+            collector = entry.getValue().getPointerCollector();
+            if (collector != null)
+                builder.put(entry.getKey(), collector);
+        }
+
+        return builder.build();
     }
 
     @Override
