@@ -20,16 +20,17 @@ public final class SchemaDescriptorBuilder
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     URI locator;
-    final Map<String, KeywordDescriptor> keywords = Maps.newHashMap();
+    final Map<String, KeywordDescriptor> keywords;
 
     SchemaDescriptorBuilder()
     {
+        keywords = Maps.newHashMap();
     }
 
     SchemaDescriptorBuilder(final SchemaDescriptor descriptor)
     {
         locator = descriptor.locator;
-        keywords.putAll(descriptor.keywords);
+        keywords = Maps.newHashMap(descriptor.keywords);
     }
 
     public SchemaDescriptorBuilder setLocator(final URI uri)
@@ -58,7 +59,7 @@ public final class SchemaDescriptorBuilder
     @Override
     public SchemaDescriptor freeze()
     {
-        BUNDLE.checkNotNull(locator, "schemaDescriptor.nullDescriptor");
+        BUNDLE.checkNotNull(locator, "schemaDescriptor.nullLocator");
         return new SchemaDescriptor(this);
     }
 }
