@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;

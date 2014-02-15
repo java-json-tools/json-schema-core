@@ -2,7 +2,7 @@ package com.github.fge.jsonschema.core.schema;
 
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
-import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Maps;

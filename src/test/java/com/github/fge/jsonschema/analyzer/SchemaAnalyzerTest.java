@@ -11,7 +11,7 @@ import com.github.fge.jsonschema.core.schema.SchemaDescriptor;
 import com.github.fge.jsonschema.core.schema.SchemaDescriptorBuilder;
 import com.github.fge.jsonschema.core.schema.SchemaSelector;
 import com.github.fge.jsonschema.core.schema.SchemaSelectorConfiguration;
-import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
+import com.github.fge.jsonschema.core.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
