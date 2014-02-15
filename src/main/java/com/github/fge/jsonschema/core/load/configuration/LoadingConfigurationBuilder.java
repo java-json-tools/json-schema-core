@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.load.configuration;
+package com.github.fge.jsonschema.core.load.configuration;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.load.Dereferencing;
-import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.load.URIManager;
-import com.github.fge.jsonschema.load.uri.URITranslatorConfiguration;
-import com.github.fge.jsonschema.loader.downloaders.URIDownloader;
-import com.github.fge.jsonschema.loader.downloaders.URIDownloadersRegistry;
+import com.github.fge.jsonschema.core.load.Dereferencing;
+import com.github.fge.jsonschema.core.load.SchemaLoader;
+import com.github.fge.jsonschema.core.load.URIManager;
+import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
+import com.github.fge.jsonschema.core.load.download.URIDownloader;
+import com.github.fge.jsonschema.core.load.download.URIDownloadersRegistry;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.msgsimple.bundle.MessageBundle;

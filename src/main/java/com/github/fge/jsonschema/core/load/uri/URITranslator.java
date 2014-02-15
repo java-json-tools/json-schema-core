@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.load.uri;
+package com.github.fge.jsonschema.core.load.uri;
 
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.core.util.URIUtils;

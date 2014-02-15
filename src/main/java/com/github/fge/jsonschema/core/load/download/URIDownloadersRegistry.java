@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.loader.downloaders;
+package com.github.fge.jsonschema.core.load.download;
 
 import com.github.fge.jsonschema.core.util.ArgumentChecker;
 import com.github.fge.jsonschema.core.util.Registry;

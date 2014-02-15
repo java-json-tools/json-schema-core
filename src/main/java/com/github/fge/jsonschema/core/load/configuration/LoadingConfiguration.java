@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.load.configuration;
+package com.github.fge.jsonschema.core.load.configuration;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,11 +26,11 @@ import com.github.fge.Thawed;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.load.Dereferencing;
-import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.load.URIManager;
-import com.github.fge.jsonschema.load.uri.URITranslatorConfiguration;
-import com.github.fge.jsonschema.loader.downloaders.URIDownloader;
+import com.github.fge.jsonschema.core.load.Dereferencing;
+import com.github.fge.jsonschema.core.load.SchemaLoader;
+import com.github.fge.jsonschema.core.load.URIManager;
+import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
+import com.github.fge.jsonschema.core.load.download.URIDownloader;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.google.common.collect.ImmutableMap;
