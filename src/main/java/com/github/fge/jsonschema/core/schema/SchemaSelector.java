@@ -23,13 +23,6 @@ public final class SchemaSelector
         descriptors = ImmutableMap.copyOf(cfg.getDescriptors());
     }
 
-    SchemaSelector(final Map<URI, SchemaDescriptor> descriptors,
-        final SchemaDescriptor defaultDescriptor)
-    {
-        this.descriptors = descriptors;
-        this.defaultDescriptor = defaultDescriptor;
-    }
-
     public SchemaDescriptor selectDescriptor(final SchemaTree schemaTree)
     {
         final JsonNode node = schemaTree.getBaseNode().path("$schema");
