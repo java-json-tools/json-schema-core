@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.core.load.download.URIDownloader;
 import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 

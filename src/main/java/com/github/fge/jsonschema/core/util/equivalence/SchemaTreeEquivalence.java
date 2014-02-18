@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.core.util.equivalence;
 
-import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.google.common.base.Equivalence;
 
 /**

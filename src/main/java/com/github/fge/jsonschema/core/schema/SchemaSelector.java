@@ -2,8 +2,8 @@ package com.github.fge.jsonschema.core.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;

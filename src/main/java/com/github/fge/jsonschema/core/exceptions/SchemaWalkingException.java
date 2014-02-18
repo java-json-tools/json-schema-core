@@ -17,8 +17,7 @@
 
 package com.github.fge.jsonschema.core.exceptions;
 
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 
 public final class SchemaWalkingException
     extends ProcessingException

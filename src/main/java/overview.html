@@ -35,16 +35,16 @@ schema walking (with associated listeners and processors), schema loading.</p>
 
 <h2>Basics</h2>
 
-<p>A {@link com.github.fge.jsonschema.processing.Processor} is a base unit of
+<p>A {@link com.github.fge.jsonschema.core.processing.Processor} is a base unit of
 work. Its concept is pretty simple: it accepts an input as an argument and
 produces an output.</p>
 
 <p>For reporting purposes, it also has a {@link
-com.github.fge.jsonschema.report.ProcessingReport} as an argument, to which you
+com.github.fge.jsonschema.core.report.ProcessingReport} as an argument, to which you
 can log messages.</p>
 
 <p>All the processing infrastructure is in the following package: {@link
-com.github.fge.jsonschema.processing}.</p>
+com.github.fge.jsonschema.core.processing}.</p>
 
 <h2>Combining processors</h2>
 
@@ -71,8 +71,8 @@ the set of inputs cached.</p>
 <h2>Basics</h2>
 
 <p>The two basic components of the reporting/logging infrastructure are {@link
-com.github.fge.jsonschema.report.ProcessingReport} and {@link
-com.github.fge.jsonschema.report.ProcessingMessage}.</p>
+com.github.fge.jsonschema.core.report.ProcessingReport} and {@link
+com.github.fge.jsonschema.core.report.ProcessingMessage}.</p>
 
 <p>The existing infrastructure allows you to:</p>
 
@@ -82,7 +82,7 @@ com.github.fge.jsonschema.report.ProcessingMessage}.</p>
 </ul>
 
 <p>All the logging infrastructure is in the following package: {@link
-com.github.fge.jsonschema.report}.</p>
+com.github.fge.jsonschema.core.report}.</p>
 
 <h2>Reports</h2>
 
@@ -92,31 +92,31 @@ info()}, {@code warn()} and {@code error()}. You can customize what log levels
 are effectively logged, but also from what level exceptions are thrown instead.
 </p>
 
-<p>As {@link com.github.fge.jsonschema.report.ProcessingReport} is an interface,
+<p>As {@link com.github.fge.jsonschema.core.report.ProcessingReport} is an interface,
 you can actually use a logging system for your messages -- or even log messages
 at different levels differently; however, be aware that the contract is rather
 strict (but it is documented), and as such you may prefer to extend {@link
-com.github.fge.jsonschema.report.AbstractProcessingReport} instead.</p>
+com.github.fge.jsonschema.core.report.AbstractProcessingReport} instead.</p>
 
 <p>This package comes with three implementations built in: {@link
-com.github.fge.jsonschema.report.ConsoleProcessingReport} (which logs to the
-standard output), {@link com.github.fge.jsonschema.report.ListProcessingReport}
+com.github.fge.jsonschema.core.report.ConsoleProcessingReport} (which logs to the
+standard output), {@link com.github.fge.jsonschema.core.report.ListProcessingReport}
 (which accumulates messages in a list} and {@link
-com.github.fge.jsonschema.report.DevNullProcessingReport} (which discards all
+com.github.fge.jsonschema.core.report.DevNullProcessingReport} (which discards all
 messages but keeps track of the processing status).</p>
 
 <h2>Messages</h2>
 
 <p>Messages have one main source: processor inputs. You will have noticed that
 both inputs and outputs are required to implement the {@link
-com.github.fge.jsonschema.report.MessageProvider} interface: this allows
+com.github.fge.jsonschema.core.report.MessageProvider} interface: this allows
 reporting message templates to be generated out of an input and, as such, helps
 greatly in identifying what the source of the message is, and therefore at what
 step in the processing this message has been issued.</p>
 
 <p>Another customization of logging messages is exception generation: when the
 message is logged at a level which raises an exception rather than being
-purely logged, {@link com.github.fge.jsonschema.report.AbstractProcessingReport}
+purely logged, {@link com.github.fge.jsonschema.core.report.AbstractProcessingReport}
 does not {@code throw} per se, but calls this message's {@code .asException()}
 instead. If you have customized the processing message with a specific exception
 provider, this means your custom exception will be thrown rather than the
@@ -134,7 +134,7 @@ JSON Schema instances. A special form (non URI compliant) of reference exists
 to be able to handle {@code jar} URIs as well.</p>
 
 <p>All JSON Reference related classes are in the following package: {@link
-com.github.fge.jsonschema.ref}.</p>
+com.github.fge.jsonschema.core.ref}.</p>
 
 <h1>Schema loading</h1>
 

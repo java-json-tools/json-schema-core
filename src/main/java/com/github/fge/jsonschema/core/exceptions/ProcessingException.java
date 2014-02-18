@@ -17,8 +17,8 @@
 
 package com.github.fge.jsonschema.core.exceptions;
 
-import com.github.fge.jsonschema.report.LogLevel;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.LogLevel;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 
 /**
  * Generic processing exception

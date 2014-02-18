@@ -17,9 +17,8 @@
 
 package com.github.fge.jsonschema.core.exceptions;
 
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 
 /**
  * Exception associated with all JSON Reference exceptions

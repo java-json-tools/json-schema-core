@@ -17,10 +17,9 @@
 
 package com.github.fge.jsonschema.core.exceptions;
 
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.report.SimpleExceptionProvider;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.core.report.SimpleExceptionProvider;
 
 /**
  * An exception provider for a {@link ProcessingMessage}

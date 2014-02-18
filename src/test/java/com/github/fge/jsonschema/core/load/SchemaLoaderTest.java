@@ -24,9 +24,9 @@ import com.github.fge.jsonschema.core.load.configuration.LoadingConfigurationBui
 import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
 import com.github.fge.jsonschema.core.load.download.URIDownloader;
 import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.LogLevel;
-import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.report.LogLevel;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.Test;

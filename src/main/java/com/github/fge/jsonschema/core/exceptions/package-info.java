@@ -26,9 +26,9 @@
  * <p>The {@link com.github.fge.jsonschema.core.exceptions.ExceptionProvider}
  * interface can be used by your own custom processors to set custom
  * exceptions in messages: {@link
- * com.github.fge.jsonschema.report.ProcessingMessage} accepts such a provider
+ * com.github.fge.jsonschema.core.report.ProcessingMessage} accepts such a provider
  * and will then return the appropriate exception when its
- * {@link com.github.fge.jsonschema.report.ProcessingMessage#asException()} is
+ * {@link com.github.fge.jsonschema.core.report.ProcessingMessage#asException()} is
  * called.</p>
  */
 package com.github.fge.jsonschema.core.exceptions;

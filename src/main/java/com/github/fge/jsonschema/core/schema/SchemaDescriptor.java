@@ -2,8 +2,8 @@ package com.github.fge.jsonschema.core.schema;
 
 import com.github.fge.Frozen;
 import com.github.fge.jsonschema.core.keyword.KeywordDescriptor;
-import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
-import com.github.fge.jsonschema.walk.collectors.PointerCollector;
+import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.core.keyword.collectors.PointerCollector;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableMap;
 

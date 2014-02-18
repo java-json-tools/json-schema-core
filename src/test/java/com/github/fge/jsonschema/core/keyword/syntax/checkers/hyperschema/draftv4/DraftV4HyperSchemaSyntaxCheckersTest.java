@@ -1,0 +1,33 @@
+/*
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Lesser GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * Lesser GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.github.fge.jsonschema.core.keyword.syntax.checkers.hyperschema.draftv4;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxCheckersTest;
+import com.github.fge.jsonschema.core.keyword.syntax.dictionaries.DraftV4HyperSchemaSyntaxCheckerDictionary;
+
+public abstract class DraftV4HyperSchemaSyntaxCheckersTest
+    extends SyntaxCheckersTest
+{
+    protected DraftV4HyperSchemaSyntaxCheckersTest(final String keyword)
+        throws JsonProcessingException
+    {
+        super(DraftV4HyperSchemaSyntaxCheckerDictionary.get(),
+            "hyperschema/draftv4", keyword);
+    }
+}

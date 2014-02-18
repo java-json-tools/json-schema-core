@@ -1,6 +1,6 @@
 package com.github.fge.jsonschema.core.load.uri;
 
-import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.util.URIUtils;
 import com.google.common.collect.ImmutableMap;
 

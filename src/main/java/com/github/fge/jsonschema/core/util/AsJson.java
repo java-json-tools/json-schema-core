@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.core.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 
 /**
  * Interface implemented by classes having a JSON representation

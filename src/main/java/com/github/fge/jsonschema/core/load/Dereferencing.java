@@ -18,10 +18,10 @@
 package com.github.fge.jsonschema.core.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.InlineSchemaTree;
-import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
+import com.github.fge.jsonschema.core.tree.InlineSchemaTree;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 
 /**
  * Dereferencing modes

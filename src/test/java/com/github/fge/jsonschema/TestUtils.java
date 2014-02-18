@@ -17,9 +17,9 @@
 
 package com.github.fge.jsonschema;
 
-import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 import org.mockito.verification.VerificationMode;
 
 import static org.mockito.Mockito.*;

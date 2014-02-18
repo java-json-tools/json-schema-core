@@ -20,9 +20,9 @@ package com.github.fge.jsonschema.core.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.processing.Processor;
+import com.github.fge.jsonschema.core.report.MessageProvider;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 
 import javax.annotation.concurrent.Immutable;
 
