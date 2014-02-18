@@ -1,3 +1,13 @@
+### 1.1.9
+
+* Change license (dual licensing LGPL 3.0/ASL 2.0).
+* **BREAKING CHANGE**: packages have moved (all now under -core); some packages
+  renamed.
+* New schema walking API.
+* Update dependencies.
+* Import classes from -validator.
+* SchemaLoader: allow to disable caching.
+
 ### 1.1.8
 
 * Allow to read JSON Schemas from non standard JSON files (comments etc),
