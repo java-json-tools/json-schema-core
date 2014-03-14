@@ -36,6 +36,9 @@ import java.util.concurrent.ExecutionException;
 
 import static com.github.fge.jsonschema.messages.LoadingConfigurationMessages.*;
 import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
+import com.google.common.cache.CacheBuilderSpec;
+import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 /**
  * JSON Schema loader
@@ -71,6 +74,11 @@ public final class SchemaLoader
     private final Dereferencing dereferencing;
 
     /**
+     * Map of preloaded schemas
+     */
+    private final Map<URI, JsonNode> preloadedSchemas;
+
+    /**
      * Create a new schema loader with a given loading configuration
      *
      * @param cfg the configuration
@@ -82,8 +90,13 @@ public final class SchemaLoader
         namespace = JsonRef.fromURI(cfg.getNamespace());
         dereferencing = cfg.getDereferencing();
         manager = new URIManager(cfg);
-        cache = CacheBuilder.newBuilder()
-            .build(new CacheLoader<URI, JsonNode>()
+        preloadedSchemas = ImmutableMap.copyOf(cfg.getPreloadedSchemas());
+
+        final CacheBuilder<Object, Object> cacheBuilder = cfg.getEnableCache()
+            ? CacheBuilder.newBuilder()
+            : CacheBuilder.from(CacheBuilderSpec.disableCaching());
+        
+        cache = cacheBuilder.build(new CacheLoader<URI, JsonNode>()
             {
                 @Override
                 public JsonNode load(final URI key)
@@ -92,7 +105,6 @@ public final class SchemaLoader
                     return manager.getContent(key);
                 }
             });
-        cache.putAll(cfg.getPreloadedSchemas());
     }
 
     /**
@@ -148,7 +160,9 @@ public final class SchemaLoader
         final URI realURI = ref.toURI();
 
         try {
-            final JsonNode node = cache.get(realURI);
+            JsonNode node = preloadedSchemas.get(realURI);
+            if (node == null)
+                node = cache.get(realURI);
             return dereferencing.newTree(ref, node);
         } catch (ExecutionException e) {
             throw (ProcessingException) e.getCause();

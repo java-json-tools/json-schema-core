@@ -46,6 +46,11 @@ public final class LoadingConfigurationBuilder
      * @see com.github.fge.jsonschema.load.SchemaLoader
      */
     URI namespace;
+    
+    /**
+     * Loaded schemas are cached by default
+     */
+    boolean enableCache = true;
 
     /**
      * Dereferencing mode
@@ -98,8 +103,23 @@ public final class LoadingConfigurationBuilder
         dereferencing = cfg.dereferencing;
         schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
+        enableCache = cfg.enableCache;
     }
 
+    /**
+     * Should we enable caching of downloaded schemas
+     *
+     * <p>Note that this does <b>not</b> affect preloaded schemas</p>
+     * 
+     * @param enableCache if loaded schemas have to be cached
+     * @return this
+     */
+    public LoadingConfigurationBuilder setEnableCache(final boolean enableCache)
+    {
+        this.enableCache = enableCache;
+        return this;
+    }
+    
     /**
      * Add a new URI downloader
      *
