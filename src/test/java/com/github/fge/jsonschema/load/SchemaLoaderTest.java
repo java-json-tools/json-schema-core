@@ -18,9 +18,8 @@
 package com.github.fge.jsonschema.load;
 
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -112,14 +111,23 @@ public final class SchemaLoaderTest
         final String location = "http://foo.bar/baz#";
         final URI uri = URI.create(location);
         final URIDownloader mock = mock(URIDownloader.class);
-        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .addScheme("http", mock)
-            .preloadSchema(location, JacksonUtils.nodeFactory().objectNode())
-            .freeze();
-        final SchemaLoader registry = new SchemaLoader(cfg);
+        final LoadingConfigurationBuilder builder = LoadingConfiguration
+            .newBuilder().addScheme("http", mock)
+            .preloadSchema(location, JacksonUtils.nodeFactory().objectNode());
 
+        LoadingConfiguration cfg;
+        SchemaLoader registry;
+
+        cfg = builder.freeze();
+        registry = new SchemaLoader(cfg);
         registry.get(uri);
         verify(mock, never()).fetch(uri);
+
+        //even if cache is disabled
+        cfg = builder.setEnableCache(false).freeze();
+        registry = new SchemaLoader(cfg);
+        registry.get(uri);
+        verify(mock, never()).fetch(uri);        
     }
 
     @Test
@@ -145,4 +153,29 @@ public final class SchemaLoaderTest
         loader.get(uri);
         verify(downloader, times(1)).fetch(uri);
     }
+    
+    @Test
+    public void schemasCacheCanBeDisabled()
+        throws ProcessingException, IOException
+    {
+        final URI uri = URI.create("foo:/baz#");
+        final URIDownloader downloader = spy(new URIDownloader()
+        {
+            @Override
+            public InputStream fetch(final URI source)
+                throws IOException
+            {
+                return new ByteArrayInputStream(BYTES);
+}
+        });
+
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .addScheme("foo", downloader).setEnableCache(false).freeze();
+        final SchemaLoader loader = new SchemaLoader(cfg);
+
+        loader.get(uri);
+        loader.get(uri);
+        verify(downloader, times(2)).fetch(uri);
+    }
+    
 }
