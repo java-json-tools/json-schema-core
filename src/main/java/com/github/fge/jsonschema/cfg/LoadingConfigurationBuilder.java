@@ -109,10 +109,11 @@ public final class LoadingConfigurationBuilder
     /**
      * Should we enable caching of downloaded schemas
      *
-     * <p>Note that this does <b>not</b> affect preloaded schemas</p>
+     * <p>Note that this does <b>not</b> affect preloaded schemas.</p>
      * 
-     * @param enableCache if loaded schemas have to be cached
+     * @param enableCache {@code true} if loaded schemas have to be cached
      * @return this
+     * @since 1.0.3
      */
     public LoadingConfigurationBuilder setEnableCache(final boolean enableCache)
     {

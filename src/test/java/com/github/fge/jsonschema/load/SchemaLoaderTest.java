@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import com.google.common.base.Charsets;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
@@ -39,7 +40,8 @@ import static org.testng.Assert.*;
 public final class SchemaLoaderTest
 {
     private static final byte[] BYTES = JacksonUtils.nodeFactory().objectNode()
-        .toString().getBytes();
+        .toString().getBytes(Charsets.UTF_8);
+
     @Test
     public void namespacesAreRespected()
         throws ProcessingException, IOException
@@ -166,7 +168,7 @@ public final class SchemaLoaderTest
                 throws IOException
             {
                 return new ByteArrayInputStream(BYTES);
-}
+            }
         });
 
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()

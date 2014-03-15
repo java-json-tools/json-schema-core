@@ -166,12 +166,16 @@ public final class LoadingConfiguration
     }
 
     /**
-     * Return if we want to cache loaded schema or not
-     * note that this do not affect preloadedSchema that are always cached
+     * Do we want to cache schemas?
+     *
+     * <p>Note that this setting will <b>note</b> affect preloaded
+     * schemas.</p>
      * 
-     * @return if the cache has to be enabled
+     * @return {@code true} if schema caching is enabled
+     * @since 1.0.3
      */
-    public boolean getEnableCache() {
+    public boolean getEnableCache()
+    {
         return enableCache;
     }
 
