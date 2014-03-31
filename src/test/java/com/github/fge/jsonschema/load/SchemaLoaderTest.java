@@ -129,7 +129,7 @@ public final class SchemaLoaderTest
         cfg = builder.setEnableCache(false).freeze();
         registry = new SchemaLoader(cfg);
         registry.get(uri);
-        verify(mock, never()).fetch(uri);        
+        verify(mock, never()).fetch(uri);
     }
 
     @Test
@@ -155,7 +155,7 @@ public final class SchemaLoaderTest
         loader.get(uri);
         verify(downloader, times(1)).fetch(uri);
     }
-    
+
     @Test
     public void schemasCacheCanBeDisabled()
         throws ProcessingException, IOException
@@ -179,5 +179,5 @@ public final class SchemaLoaderTest
         loader.get(uri);
         verify(downloader, times(2)).fetch(uri);
     }
-    
+
 }

@@ -50,7 +50,7 @@ public final class LoadingConfiguration
      * @see com.github.fge.jsonschema.load.SchemaLoader
      */
     final URI namespace;
-    
+
     /**
      * If we have to cache loaded schemas, note that this do not affect
      * preloaded schemas which are always cached.
@@ -170,7 +170,7 @@ public final class LoadingConfiguration
      *
      * <p>Note that this setting will <b>note</b> affect preloaded
      * schemas.</p>
-     * 
+     *
      * @return {@code true} if schema caching is enabled
      * @since 1.0.3
      */

@@ -46,7 +46,7 @@ public final class LoadingConfigurationBuilder
      * @see com.github.fge.jsonschema.load.SchemaLoader
      */
     URI namespace;
-    
+
     /**
      * Loaded schemas are cached by default
      */
@@ -110,7 +110,7 @@ public final class LoadingConfigurationBuilder
      * Should we enable caching of downloaded schemas
      *
      * <p>Note that this does <b>not</b> affect preloaded schemas.</p>
-     * 
+     *
      * @param enableCache {@code true} if loaded schemas have to be cached
      * @return this
      * @since 1.0.3
@@ -120,7 +120,7 @@ public final class LoadingConfigurationBuilder
         this.enableCache = enableCache;
         return this;
     }
-    
+
     /**
      * Add a new URI downloader
      *

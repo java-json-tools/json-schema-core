@@ -95,7 +95,7 @@ public final class SchemaLoader
         final CacheBuilder<Object, Object> cacheBuilder = cfg.getEnableCache()
             ? CacheBuilder.newBuilder()
             : CacheBuilder.from(CacheBuilderSpec.disableCaching());
-        
+
         cache = cacheBuilder.build(new CacheLoader<URI, JsonNode>()
             {
                 @Override
