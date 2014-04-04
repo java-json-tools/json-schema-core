@@ -173,37 +173,6 @@ public final class ProcessingMessage
     }
 
     /**
-     * Set the main message
-     *
-     * @param message the message as a string
-     * @return this
-     * @deprecated use {@link #setMessage(String)} instead; will be removed in
-     * 1.1.7.
-     */
-    @Deprecated
-    public ProcessingMessage message(final String message)
-    {
-        return put("message", message);
-    }
-
-    /**
-     * Set the main message
-     *
-     * <p>The value type can be anything. It is your responsibility to make sure
-     * that {@link Object#toString()} is implemented correctly!</p>
-     *
-     * @param value the value
-     * @param <T> the type of the value
-     * @return this
-     * @deprecated Will be removed in 1.1.7
-     */
-    @Deprecated
-    public <T> ProcessingMessage message(final T value)
-    {
-        return put("message", value);
-    }
-
-    /**
      * Add a key/value pair to this message
      *
      * <p>This is the main method. All other put methods call this one.</p>
@@ -303,8 +272,7 @@ public final class ProcessingMessage
     /**
      * Add a key/value pair to this message
      *
-     * <p>As for {@link #message(Object)}, ensure that {@code toString()} is
-     * correctly implemented.</p>
+     * <p>Ensure that {@code toString()} is correctly implemented.</p>
      *
      * @param key the key
      * @param value the value

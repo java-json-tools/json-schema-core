@@ -189,25 +189,6 @@ public final class LoadingConfigurationBuilder
     }
 
     /**
-     * Set the default namespace for that loading configuration
-     *
-     * @param input the namespace
-     * @return this
-     * @throws NullPointerException input is null
-     * @throws IllegalArgumentException input is not an absolute JSON Reference
-     *
-     * @deprecated use a {@link URITranslatorConfiguration}  and
-     * {@link #setURITranslatorConfiguration(URITranslatorConfiguration)}
-     * instead; this method will disappear in 1.1.9.
-     */
-    @Deprecated
-    public LoadingConfigurationBuilder setNamespace(final String input)
-    {
-        translatorCfg = translatorCfg.thaw().setNamespace(input).freeze();
-        return this;
-    }
-
-    /**
      * Set the dereferencing mode for this loading configuration
      *
      * <p>By default, it is {@link Dereferencing#CANONICAL}.</p>
@@ -221,28 +202,6 @@ public final class LoadingConfigurationBuilder
     {
         BUNDLE.checkNotNull(dereferencing, "loadingCfg.nullDereferencingMode");
         this.dereferencing = dereferencing;
-        return this;
-    }
-
-    /**
-     * Add a schema redirection
-     *
-     * @param source URI of the source schema
-     * @param destination URI to redirect to
-     * @return this
-     * @throws NullPointerException source or destination is null
-     * @throws IllegalArgumentException source and destination are the same URI
-     *
-     * @deprecated use a {@link URITranslatorConfiguration}  and
-     * {@link #setURITranslatorConfiguration(URITranslatorConfiguration)}
-     * instead; this method will disappear in 1.1.9.
-     */
-    @Deprecated
-    public LoadingConfigurationBuilder addSchemaRedirect(final String source,
-        final String destination)
-    {
-        translatorCfg = translatorCfg.thaw()
-            .addSchemaRedirect(source, destination).freeze();
         return this;
     }
 

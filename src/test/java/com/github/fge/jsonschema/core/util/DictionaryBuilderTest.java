@@ -19,8 +19,6 @@
 package com.github.fge.jsonschema.core.util;
 
 import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.core.util.Dictionary;
-import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.BeforeMethod;

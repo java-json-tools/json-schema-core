@@ -25,13 +25,11 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.Frozen;
 import com.github.fge.Thawed;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jsonschema.core.util.Dictionary;
-import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.core.load.Dereferencing;
 import com.github.fge.jsonschema.core.load.SchemaLoader;
 import com.github.fge.jsonschema.core.load.URIManager;
-import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
 import com.github.fge.jsonschema.core.load.download.URIDownloader;
+import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
 import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.InlineSchemaTree;
 import com.google.common.collect.ImmutableMap;
@@ -171,27 +169,6 @@ public final class LoadingConfiguration
         for (final JsonParser.Feature feature : parserFeatures)
             mapper.configure(feature, true);
         return mapper.reader();
-    }
-
-    /**
-     * Return the dictionary of URI downloaders
-     *
-     * @return an immutable {@link Dictionary}
-     *
-     * @deprecated use {@link #getDownloaderMap()} instead. Will disappear in
-     * 1.1.10.
-     */
-    @Deprecated
-    public Dictionary<URIDownloader> getDownloaders()
-    {
-        final DictionaryBuilder<URIDownloader> builder
-            = Dictionary.newBuilder();
-
-        for (final Map.Entry<String, URIDownloader> entry:
-            downloaders.entrySet())
-            builder.addEntry(entry.getKey(), entry.getValue());
-
-        return builder.freeze();
     }
 
     /**
