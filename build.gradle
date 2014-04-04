@@ -31,24 +31,24 @@
 buildscript {
     repositories {
         mavenCentral();
-        maven {
-            url "http://repo.springsource.org/plugins-release";
-        }
+//        maven {
+//            url "http://repo.springsource.org/plugins-release";
+//        }
     }
     dependencies {
         classpath(group: "eu.appsatori", name: "gradle-fatjar-plugin",
             version: "0.2-rc2");
-        classpath(group: "org.springframework.build.gradle",
-            name: "propdeps-plugin", version: "0.0.5");
+//        classpath(group: "org.springframework.build.gradle",
+//            name: "propdeps-plugin", version: "0.0.5");
     }
 };
 
-configure(allprojects) {
-    apply(plugin: "propdeps");
-    apply(plugin: "propdeps-maven");
-    apply(plugin: "propdeps-idea");
-    apply(plugin: "propdeps-eclipse");
-}
+//configure(allprojects) {
+//    apply(plugin: "propdeps");
+//    apply(plugin: "propdeps-maven");
+//    apply(plugin: "propdeps-idea");
+//    apply(plugin: "propdeps-eclipse");
+//}
 
 apply(plugin: "java");
 apply(plugin: "maven");
