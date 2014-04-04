@@ -39,10 +39,6 @@ dependencies {
     compile(group: "org.mozilla", name: "rhino", version: "1.7R4");
     compile(group: "com.google.code.findbugs", name: "jsr305",
         version: "2.0.1");
-//    compile(group: "com.google.inject", name: "guice", version: "3.0") {
-//        // Guice user mailing list says it's safe to exclude this one
-//        exclude(group: "org.sonatype.sisu.inject", module: "cglib");
-//    }
     testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
@@ -61,5 +57,4 @@ javadoc.options.links("http://fge.github.io/btf");
 javadoc.options.links("http://fge.github.io/msg-simple");
 javadoc.options.links("http://fge.github.io/jackson-coreutils");
 javadoc.options.links("http://fge.github.io/uri-template");
-javadoc.options.links("http://google-guice.googlecode.com/git/javadoc");
 
