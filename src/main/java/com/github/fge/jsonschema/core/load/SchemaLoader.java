@@ -101,14 +101,14 @@ public final class SchemaLoader
             : CacheBuilder.from(CacheBuilderSpec.disableCaching());
         
         cache = cacheBuilder.build(new CacheLoader<URI, JsonNode>()
-                {
-                    @Override
-                    public JsonNode load(final URI key)
-                        throws ProcessingException
-                    {                      
-                        return manager.getContent(key);
-                    }
-                });
+        {
+            @Override
+            public JsonNode load(final URI key)
+                throws ProcessingException
+            {
+                return manager.getContent(key);
+            }
+        });
     }
 
     /**
