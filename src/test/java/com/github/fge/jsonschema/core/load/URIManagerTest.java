@@ -30,13 +30,17 @@ import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.report.LogLevel;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
+import com.google.common.collect.Lists;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
@@ -90,7 +94,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.printf("refProcessing.uriIOError", uri))
+                .hasMessage(BUNDLE.printf("uriManager.uriIOError", uri))
                 .hasField("uri", uri).hasLevel(LogLevel.FATAL)
                 .hasField("exceptionMessage", "foo");
         }
@@ -115,7 +119,7 @@ public final class URIManagerTest
             manager.getContent(uri);
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.printf("refProcessing.uriNotJson", uri))
+                .hasMessage(BUNDLE.printf("uriManager.uriNotJson", uri))
                 .hasTextField("parsingMessage").hasLevel(LogLevel.FATAL)
                 .hasField("uri", uri);
         }
@@ -147,24 +151,37 @@ public final class URIManagerTest
         assertTrue(JsonNumEquals.getInstance().equivalent(node1, node2));
     }
 
-    @Test
-    public void managerIgnoresAttemptToRemoveAutoCloseSource()
-        throws IOException, ProcessingException
+    @DataProvider
+    public Iterator<Object[]> bizarreInputs()
     {
-        // FIXME: worked even with the culprit feature disabled??
-        final String content = "{\"hello\":false} 32";
+        final List<Object[]> list = Lists.newArrayList();
+
+        list.add(new Object[] { "[][]", "uriManager.extraneousValue" });
+
+        return list.iterator();
+    }
+
+    @Test(dataProvider = "bizarreInputs")
+    public void managerDealsCorrectlyWithBizarreInput(final String input,
+        final String message)
+        throws IOException
+    {
         final URIDownloader downloader = mock(URIDownloader.class);
         final ByteArrayInputStream stream
-            = spy(new ByteArrayInputStream(content.getBytes()));
+            = new ByteArrayInputStream(input.getBytes());
         when(downloader.fetch(any(URI.class))).thenReturn(stream);
 
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .addScheme("foo", downloader)
-            .removeParserFeature(JsonParser.Feature.AUTO_CLOSE_SOURCE)
-            .freeze();
+            .addScheme("foo", downloader).freeze();
 
         final URIManager manager = new URIManager(cfg);
-        manager.getContent(URI.create("foo://bar"));
-        verify(stream).close();
+        try {
+            manager.getContent(URI.create("foo://bar"));
+            fail("No exception thrown!!");
+        } catch (ProcessingException e) {
+            final String msg = BUNDLE.printf(message, "foo://bar");
+            assertEquals(e.getProcessingMessage().getMessage(), msg);
+        }
     }
+
 }

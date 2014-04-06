@@ -19,10 +19,11 @@
 
 package com.github.fge.jsonschema.core.load;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.core.load.download.URIDownloader;
@@ -30,6 +31,7 @@ import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
+import com.google.common.io.Closer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,11 +97,22 @@ public final class URIManager
                 .setMessage(BUNDLE.getMessage("refProcessing.unhandledScheme"))
                 .putArgument("scheme", scheme).putArgument("uri", uri));
 
+        final Closer closer = Closer.create();
         final InputStream in;
+        final JsonParser parser;
+        final MappingIterator<JsonNode> iterator;
+        final JsonNode ret;
 
         try {
-            in = downloader.fetch(uri);
-            return mapper.readTree(in);
+            in = closer.register(downloader.fetch(uri));
+            parser = closer.register(mapper.getFactory().createParser(in));
+            iterator = mapper.readValues(parser, JsonNode.class);
+            ret = iterator.nextValue();
+            if (!iterator.hasNextValue())
+                return ret;
+            throw new ProcessingException(new ProcessingMessage()
+                .setMessage(BUNDLE.getMessage("uriManager.extraneousValue"))
+                .putArgument("uri", uri));
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("uriManager.uriNotJson"))
@@ -110,6 +123,12 @@ public final class URIManager
                 .setMessage(BUNDLE.getMessage("uriManager.uriIOError"))
                 .putArgument("uri", uri)
                 .put("exceptionMessage", e.getMessage()));
+        } finally {
+            try {
+                closer.close();
+            } catch (IOException ignored) {
+                throw new IllegalStateException();
+            }
         }
     }
 }
