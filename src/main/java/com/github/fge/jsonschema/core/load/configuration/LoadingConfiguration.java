@@ -206,9 +206,10 @@ public final class LoadingConfiguration
     }
 
     /**
-     * Return configured ObjectReader
+     * Get a configured {@link ObjectMapper}
      *
-     * @return the ObjectReader
+     * @return the ObjectMapper
+     * @see JacksonUtils#newMapper()
      */
     public ObjectMapper getObjectMapper()
     {
