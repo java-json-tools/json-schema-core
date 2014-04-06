@@ -102,12 +102,12 @@ public final class URIManager
             return mapper.readTree(in);
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("refProcessing.uriNotJson"))
+                .setMessage(BUNDLE.getMessage("uriManager.uriNotJson"))
                 .putArgument("uri", uri)
                 .put("parsingMessage", e.getOriginalMessage()));
         } catch (IOException e) {
             throw new ProcessingException(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("refProcessing.uriIOError"))
+                .setMessage(BUNDLE.getMessage("uriManager.uriIOError"))
                 .putArgument("uri", uri)
                 .put("exceptionMessage", e.getMessage()));
         }
