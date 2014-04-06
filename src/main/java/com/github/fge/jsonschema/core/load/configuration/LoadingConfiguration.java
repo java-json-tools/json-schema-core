@@ -22,7 +22,6 @@ package com.github.fge.jsonschema.core.load.configuration;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.Frozen;
 import com.github.fge.Thawed;
 import com.github.fge.jackson.JacksonUtils;
@@ -108,9 +107,9 @@ public final class LoadingConfiguration
      * <p>Object reader configured using enabled JsonParser features and
      * minimum requirements enforced by JacksonUtils.</p>
      *
-     * @see JacksonUtils#getReader()
+     * @see JacksonUtils#newMapper()
      */
-    private final ObjectReader objectReader;
+    private final ObjectMapper objectMapper;
 
     /**
      * Create a new, default, mutable configuration instance
@@ -148,28 +147,25 @@ public final class LoadingConfiguration
         dereferencing = builder.dereferencing;
         preloadedSchemas = ImmutableMap.copyOf(builder.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(builder.parserFeatures);
-        objectReader = constructObjectReader();
+        objectMapper = constructObjectMapper();
         enableCache = builder.enableCache;
     }
 
     /**
-     * Construct JacksonUtils compatible ObjectReader using frozen JsonParser
+     * Construct a JacksonUtils compatible ObjectMapper with a set of JsonParser
      * features.
      *
-     * TODO: move implementation to JacksonUtils
-     *
-     * @return configured ObjectReader
-     * @see JacksonUtils#getReader()
+     * @return configured ObjectMapper
+     * @see JacksonUtils#newMapper()
      */
-    private ObjectReader constructObjectReader()
+    private ObjectMapper constructObjectMapper()
     {
-        // JacksonUtils compatible ObjectMapper configuration
         final ObjectMapper mapper = JacksonUtils.newMapper();
 
         // enable JsonParser feature configurations
         for (final JsonParser.Feature feature : parserFeatures)
             mapper.configure(feature, true);
-        return mapper.reader();
+        return mapper;
     }
 
     /**
@@ -214,9 +210,9 @@ public final class LoadingConfiguration
      *
      * @return the ObjectReader
      */
-    public ObjectReader getObjectReader()
+    public ObjectMapper getObjectMapper()
     {
-        return objectReader;
+        return objectMapper;
     }
     
     /**

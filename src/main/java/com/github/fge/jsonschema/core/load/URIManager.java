@@ -54,7 +54,7 @@ public final class URIManager
 
     private final Map<String, URIDownloader> downloaders;
 
-    private final ObjectReader reader;
+    private final ObjectMapper mapper;
 
     public URIManager()
     {
@@ -64,7 +64,7 @@ public final class URIManager
     public URIManager(final LoadingConfiguration cfg)
     {
         downloaders = cfg.getDownloaderMap();
-        reader = cfg.getObjectReader();
+        mapper = cfg.getObjectMapper();
     }
 
     /**
@@ -99,7 +99,7 @@ public final class URIManager
 
         try {
             in = downloader.fetch(uri);
-            return reader.readTree(in);
+            return mapper.readTree(in);
         } catch (JsonProcessingException e) {
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("refProcessing.uriNotJson"))
