@@ -48,6 +48,12 @@ public final class SyntaxProcessor
     private final MessageBundle bundle;
     private final Map<String, SyntaxChecker> checkers;
 
+    /**
+     * Constructor
+     *
+     * @param bundle message bundle used by this syntax checker
+     * @param dict dictionary of syntax checkers
+     */
     public SyntaxProcessor(final MessageBundle bundle,
         final Dictionary<SyntaxChecker> dict)
     {

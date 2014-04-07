@@ -46,15 +46,28 @@ import java.util.Map;
  * <ul>
  *     <li>what schemas should be preloaded;</li>
  *     <li>what URI schemes should be supported;</li>
- *     <li>if we want to cache loaded schemas.</li>
- *     <li>set a default namespace for loading schemas from URIs;</li>
- *     <li>add redirections from one schema URI to another;</li>
+ *     <li>whether we want to cache loaded schemas;</li>
+ *     <li>how to resolve URIs (see {@link URITranslatorConfiguration});</li>
  *     <li>what dereferencing mode should be used.</li>
  * </ul>
  *
  * <p>The default configuration only preloads the core metaschemas for draft v4
  * and draft v3, and uses canonical dereferencing mode; it also uses the default
- * set of supported schemes.</p>
+ * set of supported schemes:</p>
+ *
+ * <ul>
+ *     <li>{@code file},</li>
+ *     <li>{@code http},</li>
+ *     <li>{@code https},</li>
+ *     <li>{@code ftp},</li>
+ *     <li>{@code resource} (resource in the classpath),</li>
+ *     <li>{@code jar} (jar URL).</li>
+ * </ul>
+ *
+ * <p>You don't instantiate this class directly, you must go through a {@link
+ * LoadingConfigurationBuilder} for this (using {@link #newBuilder()};
+ * alternatively, you can obtain a default configuration using {@link
+ * #byDefault()}.</p>
  *
  * @see LoadingConfigurationBuilder
  * @see Dereferencing

@@ -17,15 +17,10 @@
  * - ASL 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
-package com.github.fge.jsonschema.core.exceptions;
-
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-
-public final class SchemaWalkingException
-    extends ProcessingException
-{
-    public SchemaWalkingException(final ProcessingMessage message)
-    {
-        super(message);
-    }
-}
+/**
+ * URI translation
+ *
+ * <p>A URI translation happens each time you load a schema from a URI, either
+ * from user code or because of a JSON Reference encountered in a schema.</p>
+ */
+package com.github.fge.jsonschema.core.load.uri;

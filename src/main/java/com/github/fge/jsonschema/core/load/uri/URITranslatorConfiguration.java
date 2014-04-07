@@ -20,11 +20,20 @@
 package com.github.fge.jsonschema.core.load.uri;
 
 import com.github.fge.Frozen;
+import com.github.fge.jsonschema.core.load.configuration.LoadingConfigurationBuilder;
 import com.google.common.collect.ImmutableMap;
 
 import java.net.URI;
 import java.util.Map;
 
+/**
+ * Configuration for a {@link URITranslator}
+ *
+ * <p>This class configures all aspects of URI translation. In order to create
+ * a new configuration, use {@link #newBuilder()}.</p>
+ *
+ * @see LoadingConfigurationBuilder#setURITranslatorConfiguration(URITranslatorConfiguration)
+ */
 public final class URITranslatorConfiguration
     implements Frozen<URITranslatorConfigurationBuilder>
 {
@@ -32,11 +41,24 @@ public final class URITranslatorConfiguration
     final Map<URI, URI> pathRedirects;
     final Map<URI, URI> schemaRedirects;
 
+    /**
+     * Create a new configuration builder
+     *
+     * @return a new {@link URITranslatorConfigurationBuilder}
+     */
     public static URITranslatorConfigurationBuilder newBuilder()
     {
         return new URITranslatorConfigurationBuilder();
     }
 
+    /**
+     * Create a default configuration
+     *
+     * <p>The default configuration has no namespace, no path redirections and
+     * no schema redirections.</p>
+     *
+     * @return a default configuration
+     */
     public static URITranslatorConfiguration byDefault()
     {
         return newBuilder().freeze();

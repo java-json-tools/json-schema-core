@@ -29,7 +29,7 @@ import com.github.fge.jsonschema.core.keyword.syntax.checkers.hyperschema.LinksS
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.hyperschema.MediaSyntaxChecker;
 
 /**
- * Draft v3 specific syntax checkers
+ * Draft v4 hyperschema specific syntax checkers
  */
 public final class DraftV4HyperSchemaSyntaxCheckerDictionary
 {

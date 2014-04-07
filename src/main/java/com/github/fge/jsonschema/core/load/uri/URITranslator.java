@@ -19,6 +19,7 @@
 
 package com.github.fge.jsonschema.core.load.uri;
 
+import com.github.fge.jsonschema.core.load.SchemaLoader;
 import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.util.URIUtils;
 import com.google.common.collect.ImmutableMap;
@@ -27,6 +28,27 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+/**
+ * URI translation
+ *
+ * <p>When it is required that a URI be dereferenced (either by yourself,
+ * using {@link SchemaLoader#get(URI)}, or when a JSON Reference is encountered
+ * in a JSON Schema), this class is in charge of translating the
+ * <em>resolved</em> URI into a more suitable URI for your environment.</p>
+ *
+ * <p>Translation is done in three steps:</p>
+ *
+ * <ul>
+ *     <li>resolving against the default namespace,</li>
+ *     <li>translating the path to another one (if applicable),</li>
+ *     <li>translating the full schema URI to another one (if applicable).</li>
+ * </ul>
+ *
+ * <p>By default, the namespace is empty and no path or schema translations are
+ * defined.</p>
+ *
+ * @see URITranslatorConfiguration
+ */
 public final class URITranslator
 {
     private final URI namespace;

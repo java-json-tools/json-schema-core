@@ -34,6 +34,9 @@ import com.google.common.net.MediaType;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Syntax checker for draft v4 hyperschema's {@code media} keyword
+ */
 public final class MediaSyntaxChecker
     extends AbstractSyntaxChecker
 {

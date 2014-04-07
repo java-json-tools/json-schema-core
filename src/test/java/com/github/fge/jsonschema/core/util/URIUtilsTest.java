@@ -151,6 +151,10 @@ public final class URIUtilsTest
         key = "uriChecks.noEndingSlash";
         list.add(new Object[] { uri, key });
 
+        uri = "urn:whatever:hello";
+        key = "uriChecks.noPath";
+        list.add(new Object[] { uri, key });
+
         return list.iterator();
     }
 

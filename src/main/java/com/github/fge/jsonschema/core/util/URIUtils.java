@@ -158,6 +158,8 @@ public final class URIUtils
                 "uriChecks.fragmentNotNull", argument);
             BUNDLE.checkArgumentPrintf(argument.getQuery() == null,
                 "uriChecks.queryNotNull", argument);
+            BUNDLE.checkArgumentPrintf(argument.getPath() != null,
+                "uriChecks.noPath", argument);
             BUNDLE.checkArgumentPrintf(argument.getPath().endsWith("/"),
                 "uriChecks.noEndingSlash", argument);
         }
@@ -206,10 +208,9 @@ public final class URIUtils
     }
 
     /**
-     * Return a {@link Function} performing full URI normalization, as per RFC
-     * 3986
+     * Full URI normalizer, as per RFC 3986
      *
-     * @return a function
+     * @return a full URI normalizer as a {@link Function}
      */
     public static Function<URI, URI> uriNormalizer()
     {
@@ -221,47 +222,120 @@ public final class URIUtils
      *
      * @param uri the URI
      * @return the fully normalized URI
+     *
+     * @see #uriNormalizer()
      */
     public static URI normalizeURI(@Nullable final URI uri)
     {
         return URI_NORMALIZER.apply(uri);
     }
 
+    /**
+     * Schema URI normalizer
+     *
+     * <p>This performs the same normalization as {@link #uriNormalizer()},
+     * except it will also append an empty fragment if no fragment is present.
+     * </p>
+     *
+     * @return a schema URI normalizer as a {@link Function}
+     */
     public static Function<URI, URI> schemaURINormalizer()
     {
         return SCHEMAURI_NORMALIZER;
     }
 
+    /**
+     * Perform schema URI normalization
+     *
+     * @param uri the URI
+     * @return the normalized schema URI
+     *
+     * @see #schemaURINormalizer()
+     */
     public static URI normalizeSchemaURI(@Nullable final URI uri)
     {
         return SCHEMAURI_NORMALIZER.apply(uri);
     }
 
+    /**
+     * Return an argument checker to check the correctness of a URI scheme
+     *
+     * @return an argument checker
+     */
     public static ArgumentChecker<String> schemeChecker()
     {
         return SCHEME_CHECKER;
     }
 
+    /**
+     * Check whether a given string as an argument is a legal URI scheme
+     *
+     * @param scheme the string to check
+     *
+     * @see #schemeChecker()
+     */
     public static void checkScheme(final String scheme)
     {
         SCHEME_CHECKER.check(scheme);
     }
 
+    /**
+     * Argument checker to check whether a URI is a valid path URI
+     *
+     * <p>A URI is a valid path URI if all the following conditions are met:</p>
+     *
+     * <ul>
+     *     <li>it is absolute;</li>
+     *     <li>it is hierarchical;</li>
+     *     <li>it has no fragment part;</li>
+     *     <li>it has a non-empty path component, and this path component ends
+     *     with a {@code /}.</li>
+     * </ul>
+     *
+     * @return an argument checker
+     */
     public static ArgumentChecker<URI> pathURIChecker()
     {
         return PATHURI_CHECKER;
     }
 
+    /**
+     * Check whether a URI is a valid path URI
+     *
+     * @param uri the URI to check
+     *
+     * @see #pathURIChecker()
+     */
     public static void checkPathURI(final URI uri)
     {
         PATHURI_CHECKER.check(uri);
     }
 
+    /**
+     * Argument checker for a schema URI
+     *
+     * <p>A URI is a valid schema URI if all of the following conditions are
+     * true:</p>
+     *
+     * <ul>
+     *     <li>the URI is absolute;</li>
+     *     <li>it has no fragment part, or its fragment part is empty.</li>
+     * </ul>
+     *
+     * @return an argument checker
+     */
     public static ArgumentChecker<URI> schemaURIChecker()
     {
         return SCHEMAURI_CHECKER;
     }
 
+    /**
+     * Check that a URI is a valid schema URI
+     *
+     * @param uri the URI to check
+     *
+     * @see #schemaURIChecker()
+     */
     public static void checkSchemaURI(final URI uri)
     {
         SCHEMAURI_CHECKER.check(uri);

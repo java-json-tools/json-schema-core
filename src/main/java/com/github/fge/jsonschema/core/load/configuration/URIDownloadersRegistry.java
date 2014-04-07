@@ -17,19 +17,20 @@
  * - ASL 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
-package com.github.fge.jsonschema.core.load.download;
+package com.github.fge.jsonschema.core.load.configuration;
 
+import com.github.fge.jsonschema.core.load.download.DefaultURIDownloader;
+import com.github.fge.jsonschema.core.load.download.ResourceURIDownloader;
+import com.github.fge.jsonschema.core.load.download.URIDownloader;
 import com.github.fge.jsonschema.core.util.ArgumentChecker;
 import com.github.fge.jsonschema.core.util.Registry;
 import com.github.fge.jsonschema.core.util.URIUtils;
-import com.google.common.annotations.Beta;
 import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-@Beta
-public final class URIDownloadersRegistry
+final class URIDownloadersRegistry
     extends Registry<String, URIDownloader>
 {
     private static final Map<String, URIDownloader> DEFAULT_DOWNLOADERS;

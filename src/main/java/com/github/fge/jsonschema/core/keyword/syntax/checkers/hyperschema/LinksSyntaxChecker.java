@@ -40,6 +40,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Syntax checker for draft v4 hyperschema's {@code links} keyword
+ */
 public final class LinksSyntaxChecker
     extends AbstractSyntaxChecker
 {
@@ -85,8 +88,9 @@ public final class LinksSyntaxChecker
             list = Lists.newArrayList(REQUIRED_LDO_PROPERTIES);
             list.removeAll(set);
             if (!list.isEmpty()) {
-                report.error(LDOMsg(tree, bundle, "draftv4.ldo.missingRequired", index)
-                    .put("required", REQUIRED_LDO_PROPERTIES)
+                final ProcessingMessage msg = LDOMsg(tree, bundle,
+                    "draftv4.ldo.missingRequired", index);
+                report.error(msg.put("required", REQUIRED_LDO_PROPERTIES)
                     .putArgument("missing", list));
                 continue;
             }
