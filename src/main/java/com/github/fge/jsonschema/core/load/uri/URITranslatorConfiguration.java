@@ -20,7 +20,6 @@
 package com.github.fge.jsonschema.core.load.uri;
 
 import com.github.fge.Frozen;
-import com.github.fge.jsonschema.core.load.configuration.LoadingConfigurationBuilder;
 import com.google.common.collect.ImmutableMap;
 
 import java.net.URI;
@@ -30,9 +29,10 @@ import java.util.Map;
  * Configuration for a {@link URITranslator}
  *
  * <p>This class configures all aspects of URI translation. In order to create
- * a new configuration, use {@link #newBuilder()}.</p>
+ * a new configuration, use {@link #newBuilder()}, or use {@link #byDefault()}
+ * if you want a default, no-op, translation configuration.</p>
  *
- * @see LoadingConfigurationBuilder#setURITranslatorConfiguration(URITranslatorConfiguration)
+ * @see URITranslatorConfigurationBuilder
  */
 public final class URITranslatorConfiguration
     implements Frozen<URITranslatorConfigurationBuilder>

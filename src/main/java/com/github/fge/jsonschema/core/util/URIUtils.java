@@ -41,6 +41,14 @@ import java.net.URISyntaxException;
  *
  * <p>This class provides methods to fully normalize both schemes and URIs,
  * and {@link Function}s to perform these normalizations.</p>
+ *
+ * <p>It also contains {@link ArgumentChecker}s to detect whether URIs are well
+ * formed given a defined requirement, and static methods calling these
+ * argument checkers as well.</p>
+ *
+ * @see ArgumentChecker
+ * @see Function
+ * @see Registry
  */
 public final class URIUtils
 {

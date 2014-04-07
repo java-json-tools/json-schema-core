@@ -37,13 +37,13 @@ schema walking (with associated listeners and processors), schema loading.</p>
 
 <h2>Basics</h2>
 
-<p>A {@link com.github.fge.jsonschema.core.processing.Processor} is a base unit of
-work. Its concept is pretty simple: it accepts an input as an argument and
+<p>A {@link com.github.fge.jsonschema.core.processing.Processor} is a base unit
+of work. Its concept is pretty simple: it accepts an input as an argument and
 produces an output.</p>
 
 <p>For reporting purposes, it also has a {@link
-com.github.fge.jsonschema.core.report.ProcessingReport} as an argument, to which you
-can log messages.</p>
+com.github.fge.jsonschema.core.report.ProcessingReport} as an argument, to which
+you can log messages.</p>
 
 <p>All the processing infrastructure is in the following package: {@link
 com.github.fge.jsonschema.core.processing}.</p>
@@ -94,18 +94,20 @@ info()}, {@code warn()} and {@code error()}. You can customize what log levels
 are effectively logged, but also from what level exceptions are thrown instead.
 </p>
 
-<p>As {@link com.github.fge.jsonschema.core.report.ProcessingReport} is an interface,
-you can actually use a logging system for your messages -- or even log messages
-at different levels differently; however, be aware that the contract is rather
-strict (but it is documented), and as such you may prefer to extend {@link
+<p>As {@link com.github.fge.jsonschema.core.report.ProcessingReport} is an
+interface, you can actually use a logging system for your messages -- or even
+log messages at different levels differently; however, be aware that the
+contract is rather strict (but it is documented), and as such you may prefer to
+extend {@link
 com.github.fge.jsonschema.core.report.AbstractProcessingReport} instead.</p>
 
 <p>This package comes with three implementations built in: {@link
-com.github.fge.jsonschema.core.report.ConsoleProcessingReport} (which logs to the
-standard output), {@link com.github.fge.jsonschema.core.report.ListProcessingReport}
-(which accumulates messages in a list} and {@link
-com.github.fge.jsonschema.core.report.DevNullProcessingReport} (which discards all
-messages but keeps track of the processing status).</p>
+com.github.fge.jsonschema.core.report.ConsoleProcessingReport} (which logs to
+the standard output), {@link
+com.github.fge.jsonschema.core.report.ListProcessingReport} (which accumulates
+messages in a list} and {@link
+com.github.fge.jsonschema.core.report.DevNullProcessingReport} (which discards
+all messages but keeps track of the processing status).</p>
 
 <h2>Messages</h2>
 
@@ -118,11 +120,12 @@ step in the processing this message has been issued.</p>
 
 <p>Another customization of logging messages is exception generation: when the
 message is logged at a level which raises an exception rather than being
-purely logged, {@link com.github.fge.jsonschema.core.report.AbstractProcessingReport}
-does not {@code throw} per se, but calls this message's {@code .asException()}
-instead. If you have customized the processing message with a specific exception
-provider, this means your custom exception will be thrown rather than the
-standard {@link com.github.fge.jsonschema.core.exceptions.ProcessingException}.
+purely logged, {@link
+com.github.fge.jsonschema.core.report.AbstractProcessingReport} does not {@code
+throws} per se, but calls this message's {@code .asException()} instead. If you
+have customized the processing message with a specific exception provider, this
+means your custom exception will be thrown rather than the standard {@link
+com.github.fge.jsonschema.core.exceptions.ProcessingException}.
 </p>
 
 <h1>JSON Reference</h1>
@@ -140,17 +143,19 @@ com.github.fge.jsonschema.core.ref}.</p>
 
 <h1>Schema loading</h1>
 
-<p>Classes in the {@link com.github.fge.jsonschema.core.load} package serve several
-purposes:</p>
+<p>Classes in the {@link com.github.fge.jsonschema.core.load} package serve
+several purposes:</p>
 
 <ul>
     <li>preloading schemas;</li>
+    <li>URI translations;</li>
     <li>adding and/or removing support for various URI schemes;</li>
     <li>JSON Reference resolving.</li>
 </ul>
 
 <p>All aspects of schema loading are controlled via a {@link
-com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration} instance.</p>
+com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration}
+instance.</p>
 
 <h1>Regular expressions</h1>
 

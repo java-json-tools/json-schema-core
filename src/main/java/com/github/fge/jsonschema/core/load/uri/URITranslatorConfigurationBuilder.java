@@ -21,6 +21,8 @@ package com.github.fge.jsonschema.core.load.uri;
 
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.core.load.SchemaLoader;
+import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.core.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.core.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -30,6 +32,39 @@ import java.net.URI;
 
 /**
  * Builder for a {@link URITranslatorConfiguration}
+ *
+ * <p>Example:</p>
+ *
+ * <pre>
+ *     final URITranslatorConfiguration cfg
+ *         = URITranslatorConfiguration.newBuilder()
+ *         .setNamespace("http://my.site/myschemas/")
+ *         .addPathRedirect("http://my.site/myschemas/", "resource:/com/foo/myschemas")
+ *         .addSchemaRedirect("http://some.other.site/schema.json", "resource:/com/foo/externalsite/schema.json")
+ *         .freeze();
+ * </pre>
+ *
+ * <p>When feeding this configuration into a {@link LoadingConfiguration}
+ * (using {@link LoadingConfigurationBuilder#setURITranslatorConfiguration(URITranslatorConfiguration)}),
+ * the following will take place for URI {@code schema1.json#/definitions/def1}:
+ * </p>
+ *
+ * <ul>
+ *     <li>first, it will be resolved against the defined namespace, giving
+ *     {@code http://my.site/myschemas/schema1.json#/definitions/def1};</li>
+ *     <li>then a path redirection triggers: the URI used by the {@link
+ *     SchemaLoader} will then be {@code
+ *     resource:/com/foo/myschemas/schema1.json#/definitions/def1}.</li>
+ * </ul>
+ *
+ * <p>If URI {@code http://some.other.site/schema.json#bar} is encountered,
+ * a schema redirect triggers and will yield URI {@code
+ resource:/com/foo/externalsite/schema.json#bar}.</p>
+ *
+ * @see URITranslatorConfiguration
+ * @see SchemaLoader
+ * @see LoadingConfigurationBuilder#setURITranslatorConfiguration(URITranslatorConfiguration)
+ * @see SchemaLoader#SchemaLoader(LoadingConfiguration)
  */
 public final class URITranslatorConfigurationBuilder
     implements Thawed<URITranslatorConfiguration>
