@@ -33,7 +33,7 @@ The current stable verson is **1.0.3**
 ([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog),
 [Javadoc](http://fge.github.io/json-schema-core/stable/index.html)).
 
-The current development verson is **1.1.9**
+The current development verson is **1.1.10**
 ([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog.devel),
 [Javadoc](http://fge.github.io/json-schema-core/devel/index.html)).
 
