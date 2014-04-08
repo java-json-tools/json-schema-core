@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.core.processing.Processor;
  * <p>This interface can be used when wrapping a {@link Processor} into another
  * class which returns a result without providing a report.</p>
  *
- * <p><a href="https://github.com/fge/json-schema-validator>
+ * <p><a href="https://github.com/fge/json-schema-validator">
  * json-schema-validator</a> uses this, for instance, in its main validator
  * class.</p>
  */
