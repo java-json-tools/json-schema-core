@@ -1,3 +1,10 @@
+### 1.1.10
+
+* Remove a LOT of code.
+* Major javadoc updates.
+* Make `SchemaLoader` fail to read sources with trailing garbage/multiple
+  values.
+
 ### 1.1.9
 
 * Change license (dual licensing LGPL 3.0/ASL 2.0).
