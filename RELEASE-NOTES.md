@@ -4,6 +4,8 @@
 * Major javadoc updates.
 * Make `SchemaLoader` fail to read sources with trailing garbage/multiple
   values.
+* Fix commandline unit test running (tests defined only on abstract test classes
+  won't run on derived classes).
 
 ### 1.1.9
 
