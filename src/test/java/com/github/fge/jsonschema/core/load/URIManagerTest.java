@@ -156,7 +156,9 @@ public final class URIManagerTest
     {
         final List<Object[]> list = Lists.newArrayList();
 
-        list.add(new Object[] { "[][]", "uriManager.extraneousValue" });
+        list.add(new Object[] { "", "uriManager.noData" });
+        list.add(new Object[] { "[][]", "uriManager.trailingData" });
+        list.add(new Object[] { "[]]", "uriManager.trailingData" });
 
         return list.iterator();
     }
