@@ -1,3 +1,8 @@
+### 1.1.11
+
+* Fix serious bug with URIManager's reading of JSON inputs: it would choke with
+  NoSuchElementException if the input was not empty...
+
 ### 1.1.10
 
 * Remove a LOT of code.
