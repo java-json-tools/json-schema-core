@@ -332,6 +332,7 @@ public final class ProcessingMessage
      * arguments.</p>
      *
      * @param key the key
+     * @param <T> type of values
      * @param values the collection of values
      * @return this
      */
