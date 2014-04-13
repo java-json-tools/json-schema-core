@@ -19,13 +19,11 @@
 
 package com.github.fge.jsonschema.core.load;
 
-import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jackson.JsonNodeReader;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.core.load.download.URIDownloader;
@@ -58,7 +56,7 @@ public final class URIManager
 
     private final Map<String, URIDownloader> downloaders;
 
-    private final ObjectMapper mapper;
+    private final JsonNodeReader reader;
 
     public URIManager()
     {
@@ -68,7 +66,7 @@ public final class URIManager
     public URIManager(final LoadingConfiguration cfg)
     {
         downloaders = cfg.getDownloaderMap();
-        mapper = cfg.getObjectMapper();
+        reader = cfg.getReader();
     }
 
     /**
@@ -101,12 +99,10 @@ public final class URIManager
 
         final Closer closer = Closer.create();
         final InputStream in;
-        final JsonParser parser;
 
         try {
             in = closer.register(downloader.fetch(uri));
-            parser = closer.register(mapper.getFactory().createParser(in));
-            return readOneNode(in, parser, uri);
+            return reader.fromInputStream(in);
         } catch (JsonMappingException e) {
             throw new ProcessingException(new ProcessingMessage()
                 .setMessage(e.getOriginalMessage()).put("uri", uri));
@@ -126,34 +122,6 @@ public final class URIManager
             } catch (IOException ignored) {
                 throw new IllegalStateException();
             }
-        }
-    }
-
-    private JsonNode readOneNode(final InputStream in, final JsonParser parser,
-        final URI uri)
-        throws IOException
-    {
-        final MappingIterator<JsonNode> iterator
-            = mapper.readValues(parser, JsonNode.class);
-
-        JsonLocation location;
-        String message;
-
-        location = new JsonLocation(in, 0L, 1, 1);
-        message = BUNDLE.printf("uriManager.noData", uri);
-        if (!iterator.hasNextValue())
-            throw new JsonMappingException(message, location);
-
-        final JsonNode ret = iterator.nextValue();
-        location = parser.getCurrentLocation();
-        message = BUNDLE.printf("uriManager.trailingData", uri);
-
-        try {
-            if (!iterator.hasNextValue())
-                return ret;
-            throw new JsonMappingException(message, location);
-        } catch (JsonParseException e) {
-            throw new JsonMappingException(message, e.getLocation(), e);
         }
     }
 }

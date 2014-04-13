@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.Frozen;
 import com.github.fge.Thawed;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jackson.JsonNodeReader;
 import com.github.fge.jsonschema.core.load.Dereferencing;
 import com.github.fge.jsonschema.core.load.SchemaLoader;
 import com.github.fge.jsonschema.core.load.URIManager;
@@ -88,7 +89,10 @@ public final class LoadingConfiguration
     final URITranslatorConfiguration translatorCfg;
     
     /**
-     * If we have to cache loaded schemas, note that this do not affect preloadedSchema that are always cached
+     * Should we cache schemas
+     *
+     * <p>Note that this do not affect preloaded schemas; these are always
+     * cached.</p>
      */
     final boolean enableCache;
 
@@ -120,9 +124,9 @@ public final class LoadingConfiguration
      * <p>Object reader configured using enabled JsonParser features and
      * minimum requirements enforced by JacksonUtils.</p>
      *
-     * @see JacksonUtils#newMapper()
+     * @see JsonNodeReader
      */
-    private final ObjectMapper objectMapper;
+    private final JsonNodeReader reader;
 
     /**
      * Create a new, default, mutable configuration instance
@@ -160,25 +164,25 @@ public final class LoadingConfiguration
         dereferencing = builder.dereferencing;
         preloadedSchemas = ImmutableMap.copyOf(builder.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(builder.parserFeatures);
-        objectMapper = constructObjectMapper();
+        reader = buildReader();
         enableCache = builder.enableCache;
     }
 
     /**
-     * Construct a JacksonUtils compatible ObjectMapper with a set of JsonParser
-     * features.
+     * Construct a {@link JsonNodeReader}
      *
-     * @return configured ObjectMapper
+     * @return a JSON reader
+     * @see JsonNodeReader
      * @see JacksonUtils#newMapper()
      */
-    private ObjectMapper constructObjectMapper()
+    private JsonNodeReader buildReader()
     {
         final ObjectMapper mapper = JacksonUtils.newMapper();
 
         // enable JsonParser feature configurations
         for (final JsonParser.Feature feature : parserFeatures)
             mapper.configure(feature, true);
-        return mapper;
+        return new JsonNodeReader(mapper);
     }
 
     /**
@@ -219,14 +223,14 @@ public final class LoadingConfiguration
     }
 
     /**
-     * Get a configured {@link ObjectMapper}
+     * Get a configured {@link JsonNodeReader}
      *
-     * @return the ObjectMapper
-     * @see JacksonUtils#newMapper()
+     * @return the JSON reader
+     * @see JsonNodeReader
      */
-    public ObjectMapper getObjectMapper()
+    public JsonNodeReader getReader()
     {
-        return objectMapper;
+        return reader;
     }
     
     /**
