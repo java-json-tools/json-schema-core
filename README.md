@@ -30,7 +30,7 @@ project](https://github.com/fge/json-schema-processor-examples).
 ## Versions
 
 The current stable verson is **1.0.3**
-([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog),
+([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog_10x),
 [Javadoc](http://fge.github.io/json-schema-core/stable/index.html)).
 
 The current development verson is **1.1.11**
