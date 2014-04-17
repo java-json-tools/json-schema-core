@@ -27,7 +27,7 @@ be found [here](https://github.com/fge/json-schema-core/wiki/Architecture).
 
 ## Versions
 
-The current stable verson is **1.2.0**
+The current stable verson is **1.2.1**
 ([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog_12x),
 [Javadoc](http://fge.github.io/json-schema-core/1.2.x/index.html)).
 
