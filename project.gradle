@@ -21,7 +21,7 @@
  * Project-specific settings. Unfortunately we cannot put the name in there!
  */
 group = "com.github.fge";
-version = "1.2.1";
+version = "1.2.2-SNAPSHOT";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
@@ -33,7 +33,7 @@ project.ext {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.fge", name: "jackson-coreutils", version: "1.6");
+    compile(group: "com.github.fge", name: "jackson-coreutils", version: "1.7");
     compile(group: "com.github.fge", name: "uri-template", version: "0.9");
     // FIXME: no javadoc
     compile(group: "org.mozilla", name: "rhino", version: "1.7R4");
