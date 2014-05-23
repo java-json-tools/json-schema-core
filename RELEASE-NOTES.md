@@ -1,3 +1,8 @@
+### 1.2.3
+
+* Fix problems with resource loading.
+* Add missing key to syntax messages.
+
 ### 1.2.1
 
 * Fix bug with Rhino context: sealing the context can conflict with other
