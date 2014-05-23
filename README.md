@@ -27,7 +27,7 @@ be found [here](https://github.com/fge/json-schema-core/wiki/Architecture).
 
 ## Versions
 
-The current stable verson is **1.2.1**
+The current stable verson is **1.2.3**
 ([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog_12x),
 [Javadoc](http://fge.github.io/json-schema-core/1.2.x/index.html)).
 
@@ -42,7 +42,7 @@ For gradle, use:
 
 ```
 dependencies {
-    compile(group: "com.github.fge", name: "json-shema-core", version: "your.version");
+    compile(group: "com.github.fge", name: "json-shema-core", version: "1.2.3");
 }
 ```
 
@@ -52,7 +52,7 @@ For maven:
 <dependency>
     <groupId>com.github.fge</groupId>
     <artifactId>json-schema-core</artifactId>
-    <version>your-version</version>
+    <version>1.2.3</version>
 </dependency>
 ```
 
