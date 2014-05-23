@@ -33,7 +33,8 @@ project.ext {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.fge", name: "jackson-coreutils", version: "1.6");
+    compile(group: "com.github.fge", name: "jackson-coreutils",
+        version: "1.8");
     compile(group: "com.github.fge", name: "uri-template", version: "0.9");
     // FIXME: no javadoc
     compile(group: "org.mozilla", name: "rhino", version: "1.7R4");

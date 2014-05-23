@@ -89,7 +89,7 @@ public final class RhinoHelper
     static {
         final Context ctx = Context.enter();
         try {
-            SCOPE = ctx.initStandardObjects(null, true);
+            SCOPE = ctx.initStandardObjects(null, false);
             ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
             REGEX_IS_VALID = (Function) SCOPE.get("regexIsValid", SCOPE);
             REG_MATCH = (Function) SCOPE.get("regMatch", SCOPE);
