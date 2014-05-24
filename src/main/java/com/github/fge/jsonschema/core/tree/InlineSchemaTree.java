@@ -23,9 +23,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
 import java.util.Map;
 
 /**
@@ -47,6 +51,8 @@ import java.util.Map;
  * <p>JSON Reference {@code x://y/t#} is this JSON document at JSON Pointer
  * {@code /sub}.</p>
  */
+@Immutable
+@ParametersAreNonnullByDefault
 public final class InlineSchemaTree
     extends BaseSchemaTree
 {
@@ -61,19 +67,50 @@ public final class InlineSchemaTree
      */
     private final Map<JsonRef, JsonPointer> otherRefs;
 
-    public InlineSchemaTree(final JsonNode baseNode)
+    /**
+     * Main constructor
+     *
+     * @param key the schema key
+     * @param baseNode the base node
+     */
+    public InlineSchemaTree(final SchemaKey key, final JsonNode baseNode)
     {
-        this(JsonRef.emptyRef(), baseNode);
-    }
+        super(key, baseNode, JsonPointer.empty());
 
-    public InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
-    {
-        super(loadingRef, baseNode, JsonPointer.empty());
         final Map<JsonRef, JsonPointer> abs = Maps.newHashMap();
         final Map<JsonRef, JsonPointer> other = Maps.newHashMap();
+        final JsonRef loadingRef = key.getLoadingRef();
+
         walk(loadingRef, baseNode, JsonPointer.empty(), abs, other);
         absRefs = ImmutableMap.copyOf(abs);
         otherRefs = ImmutableMap.copyOf(other);
+    }
+
+    /**
+     * Alternate constructor
+     *
+     * @param baseNode the base node
+     *
+     * @deprecated use {@link #InlineSchemaTree(SchemaKey, JsonNode)} instead
+     */
+    @Deprecated
+    public InlineSchemaTree(final JsonNode baseNode)
+    {
+        this(SchemaKey.anonymousKey(), baseNode);
+    }
+
+    /**
+     * Alternate constructor
+     *
+     * @param loadingRef the loading ref
+     * @param baseNode the base node
+     *
+     * @deprecated use {@link #InlineSchemaTree(SchemaKey, JsonNode)} instead
+     */
+    @Deprecated
+    public InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
+    {
+        this(SchemaKey.forJsonRef(loadingRef), baseNode);
     }
 
     private InlineSchemaTree(final InlineSchemaTree other,
@@ -114,6 +151,7 @@ public final class InlineSchemaTree
         return ret.path(baseNode).isMissingNode() ? null : ret;
     }
 
+    @Nullable
     private JsonPointer getMatchingPointer(final JsonRef ref)
     {
         if (otherRefs.containsKey(ref))
@@ -134,6 +172,7 @@ public final class InlineSchemaTree
      * @param ref the target reference
      * @return the matching pointer, or {@code null} if not found
      */
+    @Nullable
     private JsonPointer refMatchingPointer(final JsonRef ref)
     {
         final JsonPointer refPtr = ref.getPointer();
@@ -151,7 +190,7 @@ public final class InlineSchemaTree
          * ... Which means this test must be done last... (since refPtr is
          * declared final, this is safe)
          */
-        return loadingRef.contains(ref) ? refPtr : null;
+        return key.getLoadingRef().contains(ref) ? refPtr : null;
     }
 
     /**
@@ -162,8 +201,9 @@ public final class InlineSchemaTree
      * #containsRef(JsonRef)} and {@link #matchingPointer(JsonRef)} to work.</p>
      *
      * <p>This method is called recursively. Its furst invocation is from the
-     * constructor, with {@link #loadingRef} as a reference, {@link #baseNode}
-     * as a JSON document and an empty pointer as the document pointer.</p>
+     * constructor, with {@link SchemaKey#getLoadingRef()} as a reference,
+     * {@link #baseNode} as a JSON document and an empty pointer as the document
+     * pointer.</p>
      *
      * @param baseRef the current context
      * @param node the current document

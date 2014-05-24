@@ -22,7 +22,10 @@ package com.github.fge.jsonschema.core.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.Immutable;
 
 /**
@@ -36,18 +39,38 @@ import javax.annotation.concurrent.Immutable;
  * {@code x://y/z#}, but {@code x://y/t#} does not.</p>
  */
 @Immutable
+@ParametersAreNonnullByDefault
 public final class CanonicalSchemaTree
     extends BaseSchemaTree
 {
-    public CanonicalSchemaTree(final JsonNode baseNode)
+    /**
+     * Main constructor
+     *
+     * @param key the schema key
+     * @param baseNode the base node
+     */
+    public CanonicalSchemaTree(final SchemaKey key, final JsonNode baseNode)
     {
-        this(JsonRef.emptyRef(), baseNode);
+        super(key, baseNode, JsonPointer.empty());
     }
 
+    /**
+     * Alternate constructor
+     *
+     * @param baseNode the base node
+     * @deprecated use {@link #CanonicalSchemaTree(SchemaKey, JsonNode)} instead
+     */
+    @Deprecated
+    public CanonicalSchemaTree(final JsonNode baseNode)
+    {
+        this(SchemaKey.anonymousKey(), baseNode);
+    }
+
+    @Deprecated
     public CanonicalSchemaTree(final JsonRef loadingRef,
         final JsonNode baseNode)
     {
-        super(loadingRef, baseNode, JsonPointer.empty());
+        this(SchemaKey.forJsonRef(loadingRef), baseNode);
     }
 
     private CanonicalSchemaTree(final CanonicalSchemaTree other,
@@ -72,9 +95,10 @@ public final class CanonicalSchemaTree
     @Override
     public boolean containsRef(final JsonRef ref)
     {
-        return loadingRef.contains(ref);
+        return key.getLoadingRef().contains(ref);
     }
 
+    @Nullable
     @Override
     public JsonPointer matchingPointer(final JsonRef ref)
     {
