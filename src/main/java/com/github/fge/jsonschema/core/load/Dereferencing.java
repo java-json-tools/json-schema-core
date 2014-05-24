@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 
 /**
  * Dereferencing modes
@@ -45,9 +46,9 @@ public enum Dereferencing
     CANONICAL("canonical")
     {
         @Override
-        public SchemaTree newTree(final JsonRef ref, final JsonNode node)
+        protected SchemaTree newTree(final SchemaKey key, final JsonNode node)
         {
-            return new CanonicalSchemaTree(ref, node);
+            return new CanonicalSchemaTree(key, node);
         }
     },
     /**
@@ -58,9 +59,9 @@ public enum Dereferencing
     INLINE("inline")
     {
         @Override
-        public SchemaTree newTree(final JsonRef ref, final JsonNode node)
+        protected SchemaTree newTree(final SchemaKey key, final JsonNode node)
         {
-            return new InlineSchemaTree(ref, node);
+            return new InlineSchemaTree(key, node);
         }
     };
 
@@ -73,11 +74,9 @@ public enum Dereferencing
      * @param node the schema
      * @return a new tree
      */
-    public abstract SchemaTree newTree(final JsonRef ref, final JsonNode node);
-
-    Dereferencing(final String name)
+    public SchemaTree newTree(final JsonRef ref, final JsonNode node)
     {
-        this.name = name;
+        return newTree(SchemaKey.forJsonRef(ref), node);
     }
 
     /**
@@ -88,7 +87,14 @@ public enum Dereferencing
      */
     public SchemaTree newTree(final JsonNode node)
     {
-        return newTree(JsonRef.emptyRef(), node);
+        return newTree(SchemaKey.anonymousKey(), node);
+    }
+
+    protected abstract SchemaTree newTree(SchemaKey key, JsonNode node);
+
+    Dereferencing(final String name)
+    {
+        this.name = name;
     }
 
     @Override
