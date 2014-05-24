@@ -22,6 +22,8 @@ package com.github.fge.jsonschema.core.tree;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.ref.JsonRef;
 
+import javax.annotation.Nullable;
+
 /**
  * Tree representation of a JSON Schema
  *
@@ -82,6 +84,7 @@ public interface SchemaTree
      * @param ref the reference
      * @return the matching pointer, or {@code null} if not found
      */
+    @Nullable
     JsonPointer matchingPointer(final JsonRef ref);
 
     long getId();

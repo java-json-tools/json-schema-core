@@ -27,9 +27,13 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.Immutable;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Base implementation of a {@link SchemaTree}
@@ -38,22 +42,13 @@ import java.util.concurrent.atomic.AtomicLong;
  * @see InlineSchemaTree
  */
 @Immutable
+@ParametersAreNonnullByDefault
 public abstract class BaseSchemaTree
     implements SchemaTree
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
-    private static final AtomicLong ID_GEN = new AtomicLong(0L);
-
-    private final long id;
-
-    /**
-     * The JSON Reference from which this node has been loaded
-     *
-     * <p>If loaded without a URI, this will be the empty reference.</p>
-     */
-    protected final JsonRef loadingRef;
-
+    protected final SchemaKey key;
 
     /**
      * The contents of {@code $schema} for that schema
@@ -82,8 +77,9 @@ public abstract class BaseSchemaTree
     /**
      * The JSON Reference representing the context at the root of the schema
      *
-     * <p>It will defer from {@link #loadingRef} if there is an {@code id} at
-     * the top level.</p>
+     * <p>If there is an {@code id} at the top level, this will take precedence
+     * over {@link SchemaKey#getLoadingRef()} (provided the id is well
+     * formed).</p>
      */
     private final JsonRef startingRef;
 
@@ -92,15 +88,39 @@ public abstract class BaseSchemaTree
      */
     private final JsonRef currentRef;
 
+    protected BaseSchemaTree(final SchemaKey key, final JsonNode baseNode,
+        final JsonPointer pointer)
+    {
+        Preconditions.checkNotNull(key);
+        Preconditions.checkNotNull(baseNode);
+        Preconditions.checkNotNull(pointer);
+
+        this.key = key;
+        dollarSchema = extractDollarSchema(baseNode);
+
+        this.baseNode = baseNode;
+        this.pointer = pointer;
+        node = pointer.path(baseNode);
+
+        final JsonRef loadingRef = key.getLoadingRef();
+        final JsonRef ref = idFromNode(baseNode);
+
+        startingRef = ref == null ? loadingRef : loadingRef.resolve(ref);
+        currentRef = nextRef(startingRef, pointer, baseNode);
+    }
+
+    @Deprecated
     protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
         final JsonPointer pointer)
     {
         dollarSchema = extractDollarSchema(baseNode);
+
+        key = loadingRef.equals(JsonRef.emptyRef()) ? SchemaKey.anonymousKey()
+            : SchemaKey.forJsonRef(loadingRef);
+
         this.baseNode = baseNode;
         this.pointer = pointer;
         node = pointer.path(baseNode);
-        this.loadingRef = loadingRef;
-        id = ID_GEN.getAndIncrement();
 
         final JsonRef ref = idFromNode(baseNode);
 
@@ -112,10 +132,10 @@ public abstract class BaseSchemaTree
     protected BaseSchemaTree(final BaseSchemaTree other,
         final JsonPointer newPointer)
     {
-        id = other.id;
+        key = other.key;
+
         dollarSchema = other.dollarSchema;
         baseNode = other.baseNode;
-        loadingRef = other.loadingRef;
 
         pointer = newPointer;
         node = newPointer.get(baseNode);
@@ -125,9 +145,10 @@ public abstract class BaseSchemaTree
     }
 
     @Override
+    @Deprecated
     public final long getId()
     {
-        return id;
+        return key.getId();
     }
 
     @Override
@@ -175,7 +196,7 @@ public abstract class BaseSchemaTree
     @Override
     public final JsonRef getLoadingRef()
     {
-        return loadingRef;
+        return key.getLoadingRef();
     }
 
     /**
@@ -194,7 +215,7 @@ public abstract class BaseSchemaTree
     {
         final ObjectNode ret = FACTORY.objectNode();
 
-        ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
+        ret.put("loadingURI", FACTORY.textNode(key.getLoadingRef().toString()));
         ret.put("pointer", FACTORY.textNode(pointer.toString()));
 
         return ret;
@@ -203,9 +224,11 @@ public abstract class BaseSchemaTree
     @Override
     public final String toString()
     {
-        return "loading URI: " + loadingRef
-            + "; current pointer: \"" + pointer
-            + "\"; resolution context: " + currentRef;
+        return Objects.toStringHelper(this)
+            .add("key", key)
+            .add("pointer", pointer)
+            .add("URI context", currentRef)
+            .toString();
     }
 
     /**
@@ -224,6 +247,7 @@ public abstract class BaseSchemaTree
      * @param node the node
      * @return a JSON Reference, or {@code null}
      */
+    @Nullable
     protected static JsonRef idFromNode(final JsonNode node)
     {
         if (!node.path("id").isTextual())

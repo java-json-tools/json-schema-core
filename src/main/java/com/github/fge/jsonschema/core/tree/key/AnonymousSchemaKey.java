@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicLong;
 
-public final class AnonymousSchemaKey
+final class AnonymousSchemaKey
     extends SchemaKey
 {
     private static final AtomicLong ID_GEN = new AtomicLong(0L);

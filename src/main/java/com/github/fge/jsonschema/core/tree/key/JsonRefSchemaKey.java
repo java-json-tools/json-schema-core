@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.core.ref.JsonRef;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public final class JsonRefSchemaKey
+final class JsonRefSchemaKey
     extends SchemaKey
 {
     JsonRefSchemaKey(final JsonRef ref)
