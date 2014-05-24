@@ -31,6 +31,7 @@ import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.Immutable;
@@ -221,6 +222,7 @@ public abstract class BaseSchemaTree
         return ret;
     }
 
+    @Nonnull
     @Override
     public final String toString()
     {
@@ -229,6 +231,25 @@ public abstract class BaseSchemaTree
             .add("pointer", pointer)
             .add("URI context", currentRef)
             .toString();
+    }
+
+    @Override
+    public final int hashCode()
+    {
+        return key.hashCode() ^ pointer.hashCode();
+    }
+
+    @Override
+    public final boolean equals(@Nullable final Object obj)
+    {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+        if (getClass() != obj.getClass())
+            return false;
+        final BaseSchemaTree other = (BaseSchemaTree) obj;
+        return key.equals(other.key) && pointer.equals(other.pointer);
     }
 
     /**
