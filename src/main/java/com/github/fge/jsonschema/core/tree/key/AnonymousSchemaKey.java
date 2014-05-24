@@ -57,7 +57,7 @@ final class AnonymousSchemaKey
         if (obj == null)
             return false;
         if (this == obj)
-            return false;
+            return true;
         if (getClass() != obj.getClass())
             return false;
         final AnonymousSchemaKey other = (AnonymousSchemaKey) obj;
