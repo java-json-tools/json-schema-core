@@ -187,7 +187,8 @@ public final class SchemaTreeTest
         final ObjectNode testNode = FACTORY.objectNode();
         testNode.put("$schema", node);
 
-        final SchemaTree tree = new CanonicalSchemaTree(testNode);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), testNode);
         assertEquals(tree.getDollarSchema(), JsonRef.emptyRef());
     }
 
@@ -207,7 +208,8 @@ public final class SchemaTreeTest
         final ObjectNode testNode = FACTORY.objectNode();
         testNode.put("$schema", FACTORY.textNode(s));
 
-        final SchemaTree tree = new CanonicalSchemaTree(testNode);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), testNode);
         assertEquals(tree.getDollarSchema(), JsonRef.emptyRef());
     }
 

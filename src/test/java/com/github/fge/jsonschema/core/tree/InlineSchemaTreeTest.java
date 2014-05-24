@@ -25,6 +25,7 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -49,7 +50,7 @@ public final class InlineSchemaTreeTest
         lookups = data.get("lookups");
 
         final JsonNode schema = data.get("schema");
-        schemaTree = new InlineSchemaTree(schema);
+        schemaTree = new InlineSchemaTree(SchemaKey.anonymousKey(), schema);
     }
 
     @DataProvider

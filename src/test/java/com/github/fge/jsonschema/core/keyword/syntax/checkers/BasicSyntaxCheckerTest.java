@@ -32,6 +32,7 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import org.mockito.ArgumentCaptor;
@@ -71,7 +72,8 @@ public final class BasicSyntaxCheckerTest
         final ProcessingReport report = mock(ProcessingReport.class);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 
         checker.checkSyntax(null, BUNDLE, report, tree);
         verify(checker).checkValue(null, BUNDLE, report, tree);
@@ -91,7 +93,8 @@ public final class BasicSyntaxCheckerTest
         final NodeType type = NodeType.getNodeType(node);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 
         final AbstractSyntaxChecker checker = spy(new DummyChecker());
         final ProcessingReport report = mock(ProcessingReport.class);

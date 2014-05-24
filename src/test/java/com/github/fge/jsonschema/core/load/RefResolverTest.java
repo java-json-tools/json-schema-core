@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.core.util.ValueHolder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
@@ -49,7 +50,8 @@ public final class RefResolverTest
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         node.put("$ref", "#");
 
-        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
         final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         try {
@@ -67,7 +69,8 @@ public final class RefResolverTest
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         node.put("$ref", "#/a");
 
-        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
         final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         try {

@@ -28,6 +28,7 @@ import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.core.messages.JsonSchemaSyntaxMessageBundle;
@@ -112,7 +113,8 @@ public final class SyntaxProcessorTest
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
-        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
         final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         processor.process(report, holder);
@@ -134,7 +136,8 @@ public final class SyntaxProcessorTest
         node.put("foo", "");
         node.put("bar", "");
 
-        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
         final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         final ArrayNode ignored = FACTORY.arrayNode();
@@ -173,7 +176,8 @@ public final class SyntaxProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(K2, "");
 
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         processor.process(report, holder);
@@ -192,7 +196,8 @@ public final class SyntaxProcessorTest
         node.put(K1, K1);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("foo", node);
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         processor.process(report, holder);
