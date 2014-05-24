@@ -17,5 +17,6 @@ com.github.fge.jsonschema.core.processing
 com.github.fge.jsonschema.core.ref
 com.github.fge.jsonschema.core.report
 com.github.fge.jsonschema.core.tree
+com.github.fge.jsonschema.core.tree.key
 com.github.fge.jsonschema.core.util
 com.github.fge.jsonschema.core.util.equivalence
