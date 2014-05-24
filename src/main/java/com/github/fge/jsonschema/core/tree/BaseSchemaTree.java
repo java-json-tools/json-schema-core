@@ -48,6 +48,14 @@ public abstract class BaseSchemaTree
     private final long id;
 
     /**
+     * The JSON Reference from which this node has been loaded
+     *
+     * <p>If loaded without a URI, this will be the empty reference.</p>
+     */
+    protected final JsonRef loadingRef;
+
+
+    /**
      * The contents of {@code $schema} for that schema
      *
      * <p>Note that it is required that if it is present, it be an absolute
@@ -70,13 +78,6 @@ public abstract class BaseSchemaTree
      * The current node.
      */
     private final JsonNode node;
-
-    /**
-     * The JSON Reference from which this node has been loaded
-     *
-     * <p>If loaded without a URI, this will be the empty reference.</p>
-     */
-    protected final JsonRef loadingRef;
 
     /**
      * The JSON Reference representing the context at the root of the schema
