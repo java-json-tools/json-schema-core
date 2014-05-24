@@ -33,10 +33,16 @@ public final class AnonymousSchemaKey
 
     private final long id;
 
-    AnonymousSchemaKey(final JsonRef ref)
+    AnonymousSchemaKey()
     {
-        super(ref);
+        super(JsonRef.emptyRef());
         id = ID_GEN.getAndIncrement();
+    }
+
+    @Override
+    public long getId()
+    {
+        return id;
     }
 
     @Override

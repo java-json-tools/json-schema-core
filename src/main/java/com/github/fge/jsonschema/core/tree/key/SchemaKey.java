@@ -20,6 +20,7 @@
 package com.github.fge.jsonschema.core.tree.key;
 
 import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,11 +29,28 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public abstract class SchemaKey
 {
-    protected final JsonRef ref;
+    protected final JsonRef loadingRef;
 
-    protected SchemaKey(final JsonRef ref)
+    protected SchemaKey(final JsonRef loadingRef)
     {
-        this.ref = ref;
+        this.loadingRef = loadingRef;
+    }
+
+    public static SchemaKey anonymousKey()
+    {
+        return new AnonymousSchemaKey();
+    }
+
+    public static SchemaKey forJsonRef(final JsonRef ref)
+    {
+        return new JsonRefSchemaKey(Preconditions.checkNotNull(ref));
+    }
+
+    public abstract long getId();
+
+    public final JsonRef getLoadingRef()
+    {
+        return loadingRef;
     }
 
     @Override

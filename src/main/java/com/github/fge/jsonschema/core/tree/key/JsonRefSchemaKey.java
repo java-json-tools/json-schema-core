@@ -24,18 +24,24 @@ import com.github.fge.jsonschema.core.ref.JsonRef;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public final class URISchemaKey
+public final class JsonRefSchemaKey
     extends SchemaKey
 {
-    URISchemaKey(final JsonRef ref)
+    JsonRefSchemaKey(final JsonRef ref)
     {
         super(ref);
     }
 
     @Override
+    public long getId()
+    {
+        return 0L;
+    }
+
+    @Override
     public int hashCode()
     {
-        return ref.hashCode();
+        return loadingRef.hashCode();
     }
 
     @Override
@@ -47,14 +53,14 @@ public final class URISchemaKey
             return true;
         if (getClass() != obj.getClass())
             return false;
-        final URISchemaKey other = (URISchemaKey) obj;
-        return ref.equals(other.ref);
+        final JsonRefSchemaKey other = (JsonRefSchemaKey) obj;
+        return loadingRef.equals(other.loadingRef);
     }
 
     @Nonnull
     @Override
     public String toString()
     {
-        return "loaded from JSON ref " + ref;
+        return "loaded from JSON ref " + loadingRef;
     }
 }
