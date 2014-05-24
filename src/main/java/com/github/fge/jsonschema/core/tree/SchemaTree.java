@@ -21,6 +21,7 @@ package com.github.fge.jsonschema.core.tree;
 
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 
 import javax.annotation.Nullable;
 
@@ -87,6 +88,14 @@ public interface SchemaTree
     @Nullable
     JsonPointer matchingPointer(final JsonRef ref);
 
+    /**
+     * DO NOT USE!
+     *
+     * @return something...
+     *
+     * @deprecated superseded by {@link SchemaKey}
+     */
+    @Deprecated
     long getId();
 
     /**

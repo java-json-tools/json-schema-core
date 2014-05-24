@@ -26,7 +26,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicLong;
 
-final class AnonymousSchemaKey
+/**
+ * A unique schem key for schemas loaded anonymously
+ */
+public final class AnonymousSchemaKey
     extends SchemaKey
 {
     private static final AtomicLong ID_GEN = new AtomicLong(0L);

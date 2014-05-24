@@ -24,7 +24,10 @@ import com.github.fge.jsonschema.core.ref.JsonRef;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-final class JsonRefSchemaKey
+/**
+ * A unique schema key for JSON Schemas loaded via URIs
+ */
+public final class JsonRefSchemaKey
     extends SchemaKey
 {
     JsonRefSchemaKey(final JsonRef ref)

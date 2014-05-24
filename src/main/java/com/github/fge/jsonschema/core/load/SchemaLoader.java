@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.core.load.uri.URITranslator;
+import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
 import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
@@ -36,6 +37,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
 import java.net.URI;
 import java.util.Map;
@@ -44,12 +46,15 @@ import java.util.concurrent.ExecutionException;
 /**
  * JSON Schema loader
  *
- * <p>All schema registering and downloading is done through this class.</p>
+ * <p>This class is the central loading point for generating a {@link
+ * SchemaTree} out of a "raw" JSON Schema (ie, a {@link JsonNode}); it handles
+ * the creation of both anonymous (ie, no loading URI) and non anonymous JSON
+ * schemas.</p>
  *
- * <p>Note that if the id of a schema is not absolute (that is, the URI itself
- * is absolute and it has no fragment part, or an empty fragment), then the
- * whole schema will be considered anonymous.</p>
- *
+ * <p>Depending on your configuration, you may, or may not, be able to use
+ * relative URIs to load your schemas; see {@link URITranslator} and {@link
+ * LoadingConfigurationBuilder#setURITranslatorConfiguration(URITranslatorConfiguration)}
+ * for more details.</p>
  */
 @ThreadSafe
 public final class SchemaLoader
@@ -102,8 +107,9 @@ public final class SchemaLoader
         
         cache = cacheBuilder.build(new CacheLoader<URI, JsonNode>()
         {
+            @Nonnull
             @Override
-            public JsonNode load(final URI key)
+            public JsonNode load(@Nonnull final URI key)
                 throws ProcessingException
             {
                 return manager.getContent(key);

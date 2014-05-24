@@ -31,6 +31,7 @@ import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -66,13 +67,15 @@ public final class SchemaTreeTest
     {
         SchemaTree schemaTree;
 
-        schemaTree = new CanonicalSchemaTree(factory.objectNode());
+        final ObjectNode node = FACTORY.objectNode();
+
+        schemaTree = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
         assertSame(schemaTree.getContext(), JsonRef.emptyRef());
 
         final URI uri = URI.create("foo://bar");
         final JsonRef ref = JsonRef.fromURI(uri);
 
-        schemaTree = new CanonicalSchemaTree(ref, factory.objectNode());
+        schemaTree = new CanonicalSchemaTree(SchemaKey.forJsonRef(ref), node);
         assertSame(schemaTree.getContext(), ref);
     }
 
@@ -98,7 +101,8 @@ public final class SchemaTreeTest
         final ObjectNode node = factory.objectNode();
         node.put("id", id);
 
-        final SchemaTree tree = new CanonicalSchemaTree(loadingRef, node);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.forJsonRef(loadingRef), node);
         assertEquals(tree.getContext(), resolved);
     }
 
@@ -125,7 +129,8 @@ public final class SchemaTreeTest
     {
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 
         assertEquals(tree.append(ptr).getContext(), scope);
     }
@@ -137,7 +142,8 @@ public final class SchemaTreeTest
     {
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
-        SchemaTree tree = new CanonicalSchemaTree(schema);
+        SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final JsonRef origRef = tree.getContext();
 
         tree = tree.setPointer(ptr);
@@ -155,7 +161,8 @@ public final class SchemaTreeTest
     @Test(dataProvider = "nonSchemas")
     public void nonSchemasYieldAnEmptyRef(final JsonNode node)
     {
-        final SchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
         assertEquals(tree.getDollarSchema(), JsonRef.emptyRef());
     }
 
@@ -168,7 +175,9 @@ public final class SchemaTreeTest
     @Test
     public void schemaWithoutDollarSchemaYieldsAnEmptyRef()
     {
-        final SchemaTree tree = new CanonicalSchemaTree(FACTORY.objectNode());
+        final ObjectNode node = FACTORY.objectNode();
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
         assertEquals(tree.getDollarSchema(), JsonRef.emptyRef());
     }
 
@@ -221,29 +230,21 @@ public final class SchemaTreeTest
         final ObjectNode testNode = FACTORY.objectNode();
         testNode.put("$schema", FACTORY.textNode(s));
 
-        final SchemaTree tree = new CanonicalSchemaTree(testNode);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), testNode);
         assertEquals(tree.getDollarSchema(), ref);
     }
 
     @Test
-    public void twoDifferentTreesHaveDifferentIds()
+    public void twoAnonymouslyLoadedSchemasAreNotEqualEvenIfJsonIsEqual()
         throws IOException
     {
         final JsonNode node = JsonLoader.fromResource("/draftv4/schema");
-        final SchemaTree tree = new CanonicalSchemaTree(node);
-        final SchemaTree tree2 = new CanonicalSchemaTree(node);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
+        final SchemaTree tree2
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
 
-        assertNotEquals(tree.getId(), tree2.getId());
-    }
-
-    @Test
-    public void treeCreatedFromOtherTreeKeepsTheSameId()
-        throws IOException
-    {
-        final JsonNode node = JsonLoader.fromResource("/draftv4/schema");
-        final SchemaTree tree = new CanonicalSchemaTree(node);
-        final SchemaTree tree2 = tree.append(JsonPointer.of("definitions"));
-
-        assertEquals(tree.getId(), tree2.getId());
+        assertNotEquals(tree, tree2);
     }
 }
