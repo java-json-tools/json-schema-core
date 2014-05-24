@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.ref.JsonRef;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -47,7 +48,7 @@ public final class CanonicalSchemaTreeTest
         lookups = data.get("lookups");
 
         final JsonNode schema = data.get("schema");
-        schemaTree = new CanonicalSchemaTree(schema);
+        schemaTree = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
     }
 
     @DataProvider

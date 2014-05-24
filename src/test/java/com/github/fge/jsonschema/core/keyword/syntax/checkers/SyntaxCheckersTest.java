@@ -31,6 +31,7 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
@@ -217,7 +218,8 @@ public abstract class SyntaxCheckersTest
         final String msg, final boolean success, final ObjectNode msgData)
         throws ProcessingException
     {
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 
         checker.checkSyntax(pointers, BUNDLE, report, tree);
 
@@ -265,7 +267,8 @@ public abstract class SyntaxCheckersTest
         final ArrayNode expectedPointers)
         throws ProcessingException, JsonPointerException
     {
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 
         checker.checkSyntax(pointers, BUNDLE, report, tree);
 
@@ -284,7 +287,7 @@ public abstract class SyntaxCheckersTest
     {
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
         schema.put(keyword, node);
-        return new CanonicalSchemaTree(schema);
+        return new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
     }
 
     private static String buildMessage(final String key, final JsonNode params,
