@@ -20,6 +20,7 @@
 package com.github.fge.jsonschema.core.util.equivalence;
 
 import com.github.fge.jsonschema.core.tree.SchemaTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.google.common.base.Equivalence;
 
 /**
@@ -27,8 +28,11 @@ import com.google.common.base.Equivalence;
  *
  * <p>Two schema trees are considered equivant if their loading URI, current
  * URI context, base node and pointers are equivalent.</p>
+ *
+ * @deprecated see {@link SchemaKey}
  */
 // TODO move
+@Deprecated
 public final class SchemaTreeEquivalence
     extends Equivalence<SchemaTree>
 {
