@@ -100,6 +100,20 @@ public final class URIUtils
                 if (scheme == null && host == null)
                     return uri;
 
+                /*
+                 * Issue #15: normalization fails for URNs, and more generally
+                 * for what the URI class calls "opaque URIs"; such URIs are
+                 * absolute but have no host or path defined.
+                 */
+                if (uri.isOpaque())
+                    try {
+                        return new URI(LOWERCASE.apply(scheme),
+                            uri.getSchemeSpecificPart(), uri.getFragment());
+                    } catch (URISyntaxException e) {
+                        throw new IllegalStateException("How did I get there??",
+                            e);
+                    }
+
                 final String userinfo = uri.getUserInfo();
                 final int port = uri.getPort();
                 final String path = uri.getPath();

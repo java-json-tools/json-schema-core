@@ -88,6 +88,7 @@ public final class URIUtilsTest
         list.add(new Object[] { URI.create(orig), URI.create(dst) });
 
 
+        // Issue #15
         orig =  "uRn:jsonschema:com:example:AccountRestrictionsUpdated";
         dst =  "urn:jsonschema:com:example:AccountRestrictionsUpdated";
         list.add(new Object[] { URI.create(orig), URI.create(dst) });
@@ -123,6 +124,10 @@ public final class URIUtilsTest
         list.add(new Object[] { URI.create(orig), URI.create(dst) });
         list.add(new Object[] { null, null });
 
+        // Issue #15
+        orig =  "uRn:jsonschema:com:example:AccountRestrictionsUpdated";
+        dst =  "urn:jsonschema:com:example:AccountRestrictionsUpdated#";
+        list.add(new Object[] { URI.create(orig), URI.create(dst) });
         return list.iterator();
     }
 
