@@ -87,6 +87,11 @@ public final class URIUtilsTest
         dst = "git+ssh://gloubi.boulga/a/b";
         list.add(new Object[] { URI.create(orig), URI.create(dst) });
 
+
+        orig =  "uRn:jsonschema:com:example:AccountRestrictionsUpdated";
+        dst =  "urn:jsonschema:com:example:AccountRestrictionsUpdated";
+        list.add(new Object[] { URI.create(orig), URI.create(dst) });
+
         list.add(new Object[] { null, null });
 
         return list.iterator();
@@ -115,11 +120,6 @@ public final class URIUtilsTest
 
         orig = "http://my.site/schema";
         dst = "http://my.site/schema#";
-        list.add(new Object[] { URI.create(orig), URI.create(dst) });
-        list.add(new Object[] { null, null });
-
-        orig =  "urn:jsonschema:com:example:AccountRestrictionsUpdated";
-        dst =  "urn:jsonschema:com:example:AccountRestrictionsUpdated";
         list.add(new Object[] { URI.create(orig), URI.create(dst) });
         list.add(new Object[] { null, null });
 
