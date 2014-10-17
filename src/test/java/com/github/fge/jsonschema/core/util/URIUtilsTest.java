@@ -118,6 +118,11 @@ public final class URIUtilsTest
         list.add(new Object[] { URI.create(orig), URI.create(dst) });
         list.add(new Object[] { null, null });
 
+        orig =  "urn:jsonschema:com:example:AccountRestrictionsUpdated";
+        dst =  "urn:jsonschema:com:example:AccountRestrictionsUpdated";
+        list.add(new Object[] { URI.create(orig), URI.create(dst) });
+        list.add(new Object[] { null, null });
+
         return list.iterator();
     }
 
