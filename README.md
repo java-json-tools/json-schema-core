@@ -3,9 +3,6 @@
 The license of this project is dual licensed LGPLv3 or later/ASL 2.0. See file `LICENSE` for more
 details. The full text of both licensed is included in the package.
 
-**Version 1.2.x is out**. See [here](https://github.com/fge/json-schema-core/wiki/Whatsnew_12) for
-the major changes.
-
 ## What this is
 
 This package contains the core mechanics of [json-schema-validator
@@ -27,7 +24,7 @@ be found [here](https://github.com/fge/json-schema-core/wiki/Architecture).
 
 ## Versions
 
-The current stable verson is **1.2.4**
+The current stable verson is **1.2.5**
 ([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog_12x),
 [Javadoc](http://fge.github.io/json-schema-core/1.2.x/index.html)).
 
@@ -35,6 +32,8 @@ The old verson is **1.0.4**
 ([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog_10x),
 [Javadoc](http://fge.github.io/json-schema-core/1.0.x/index.html)).
 
+See [here](https://github.com/fge/json-schema-core/wiki/Whatsnew_12) for
+the major changes between 1.0.x and 1.2.x.
 
 ## Using this project with gradle/maven
 
