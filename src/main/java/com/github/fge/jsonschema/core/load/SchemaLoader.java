@@ -62,9 +62,6 @@ public final class SchemaLoader
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    private static final String CACHE_SIZE_PROPERTY_NAME = "com.github.fge.jsonschema.loaderCacheSize";
-    private static final int DEFAULT_CACHE_SIZE = 4096;
-
     /**
      * The URI manager
      */
