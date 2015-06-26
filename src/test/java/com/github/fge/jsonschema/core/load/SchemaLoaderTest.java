@@ -183,7 +183,9 @@ public final class SchemaLoaderTest
         });
 
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .addScheme("foo", downloader).setEnableCache(false).freeze();
+            .addScheme("foo", downloader)
+            .setEnableCache(false)
+            .freeze();
         final SchemaLoader loader = new SchemaLoader(cfg);
 
         loader.get(uri);
@@ -207,7 +209,10 @@ public final class SchemaLoaderTest
         });
 
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .addScheme("foo", downloader).setEnableCache(true).setCacheSize(0).freeze();
+            .addScheme("foo", downloader)
+            .setEnableCache(true)
+            .setCacheSize(0)
+            .freeze();
         final SchemaLoader loader = new SchemaLoader(cfg);
 
         loader.get(uri);
