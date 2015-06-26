@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.util.equivalence.Equivalences;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
+import com.google.common.cache.CacheBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -87,6 +88,23 @@ public final class CachingProcessorTest
         p.process(report, input);
 
         verify(processor, only()).process(anyReport(), same(input));
+        verify(report, times(2)).mergeWith(anyReport());
+    }
+
+
+    @Test
+    public void cachedValueIsProcessedTwiceWithMaximumSizeZero()
+        throws ProcessingException
+    {
+        final Processor<In, Out> p = new CachingProcessor<In, Out>(processor,
+            Equivalences.<In>identity(), 0);
+
+        final ProcessingReport report = mock(ProcessingReport.class);
+
+        p.process(report, input);
+        p.process(report, input);
+
+        verify(processor, times(2)).process(anyReport(), same(input));
         verify(report, times(2)).mergeWith(anyReport());
     }
 

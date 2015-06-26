@@ -62,6 +62,9 @@ public final class SchemaLoader
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
+    private static final String CACHE_SIZE_PROPERTY_NAME = "com.github.fge.jsonschema.loaderCacheSize";
+    private static final int DEFAULT_CACHE_SIZE = 4096;
+
     /**
      * The URI manager
      */
@@ -101,20 +104,18 @@ public final class SchemaLoader
         manager = new URIManager(cfg);
         preloadedSchemas = ImmutableMap.copyOf(cfg.getPreloadedSchemas());
 
-        final CacheBuilder<Object, Object> cacheBuilder = cfg.getEnableCache()
-            ? CacheBuilder.newBuilder()
-            : CacheBuilder.from(CacheBuilderSpec.disableCaching());
-        
-        cache = cacheBuilder.build(new CacheLoader<URI, JsonNode>()
-        {
-            @Nonnull
-            @Override
-            public JsonNode load(@Nonnull final URI key)
-                throws ProcessingException
+        cache = CacheBuilder.newBuilder()
+            .maximumSize(cfg.getEnableCache() ? cfg.getCacheSize() : 0) // cache size zero disables caching
+            .build(new CacheLoader<URI, JsonNode>()
             {
-                return manager.getContent(key);
-            }
-        });
+                @Nonnull
+                @Override
+                public JsonNode load(@Nonnull final URI key)
+                    throws ProcessingException
+                {
+                    return manager.getContent(key);
+                }
+            });
     }
 
     /**
