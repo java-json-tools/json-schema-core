@@ -83,6 +83,11 @@ public final class LoadingConfigurationBuilder
     boolean enableCache = true;
 
     /**
+     * Cache size is 4096 by default
+     */
+    int cacheSize = 4096;
+
+    /**
      * Dereferencing mode
      *
      * @see SchemaLoader
@@ -133,6 +138,7 @@ public final class LoadingConfigurationBuilder
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
         enableCache = cfg.enableCache;
+        cacheSize = cfg.cacheSize;
     }
 
     /**
@@ -146,6 +152,21 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder setEnableCache(final boolean enableCache)
     {
         this.enableCache = enableCache;
+        return this;
+    }
+
+    /**
+     * How many schemas should be cached
+     * <p>Note if enableCache is false this setting is ignored</p>
+     * <p>Note setting enableCache to false or this to zero both effectively disable the cache</p>
+     * <p>Note that this does <b>not</b> affect preloaded schemas</p>
+     *
+     * @param cacheSize if loaded schemas have to be cached
+     * @return this
+     */
+    public LoadingConfigurationBuilder setCacheSize(final int cacheSize)
+    {
+        this.cacheSize = cacheSize;
         return this;
     }
     
