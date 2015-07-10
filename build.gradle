@@ -54,7 +54,7 @@ apply(plugin: "osgi");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
 
-group = "com.github.fge";
+group = "com.box";
 version = "1.2.6";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
@@ -156,9 +156,9 @@ task pom << {
  */
 
 project.ext {
-    gitrwscm = sprintf("git@github.com:fge/%s", name);
-    gitroscm = sprintf("https://github.com/fge/%s.git", name);
-    projectURL = sprintf("https://github.com/fge/%s", name);
+    gitrwscm = sprintf("git@github.com:box-metadata/%s", name);
+    gitroscm = sprintf("https://github.com/box-metadata/%s.git", name);
+    projectURL = sprintf("https://github.com/box-metadata/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
 };
@@ -236,9 +236,9 @@ uploadArchives {
 
         developers {
             developer {
-                id "fge";
-                name "Francis Galiegue";
-                email "fgaliegue@gmail.com";
+                id "metadata-dev";
+                name "Metadata Developer";
+                email "metadata-dev@box.com";
             }
         }
     }
