@@ -59,10 +59,6 @@ version = "1.2.6";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
-project.ext {
-    description = "Core processing architecture for json-schema-validator";
-};
-
 /*
  * Repositories to use
  */
@@ -156,8 +152,8 @@ task pom << {
  */
 
 project.ext {
-    gitrwscm = sprintf("git@github.com:box-metadata/%s", name);
-    gitroscm = sprintf("https://github.com/box-metadata/%s.git", name);
+    description = "Core processing architecture for json-schema-validator";
+    scmUrl = sprintf("git@github.com:box-metadata/%s.git", name);
     projectURL = sprintf("https://github.com/box-metadata/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
@@ -210,15 +206,15 @@ uploadArchives {
     uploadArchives.repositories.mavenDeployer
 ]*.pom*.whenConfigured { pom ->
     pom.project {
-        name "${name}";
+        name "${project.name}";
         packaging "jar";
-        description "${description}";
+        description "${project.ext.description}";
         url "${projectURL}";
 
         scm {
-            url "${gitrwscm}";
-            connection "${gitrwscm}";
-            developerConnection "${gitroscm}";
+            url "${scmUrl}";
+            connection "scm:git:${scmUrl}";
+            developerConnection "scm:git:${scmUrl}";
         }
 
         licenses {
