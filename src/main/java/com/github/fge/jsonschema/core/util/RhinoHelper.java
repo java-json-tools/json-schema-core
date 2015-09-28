@@ -93,6 +93,7 @@ public final class RhinoHelper
             try {
                 ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
             } catch(UnsupportedOperationException e) {
+                // See: http://stackoverflow.com/questions/3859305/problems-using-rhino-on-android
                 ctx.setOptimizationLevel(-1);
                 ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
             }
