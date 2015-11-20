@@ -78,11 +78,6 @@ public final class LoadingConfigurationBuilder
     URITranslatorConfiguration translatorCfg;
 
     /**
-     * Loaded schemas are cached by default
-     */
-    boolean enableCache = true;
-
-    /**
      * Cache size is 4096 by default
      */
     int cacheSize = 4096;
@@ -137,28 +132,13 @@ public final class LoadingConfigurationBuilder
         dereferencing = cfg.dereferencing;
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
-        enableCache = cfg.enableCache;
         cacheSize = cfg.cacheSize;
     }
 
     /**
-     * Should we enable caching of downloaded schemas
-     *
-     * <p>Note that this does <b>not</b> affect preloaded schemas</p>
-     * 
-     * @param enableCache if loaded schemas have to be cached
-     * @return this
-     */
-    public LoadingConfigurationBuilder setEnableCache(final boolean enableCache)
-    {
-        this.enableCache = enableCache;
-        return this;
-    }
-
-    /**
      * How many schemas should be cached
-     * <p>Note if enableCache is false this setting is ignored</p>
-     * <p>Note setting enableCache to false or this to zero both effectively disable the cache</p>
+     * <p>Note setting to zero effectively disable the cache</p>
+     * <p>Note not settting the chache size or setting to -1, creates an unlimited cache</p>
      * <p>Note that this does <b>not</b> affect preloaded schemas</p>
      *
      * @param cacheSize if loaded schemas have to be cached

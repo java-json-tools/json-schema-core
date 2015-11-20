@@ -26,7 +26,6 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.util.equivalence.Equivalences;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import com.google.common.cache.CacheBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -72,6 +71,18 @@ public final class CachingProcessorTest
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
                 BUNDLE.getMessage("processing.nullEquivalence"));
+        }
+    }
+
+    @Test
+    public void cannotInputInvalidCacheSize()
+    {
+        try {
+            new CachingProcessor<In, Out>(processor, Equivalences.<In>identity(), -2);
+            fail("No exception thrown!!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("processing.invalidCacheSize"));
         }
     }
 
