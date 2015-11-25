@@ -234,6 +234,19 @@ public final class LoadingConfiguration
     }
     
     /**
+     * Return if we want to cache loaded schema or not
+     * note that this do not affect preloadedSchema that are always cached
+     * 
+     * @deprecated Use cacheSize getter instead to get the cache size
+     * 
+     * @return if the cache has to be enabled
+     */
+    @Deprecated
+    public boolean getEnableCache() {
+        return this.cacheSize != 0;
+    }
+    
+    /**
      * Return the size of the cache to use
      * note that this do not affect preloadedSchema that are always cached
      *

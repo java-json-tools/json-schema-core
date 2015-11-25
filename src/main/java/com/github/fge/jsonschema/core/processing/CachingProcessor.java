@@ -53,7 +53,7 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    public static final int DEFAULT_CACHE_SIZE = 4096;
+    private static final int DEFAULT_CACHE_SIZE = 512;
 
     /**
      * The wrapped processor
