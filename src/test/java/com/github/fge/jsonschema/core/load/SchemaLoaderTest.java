@@ -141,7 +141,7 @@ public final class SchemaLoaderTest
         verify(mock, never()).fetch(uri);
 
         //even if cache is disabled
-        cfg = builder.setEnableCache(false).freeze();
+        cfg = builder.setCacheSize(0).freeze();
         registry = new SchemaLoader(cfg);
         registry.get(uri);
         verify(mock, never()).fetch(uri);        
@@ -184,7 +184,7 @@ public final class SchemaLoaderTest
 
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .addScheme("foo", downloader)
-            .setEnableCache(false)
+            .setCacheSize(0)
             .freeze();
         final SchemaLoader loader = new SchemaLoader(cfg);
 
@@ -210,7 +210,6 @@ public final class SchemaLoaderTest
 
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .addScheme("foo", downloader)
-            .setEnableCache(true)
             .setCacheSize(0)
             .freeze();
         final SchemaLoader loader = new SchemaLoader(cfg);

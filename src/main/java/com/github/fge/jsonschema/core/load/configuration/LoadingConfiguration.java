@@ -89,18 +89,10 @@ public final class LoadingConfiguration
     final URITranslatorConfiguration translatorCfg;
     
     /**
-     * Should we cache schemas
+     * Cache size
      *
      * <p>Note that this do not affect preloaded schemas; these are always
      * cached.</p>
-     */
-    final boolean enableCache;
-
-    /**
-     * Cache size
-     *
-     * if enableCache is false, this field is ignored.
-     * enableCache = true && cacheSize = 0 == enableCache = false
      */
     final int cacheSize;
 
@@ -173,7 +165,6 @@ public final class LoadingConfiguration
         preloadedSchemas = ImmutableMap.copyOf(builder.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(builder.parserFeatures);
         reader = buildReader();
-        enableCache = builder.enableCache;
         cacheSize = builder.cacheSize;
     }
 
@@ -246,17 +237,20 @@ public final class LoadingConfiguration
      * Return if we want to cache loaded schema or not
      * note that this do not affect preloadedSchema that are always cached
      * 
+     * @deprecated Use cacheSize getter instead to get the cache size
+     * 
      * @return if the cache has to be enabled
      */
+    @Deprecated
     public boolean getEnableCache() {
-        return enableCache;
+        return this.cacheSize != 0;
     }
-
+    
     /**
      * Return the size of the cache to use
      * note that this do not affect preloadedSchema that are always cached
      *
-     * @return the size of the cache, if enabled
+     * @return the size of the cache. A zero-value means that it is not enabled
      */
     public int getCacheSize() {
         return cacheSize;

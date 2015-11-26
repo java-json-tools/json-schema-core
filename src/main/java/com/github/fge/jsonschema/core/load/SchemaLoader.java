@@ -32,7 +32,6 @@ import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheBuilderSpec;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
@@ -101,9 +100,11 @@ public final class SchemaLoader
         manager = new URIManager(cfg);
         preloadedSchemas = ImmutableMap.copyOf(cfg.getPreloadedSchemas());
 
-        cache = CacheBuilder.newBuilder()
-            .maximumSize(cfg.getEnableCache() ? cfg.getCacheSize() : 0) // cache size zero disables caching
-            .build(new CacheLoader<URI, JsonNode>()
+        CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
+        if (cfg.getCacheSize() != -1) {
+        	builder.maximumSize(cfg.getCacheSize());
+        }
+        cache = builder.build(new CacheLoader<URI, JsonNode>()
             {
                 @Nonnull
                 @Override

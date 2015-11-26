@@ -53,8 +53,7 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
-    public static final String CACHE_SIZE_PROPERTY_NAME = "com.github.fge.jsonschema.processorCacheSize";
-    public static final int DEFAULT_CACHE_SIZE = 4096;
+    private static final int DEFAULT_CACHE_SIZE = 512;
 
     /**
      * The wrapped processor
@@ -89,7 +88,7 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     public CachingProcessor(final Processor<IN, OUT> processor,
         final Equivalence<IN> equivalence)
     {
-        this(processor, equivalence, Integer.getInteger(CACHE_SIZE_PROPERTY_NAME, DEFAULT_CACHE_SIZE));
+        this(processor, equivalence, DEFAULT_CACHE_SIZE);
     }
     /**
      * Main constructor
@@ -104,11 +103,14 @@ public final class CachingProcessor<IN extends MessageProvider, OUT extends Mess
     {
         BUNDLE.checkNotNull(processor, "processing.nullProcessor");
         BUNDLE.checkNotNull(equivalence, "processing.nullEquivalence");
+        BUNDLE.checkArgument(cacheSize >= -1, "processing.invalidCacheSize");
         this.processor = processor;
         this.equivalence = equivalence;
-        cache = CacheBuilder.newBuilder()
-                .maximumSize(cacheSize)
-                .build(loader());
+        CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
+        if (cacheSize != -1) {
+        	builder.maximumSize(cacheSize);
+        }
+        cache = builder.build(loader());
     }
 
     @Override
