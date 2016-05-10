@@ -28,7 +28,11 @@ import com.github.fge.jsonschema.core.util.URIUtils;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Optional;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -90,6 +94,17 @@ public abstract class JsonRef
      * A "hash only" URI -- used by {@link EmptyJsonRef}
      */
     protected static final URI HASHONLY_URI = URI.create("#");
+
+    /**
+     * Cache used by fromURI method.
+     */
+    private static LoadingCache<URI, JsonRef> uriToJsonRef = CacheBuilder.newBuilder().maximumSize(1000).build(new CacheLoader<URI, JsonRef>() {
+        public JsonRef load(final URI uri) {
+            final URI normalized = URIUtils.normalizeURI(uri);
+            if (HASHONLY_URI.equals(normalized) || EMPTY_URI.equals(normalized)) return EmptyJsonRef.getInstance();
+            return "jar".equals(normalized.getScheme()) ? new JarJsonRef(normalized) : new HierarchicalJsonRef(normalized);
+        }
+    });
 
     /**
      * Whether this JSON Reference is legal
@@ -179,15 +194,7 @@ public abstract class JsonRef
     public static JsonRef fromURI(final URI uri)
     {
         BUNDLE.checkNotNull(uri, "jsonRef.nullURI");
-
-        final URI normalized = URIUtils.normalizeURI(uri);
-
-        if (HASHONLY_URI.equals(normalized) || EMPTY_URI.equals(normalized))
-            return EmptyJsonRef.getInstance();
-
-        return "jar".equals(normalized.getScheme())
-            ? new JarJsonRef(normalized)
-            : new HierarchicalJsonRef(normalized);
+        return uriToJsonRef.getUnchecked(uri);
     }
 
     /**
