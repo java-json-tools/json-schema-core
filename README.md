@@ -1,3 +1,9 @@
+## Travis builds now enabled
+
+Builds are now verified by Travis (see [issue #20](https://github.com/daveclayton/json-patch/issues/20) from the json-patch project for details)
+
+https://travis-ci.org/daveclayton/json-schema-core
+
 ## Read me first
 
 The license of this project is dual licensed LGPLv3 or later/ASL 2.0. See file `LICENSE` for more
