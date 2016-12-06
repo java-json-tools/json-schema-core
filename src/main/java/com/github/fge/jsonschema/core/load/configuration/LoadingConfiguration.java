@@ -97,6 +97,14 @@ public final class LoadingConfiguration
     final boolean enableCache;
 
     /**
+     * Cache size
+     *
+     * if enableCache is false, this field is ignored.
+     * enableCache = true && cacheSize = 0 == enableCache = false
+     */
+    final int cacheSize;
+
+    /**
      * Dereferencing mode
      *
      * @see SchemaLoader
@@ -166,6 +174,7 @@ public final class LoadingConfiguration
         parserFeatures = EnumSet.copyOf(builder.parserFeatures);
         reader = buildReader();
         enableCache = builder.enableCache;
+        cacheSize = builder.cacheSize;
     }
 
     /**
@@ -241,6 +250,16 @@ public final class LoadingConfiguration
      */
     public boolean getEnableCache() {
         return enableCache;
+    }
+
+    /**
+     * Return the size of the cache to use
+     * note that this do not affect preloadedSchema that are always cached
+     *
+     * @return the size of the cache, if enabled
+     */
+    public int getCacheSize() {
+        return cacheSize;
     }
 
     /**
