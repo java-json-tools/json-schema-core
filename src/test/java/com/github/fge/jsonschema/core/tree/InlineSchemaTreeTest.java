@@ -19,6 +19,18 @@
 
 package com.github.fge.jsonschema.core.tree;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import org.testng.collections.Sets;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
@@ -26,16 +38,6 @@ import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.tree.key.SchemaKey;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-import org.testng.internal.annotations.Sets;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
-
-import static org.testng.Assert.*;
 
 public final class InlineSchemaTreeTest
 {
