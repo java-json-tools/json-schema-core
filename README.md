@@ -1,3 +1,5 @@
+[![Build Status][Travis badge]][Travis]
+
 ## Travis builds now enabled
 
 Builds are now verified by Travis (see [issue #20](https://github.com/daveclayton/json-patch/issues/20) from the json-patch project for details)
@@ -72,3 +74,5 @@ The versioning scheme is defined by the **middle digit** of the version number:
 * if this number is **odd**, then this is the **development** version; new features will be
   added to those versions only, **and the user API may change**.
 
+[Travis Badge]: https://api.travis-ci.org/daveclayton/json-schema-core.svg?branch=master
+[Travis]: https://travis-ci.org/daveclayton/json-schema-core
