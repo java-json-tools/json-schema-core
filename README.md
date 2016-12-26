@@ -1,3 +1,5 @@
+[![License LGPLv3][LGPLv3 badge]][LGPLv3]
+[![License ASL 2.0][ASL 2.0 badge]][ASL 2.0]
 [![Build Status][Travis badge]][Travis]
 
 ## Travis builds now enabled
@@ -8,7 +10,7 @@ https://travis-ci.org/daveclayton/json-schema-core
 
 ## Read me first
 
-The license of this project is dual licensed LGPLv3 or later/ASL 2.0. See file `LICENSE` for more
+The license of this project is dual licensed [LGPLv3] or later/[ASL 2.0]. See file `LICENSE` for more
 details. The full text of both licensed is included in the package.
 
 ## What this is
@@ -74,5 +76,9 @@ The versioning scheme is defined by the **middle digit** of the version number:
 * if this number is **odd**, then this is the **development** version; new features will be
   added to those versions only, **and the user API may change**.
 
+[LGPLv3 badge]: https://img.shields.io/:license-LGPLv3-blue.svg
+[LGPLv3]: http://www.gnu.org/licenses/lgpl-3.0.html
+[ASL 2.0 badge]: https://img.shields.io/:license-Apache%202.0-blue.svg
+[ASL 2.0]: http://www.apache.org/licenses/LICENSE-2.0.html
 [Travis Badge]: https://api.travis-ci.org/daveclayton/json-schema-core.svg?branch=master
 [Travis]: https://travis-ci.org/daveclayton/json-schema-core
