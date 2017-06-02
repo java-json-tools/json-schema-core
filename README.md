@@ -3,12 +3,6 @@
 [![Build Status][Travis badge]][Travis]
 ![Maven Central](https://img.shields.io/maven-central/v/com.github.java-json-tools/json-schema-core.svg)
 
-## Travis builds now enabled
-
-Builds are now verified by Travis (see [issue #20](https://github.com/java-json-tools/json-patch/issues/20) from the json-patch project for details)
-
-https://travis-ci.org/daveclayton/json-schema-core
-
 ## Read me first
 
 The license of this project is dual licensed [LGPLv3] or later/[ASL 2.0]. See file `LICENSE` for more
