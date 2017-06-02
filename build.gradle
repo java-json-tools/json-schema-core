@@ -24,7 +24,7 @@ apply(plugin: "osgi");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
 
-group = "com.box";
+group = "com.github.java-json-tools";
 version = "1.2.8";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
@@ -40,13 +40,11 @@ repositories {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.fge", name: "jackson-coreutils",
-        version: "1.8");
+    compile(group: "com.github.fge", name: "jackson-coreutils", version: "1.8");
     compile(group: "com.github.fge", name: "uri-template", version: "0.9");
     // FIXME: no javadoc
     compile(group: "org.mozilla", name: "rhino", version: "1.7R4");
-    compile(group: "com.google.code.findbugs", name: "jsr305",
-        version: "2.0.1");
+    compile(group: "com.google.code.findbugs", name: "jsr305", version: "2.0.1");
     testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
@@ -109,7 +107,7 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.5";
+    gradleVersion = "3.5";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
@@ -123,8 +121,8 @@ task pom << {
 
 project.ext {
     description = "Core processing architecture for json-schema-validator";
-    scmUrl = sprintf("git@github.com:box-metadata/%s.git", name);
-    projectURL = sprintf("https://github.com/box-metadata/%s", name);
+    scmUrl = sprintf("git@github.com:java-json-tools/%s.git", name);
+    projectURL = sprintf("https://github.com/java-json-tools/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
 };
@@ -202,9 +200,9 @@ uploadArchives {
 
         developers {
             developer {
-                id "metadata-dev";
-                name "Metadata Developer";
-                email "metadata-dev@box.com";
+                id "huggsboson";
+                name "John Huffaker";
+                email "jhuffaker+java-json-tools@gmail.com";
             }
         }
     }
