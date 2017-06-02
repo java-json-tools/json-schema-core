@@ -100,7 +100,7 @@ public final class SchemaLoaderTest
         final SchemaTree tree = loader.get(URI.create(location));
 
         assertEquals(tree.getLoadingRef().toURI(),
-            URI.create("http://toto/b#"));
+                URI.create("http://toto/b#"));
     }
 
     @Test
@@ -141,7 +141,7 @@ public final class SchemaLoaderTest
         verify(mock, never()).fetch(uri);
 
         //even if cache is disabled
-        cfg = builder.setEnableCache(false).freeze();
+        cfg = builder.setCacheSize(0).freeze();
         registry = new SchemaLoader(cfg);
         registry.get(uri);
         verify(mock, never()).fetch(uri);        
@@ -152,12 +152,10 @@ public final class SchemaLoaderTest
         throws ProcessingException, IOException
     {
         final URI uri = URI.create("foo:/baz#");
-        final URIDownloader downloader = spy(new URIDownloader()
-        {
+        final URIDownloader downloader = spy(new URIDownloader() {
             @Override
             public InputStream fetch(final URI source)
-                throws IOException
-            {
+                    throws IOException {
                 return new ByteArrayInputStream(BYTES);
             }
         });
@@ -176,6 +174,30 @@ public final class SchemaLoaderTest
         throws ProcessingException, IOException
     {
         final URI uri = URI.create("foo:/baz#");
+        final URIDownloader downloader = spy(new URIDownloader() {
+            @Override
+            public InputStream fetch(final URI source)
+                    throws IOException {
+                return new ByteArrayInputStream(BYTES);
+            }
+        });
+
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .addScheme("foo", downloader)
+            .setCacheSize(0)
+            .freeze();
+        final SchemaLoader loader = new SchemaLoader(cfg);
+
+        loader.get(uri);
+        loader.get(uri);
+        verify(downloader, times(2)).fetch(uri);
+    }
+
+    @Test
+    public void schemasCacheCanBeDisabledViaCacheSize()
+        throws ProcessingException, IOException
+    {
+        final URI uri = URI.create("foo:/baz#");
         final URIDownloader downloader = spy(new URIDownloader()
         {
             @Override
@@ -187,12 +209,13 @@ public final class SchemaLoaderTest
         });
 
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
-            .addScheme("foo", downloader).setEnableCache(false).freeze();
+            .addScheme("foo", downloader)
+            .setCacheSize(0)
+            .freeze();
         final SchemaLoader loader = new SchemaLoader(cfg);
 
         loader.get(uri);
         loader.get(uri);
         verify(downloader, times(2)).fetch(uri);
     }
-    
 }

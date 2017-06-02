@@ -3,6 +3,7 @@
 [![Build Status][Travis badge]][Travis]
 ![Maven Central](https://img.shields.io/maven-central/v/com.github.java-json-tools/json-schema-core.svg)
 
+
 ## Read me first
 
 The license of this project is dual licensed [LGPLv3] or later/[ASL 2.0]. See file `LICENSE` for more
@@ -11,7 +12,7 @@ details. The full text of both licensed is included in the package.
 ## What this is
 
 This package contains the core mechanics of [json-schema-validator
-library](https://github.com/fge/json-schema-validator). It also provides a comprehensive
+library](https://github.com/java-json-tools/json-schema-validator). It also provides a comprehensive
 infrastructure to build processing chains for anything you can think of, really. To this effect,
 this package can be used, for instance, to perform the following, provided you use the appropriate
 software packages:
@@ -22,22 +23,22 @@ software packages:
 * etc etc.
 
 You can see sample usages of this library in a [separate
-project](https://github.com/fge/json-schema-processor-examples) which is [demonstrated
+project](https://github.com/java-json-tools/json-schema-processor-examples) which is [demonstrated
 online](http://json-schema-validator.herokuapp.com). More details on this library can
-be found [here](https://github.com/fge/json-schema-core/wiki/Architecture).
+be found [here](https://github.com/java-json-tools/json-schema-core/wiki/Architecture).
 
 
 ## Versions
 
 The current stable verson is **1.2.5**
-([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog_12x),
-[Javadoc](http://fge.github.io/json-schema-core/1.2.x/index.html)).
+([ChangeLog](https://github.com/java-json-tools/json-schema-core/wiki/ChangeLog_12x),
+[Javadoc](http://java-json-tools.github.io/json-schema-core/1.2.x/index.html)).
 
 The old verson is **1.0.4**
-([ChangeLog](https://github.com/fge/json-schema-core/wiki/ChangeLog_10x),
-[Javadoc](http://fge.github.io/json-schema-core/1.0.x/index.html)).
+([ChangeLog](https://github.com/java-json-tools/json-schema-core/wiki/ChangeLog_10x),
+[Javadoc](http://java-json-tools.github.io/json-schema-core/1.0.x/index.html)).
 
-See [here](https://github.com/fge/json-schema-core/wiki/Whatsnew_12) for
+See [here](https://github.com/java-json-tools/json-schema-core/wiki/Whatsnew_12) for
 the major changes between 1.0.x and 1.2.x.
 
 ## Using this project with gradle/maven
@@ -46,7 +47,7 @@ For gradle, use:
 
 ```
 dependencies {
-    compile(group: "com.github.fge", name: "json-shema-core", version: "1.2.3");
+    compile(group: "com.github.java-json-tools", name: "json-shema-core", version: "1.2.8");
 }
 ```
 
@@ -54,13 +55,13 @@ For maven:
 
 ```xml
 <dependency>
-    <groupId>com.github.fge</groupId>
+    <groupId>com.github.java-json-tools</groupId>
     <artifactId>json-schema-core</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.8</version>
 </dependency>
 ```
 
-You can also get the jars from [Bintray](https://bintray.com/fge/maven/json-schema-core).
+You can also get the jars from [Bintray](https://bintray.com/java-json-tools/maven/json-schema-core).
 
 ## Versioning scheme policy
 

@@ -17,36 +17,6 @@
  * - ASL 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
-/*
- * This has to be here... It will not be taken into account in common.gradle!
- *
- * Looks like a serious bug... See also:
- *
- * http://forums.gradle.org/gradle/topics/buildscript_in_subprojects_ignored
- *
- * We also use Spring's propdeps plugin to have a _real_ provided scope. See:
- *
- * https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin
- */
-//buildscript {
-//    repositories {
-//        maven {
-//            url "http://repo.springsource.org/plugins-release";
-//        }
-//    }
-//    dependencies {
-//        classpath(group: "org.springframework.build.gradle",
-//            name: "propdeps-plugin", version: "0.0.5");
-//    }
-//};
-
-//configure(allprojects) {
-//    apply(plugin: "propdeps");
-//    apply(plugin: "propdeps-maven");
-//    apply(plugin: "propdeps-idea");
-//    apply(plugin: "propdeps-eclipse");
-//}
-
 apply(plugin: "java");
 apply(plugin: "maven");
 apply(plugin: "signing");
@@ -54,14 +24,10 @@ apply(plugin: "osgi");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
 
-group = "com.github.fge";
-version = "1.2.6-SNAPSHOT";
+group = "com.github.java-json-tools";
+version = "1.2.8";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
-
-project.ext {
-    description = "Core processing architecture for json-schema-validator";
-};
 
 /*
  * Repositories to use
@@ -74,19 +40,17 @@ repositories {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.fge", name: "jackson-coreutils",
-        version: "1.8");
+    compile(group: "com.github.fge", name: "jackson-coreutils", version: "1.8");
     compile(group: "com.github.fge", name: "uri-template", version: "0.9");
     // FIXME: no javadoc
-    compile(group: "org.mozilla", name: "rhino", version: "1.7R4");
-    compile(group: "com.google.code.findbugs", name: "jsr305",
-        version: "2.0.1");
-    testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
+    compile(group: "org.mozilla", name: "rhino", version: "1.7.7.1");
+    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.1");
+    testCompile(group: "org.testng", name: "testng", version: "6.10") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
         exclude(group: "org.yaml", module: "snakeyaml");
     };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "1.9.5");
+    testCompile(group: "org.mockito", name: "mockito-core", version: "2.4.2");
     testCompile(group: "org.easytesting", name: "fest-assert", version: "1.4");
 }
 
@@ -143,7 +107,7 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "1.11";
+    gradleVersion = "3.5";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
@@ -156,9 +120,9 @@ task pom << {
  */
 
 project.ext {
-    gitrwscm = sprintf("git@github.com:fge/%s", name);
-    gitroscm = sprintf("https://github.com/fge/%s.git", name);
-    projectURL = sprintf("https://github.com/fge/%s", name);
+    description = "Core processing architecture for json-schema-validator";
+    scmUrl = sprintf("git@github.com:java-json-tools/%s.git", name);
+    projectURL = sprintf("https://github.com/java-json-tools/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
 };
@@ -210,15 +174,15 @@ uploadArchives {
     uploadArchives.repositories.mavenDeployer
 ]*.pom*.whenConfigured { pom ->
     pom.project {
-        name "${name}";
+        name "${project.name}";
         packaging "jar";
-        description "${description}";
+        description "${project.ext.description}";
         url "${projectURL}";
 
         scm {
-            url "${gitrwscm}";
-            connection "${gitrwscm}";
-            developerConnection "${gitroscm}";
+            url "${scmUrl}";
+            connection "scm:git:${scmUrl}";
+            developerConnection "scm:git:${scmUrl}";
         }
 
         licenses {
@@ -236,9 +200,9 @@ uploadArchives {
 
         developers {
             developer {
-                id "fge";
-                name "Francis Galiegue";
-                email "fgaliegue@gmail.com";
+                id "huggsboson";
+                name "John Huffaker";
+                email "jhuffaker+java-json-tools@gmail.com";
             }
         }
     }

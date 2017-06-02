@@ -115,6 +115,8 @@ public final class ProcessorChainTest
         final MessageProvider input = mock(MessageProvider.class);
         final ProcessingReport report = new DummyReport(LogLevel.DEBUG);
 
+        when(p1.process(report, input)).thenReturn(input);
+
         processor.process(report, input);
 
         verify(p1).process(same(report), any(MessageProvider.class));

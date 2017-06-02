@@ -57,6 +57,8 @@ public final class LoadingConfigurationBuilder
      * EnumSets to collect them, so we have to do that...
      */
     private static final EnumSet<JsonParser.Feature> DEFAULT_PARSER_FEATURES;
+    
+    private static final int DEFAULT_CACHE_SIZE = 512;
 
     static {
         DEFAULT_PARSER_FEATURES = EnumSet.noneOf(JsonParser.Feature.class);
@@ -78,9 +80,9 @@ public final class LoadingConfigurationBuilder
     URITranslatorConfiguration translatorCfg;
 
     /**
-     * Loaded schemas are cached by default
+     * Cache size is 512 by default
      */
-    boolean enableCache = true;
+    int cacheSize = DEFAULT_CACHE_SIZE;
 
     /**
      * Dereferencing mode
@@ -132,20 +134,39 @@ public final class LoadingConfigurationBuilder
         dereferencing = cfg.dereferencing;
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
         parserFeatures = EnumSet.copyOf(cfg.parserFeatures);
-        enableCache = cfg.enableCache;
+        cacheSize = cfg.cacheSize;
     }
-
+    
     /**
      * Should we enable caching of downloaded schemas
+     * 
+     * @deprecated Just for backward compatibility
+     *     Use cacheSize setter instead to set the maximum size of the cache
      *
      * <p>Note that this does <b>not</b> affect preloaded schemas</p>
      * 
      * @param enableCache if loaded schemas have to be cached
      * @return this
      */
+    @Deprecated
     public LoadingConfigurationBuilder setEnableCache(final boolean enableCache)
     {
-        this.enableCache = enableCache;
+    	this.cacheSize = enableCache ? DEFAULT_CACHE_SIZE : 0;
+        return this;
+    }
+
+    /**
+     * How many schemas should be cached
+     * <p>Note setting to zero effectively disables the cache</p>
+     * <p>Note settting to -1 creates an unlimited cache</p>
+     * <p>Note that this does <b>not</b> affect preloaded schemas</p>
+     *
+     * @param cacheSize if loaded schemas have to be cached
+     * @return this
+     */
+    public LoadingConfigurationBuilder setCacheSize(final int cacheSize)
+    {
+        this.cacheSize = cacheSize;
         return this;
     }
     

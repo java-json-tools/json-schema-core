@@ -75,6 +75,18 @@ public final class CachingProcessorTest
     }
 
     @Test
+    public void cannotInputInvalidCacheSize()
+    {
+        try {
+            new CachingProcessor<In, Out>(processor, Equivalences.<In>identity(), -2);
+            fail("No exception thrown!!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("processing.invalidCacheSize"));
+        }
+    }
+
+    @Test
     public void cachedValueIsNotProcessedTwiceButReportedTwice()
         throws ProcessingException
     {
@@ -87,6 +99,23 @@ public final class CachingProcessorTest
         p.process(report, input);
 
         verify(processor, only()).process(anyReport(), same(input));
+        verify(report, times(2)).mergeWith(anyReport());
+    }
+
+
+    @Test
+    public void cachedValueIsProcessedTwiceWithMaximumSizeZero()
+        throws ProcessingException
+    {
+        final Processor<In, Out> p = new CachingProcessor<In, Out>(processor,
+            Equivalences.<In>identity(), 0);
+
+        final ProcessingReport report = mock(ProcessingReport.class);
+
+        p.process(report, input);
+        p.process(report, input);
+
+        verify(processor, times(2)).process(anyReport(), same(input));
         verify(report, times(2)).mergeWith(anyReport());
     }
 
