@@ -1,11 +1,11 @@
 [![License LGPLv3][LGPLv3 badge]][LGPLv3]
 [![License ASL 2.0][ASL 2.0 badge]][ASL 2.0]
 [![Build Status][Travis badge]][Travis]
-![Maven Central](https://img.shields.io/maven-central/v/com.github.fge/json-schema-core.svg)
+![Maven Central](https://img.shields.io/maven-central/v/com.github.java-json-tools/json-schema-core.svg)
 
 ## Travis builds now enabled
 
-Builds are now verified by Travis (see [issue #20](https://github.com/daveclayton/json-patch/issues/20) from the json-patch project for details)
+Builds are now verified by Travis (see [issue #20](https://github.com/java-json-tools/json-patch/issues/20) from the json-patch project for details)
 
 https://travis-ci.org/daveclayton/json-schema-core
 
