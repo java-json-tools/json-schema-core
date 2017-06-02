@@ -90,7 +90,13 @@ public final class RhinoHelper
         final Context ctx = Context.enter();
         try {
             SCOPE = ctx.initStandardObjects(null, false);
-            ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
+            try {
+                ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
+            } catch(UnsupportedOperationException e) {
+                // See: http://stackoverflow.com/questions/3859305/problems-using-rhino-on-android
+                ctx.setOptimizationLevel(-1);
+                ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
+            }
             REGEX_IS_VALID = (Function) SCOPE.get("regexIsValid", SCOPE);
             REG_MATCH = (Function) SCOPE.get("regMatch", SCOPE);
         } finally {
