@@ -43,14 +43,14 @@ dependencies {
     compile(group: "com.github.fge", name: "jackson-coreutils", version: "1.8");
     compile(group: "com.github.fge", name: "uri-template", version: "0.9");
     // FIXME: no javadoc
-    compile(group: "org.mozilla", name: "rhino", version: "1.7R4");
-    compile(group: "com.google.code.findbugs", name: "jsr305", version: "2.0.1");
-    testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
+    compile(group: "org.mozilla", name: "rhino", version: "1.7.7.1");
+    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.1");
+    testCompile(group: "org.testng", name: "testng", version: "6.10") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
         exclude(group: "org.yaml", module: "snakeyaml");
     };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "1.9.5");
+    testCompile(group: "org.mockito", name: "mockito-core", version: "2.4.2");
     testCompile(group: "org.easytesting", name: "fest-assert", version: "1.4");
 }
 
