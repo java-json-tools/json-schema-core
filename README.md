@@ -30,7 +30,7 @@ be found [here](https://github.com/java-json-tools/json-schema-core/wiki/Archite
 
 ## Versions
 
-The current stable verson is **1.2.5**
+The current stable verson is **1.2.9**
 ([ChangeLog](https://github.com/java-json-tools/json-schema-core/wiki/ChangeLog_12x),
 [Javadoc](http://java-json-tools.github.io/json-schema-core/1.2.x/index.html)).
 
