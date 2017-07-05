@@ -47,7 +47,7 @@ For gradle, use:
 
 ```
 dependencies {
-    compile(group: "com.github.java-json-tools", name: "json-shema-core", version: "1.2.8");
+    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.8");
 }
 ```
 
