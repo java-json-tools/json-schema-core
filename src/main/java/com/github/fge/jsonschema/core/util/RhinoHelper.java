@@ -19,106 +19,27 @@
 
 package com.github.fge.jsonschema.core.util;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
-
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.regex.Pattern;
 
 /**
- * <p>ECMA 262 validation helper. Rhino is used instead of {@link
- * java.util.regex} because the latter doesn't comply with ECMA 262:</p>
- *
- * <ul>
- *     <li>ECMA 262 doesn't have {@link Pattern#DOTALL};</li>
- *     <li>ECMA 262 doesn't have "possessive" quantifiers ({@code ++},
- *     {@code ?+}, etc);</li>
- *     <li>there is only one word delimiter in ECMA 262, which is {@code \b};
- *     {@code \<} (for beginning of word) and {@code \>} (for end of word) are
- *     not understood.</li>
- * </ul>
- *
- * <p>And many, many other things. See
- * <a href="http://www.regular-expressions.info/javascript.html">here</a> for
- * the full story. And if you don't yet have Jeffrey Friedl's "Mastering regular
- * expressions", just <a href="http://regex.info">buy it</a> :p</p>
+ * @see RegexECMA262Helper
+ * @deprecated use {@link RegexECMA262Helper} as 1:1 replacement
  */
 @ThreadSafe
+@Deprecated
 public final class RhinoHelper
 {
-    /**
-     * JavaScript scriptlet defining functions {@link #REGEX_IS_VALID}
-     * and {@link #REG_MATCH}
-     */
-    private static final String jsAsString
-        = "function regexIsValid(re)"
-        + '{'
-        + "    try {"
-        + "         new RegExp(re);"
-        + "         return true;"
-        + "    } catch (e) {"
-        + "        return false;"
-        + "    }"
-        + '}'
-        + ""
-        + "function regMatch(re, input)"
-        + '{'
-        + "    return new RegExp(re).test(input);"
-        + '}';
-
-    /**
-     * Script scope
-     */
-    private static final Scriptable SCOPE;
-
-    /**
-     * Reference to Javascript function for regex validation
-     */
-    private static final Function REGEX_IS_VALID;
-
-    /**
-     * Reference to Javascript function for regex matching
-     */
-    private static final Function REG_MATCH;
-
-    private RhinoHelper()
-    {
-    }
-
-    static {
-        final Context ctx = Context.enter();
-        try {
-            SCOPE = ctx.initStandardObjects(null, false);
-            try {
-                ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
-            } catch(UnsupportedOperationException e) {
-                // See: http://stackoverflow.com/questions/3859305/problems-using-rhino-on-android
-                ctx.setOptimizationLevel(-1);
-                ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
-            }
-            REGEX_IS_VALID = (Function) SCOPE.get("regexIsValid", SCOPE);
-            REG_MATCH = (Function) SCOPE.get("regMatch", SCOPE);
-        } finally {
-            Context.exit();
-        }
-    }
-
     /**
      * Validate that a regex is correct
      *
      * @param regex the regex to validate
      * @return true if the regex is valid
+     * @deprecated use {@link RegexECMA262Helper#regexIsValid(String)}
      */
+    @Deprecated
     public static boolean regexIsValid(final String regex)
     {
-        final Context context = Context.enter();
-        try {
-            return (Boolean) REGEX_IS_VALID.call(context, SCOPE, SCOPE,
-                new Object[]{ regex });
-        } finally {
-            Context.exit();
-        }
+        return RegexECMA262Helper.regexIsValid(regex);
     }
 
     /**
@@ -134,16 +55,11 @@ public final class RhinoHelper
      * @param regex the regex to use
      * @param input the input to match against (and again, see description)
      * @return true if the regex matches the input
+     * @deprecated use {@link RegexECMA262Helper#regMatch(String, String)}
      */
+    @Deprecated
     public static boolean regMatch(final String regex, final String input)
     {
-        final Context context = Context.enter();
-        try {
-            return (Boolean) REG_MATCH.call(context, SCOPE, SCOPE,
-                new Object[]{ regex, input });
-        } finally {
-            Context.exit();
-        }
-
+        return RegexECMA262Helper.regMatch(regex, input);
     }
 }

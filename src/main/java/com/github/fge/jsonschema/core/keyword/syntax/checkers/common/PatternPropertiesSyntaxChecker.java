@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
-import com.github.fge.jsonschema.core.util.RhinoHelper;
+import com.github.fge.jsonschema.core.util.RegexECMA262Helper;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -34,7 +34,7 @@ import java.util.Set;
 /**
  * Syntax checker for the {@code patternProperties} keyword
  *
- * @see RhinoHelper
+ * @see RegexECMA262Helper
  */
 public final class PatternPropertiesSyntaxChecker
     extends SchemaMapSyntaxChecker
@@ -63,7 +63,7 @@ public final class PatternPropertiesSyntaxChecker
         final Set<String> set = Sets.newHashSet(getNode(tree).fieldNames());
 
         for (final String s: Ordering.natural().sortedCopy(set))
-            if (!RhinoHelper.regexIsValid(s))
+            if (!RegexECMA262Helper.regexIsValid(s))
                 report.error(newMsg(tree, bundle,
                     "common.patternProperties.member.notRegex")
                     .putArgument("propertyName", s));

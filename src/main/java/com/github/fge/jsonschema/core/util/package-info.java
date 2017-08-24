@@ -20,7 +20,7 @@
 /**
  * Various utility classes
  *
- * <p>{@link com.github.fge.jsonschema.core.util.RhinoHelper} is in charge of
+ * <p>{@link com.github.fge.jsonschema.core.util.RegexECMA262Helper} is in charge of
  * all regex validation: as the standard dictates ECMA 262 regexes, using {@link
  * java.util.regex} is out of the question. See this class' description for more
  * details.</p>
