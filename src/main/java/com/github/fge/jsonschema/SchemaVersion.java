@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.core.ref.JsonRef;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 
 /**
  * JSON Schema versions
@@ -61,7 +62,8 @@ public enum SchemaVersion
     {
         try {
             location = URI.create(uri);
-            schema = JsonLoader.fromResource(resource);
+            final URL url = SchemaVersion.class.getResource(resource);
+            schema = JsonLoader.fromURL(url);
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
