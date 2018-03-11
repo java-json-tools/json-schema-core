@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
-import com.github.fge.jsonschema.core.util.RhinoHelper;
+import com.github.fge.jsonschema.core.util.RegexECMA262Helper;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.util.Collection;
@@ -34,7 +34,7 @@ import java.util.Collection;
 /**
  * Syntax checker for the {@code pattern} keyword
  *
- * @see RhinoHelper
+ * @see RegexECMA262Helper
  */
 public final class PatternSyntaxChecker
     extends AbstractSyntaxChecker
@@ -59,7 +59,7 @@ public final class PatternSyntaxChecker
     {
         final String value = getNode(tree).textValue();
 
-        if (!RhinoHelper.regexIsValid(value))
+        if (!RegexECMA262Helper.regexIsValid(value))
             report.error(newMsg(tree, bundle, "common.invalidRegex")
                 .putArgument("value", value));
     }

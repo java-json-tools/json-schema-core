@@ -27,7 +27,7 @@ import java.util.Iterator;
 
 import static org.testng.Assert.*;
 
-public final class RhinoHelperTest
+public final class RegexECMA262HelperTest
 {
     @DataProvider
     public Iterator<Object[]> ecma262regexes()
@@ -48,6 +48,7 @@ public final class RhinoHelperTest
     public void regexesAreCorrectlyAnalyzed(final String regex,
         final boolean valid)
     {
+        assertEquals(RegexECMA262Helper.regexIsValid(regex), valid);
         assertEquals(RhinoHelper.regexIsValid(regex), valid);
     }
 
@@ -58,6 +59,8 @@ public final class RhinoHelperTest
             new Object[] { "[^a-z]", "9am", true },
             new Object[] { "bar\\d+", "foobar19ae", true },
             new Object[] { "^bar\\d+", "bar", false },
+            new Object[] { "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$", "QmFzZTY0IFN0cmluZwo=", true }, // Base64 regex match
+            new Object[] { "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$", "QmFzZTY0IFN0cmluZwo", false }, // Base64 regex match
             new Object[] { "[a-z]+(?!foo)(?=bar)", "3aaaabar", true }
         ).iterator();
     }
@@ -70,6 +73,7 @@ public final class RhinoHelperTest
     public void regexMatchingIsDoneCorrectly(final String regex,
         final String input, final boolean valid)
     {
+        assertEquals(RegexECMA262Helper.regMatch(regex, input), valid);
         assertEquals(RhinoHelper.regMatch(regex, input), valid);
     }
 }
