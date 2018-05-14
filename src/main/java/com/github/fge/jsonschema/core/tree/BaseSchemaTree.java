@@ -226,11 +226,14 @@ public abstract class BaseSchemaTree
     @Override
     public final String toString()
     {
-        return Objects.toStringHelper(this)
-            .add("key", key)
-            .add("pointer", pointer)
-            .add("URI context", currentRef)
+        return new StringBuilder()
+            .append(this.getClass().getSimpleName()).append("{")
+            .append("key").append("=").append(key)
+            .append(", pointer").append("=").append(pointer)
+            .append(", URI context").append("=").append(currentRef)
+            .append("}")
             .toString();
+
     }
 
     @Override

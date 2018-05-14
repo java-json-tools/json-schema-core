@@ -77,6 +77,7 @@ public final class SchemaTreeTest
 
         schemaTree = new CanonicalSchemaTree(SchemaKey.forJsonRef(ref), node);
         assertSame(schemaTree.getContext(), ref);
+        assertEquals(schemaTree.toString(), "CanonicalSchemaTree{key=loaded from JSON ref foo://bar#, pointer=, URI context=foo://bar#}");
     }
 
     @DataProvider
