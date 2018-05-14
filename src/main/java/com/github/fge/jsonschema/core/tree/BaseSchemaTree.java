@@ -233,7 +233,6 @@ public abstract class BaseSchemaTree
             .append(", URI context").append("=").append(currentRef)
             .append("}")
             .toString();
-
     }
 
     @Override
