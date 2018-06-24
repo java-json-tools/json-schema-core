@@ -23,7 +23,7 @@ software packages:
 * etc etc.
 
 You can see sample usages of this library in a [separate
-project](https://github.com/java-json-tools/json-schema-processor-examples) which is [demonstrated
+project](https://github.com/fge/json-schema-processor-examples) which is [demonstrated
 online](http://json-schema-validator.herokuapp.com). More details on this library can
 be found [here](https://github.com/java-json-tools/json-schema-core/wiki/Architecture).
 
