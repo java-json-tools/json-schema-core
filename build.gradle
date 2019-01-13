@@ -44,7 +44,7 @@ dependencies {
     compile(group: "com.github.fge", name: "uri-template", version: "0.9");
     // FIXME: no javadoc
     compile(group: "org.mozilla", name: "rhino", version: "1.7.7.1");
-    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.1");
+    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
     testCompile(group: "org.testng", name: "testng", version: "6.10") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
