@@ -139,7 +139,7 @@ public abstract class BaseSchemaTree
         baseNode = other.baseNode;
 
         pointer = newPointer;
-        node = newPointer.get(baseNode);
+        node = newPointer.path(baseNode);
 
         startingRef = other.startingRef;
         currentRef = nextRef(startingRef, newPointer, baseNode);
