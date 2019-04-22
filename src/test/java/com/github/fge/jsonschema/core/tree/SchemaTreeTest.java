@@ -250,4 +250,17 @@ public final class SchemaTreeTest
 
         assertNotEquals(tree, tree2);
     }
+
+    @Test
+    public void danglingRefToSubschema() throws JsonPointerException
+    {
+        final ObjectNode node = FACTORY.objectNode();
+        final SchemaTree tree
+             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
+        assertNotEquals(tree, null);
+        final SchemaTree subtree = tree.setPointer(new JsonPointer("/missing"));
+        assertNotEquals(subtree, null);
+        assertNotEquals(subtree.getNode(), null);
+        assertEquals(subtree.getNode().isMissingNode(), true);
+    }
 }
