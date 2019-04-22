@@ -157,14 +157,10 @@ public final class URIUtils
         @Override
         public void check(final String argument)
         {
-            final String errmsg = BUNDLE.printf("loadingCfg.illegalScheme",
-                argument);
-            if (argument.isEmpty())
-                throw new IllegalArgumentException(errmsg);
-            if (!ALPHA.matches(argument.charAt(0)))
-                throw new IllegalArgumentException(errmsg);
-            if (!SCHEME_LEGAL.matchesAllOf(argument))
-                throw new IllegalArgumentException(errmsg);
+            if (argument.isEmpty() || !ALPHA.matches(argument.charAt(0))
+                || !SCHEME_LEGAL.matchesAllOf(argument))
+                throw new IllegalArgumentException(
+                    BUNDLE.printf("loadingCfg.illegalScheme", argument));
         }
     };
 
