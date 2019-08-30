@@ -55,10 +55,10 @@ dependencies {
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
-javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/");
+javadoc.options.links("http://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
 javadoc.options.links("http://fasterxml.github.com/jackson-databind/javadoc/2.2.0/");
 javadoc.options.links("http://fasterxml.github.com/jackson-core/javadoc/2.2.0/");
-javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v16.0.1/javadoc/");
+javadoc.options.links("http://www.javadoc.io/doc/com.google.guava/guava/16.0.1/");
 javadoc.options.links("http://fge.github.io/btf/");
 javadoc.options.links("http://fge.github.io/msg-simple/");
 javadoc.options.links("http://fge.github.io/jackson-coreutils/");
@@ -106,13 +106,15 @@ artifacts {
     archives javadocJar;
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = "3.5";
+wrapper {
+    gradleVersion = "5.6.1";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
-task pom << {
-    pom {}.writeTo("${projectDir}/pom.xml");
+task pom {
+    doLast {
+        pom {}.writeTo("${projectDir}/pom.xml");
+    }
 }
 
 /*
@@ -127,18 +129,20 @@ project.ext {
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
 };
 
-task checkSigningRequirements << {
-    def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
-    def noDice = false;
-    requiredProperties.each {
-        if (project.properties[it] == null) {
-            noDice = true;
-            System.err.printf("property \"%s\" is not defined!", it)
+task checkSigningRequirements {
+    doLast {
+        def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
+        def noDice = false;
+        requiredProperties.each {
+            if (project.properties[it] == null) {
+                noDice = true;
+                System.err.printf("property \"%s\" is not defined!\n", it)
+            }
         }
+        if (noDice)
+            throw new IllegalStateException("missing required properties for " +
+                "upload");
     }
-    if (noDice)
-        throw new IllegalStateException("missing required properties for " +
-            "upload");
 }
 
 uploadArchives {
