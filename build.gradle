@@ -40,6 +40,10 @@ repositories {
  * List of dependencies
  */
 dependencies {
+    compile(group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.9.9");
+    // FIXME: Update to 28.1-jre (or later) once uri-template is fixed.
+    // https://github.com/java-json-tools/json-schema-core/issues/59
+    compile(group: "com.google.guava", name: "guava", version: "25.1-jre");
     compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "1.9");
     compile(group: "com.github.fge", name: "uri-template", version: "0.9");
     // FIXME: no javadoc
