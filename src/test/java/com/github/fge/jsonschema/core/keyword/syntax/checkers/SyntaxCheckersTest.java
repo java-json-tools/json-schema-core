@@ -40,7 +40,7 @@ import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import com.google.common.collect.Iterators;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
@@ -189,7 +189,7 @@ public abstract class SyntaxCheckersTest
     protected final Iterator<Object[]> getValueTests()
     {
         if (valueTests.isMissingNode())
-            return Iterators.emptyIterator();
+            return ImmutableSet.<Object[]>of().iterator();
 
         final List<Object[]> list = Lists.newArrayList();
 
@@ -247,7 +247,7 @@ public abstract class SyntaxCheckersTest
     protected final Iterator<Object[]> getPointerTests()
     {
         if (pointerTests.isMissingNode())
-            return Iterators.emptyIterator();
+            return ImmutableSet.<Object[]>of().iterator();
 
         final List<Object[]> list = Lists.newArrayList();
 

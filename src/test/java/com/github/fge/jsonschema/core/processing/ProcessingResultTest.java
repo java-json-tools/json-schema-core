@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import com.google.common.collect.Iterators;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -143,7 +143,7 @@ public final class ProcessingResultTest
         when(processor.process(anyReport(), any(In.class)))
             .thenThrow(exception);
         when(report.iterator())
-            .thenReturn(Iterators.<ProcessingMessage>emptyIterator());
+            .thenReturn(ImmutableSet.<ProcessingMessage>of().iterator());
 
         final ProcessingResult<Out> result
             = ProcessingResult.uncheckedResult(processor, report, input);
