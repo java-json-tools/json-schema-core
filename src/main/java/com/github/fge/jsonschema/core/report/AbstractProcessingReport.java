@@ -20,6 +20,7 @@
 package com.github.fge.jsonschema.core.report;
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
@@ -183,7 +184,7 @@ public abstract class AbstractProcessingReport
     @Override
     public Iterator<ProcessingMessage> iterator()
     {
-        return Iterators.emptyIterator();
+        return ImmutableSet.<ProcessingMessage>of().iterator();
     }
 
     @Override
