@@ -61,7 +61,7 @@ For maven:
 </dependency>
 ```
 
-You can also get the jars from [Bintray](https://bintray.com/java-json-tools/maven/json-schema-core).
+You can also get the jars from [Bintray](https://bintray.com/bintray/jcenter/com.github.java-json-tools%3Ajson-schema-core).
 
 ## Versioning scheme policy
 
