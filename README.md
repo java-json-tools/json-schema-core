@@ -27,6 +27,12 @@ project](https://github.com/fge/json-schema-processor-examples) which is [demons
 online](http://json-schema-validator.herokuapp.com). More details on this library can
 be found [here](https://github.com/java-json-tools/json-schema-core/wiki/Architecture).
 
+This library supports [Draft 03](https://json-schema.org/specification-links.html#draft-3) and
+[Draft 04](https://json-schema.org/specification-links.html#draft-4). Contribution of support
+for [Draft 05](https://json-schema.org/specification-links.html#draft-5) (issue #61),
+[Draft 06](https://json-schema.org/specification-links.html#draft-6) (issue #62), or
+[Draft 07](https://json-schema.org/specification-links.html#draft-7) (issue #63) would be
+gratefully accepted.
 
 ## Versions
 
