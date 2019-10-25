@@ -34,8 +34,8 @@ public final class ProcessingExceptionTest
     public void thrownProcessingMessagesHaveLevelFatal()
     {
         final ProcessingMessage message = new ProcessingMessage();
-        new ProcessingException(message);
-        assertMessage(message).hasLevel(LogLevel.FATAL);
+        final ProcessingException exception = new ProcessingException(message);
+        assertMessage(exception.getProcessingMessage()).hasLevel(LogLevel.FATAL);
     }
 
     @Test
