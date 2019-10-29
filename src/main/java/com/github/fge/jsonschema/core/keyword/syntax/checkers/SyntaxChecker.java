@@ -22,11 +22,10 @@ package com.github.fge.jsonschema.core.keyword.syntax.checkers;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.keyword.syntax.SyntaxProcessor;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Collection;
 import java.util.EnumSet;
