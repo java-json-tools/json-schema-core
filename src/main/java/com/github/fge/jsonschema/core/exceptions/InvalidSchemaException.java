@@ -27,6 +27,8 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 public final class InvalidSchemaException
     extends ProcessingException
 {
+    private static final long serialVersionUID = 278790633227462029L;
+
     public InvalidSchemaException(final ProcessingMessage message)
     {
         super(message);

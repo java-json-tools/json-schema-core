@@ -23,10 +23,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.uritemplate.URITemplate;
@@ -46,7 +46,7 @@ import java.util.Set;
 public final class LinksSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final List<String> REQUIRED_LDO_PROPERTIES
+    private static final ImmutableList<String> REQUIRED_LDO_PROPERTIES
         = ImmutableList.of("href", "rel");
 
     private static final SyntaxChecker INSTANCE = new LinksSyntaxChecker();

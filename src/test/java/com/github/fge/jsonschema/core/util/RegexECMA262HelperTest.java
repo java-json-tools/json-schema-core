@@ -45,6 +45,7 @@ public final class RegexECMA262HelperTest
         invocationCount = 10,
         threadPoolSize = 4
     )
+    @SuppressWarnings("deprecation")
     public void regexesAreCorrectlyAnalyzed(final String regex,
         final boolean valid)
     {
@@ -70,6 +71,7 @@ public final class RegexECMA262HelperTest
         invocationCount = 10,
         threadPoolSize = 4
     )
+    @SuppressWarnings("deprecation")
     public void regexMatchingIsDoneCorrectly(final String regex,
         final String input, final boolean valid)
     {

@@ -139,6 +139,7 @@ public final class CachingProcessorTest
         }
     }
 
+    @SuppressWarnings("serial")
     private static final class Foo
         extends ProcessingException
     {

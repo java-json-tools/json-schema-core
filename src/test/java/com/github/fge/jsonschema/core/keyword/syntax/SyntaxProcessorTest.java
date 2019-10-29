@@ -195,7 +195,7 @@ public final class SyntaxProcessorTest
         final ObjectNode node = FACTORY.objectNode();
         node.put(K1, K1);
         final ObjectNode schema = FACTORY.objectNode();
-        schema.put("foo", node);
+        schema.set("foo", node);
         final SchemaTree tree
             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);

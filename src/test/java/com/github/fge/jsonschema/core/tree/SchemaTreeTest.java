@@ -112,7 +112,7 @@ public final class SchemaTreeTest
     {
         final JsonNode node = data.get("lookups");
 
-        final Set<Object[]> set = Sets.newHashSet();
+        final Set<Object[]> set = Sets.newIdentityHashSet();
 
         for (final JsonNode element: node)
             set.add(new Object[] {
@@ -186,7 +186,7 @@ public final class SchemaTreeTest
     public void nonTextualDollarSchemasYieldAnEmptyRef(final JsonNode node)
     {
         final ObjectNode testNode = FACTORY.objectNode();
-        testNode.put("$schema", node);
+        testNode.set("$schema", node);
 
         final SchemaTree tree
             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), testNode);
@@ -207,7 +207,7 @@ public final class SchemaTreeTest
     public void nonAbsoluteDollarSchemasYieldAnEmptyRef(final String s)
     {
         final ObjectNode testNode = FACTORY.objectNode();
-        testNode.put("$schema", FACTORY.textNode(s));
+        testNode.set("$schema", FACTORY.textNode(s));
 
         final SchemaTree tree
             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), testNode);
@@ -231,7 +231,7 @@ public final class SchemaTreeTest
     {
         final JsonRef ref = JsonRef.fromString(s);
         final ObjectNode testNode = FACTORY.objectNode();
-        testNode.put("$schema", FACTORY.textNode(s));
+        testNode.set("$schema", FACTORY.textNode(s));
 
         final SchemaTree tree
             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), testNode);

@@ -28,7 +28,6 @@ import com.github.fge.jackson.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.tree.key.SchemaKey;
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
@@ -216,8 +215,8 @@ public abstract class BaseSchemaTree
     {
         final ObjectNode ret = FACTORY.objectNode();
 
-        ret.put("loadingURI", FACTORY.textNode(key.getLoadingRef().toString()));
-        ret.put("pointer", FACTORY.textNode(pointer.toString()));
+        ret.set("loadingURI", FACTORY.textNode(key.getLoadingRef().toString()));
+        ret.set("pointer", FACTORY.textNode(pointer.toString()));
 
         return ret;
     }
@@ -248,7 +247,7 @@ public abstract class BaseSchemaTree
             return false;
         if (this == obj)
             return true;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof BaseSchemaTree))
             return false;
         final BaseSchemaTree other = (BaseSchemaTree) obj;
         return key.equals(other.key) && pointer.equals(other.pointer);

@@ -71,7 +71,7 @@ public final class BasicSyntaxCheckerTest
         final AbstractSyntaxChecker checker = spy(new DummyChecker());
         final ProcessingReport report = mock(ProcessingReport.class);
         final ObjectNode schema = FACTORY.objectNode();
-        schema.put(KEYWORD, node);
+        schema.set(KEYWORD, node);
         final SchemaTree tree
             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 
@@ -92,7 +92,7 @@ public final class BasicSyntaxCheckerTest
     {
         final NodeType type = NodeType.getNodeType(node);
         final ObjectNode schema = FACTORY.objectNode();
-        schema.put(KEYWORD, node);
+        schema.set(KEYWORD, node);
         final SchemaTree tree
             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 

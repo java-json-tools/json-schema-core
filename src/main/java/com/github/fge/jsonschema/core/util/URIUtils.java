@@ -19,17 +19,14 @@
 
 package com.github.fge.jsonschema.core.util;
 
-import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.core.ref.JsonRef;
-import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 
-import javax.annotation.Nullable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import javax.annotation.Nullable;
 
 /**
  * Utility class for URI normalization
@@ -52,9 +49,6 @@ import java.net.URISyntaxException;
  */
 public final class URIUtils
 {
-    private static final MessageBundle BUNDLE
-        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
-
     /*
      * ASCII letters, and whatever is legal in a URI scheme
      */

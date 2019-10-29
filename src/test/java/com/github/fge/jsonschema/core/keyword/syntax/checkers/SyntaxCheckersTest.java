@@ -286,7 +286,7 @@ public abstract class SyntaxCheckersTest
         final JsonNode node)
     {
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
-        schema.put(keyword, node);
+        schema.set(keyword, node);
         return new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
     }
 

@@ -47,7 +47,6 @@ import java.util.EnumSet;
 public interface SyntaxChecker
 {
     // FIXME: I should get rid of that -- it is used in only one place.
-    @VisibleForTesting
     EnumSet<NodeType> getValidTypes();
 
     /**

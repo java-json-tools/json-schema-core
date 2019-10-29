@@ -58,6 +58,7 @@ public final class ProcessingExceptionTest
             .hasField("exceptionMessage", inner.getMessage());
     }
 
+    @SuppressWarnings("serial")
     private static class Foo
         extends Exception
     {

@@ -19,6 +19,8 @@
 
 package com.github.fge.jsonschema.core.load;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
@@ -48,7 +50,7 @@ public final class SchemaLoaderTest
         = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final byte[] BYTES = JacksonUtils.nodeFactory().objectNode()
-        .toString().getBytes();
+        .toString().getBytes(UTF_8);
 
     @Test
     public void namespacesAreRespected()

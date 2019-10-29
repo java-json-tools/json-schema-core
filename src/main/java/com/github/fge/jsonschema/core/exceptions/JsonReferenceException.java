@@ -32,6 +32,8 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 public final class JsonReferenceException
     extends ProcessingException
 {
+    private static final long serialVersionUID = 2630907528006411833L;
+
     public JsonReferenceException(final ProcessingMessage message)
     {
         super(message);

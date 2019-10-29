@@ -378,7 +378,7 @@ public final class ProcessingMessage
     public JsonNode asJson()
     {
         final ObjectNode ret = FACTORY.objectNode();
-        ret.putAll(map);
+        ret.setAll(map);
         return ret;
     }
 

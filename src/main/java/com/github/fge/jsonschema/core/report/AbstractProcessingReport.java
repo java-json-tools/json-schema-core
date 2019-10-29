@@ -21,7 +21,6 @@ package com.github.fge.jsonschema.core.report;
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
 import java.util.Iterator;
