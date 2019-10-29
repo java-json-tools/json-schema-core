@@ -60,6 +60,7 @@ dependencies {
     // FIXME: no javadoc
     // FIXME: update beyond 1.7.7.x once we're Java 8 or better.
     compile(group: "org.mozilla", name: "rhino", version: "1.7.7.2");
+    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
     testCompile(group: "org.testng", name: "testng", version: "6.10") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
