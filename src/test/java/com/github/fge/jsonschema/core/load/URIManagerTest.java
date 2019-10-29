@@ -19,6 +19,8 @@
 
 package com.github.fge.jsonschema.core.load;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonNumEquals;
@@ -102,7 +104,7 @@ public final class URIManagerTest
     {
         final URI uri = URI.create("foo://bar");
         final InputStream sampleStream
-            = new ByteArrayInputStream("}".getBytes());
+            = new ByteArrayInputStream("}".getBytes(UTF_8));
 
         when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
 

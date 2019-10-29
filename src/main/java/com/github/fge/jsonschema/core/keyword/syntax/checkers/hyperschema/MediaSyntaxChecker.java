@@ -23,16 +23,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.net.MediaType;
 
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Syntax checker for draft v4 hyperschema's {@code media} keyword
@@ -44,7 +43,7 @@ public final class MediaSyntaxChecker
     private static final String TYPE_FIELDNAME = "type";
 
     // FIXME: INCOMPLETE: excludes "x-token" and "ietf-token"
-    private static final Set<String> BINARY_ENCODINGS = ImmutableSet.of(
+    private static final ImmutableSet<String> BINARY_ENCODINGS = ImmutableSet.of(
         "7bit", "8bit", "binary", "quoted-printable", "base64"
     );
 

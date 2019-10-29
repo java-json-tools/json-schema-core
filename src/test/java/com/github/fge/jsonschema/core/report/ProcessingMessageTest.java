@@ -262,6 +262,7 @@ public final class ProcessingMessageTest
         assertEquals(message.getMessage(), "message2: bar");
     }
 
+    @SuppressWarnings("serial")
     private static final class Foo
         extends ProcessingException
     {

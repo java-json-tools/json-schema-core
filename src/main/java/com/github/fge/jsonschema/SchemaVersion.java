@@ -54,6 +54,7 @@ public enum SchemaVersion
     ;
 
     private final URI location;
+    @SuppressWarnings("ImmutableEnumChecker")
     private final JsonNode schema;
 
     SchemaVersion(final String uri, final String resource)

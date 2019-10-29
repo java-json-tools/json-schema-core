@@ -42,7 +42,7 @@ public final class JsonTreeTest
         childObject.put("a", "b");
 
         final ObjectNode rootNode = factory.objectNode();
-        rootNode.put("object", childObject);
+        rootNode.set("object", childObject);
         testNode = rootNode;
     }
 

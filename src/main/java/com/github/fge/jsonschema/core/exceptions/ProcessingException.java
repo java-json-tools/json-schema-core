@@ -35,6 +35,8 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 public class ProcessingException
     extends Exception
 {
+    private static final long serialVersionUID = -4194415456857460489L;
+
     /**
      * The internal message
      */
