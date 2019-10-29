@@ -58,7 +58,8 @@ dependencies {
     compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "1.10");
     compile(group: "com.github.fge", name: "uri-template", version: "0.9");
     // FIXME: no javadoc
-    compile(group: "org.mozilla", name: "rhino", version: "1.7.7.1");
+    // FIXME: update beyond 1.7.7.x once we're Java 8 or better.
+    compile(group: "org.mozilla", name: "rhino", version: "1.7.7.2");
     testCompile(group: "org.testng", name: "testng", version: "6.10") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
