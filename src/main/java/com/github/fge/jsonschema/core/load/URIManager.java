@@ -97,31 +97,28 @@ public final class URIManager
                 .setMessage(BUNDLE.getMessage("refProcessing.unhandledScheme"))
                 .putArgument("scheme", scheme).putArgument("uri", uri));
 
-        final Closer closer = Closer.create();
-        final InputStream in;
+        try (final Closer closer = Closer.create()) {
+            final InputStream in;
 
-        try {
-            in = closer.register(downloader.fetch(uri));
-            return reader.fromInputStream(in);
-        } catch (JsonMappingException e) {
-            throw new ProcessingException(new ProcessingMessage()
-                .setMessage(e.getOriginalMessage()).put("uri", uri));
-        } catch (JsonParseException e) {
-            throw new ProcessingException(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("uriManager.uriNotJson"))
-                .putArgument("uri", uri)
-                .put("parsingMessage", e.getOriginalMessage()));
-        } catch (IOException e) {
-            throw new ProcessingException(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("uriManager.uriIOError"))
-                .putArgument("uri", uri)
-                .put("exceptionMessage", e.getMessage()));
-        } finally {
             try {
-                closer.close();
-            } catch (IOException ignored) {
-                throw new IllegalStateException();
+                in = closer.register(downloader.fetch(uri));
+                return reader.fromInputStream(in);
+            } catch (JsonMappingException e) {
+                throw new ProcessingException(new ProcessingMessage()
+                    .setMessage(e.getOriginalMessage()).put("uri", uri));
+            } catch (JsonParseException e) {
+                throw new ProcessingException(new ProcessingMessage()
+                    .setMessage(BUNDLE.getMessage("uriManager.uriNotJson"))
+                    .putArgument("uri", uri)
+                    .put("parsingMessage", e.getOriginalMessage()));
+            } catch (IOException e) {
+                throw new ProcessingException(new ProcessingMessage()
+                    .setMessage(BUNDLE.getMessage("uriManager.uriIOError"))
+                    .putArgument("uri", uri)
+                    .put("exceptionMessage", e.getMessage()));
             }
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         }
     }
 }
