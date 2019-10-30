@@ -61,7 +61,7 @@ dependencies {
  */
 dependencies {
     compile(group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.9.9");
-    compile(group: "com.google.guava", name: "guava", version: "25.1-android");
+    compile(group: "com.google.guava", name: "guava", version: "28.1-android");
     compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "1.11-SNAPSHOT");
     compile(group: "com.github.java-json-tools", name: "uri-template", version: "0.10-SNAPSHOT");
     // FIXME: no javadoc
@@ -89,7 +89,7 @@ javadoc {
         links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
         links("https://fasterxml.github.io/jackson-databind/javadoc/2.2.0/");
         links("https://fasterxml.github.io/jackson-core/javadoc/2.2.0/");
-        links("https://www.javadoc.io/doc/com.google.guava/guava/25.1-android/");
+        links("https://www.javadoc.io/doc/com.google.guava/guava/28.1-android/");
         links("https://java-json-tools.github.io/btf/");
         links("https://java-json-tools.github.io/msg-simple/");
         links("https://java-json-tools.github.io/jackson-coreutils/");
