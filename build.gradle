@@ -34,11 +34,18 @@ version = "1.2.12-SNAPSHOT";
 sourceCompatibility = JavaVersion.VERSION_1_7;
 targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
 
+ext.forRelease = !version.endsWith("-SNAPSHOT");
+
 /*
  * Repositories to use
  */
 repositories {
     mavenCentral();
+    if (!forRelease) {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+    }
 }
 
 /*
@@ -55,8 +62,8 @@ dependencies {
 dependencies {
     compile(group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.9.9");
     compile(group: "com.google.guava", name: "guava", version: "25.1-android");
-    compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "1.10");
-    compile(group: "com.github.fge", name: "uri-template", version: "0.9");
+    compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "1.11-SNAPSHOT");
+    compile(group: "com.github.java-json-tools", name: "uri-template", version: "0.10-SNAPSHOT");
     // FIXME: no javadoc
     // FIXME: update beyond 1.7.7.x once we're Java 8 or better.
     compile(group: "org.mozilla", name: "rhino", version: "1.7.7.2");
@@ -249,7 +256,6 @@ uploadArchives {
     }
 }
 
-ext.forRelease = !version.endsWith("-SNAPSHOT");
 signing {
     required { forRelease && gradle.taskGraph.hasTask("uploadArchives") };
     sign configurations.archives;
