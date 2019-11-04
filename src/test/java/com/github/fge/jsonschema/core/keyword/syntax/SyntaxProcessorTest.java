@@ -45,6 +45,7 @@ import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -202,7 +203,7 @@ public final class SyntaxProcessorTest
         final ValueHolder<SchemaTree> holder = ValueHolder.hold("schema", tree);
 
         processor.process(report, holder);
-        verify(checker, never()).checkSyntax(Mockito.<JsonPointer>anyCollection(),
+        verify(checker, never()).checkSyntax(ArgumentMatchers.<JsonPointer>anyCollection(),
             any(MessageBundle.class), anyReport(), anySchema());
     }
 
