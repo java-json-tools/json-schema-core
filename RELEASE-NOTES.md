@@ -1,3 +1,5 @@
+Release notes for 1.2.12 and beyond are available at https://github.com/java-json-tools/json-schema-core/releases.
+
 ### 1.2.11
 
 * Depend on jackson-coreutils 1.10.
