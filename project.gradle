@@ -21,28 +21,32 @@
  * Project-specific settings. Unfortunately we cannot put the name in there!
  */
 group = "com.github.java-json-tools";
-version = "1.2.13-SNAPSHOT";
+version = "1.2.13";
 sourceCompatibility = JavaVersion.VERSION_1_7;
 targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
+
+project.ext {
+    description = "Core processing architecture for json-schema-validator";
+}
 
 /*
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.9.9");
-    compile(group: "com.google.guava", name: "guava", version: "28.1-android");
-    compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "1.11");
+    compile(group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.10.2");
+    compile(group: "com.google.guava", name: "guava", version: "28.2-android");
+    compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "1.12");
     compile(group: "com.github.java-json-tools", name: "uri-template", version: "0.10");
     // FIXME: no javadoc
     // FIXME: update beyond 1.7.7.x once we're Java 8 or better.
     compile(group: "org.mozilla", name: "rhino", version: "1.7.7.2");
     compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
-    testCompile(group: "org.testng", name: "testng", version: "6.10") {
+    testCompile(group: "org.testng", name: "testng", version: "7.1.0") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
         exclude(group: "org.yaml", module: "snakeyaml");
     };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "2.4.2");
+    testCompile(group: "org.mockito", name: "mockito-core", version: "2.28.2");
     // FIXME: update to 3.x once we're off of Java 7.
     testCompile(group: "org.assertj", name: "assertj-core", version: "2.9.1");
 }
@@ -55,10 +59,10 @@ javadoc {
             addStringOption("-release", "7");
         }
         links("https://docs.oracle.com/javase/7/docs/api/");
-        links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
-        links("https://fasterxml.github.io/jackson-databind/javadoc/2.2.0/");
-        links("https://fasterxml.github.io/jackson-core/javadoc/2.2.0/");
-        links("https://www.javadoc.io/doc/com.google.guava/guava/28.1-android/");
+        links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/");
+        links("https://fasterxml.github.io/jackson-databind/javadoc/2.10/");
+        links("https://fasterxml.github.io/jackson-core/javadoc/2.10/");
+        links("https://www.javadoc.io/doc/com.google.guava/guava/28.2-android/");
         links("https://java-json-tools.github.io/btf/");
         links("https://java-json-tools.github.io/msg-simple/");
         links("https://java-json-tools.github.io/jackson-coreutils/");
