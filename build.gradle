@@ -146,7 +146,6 @@ task pom {
  */
 
 project.ext {
-    description = "Core processing architecture for json-schema-validator";
     scmUrl = sprintf("git@github.com:java-json-tools/%s.git", name);
     projectURL = sprintf("https://github.com/java-json-tools/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
@@ -160,7 +159,7 @@ task checkSigningRequirements {
         requiredProperties.each {
             if (project.properties[it] == null) {
                 noDice = true;
-                System.err.printf("property \"%s\" is not defined!\n", it)
+                System.err.printf("property \"%s\" is not defined!\n", it);
             }
         }
         if (noDice)
