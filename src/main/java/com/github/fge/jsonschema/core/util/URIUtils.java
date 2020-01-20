@@ -188,7 +188,7 @@ public final class URIUtils
             final JsonRef ref = JsonRef.fromURI(argument);
             BUNDLE.checkArgumentPrintf(ref.isAbsolute(),
                 "uriChecks.notAbsoluteRef", argument);
-            BUNDLE.checkArgumentPrintf(!argument.getPath().endsWith("/"),
+            BUNDLE.checkArgumentPrintf(argument.getPath() == null || !argument.getPath().endsWith("/"),
                 "uriChecks.endingSlash", argument);
         }
     };

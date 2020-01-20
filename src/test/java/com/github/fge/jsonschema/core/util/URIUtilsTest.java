@@ -180,6 +180,31 @@ public final class URIUtilsTest
     }
 
     @DataProvider
+    public Iterator<Object[]> validSchemaURIs()
+    {
+        final List<Object[]> list = Lists.newArrayList();
+
+        String uri;
+
+        uri = "http://example.com/schema";
+        list.add(new Object[] { uri });
+
+        uri = "file:/path/to/schema.json";
+        list.add(new Object[] { uri });
+
+        uri = "jar:file:/path/to/container.jar!/internal/path/to/schema.json";
+        list.add(new Object[] { uri });
+
+        return list.iterator();
+    }
+
+    @Test(dataProvider = "validSchemaURIs")
+    public void validSchemaURIsAreAccepted(final String uri)
+    {
+        URIUtils.checkSchemaURI(URI.create(uri));
+    }
+
+    @DataProvider
     public Iterator<Object[]> invalidSchemaURIs()
     {
         final List<Object[]> list = Lists.newArrayList();
