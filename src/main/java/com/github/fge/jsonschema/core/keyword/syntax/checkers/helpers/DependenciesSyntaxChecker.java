@@ -21,7 +21,7 @@ package com.github.fge.jsonschema.core.keyword.syntax.checkers.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.JsonNumEquivalence;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.InvalidSchemaException;
@@ -49,8 +49,7 @@ public abstract class DependenciesSyntaxChecker
     /**
      * JSON Schema equivalence
      */
-    protected static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNumEquals.getInstance();
+    protected static final Equivalence<JsonNode> EQUIVALENCE = JsonNumEquivalence.getInstance();
 
     /**
      * Valid types for one dependency value

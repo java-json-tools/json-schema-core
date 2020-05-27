@@ -20,7 +20,7 @@
 package com.github.fge.jsonschema.core.keyword.syntax.checkers.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.JsonNumEquivalence;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -45,8 +45,7 @@ public final class DraftV4TypeSyntaxChecker
     private static final EnumSet<NodeType> ALL_TYPES
         = EnumSet.allOf(NodeType.class);
 
-    private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNumEquals.getInstance();
+    private static final Equivalence<JsonNode> EQUIVALENCE = JsonNumEquivalence.getInstance();
 
     private static final SyntaxChecker INSTANCE
         = new DraftV4TypeSyntaxChecker();
