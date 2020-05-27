@@ -36,7 +36,7 @@ gratefully accepted.
 
 ## Versions
 
-The current stable verson is **1.2.12**
+The current stable verson is **1.2.14**
 ([ChangeLog](https://github.com/java-json-tools/json-schema-core/wiki/ChangeLog_12x),
 [Javadoc](http://java-json-tools.github.io/json-schema-core/1.2.x/index.html)).
 
@@ -53,7 +53,7 @@ For gradle, use:
 
 ```
 dependencies {
-    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.12");
+    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.14");
 }
 ```
 
@@ -63,7 +63,7 @@ For maven:
 <dependency>
     <groupId>com.github.java-json-tools</groupId>
     <artifactId>json-schema-core</artifactId>
-    <version>1.2.12</version>
+    <version>1.2.14</version>
 </dependency>
 ```
 
@@ -82,5 +82,5 @@ The versioning scheme is defined by the **middle digit** of the version number:
 [LGPLv3]: http://www.gnu.org/licenses/lgpl-3.0.html
 [ASL 2.0 badge]: https://img.shields.io/:license-Apache%202.0-blue.svg
 [ASL 2.0]: http://www.apache.org/licenses/LICENSE-2.0.html
-[Travis Badge]: https://api.travis-ci.org/java-json-tools/json-schema-core.svg?branch=master
-[Travis]: https://travis-ci.org/java-json-tools/json-schema-core
+[Travis Badge]: https://travis-ci.com/java-json-tools/json-schema-core.svg?branch=master
+[Travis]: https://travis-ci.com/java-json-tools/json-schema-core
