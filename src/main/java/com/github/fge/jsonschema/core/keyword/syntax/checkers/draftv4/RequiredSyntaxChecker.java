@@ -20,7 +20,7 @@
 package com.github.fge.jsonschema.core.keyword.syntax.checkers.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.JsonNumEquivalence;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -42,8 +42,7 @@ import java.util.Set;
 public final class RequiredSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNumEquals.getInstance();
+    private static final Equivalence<JsonNode> EQUIVALENCE = new JsonNumEquivalence();
 
     private static final SyntaxChecker INSTANCE = new RequiredSyntaxChecker();
 

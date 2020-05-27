@@ -35,7 +35,8 @@ project.ext {
 dependencies {
     compile(group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.11.0");
     compile(group: "com.google.guava", name: "guava", version: "28.2-android");
-    compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "1.12");
+    compile(group: "com.github.java-json-tools", name: "jackson-coreutils", version: "2.0-SNAPSHOT");
+    compile(group: "com.github.java-json-tools", name: "jackson-coreutils-equivalence", version: "1.0-SNAPSHOT");
     compile(group: "com.github.java-json-tools", name: "uri-template", version: "0.10");
     // FIXME: no javadoc
     // FIXME: update beyond 1.7.7.x once we're Java 8 or better.

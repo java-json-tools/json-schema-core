@@ -20,7 +20,7 @@
 package com.github.fge.jsonschema.core.keyword.syntax.checkers.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.JsonNumEquivalence;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -46,7 +46,7 @@ public final class DraftV3TypeKeywordSyntaxChecker
 {
     private static final String ANY = "any";
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNumEquals.getInstance();
+        = JsonNumEquivalence.getInstance();
 
     public DraftV3TypeKeywordSyntaxChecker(final String keyword)
     {
