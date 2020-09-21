@@ -50,9 +50,9 @@ import java.util.regex.Pattern;
  * expressions", just <a href="http://regex.info">buy it</a> :p</p>
  *
  * <p>As script engine is used either Nashorn or Rhino as its fallback.
- * Nashorn is only available on Java 8 runtimes or higher.</p>
+ * Nashorn is only available on Java 8 up to 14.</p>
  *
- * <p>Rhino is only the fallback as it is tremendously slower.</p>
+ * <p>Rhino is the fallback as it is tremendously slower.</p>
  */
 @ThreadSafe
 public final class RegexECMA262Helper
@@ -62,8 +62,8 @@ public final class RegexECMA262Helper
     private static final String REG_MATCH_FUNCTION_NAME = "regMatch";
 
     /**
-     * JavaScript scriptlet defining functions {@link #REGEX_IS_VALID}
-     * and {@link #REG_MATCH}
+     * JavaScript scriptlet defining functions for validating a regular
+     * expression and for matching an input against a regular expression.
      */
     private static final String jsAsString
         = "function " + REGEX_IS_VALID_FUNCTION_NAME + "(re)"
@@ -81,59 +81,20 @@ public final class RegexECMA262Helper
         + "    return new RegExp(re).test(input);"
         + '}';
 
-    /**
-     * Script scope
-     */
-    private static final Scriptable SCOPE;
-
-    /**
-     * Reference to Javascript function for regex validation
-     */
-    private static final Function REGEX_IS_VALID;
-
-    /**
-     * Reference to Javascript function for regex matching
-     */
-    private static final Function REG_MATCH;
-
-    private static final Invocable PRIMARY_SCRIPT_ENGINE;
+    private static final RegexScript REGEX_SCRIPT = determineRegexScript();
 
     private RegexECMA262Helper()
     {
     }
 
-    static {
-        PRIMARY_SCRIPT_ENGINE = tryResolvePrimaryEngine();
-
-        final Context ctx = Context.enter();
+    private static RegexScript determineRegexScript()
+    {
         try {
-            SCOPE = ctx.initStandardObjects(null, false);
-            try {
-                ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
-            } catch(UnsupportedOperationException e) {
-                // See: http://stackoverflow.com/questions/3859305/problems-using-rhino-on-android
-                ctx.setOptimizationLevel(-1);
-                ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
-            }
-            REGEX_IS_VALID = (Function) SCOPE.get(REGEX_IS_VALID_FUNCTION_NAME, SCOPE);
-            REG_MATCH = (Function) SCOPE.get(REG_MATCH_FUNCTION_NAME, SCOPE);
-        } finally {
-            Context.exit();
+            return new NashornScript();
+        } catch(final ScriptException e) {
+            // either Nashorn is not available or the JavaScript can't be parsed
         }
-    }
-
-    private static Invocable tryResolvePrimaryEngine() {
-        final ScriptEngine engine = new ScriptEngineManager()
-                .getEngineByName("nashorn");
-        if(engine != null) {
-            try {
-                engine.eval(jsAsString);
-                return (Invocable) engine;
-            } catch(final ScriptException e) {
-                // the script can't be parsed - the script engine can't be used
-            }
-        }
-        return null;
+        return new RhinoScript();
     }
 
     /**
@@ -144,11 +105,7 @@ public final class RegexECMA262Helper
      */
     public static boolean regexIsValid(final String regex)
     {
-        if(PRIMARY_SCRIPT_ENGINE != null)
-        {
-            return invokeScriptEngine(REGEX_IS_VALID_FUNCTION_NAME, regex);
-        }
-        return invokeFallbackEngine(REGEX_IS_VALID, regex);
+        return REGEX_SCRIPT.regexIsValid(regex);
     }
 
     /**
@@ -167,36 +124,121 @@ public final class RegexECMA262Helper
      */
     public static boolean regMatch(final String regex, final String input)
     {
-        if(PRIMARY_SCRIPT_ENGINE != null)
+        return REGEX_SCRIPT.regMatch(regex, input);
+    }
+
+    private interface RegexScript
+    {
+        boolean regexIsValid(String regex);
+
+        boolean regMatch(String regex, String input);
+    }
+
+    private static class NashornScript implements RegexScript
+    {
+        /**
+         * Script engine
+         */
+        private final Invocable scriptEngine;
+
+        private NashornScript() throws ScriptException
+        {
+            final ScriptEngine engine = new ScriptEngineManager()
+                    .getEngineByName("nashorn");
+            if (engine == null) {
+                throw new ScriptException("ScriptEngine 'nashorn' not found.");
+            }
+            engine.eval(jsAsString);
+            this.scriptEngine = (Invocable) engine;
+        }
+
+        private boolean invokeScriptEngine(final String function,
+                                           final Object... values)
+        {
+            try {
+                return (Boolean) scriptEngine.invokeFunction(function,
+                        values);
+            } catch(final ScriptException e) {
+                throw new IllegalStateException(
+                        "Unexpected error on invoking Script.", e);
+            } catch(final NoSuchMethodException e) {
+                throw new IllegalStateException(
+                        "Unexpected error on invoking Script.", e);
+            }
+        }
+
+        @Override
+        public boolean regexIsValid(final String regex)
+        {
+            return invokeScriptEngine(REGEX_IS_VALID_FUNCTION_NAME, regex);
+        }
+
+        @Override
+        public boolean regMatch(final String regex, final String input)
         {
             return invokeScriptEngine(REG_MATCH_FUNCTION_NAME, regex, input);
         }
-        return invokeFallbackEngine(REG_MATCH, regex, input);
     }
 
-    private static boolean invokeScriptEngine(final String function,
-                                              final Object... values)
+    private static class RhinoScript implements RegexScript
     {
-        try {
-            return (Boolean) PRIMARY_SCRIPT_ENGINE.invokeFunction(function,
-                    values);
-        } catch(final ScriptException e) {
-            throw new IllegalStateException(
-                    "Unexpected error on invoking Script.", e);
-        } catch(final NoSuchMethodException e) {
-            throw new IllegalStateException(
-                    "Unexpected error on invoking Script.", e);
+        /**
+         * Script scope
+         */
+        private final Scriptable scope;
+
+        /**
+         * Reference to Javascript function for regex validation
+         */
+        private final Function regexIsValid;
+
+        /**
+         * Reference to Javascript function for regex matching
+         */
+        private final Function regMatch;
+
+        private RhinoScript()
+        {
+            final Context ctx = Context.enter();
+            try {
+                this.scope = ctx.initStandardObjects(null, false);
+                try {
+                    ctx.evaluateString(scope, jsAsString, "re", 1, null);
+                } catch(final UnsupportedOperationException e) {
+                    // See: http://stackoverflow.com/questions/3859305/problems-using-rhino-on-android
+                    ctx.setOptimizationLevel(-1);
+                    ctx.evaluateString(scope, jsAsString, "re", 1, null);
+                }
+                this.regexIsValid = (Function)
+                        scope.get(REGEX_IS_VALID_FUNCTION_NAME, scope);
+                this.regMatch = (Function)
+                        scope.get(REG_MATCH_FUNCTION_NAME, scope);
+            } finally {
+                Context.exit();
+            }
         }
-    }
 
-    private static boolean invokeFallbackEngine(final Function function,
-                                                final Object... values)
-    {
-        final Context context = Context.enter();
-        try {
-            return (Boolean) function.call(context, SCOPE, SCOPE, values);
-        } finally {
-            Context.exit();
+        private boolean invokeScriptEngine(final Function function,
+                                           final Object... values)
+        {
+            final Context context = Context.enter();
+            try {
+                return (Boolean) function.call(context, scope, scope, values);
+            } finally {
+                Context.exit();
+            }
+        }
+
+        @Override
+        public boolean regexIsValid(final String regex)
+        {
+            return invokeScriptEngine(regexIsValid, regex);
+        }
+
+        @Override
+        public boolean regMatch(final String regex, final String input)
+        {
+            return invokeScriptEngine(regMatch, regex, input);
         }
     }
 }

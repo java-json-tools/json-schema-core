@@ -23,12 +23,49 @@ import com.google.common.collect.ImmutableList;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 import static org.testng.Assert.*;
 
 public final class RegexECMA262HelperTest
 {
+    private static Object rhinoScriptInstance;
+    private static Method regexIsValid;
+    private static Method regMatch;
+
+    /**
+     * Depending on the JDK version the Rhino fallback engine will
+     * not be tested. To ensure functionality for Rhino, too, prepare
+     * tests for it via reflection.
+     */
+    static
+    {
+        try {
+            final Class<?> rhinoScriptClass = Class.forName(
+                    RegexECMA262Helper.class.getName() + "$RhinoScript");
+            final Constructor<?> constructor = rhinoScriptClass.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            rhinoScriptInstance = constructor.newInstance();
+            regexIsValid = rhinoScriptInstance.getClass()
+                    .getDeclaredMethod("regexIsValid", String.class);
+            regMatch = rhinoScriptInstance.getClass()
+                    .getDeclaredMethod("regMatch", String.class, String.class);
+        } catch (final Exception e) {
+            throw new IllegalStateException("Can't initialize RhinoScript.", e);
+        }
+    }
+
+    private static boolean rhinoScript(final Method method, final Object... args)
+    {
+        try {
+            return (boolean) method.invoke(rhinoScriptInstance, args);
+        } catch (final Exception e) {
+            throw new IllegalStateException("Can't invoke method on RhinoScript.");
+        }
+    }
+
     @DataProvider
     public Iterator<Object[]> ecma262regexes()
     {
@@ -51,6 +88,7 @@ public final class RegexECMA262HelperTest
     {
         assertEquals(RegexECMA262Helper.regexIsValid(regex), valid);
         assertEquals(RhinoHelper.regexIsValid(regex), valid);
+        assertEquals(rhinoScript(regexIsValid, regex), valid);
     }
 
     @DataProvider
@@ -77,5 +115,6 @@ public final class RegexECMA262HelperTest
     {
         assertEquals(RegexECMA262Helper.regMatch(regex, input), valid);
         assertEquals(RhinoHelper.regMatch(regex, input), valid);
+        assertEquals(rhinoScript(regMatch, regex, input), valid);
     }
 }
