@@ -71,7 +71,7 @@ public final class RegexECMA262HelperTest
     {
         return ImmutableList.of(
             new Object[] { "[^]", true },
-            new Object[] { "(?<=foo)bar", false },
+            new Object[] { "(?<=foobar", false },
             new Object[] { "", true },
             new Object[] { "[a-z]+(?!foo)(?=bar)", true }
         ).iterator();
