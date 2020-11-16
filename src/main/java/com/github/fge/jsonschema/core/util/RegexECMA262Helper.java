@@ -49,10 +49,13 @@ import java.util.regex.Pattern;
  * the full story. And if you don't yet have Jeffrey Friedl's "Mastering regular
  * expressions", just <a href="http://regex.info">buy it</a> :p</p>
  *
- * <p>As script engine is used either Nashorn or Rhino as its fallback.
- * Nashorn is only available on Java 8 up to 14.</p>
+ * <p>As script engine is used either GraalJS, Nashorn or Rhino as their
+ * fallback. Nashorn is only available on Java 8 up to 14.</p>
  *
- * <p>Rhino is the fallback as it is tremendously slower.</p>
+ * <p>GraalJS is the first choice as it supports more RegExp features, e.g.
+ * lookbehind assertions, than both alternatives.</p>
+ *
+ * <p>Rhino is the fallback as it is tremendously slower than Nashorn.</p>
  */
 @ThreadSafe
 public final class RegexECMA262Helper
@@ -90,9 +93,14 @@ public final class RegexECMA262Helper
     private static RegexScript determineRegexScript()
     {
         try {
+            return new GraalJsScript();
+        } catch(final ScriptException e) {
+            // most probably GraalJS is simply not available
+        }
+        try {
             return new NashornScript();
         } catch(final ScriptException e) {
-            // either Nashorn is not available or the JavaScript can't be parsed
+            // most probably Nashorn is simply not available
         }
         return new RhinoScript();
     }
@@ -134,26 +142,25 @@ public final class RegexECMA262Helper
         boolean regMatch(String regex, String input);
     }
 
-    private static class NashornScript implements RegexScript
+    private static abstract class ScriptEngineScript implements RegexScript
     {
         /**
          * Script engine
          */
         private final Invocable scriptEngine;
 
-        private NashornScript() throws ScriptException
+        private ScriptEngineScript(final String engineName) throws ScriptException
         {
             final ScriptEngine engine = new ScriptEngineManager()
-                    .getEngineByName("nashorn");
-            if (engine == null) {
-                throw new ScriptException("ScriptEngine 'nashorn' not found.");
+                    .getEngineByName(engineName);
+            if(engine == null) {
+                throw new ScriptException("ScriptEngine '" + engineName + "' not found.");
             }
             engine.eval(jsAsString);
             this.scriptEngine = (Invocable) engine;
         }
 
-        private boolean invokeScriptEngine(final String function,
-                                           final Object... values)
+        boolean invoke(final String function, final Object... values)
         {
             try {
                 return (Boolean) scriptEngine.invokeFunction(function,
@@ -177,6 +184,37 @@ public final class RegexECMA262Helper
         public boolean regMatch(final String regex, final String input)
         {
             return invokeScriptEngine(REG_MATCH_FUNCTION_NAME, regex, input);
+        }
+
+        abstract boolean invokeScriptEngine(final String function, final Object... values);
+    }
+
+    private static class GraalJsScript extends ScriptEngineScript
+    {
+        private GraalJsScript() throws ScriptException
+        {
+            super("graal.js");
+        }
+
+        // GraalJS works single-threaded. The synchronized ensures this.
+        @Override
+        synchronized boolean invokeScriptEngine(final String function,
+                                                final Object... values) {
+            return invoke(function, values);
+        }
+    }
+
+    private static class NashornScript extends ScriptEngineScript
+    {
+        private NashornScript() throws ScriptException
+        {
+            super("nashorn");
+        }
+
+        @Override
+        boolean invokeScriptEngine(final String function,
+                                   final Object... values) {
+            return invoke(function, values);
         }
     }
 
