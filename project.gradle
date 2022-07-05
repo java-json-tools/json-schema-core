@@ -22,8 +22,8 @@
  */
 group = "com.github.java-json-tools";
 version = "1.2.14";
-sourceCompatibility = JavaVersion.VERSION_1_7;
-targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
+sourceCompatibility = JavaVersion.VERSION_1_8;
+targetCompatibility = JavaVersion.VERSION_1_8; // defaults to sourceCompatibility
 
 project.ext {
     description = "Core processing architecture for json-schema-validator";
@@ -39,8 +39,7 @@ dependencies {
     compile(group: "com.github.java-json-tools", name: "jackson-coreutils-equivalence", version: "1.0");
     compile(group: "com.github.java-json-tools", name: "uri-template", version: "0.10");
     // FIXME: no javadoc
-    // FIXME: update beyond 1.7.7.x once we're Java 8 or better.
-    compile(group: "org.mozilla", name: "rhino", version: "1.7.7.2");
+    compile(group: "org.mozilla", name: "rhino", version: "1.7.14");
     compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
     testCompile(group: "org.testng", name: "testng", version: "7.1.0") {
         exclude(group: "junit", module: "junit");
@@ -48,8 +47,7 @@ dependencies {
         exclude(group: "org.yaml", module: "snakeyaml");
     };
     testCompile(group: "org.mockito", name: "mockito-core", version: "2.28.2");
-    // FIXME: update to 3.x once we're off of Java 7.
-    testCompile(group: "org.assertj", name: "assertj-core", version: "2.9.1");
+    testCompile(group: "org.assertj", name: "assertj-core", version: "3.23.1");
 }
 
 javadoc {
@@ -57,9 +55,9 @@ javadoc {
         def currentJavaVersion = org.gradle.api.JavaVersion.current()
         // FIXME: https://github.com/gradle/gradle/issues/11182
         if (currentJavaVersion.compareTo(org.gradle.api.JavaVersion.VERSION_1_9) >= 0) {
-            addStringOption("-release", "7");
+            addStringOption("-release", "8");
         }
-        links("https://docs.oracle.com/javase/7/docs/api/");
+        links("https://docs.oracle.com/javase/8/docs/api/");
         links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/");
         links("https://fasterxml.github.io/jackson-databind/javadoc/2.11/");
         links("https://fasterxml.github.io/jackson-core/javadoc/2.11/");
