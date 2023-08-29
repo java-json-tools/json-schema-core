@@ -39,8 +39,7 @@ dependencies {
     compile(group: "com.github.java-json-tools", name: "jackson-coreutils-equivalence", version: "1.0");
     compile(group: "com.github.java-json-tools", name: "uri-template", version: "0.10");
     // FIXME: no javadoc
-    // FIXME: update beyond 1.7.7.x once we're Java 8 or better.
-    compile(group: "org.mozilla", name: "rhino", version: "1.7.7.2");
+    compile(group: "org.mozilla", name: "rhino", version: "1.7.14");
     compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
     testCompile(group: "org.testng", name: "testng", version: "7.1.0") {
         exclude(group: "junit", module: "junit");
